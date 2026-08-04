@@ -1,0 +1,6 @@
+﻿;variavel_a;variavel_b;correlacao
+0;Área habitável;Cômodos;0,807
+1;Idade do imóvel;Qualidade do porão;-0,784
+2;Qualidade externa;Qualidade da cozinha;0,723
+3;Qualidade geral;Qualidade externa;0,718
+4;Idade do imóvel;Anos desde a reforma;0,714

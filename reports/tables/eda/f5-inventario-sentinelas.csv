@@ -1,0 +1,28 @@
+﻿coluna;NA_literal;None_literal;vazio;interpretacao
+Pool QC;2917;0;0;ausência estrutural ou faltante
+Misc Feature;2824;0;0;ausência estrutural ou faltante
+Alley;2732;0;0;ausência estrutural ou faltante
+Fence;2358;0;0;ausência estrutural ou faltante
+Fireplace Qu;1422;0;0;ausência estrutural ou faltante
+Garage Cond;158;0;1;ausência estrutural ou faltante
+Garage Qual;158;0;1;ausência estrutural ou faltante
+Garage Type;157;0;0;ausência estrutural ou faltante
+Garage Finish;157;0;2;ausência estrutural ou faltante
+Bsmt Cond;79;0;1;ausência estrutural ou faltante
+Bsmt Qual;79;0;1;ausência estrutural ou faltante
+BsmtFin Type 1;79;0;1;ausência estrutural ou faltante
+Bsmt Exposure;79;0;4;ausência estrutural ou faltante
+BsmtFin Type 2;79;0;2;ausência estrutural ou faltante
+BsmtFin SF 2;0;0;1;ausência estrutural ou faltante
+Lot Frontage;0;0;490;ausência estrutural ou faltante
+BsmtFin SF 1;0;0;1;ausência estrutural ou faltante
+Mas Vnr Area;0;0;23;ausência estrutural ou faltante
+Mas Vnr Type;0;1752;23;categoria legítima ('sem revestimento')
+Garage Yr Blt;0;0;159;ausência estrutural ou faltante
+Bsmt Half Bath;0;0;2;ausência estrutural ou faltante
+Electrical;0;0;1;ausência estrutural ou faltante
+Bsmt Full Bath;0;0;2;ausência estrutural ou faltante
+Total Bsmt SF;0;0;1;ausência estrutural ou faltante
+Bsmt Unf SF;0;0;1;ausência estrutural ou faltante
+Garage Area;0;0;1;ausência estrutural ou faltante
+Garage Cars;0;0;1;ausência estrutural ou faltante

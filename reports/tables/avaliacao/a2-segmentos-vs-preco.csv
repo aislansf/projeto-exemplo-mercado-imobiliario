@@ -1,0 +1,5 @@
+﻿segmento;código;persona;imoveis;preco_mediano;preco_medio;preco_p10;preco_p90;preco_por_pe2;amplitude_p90_p10;receita_total;pct_receita
+0;S1;Requalificação sem porão;80;100900,0;107202,98;67683,6;148534,7;83,65;2,19;8576238;1,6
+1;S2;Compacto de entrada;1010;125950,0;121962,21;85000,0;152000,0;116,42;1,79;123181834;23,3
+2;S3;Familiar consolidado;794;163000,0;169511,76;127650,0;219850,0;106,83;1,72;134592341;25,5
+3;S4;Novo de alto padrão;1041;230000,0;251059,98;173900,0;360000,0;137,24;2,07;261353443;49,5

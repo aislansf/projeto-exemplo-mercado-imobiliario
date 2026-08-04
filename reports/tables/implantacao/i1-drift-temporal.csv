@@ -1,0 +1,18 @@
+﻿atributo;psi;mediana_referencia;mediana_atual;variacao_pct;situacao
+Idade do imóvel;0,1046;34,0;35,0;2,9;atenção
+Anos desde a reforma;0,0817;14,0;16,0;14,3;estável
+Área habitável;0,0199;1436,0;1456,0;1,4;estável
+Área do porão;0,0176;988,0;991,0;0,3;estável
+Área da garagem;0,0081;477,5;480,0;0,5;estável
+Dormitórios;0,008;3,0;3,0;0,0;estável
+Qualidade externa;0,0074;3,0;3,0;0,0;estável
+Área de varandas;0,0066;164,0;166,0;1,2;estável
+Banheiros;0,0063;2,0;2,0;0,0;estável
+Área do terreno;0,0054;9422,0;9430,0;0,1;estável
+Qualidade geral;0,0044;6,0;6,0;0,0;estável
+Cômodos;0,0033;6,0;6,0;0,0;estável
+Conservação;0,0012;5,0;5,0;0,0;estável
+Qualidade da cozinha;0,001;3,0;3,0;0,0;estável
+Qualidade do porão;0,0007;4,0;3,0;-25,0;estável
+Acabamento da garagem;0,0002;2,0;2,0;0,0;estável
+Lareiras;0,0;1,0;1,0;0,0;estável

@@ -1,0 +1,5 @@
+﻿verificacao;resultado;situacao
+O pipeline serializado reproduz a classificação da base de treino;100.00% de concordância;aprovado
+Linha de base gravada para o monitoramento;models/linha_de_base.json;aprovado
+Atributos com data drift em nível de ação;0 de 17;aprovado
+Queda de coesão no período de acompanhamento;silhueta 0.1797 → 0.1737;aprovado

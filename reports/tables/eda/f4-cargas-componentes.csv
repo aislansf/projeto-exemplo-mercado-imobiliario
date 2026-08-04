@@ -1,0 +1,18 @@
+﻿;CP1;CP2;CP3
+Área habitável;0,279;0,374;0,019
+Área do porão;0,256;-0,003;-0,083
+Área do terreno;0,116;0,323;0,011
+Área da garagem;0,27;0,016;-0,067
+Área de varandas;0,165;0,006;0,365
+Banheiros;0,282;0,082;-0,104
+Cômodos;0,197;0,48;-0,032
+Dormitórios;0,067;0,525;-0,105
+Lareiras;0,179;0,168;0,176
+Idade do imóvel;-0,279;0,258;0,296
+Anos desde a reforma;-0,261;0,196;-0,207
+Qualidade geral;0,33;-0,069;0,107
+Conservação;-0,084;0,041;0,782
+Qualidade externa;0,303;-0,179;0,062
+Qualidade da cozinha;0,289;-0,147;0,192
+Qualidade do porão;0,283;-0,189;-0,048
+Acabamento da garagem;0,266;-0,113;-0,068

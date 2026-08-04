@@ -1,0 +1,11 @@
+﻿se o imóvel tem;então também tem;suporte;confiança;lift;leverage;convicção
+conservação:boa, zoneamento:RL;tem_porão:sim;0,133;0,972;1,0;-0,0;0,99
+idade:Q3, tem_garagem:sim;tem_porão:sim;0,229;0,972;1,0;-0,0;0,99
+cozinha:padrão, estilo:2Story;tem_porão:sim;0,108;0,972;1,0;-0,0;0,99
+estilo:1Story, terreno:Q3;tem_porão:sim;0,12;0,972;1,0;-0,0;0,99
+tem_garagem:sim, terreno:Q2;tem_porão:sim;0,226;0,972;1,0;-0,0001;0,98
+estilo:1Story, área:Q3;tem_porão:sim;0,118;0,972;1,0;-0,0001;0,97
+banheiros:Q2, tem_garagem:sim;tem_porão:sim;0,224;0,972;1,0;-0,0002;0,97
+cozinha:padrão, terreno:Q3;tem_porão:sim;0,129;0,972;1,0;-0,0001;0,96
+terreno:Q2, zoneamento:RL;tem_porão:sim;0,199;0,972;1,0;-0,0002;0,96
+cozinha:padrão, área:Q2;tem_porão:sim;0,14;0,971;1,0;-0,0002;0,96

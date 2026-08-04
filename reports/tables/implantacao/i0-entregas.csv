@@ -1,0 +1,6 @@
+﻿entrega;consumidor;meio;frequencia
+Classificação de cada imóvel da carteira;Corretores e Gerência de Ativos;aplicação Streamlit (`src/deployment/app.py`);sob demanda, atualizada a cada carga
+Classificação de um imóvel novo, antes da aquisição;Comitê de Aquisição;formulário da aplicação, com grau de confiança;sob demanda
+Lista de imóveis fora de padrão;Gerência de Ativos;`reports/tables/modelagem/m7-imoveis-fora-de-padrao.csv` e a aplicação;mensal
+Painel de monitoramento de drift;Área de Dados;aba de monitoramento da aplicação;mensal
+Relatório executivo com personas e ações;Diretoria;site MkDocs (`uv run invoke docs`);a cada reciclagem

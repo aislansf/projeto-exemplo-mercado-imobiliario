@@ -1,0 +1,11 @@
+{
+  "origem": "https://jse.amstat.org/v19n3/decock/AmesHousing.txt",
+  "referencia": "De Cock, D. (2011). Ames, Iowa: Alternative to the Boston Housing Data as an End of Semester Regression Project. Journal of Statistics Education, 19(3).",
+  "baixado_em": "2026-08-04T13:39:59+00:00",
+  "bytes": 960807,
+  "sha256": "6cfe6cb525ba437de428653a1040e2aed7d696640bf75203786a6d7a0e67cfcc",
+  "linhas": 2930,
+  "colunas": 82,
+  "periodo_venda": "2006–2010",
+  "licenca": "Uso educacional e de pesquisa, com citação do artigo original"
+}

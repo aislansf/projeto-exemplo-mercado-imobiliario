@@ -1,0 +1,11 @@
+﻿variavel;decisao;motivo
+preco_venda;reservada;Rótulo. Uso exclusivo na avaliação a posteriori (critério eliminatório).
+bairro;reservada;Proxy de preço e 28 categorias. Vira régua de validação externa.
+infraestrutura, tipo_via, area_piscina;descartada;Concentração acima de 99,5% em um único valor: variância desprezível.
+comodos;mantida;Correlacionada com área habitável, mas mede configuração, não tamanho: dois imóveis de mesma área com 5 e 9 cômodos são produtos diferentes.
+area_terreo, area_pavimento_superior;descartada;A soma das duas é a própria área habitável — redundância exata.
+5 colunas de varanda;consolidada;Separadas, cada uma é quase toda zero. Somadas em `area_varandas`, viram um atributo com variância útil.
+banheiros (4 colunas);consolidada;Consolidadas em `banheiros_total`, com lavabo valendo meio banheiro.
+conservacao_geral;mantida sob observação;Baixo poder de separação (concentrada no nível 5), mas é a única variável de estado de conservação — informação de negócio insubstituível.
+qualidade_aquecimento, conservacao_externa, funcionalidade;descartada;Correlacionadas com qualidade geral e sem leitura de negócio própria.
+mes_venda, ano_venda, tipo_venda, condicao_venda;reservada;Descrevem a transação, não o produto. Usadas na análise temporal e no drift.

@@ -1,0 +1,6 @@
+﻿etapa;quantidade;criterio
+Conjuntos frequentes (suporte ≥ 10%);1597;antimonotonicidade: todo subconjunto de um frequente é frequente
+Regras com confiança ≥ 70% e lift ≥ 1.3;353;lift ≤ 1 significa que a regra é pior que o acaso
+Após remover regras entre faixas da mesma variável;353;faixas de uma mesma variável não coocorrem: nenhuma sobreviveu
+Após podar redundância por especialização;282;{A,B}→C some quando {A}→C já tem confiança igual ou maior
+Após remover tautologias semânticas;256;relação definicional, não de mercado — nenhuma métrica detecta

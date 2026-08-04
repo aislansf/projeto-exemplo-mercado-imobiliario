@@ -1,0 +1,13 @@
+﻿;segmento;1Fam;Duplex;TwnhsE;Twnhs;outras;1Story;2Story;1.5Fin;SLvl;Attchd;Detchd;SemGaragem;BuiltIn
+tipo_construcao;0;62,5;33,8;1,2;0,0;2,5;;;;;;;;
+tipo_construcao;1;83,1;3,3;4,6;5,5;3,5;;;;;;;;
+tipo_construcao;2;87,9;5,2;2,8;1,1;3,0;;;;;;;;
+tipo_construcao;3;80,0;0,8;15,8;3,5;-0,1;;;;;;;;
+estilo;0;;;;;1,3;75,0;12,5;10,0;1,2;;;;
+estilo;1;;;;;7,1;59,5;13,0;16,7;3,7;;;;
+estilo;2;;;;;6,6;36,1;33,0;15,9;8,4;;;;
+estilo;3;;;;;0,8;51,1;44,8;1,1;2,2;;;;
+tipo_garagem;0;;;;;6,3;;;;;40,0;35,0;17,5;1,2
+tipo_garagem;1;;;;;3,1;;;;;34,6;48,0;13,3;1,0
+tipo_garagem;2;;;;;4,4;;;;;62,3;27,8;1,1;4,4
+tipo_garagem;3;;;;;0,3;;;;;81,7;4,6;0,0;13,4

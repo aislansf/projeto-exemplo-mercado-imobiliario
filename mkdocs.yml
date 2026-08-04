@@ -1,0 +1,119 @@
+site_name: Segmentação da carteira residencial — Meridiano
+site_description: >-
+  Projeto de aprendizado não supervisionado percorrendo o CRISP-DM de ponta a ponta:
+  segmentação de 2.925 imóveis residenciais em quatro linhas de produto, com regras de
+  associação, avaliação sob a ótica do negócio e aplicação de implantação.
+site_url: https://github.com/aislansf/projeto-exemplo-mercado-imobiliario
+repo_url: https://github.com/aislansf/projeto-exemplo-mercado-imobiliario
+repo_name: projeto-exemplo-mercado-imobiliario
+copyright: >-
+  Projeto de demonstração da disciplina Método de Aprendizado Não Supervisionado ·
+  Dados: De Cock (2011), Journal of Statistics Education 19(3)
+
+nav:
+  - Descrição do projeto: index.md
+  - Metodologia: metodologia.md
+  - 1 · Entendimento de negócio: entendimento-negocio.md
+  - 1 · Critérios de sucesso: criterios-sucesso.md
+  - 2 · Fonte dos dados: fonte-dados.md
+  - 2 · Entendimento dos dados: entendimento-dados.md
+  - 2 · Análise exploratória: analise-exploratoria.md
+  - 3 · Preparação dos dados: preparacao.md
+  - 4 · Modelagem dos dados: modelagem.md
+  - 5 · Avaliação dos resultados: avaliacao.md
+  - 6 · Implementação: implementacao.md
+  - Percurso PBL:
+      - Canvas do Problema: pbl/canvas-do-problema.md
+      - Quadro PBL: pbl/quadro-pbl.md
+  - Status do projeto: status.md
+
+plugins:
+  - search
+  - mkdocs-jupyter:
+      include_source: true
+      ignore_h1_titles: true
+  - glightbox:
+      touchNavigation: true
+      loop: false
+      effect: zoom
+      width: 100%
+      height: auto
+      zoomable: true
+      draggable: true
+  - awesome-pages
+  - print-site:
+      add_to_navigation: false
+      add_full_urls: false
+      add_table_of_contents: true
+      toc_title: "Sumário"
+      toc_depth: 2
+      enumerate_headings: true
+      enumerate_figures: true
+      add_cover_page: true
+
+theme:
+  name: material
+  language: pt-BR
+  custom_dir: docs/overrides
+  # Defina `logo` e `favicon` apontando para os arquivos da sua organização,
+  # por exemplo: logo: imagens/logos/logo-branco.svg
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: fontawesome/solid/toggle-on
+        name: Mudar para o modo escuro
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: fontawesome/solid/toggle-off
+        name: Mudar para o modo claro
+  features:
+    - navigation.top
+    - navigation.tracking
+    - content.code.copy
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.keys
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra_javascript:
+  - assets/js/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/sorts/tablesort.number.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/sorts/tablesort.date.min.js
+
+extra_css:
+  - assets/css/fonts.css
+  - assets/css/brand.css
+  - assets/css/tables.css

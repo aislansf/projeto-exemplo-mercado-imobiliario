@@ -1,0 +1,7 @@
+﻿;variavel_x;variavel_y;spearman
+0;area_habitavel;qualidade_geral;0,576
+1;area_habitavel;comodos;0,807
+2;area_habitavel;banheiros_total;0,607
+3;idade_imovel;qualidade_geral;-0,662
+4;area_terreno;area_habitavel;0,415
+5;idade_imovel;anos_desde_reforma;0,714

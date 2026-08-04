@@ -1,0 +1,9 @@
+﻿tipo;registro
+Hipótese derrubada;«Cinco segmentos dariam a leitura mais rica, já que o orçamento comporta cinco ações.» Derrubada pela estabilidade: em k=5 o ARI médio sob reamostragem cai para 0,44 — a quinta linha de produto não se reproduz.
+Hipótese derrubada;«A dissimilaridade de Gower, por tratar dados mistos, daria a melhor segmentação.» Derrubada pela leitura do resultado: com peso igual por variável, `estilo` domina e a partição vira 1 pavimento × 2 pavimentos — fato construtivo, não linha de produto.
+Hipótese derrubada;«O DBSCAN encontraria grupos de densidade que o K-Means não vê.» Derrubada: em 21 dimensões padronizadas não há vale de densidade, e o algoritmo devolve um grupo com 92% da carteira. O que ele entrega de útil é o ruído, não a partição.
+Limitação;A base cobre 2006 a 2010, período que inclui a crise imobiliária americana. A estrutura de segmentos é estável no período, mas os patamares de preço da avaliação a posteriori não devem ser lidos como preço corrente.
+Limitação;Não há tempo de permanência em estoque na origem. As metas de giro das personas S2 e S4 são propostas de meta, não medições — e precisam de instrumentação antes de virar indicador.
+Limitação;O segmento S1 tem 80 imóveis (2,7%). É estatisticamente coeso (silhueta 0,376, a maior da carteira), mas pequeno o bastante para que qualquer mudança de composição o desestabilize.
+Limitação;A segmentação descreve o **produto**, não o **comprador**. Não há na base nenhum atributo de quem comprou, e portanto nenhuma ação de segmentação de demanda pode ser derivada daqui.
+Caminho abandonado;O espaço euclidiano com one-hot das nominais foi construído e descartado: produz partição praticamente idêntica (ARI 0,98) com silhueta menor. As 28 colunas binárias acrescentam ruído, não informação.

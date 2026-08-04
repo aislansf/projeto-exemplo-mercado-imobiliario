@@ -1,0 +1,8 @@
+﻿dimensão;registro
+O que funcionou;Reservar `preco_venda` e `bairro` desde o início. Sem essa decisão tomada antes da modelagem, não haveria régua externa nenhuma para avaliar o resultado no fim.
+O que funcionou;Medir estabilidade por reamostragem em paralelo à silhueta. Foi o único critério que derrubou k=5, que as métricas de coesão recomendavam.
+O que funcionou;Gravar a tabela-fonte junto com cada figura. Toda afirmação do relatório é rastreável até um CSV, e nenhum número foi digitado à mão.
+O que atrasou;A leitura padrão do pandas converteu a categoria `None` de `Mas Vnr Type` em nulo, e a coluna aparentou 60,6% de ausência. O diagnóstico consumiu uma iteração inteira da 5ª fase da EDA.
+O que atrasou;A primeira rodada de regras usou suporte de 5% e conjuntos de até 4 itens, e produziu 6.274 regras — volume que nenhuma área comercial lê. Foi preciso voltar e calibrar o limiar com evidência.
+O que foi esquecido;A poda por lift e por redundância não remove tautologia semântica: `tem 2º pavimento → estilo 2Story` passou pelos três filtros com lift 3,03. Só o conhecimento do domínio a derrubou, e isso teve de ser acrescentado depois.
+O que foi esquecido;"A silhueta do K-Medoids sobre Gower foi comparada à do K-Means na primeira versão da matriz, como se fossem a mesma escala. São espaços métricos diferentes; a tabela hoje marca isso explicitamente."

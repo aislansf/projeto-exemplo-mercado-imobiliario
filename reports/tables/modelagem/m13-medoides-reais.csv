@@ -1,0 +1,5 @@
+﻿segmento;pid;bairro;area_habitavel;qualidade_geral;idade_imovel;dormitorios;banheiros_total;tipo_construcao;estilo;preco_venda
+0;905402070;Edwards;1383;4;55;2;1,0;1Fam;1Story;122000
+1;527455250;NAmes;988;5;41;3;2,0;1Fam;1Story;129250
+2;534252240;NWAmes;1342;6;42;3;2,0;1Fam;1Story;161500
+3;528439080;Somerst;1506;7;2;3;3,0;1Fam;1Story;249000

@@ -1,0 +1,13 @@
+﻿combinação;suporte
+ar_central:Y  +  tem_garagem:sim  +  tem_porão:sim;0,883
+tem_garagem:sim  +  tem_porão:sim  +  tipo_de_construção:1Fam;0,779
+ar_central:Y  +  tem_porão:sim  +  tipo_de_construção:1Fam;0,767
+ar_central:Y  +  tem_garagem:sim  +  tipo_de_construção:1Fam;0,756
+ar_central:Y  +  tem_porão:sim  +  zoneamento:RL;0,729
+tem_garagem:sim  +  tem_porão:sim  +  zoneamento:RL;0,727
+ar_central:Y  +  tem_garagem:sim  +  zoneamento:RL;0,721
+conservação:média  +  tem_garagem:sim  +  tem_porão:sim;0,704
+ar_central:Y  +  conservação:média  +  tem_porão:sim;0,699
+qualidade:média  +  tem_garagem:sim  +  tem_porão:sim;0,695
+ar_central:Y  +  conservação:média  +  tem_garagem:sim;0,692
+ar_central:Y  +  qualidade:média  +  tem_porão:sim;0,689

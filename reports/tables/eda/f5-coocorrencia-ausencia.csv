@@ -1,0 +1,12 @@
+﻿;Garage Type;Garage Finish;Garage Qual;Garage Cond;Garage Yr Blt;Bsmt Qual;Bsmt Cond;Bsmt Exposure;BsmtFin Type 1;BsmtFin Type 2;Lot Frontage
+Garage Type;157;157;157;157;157;14;14;14;14;14;11
+Garage Finish;157;159;159;159;159;14;14;14;14;14;11
+Garage Qual;157;159;159;159;159;14;14;14;14;14;11
+Garage Cond;157;159;159;159;159;14;14;14;14;14;11
+Garage Yr Blt;157;159;159;159;159;14;14;14;14;14;11
+Bsmt Qual;14;14;14;14;14;80;80;80;80;80;14
+Bsmt Cond;14;14;14;14;14;80;80;80;80;80;14
+Bsmt Exposure;14;14;14;14;14;80;80;83;80;80;14
+BsmtFin Type 1;14;14;14;14;14;80;80;80;80;80;14
+BsmtFin Type 2;14;14;14;14;14;80;80;80;80;81;14
+Lot Frontage;11;11;11;11;11;14;14;14;14;14;490

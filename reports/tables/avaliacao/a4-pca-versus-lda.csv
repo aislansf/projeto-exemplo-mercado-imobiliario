@@ -1,0 +1,3 @@
+﻿técnica;supervisionada;o que procura;uso no projeto;variancia_ou_acuracia
+PCA;não;direções de maior variância;visualização e diagnóstico de redundância;0,4683
+LDA;sim;direções que separam classes conhecidas;somente avaliação a posteriori, sobre a faixa de preço;0,7679
