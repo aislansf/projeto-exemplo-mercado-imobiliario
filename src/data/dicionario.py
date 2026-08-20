@@ -242,11 +242,24 @@ ESPACO_MISTO = NUMERICAS + ORDINAIS + NOMINAIS
 #: legibilidade da unidade original.
 LIMIAR_ASSIMETRIA = 0.75
 
-#: Variáveis cuja assimetria medida na 2ª fase da EDA supera o limiar e que,
+#: Variáveis contínuas cuja assimetria **na base curada** supera o limiar e que,
 #: por isso, recebem `log1p` antes da padronização.
-#: Medições: área do terreno 13,20 · varandas 1,36 · área habitável 0,88.
-#: A área do porão ficou de fora (0,40) — transformá-la seria hábito, não decisão.
-ASSIMETRICAS = ["area_terreno", "area_varandas", "area_habitavel"]
+#: Medições: varandas 0,974 · área habitável 0,747 · terreno 0,417 · porão 0,296.
+#:
+#: A lista encolheu quando a depuração da carteira entrou em cena, e as duas
+#: mudanças estão medidas, não estimadas:
+#:
+#: * **área do terreno** marcava 13,20 na base bruta e caiu para 0,417. O que
+#:   parecia forma da distribuição era um punhado de lotes acima de 200.000
+#:   pés², removidos como valores extremos. Transformá-la agora seria hábito;
+#: * **área habitável** ficou em 0,747, logo abaixo do limiar de 0,75. Fica de
+#:   fora pelo critério declarado — mudar o limiar para acomodar a variável
+#:   inverteria a ordem entre regra e resultado.
+#:
+#: Só entram contínuas. As ordinais `qualidade_externa` (0,81) e
+#: `qualidade_porao` (−1,38) também passam do limiar, mas `log1p` sobre nota de
+#: 0 a 5 destrói o passo constante que dá sentido à escala.
+ASSIMETRICAS = ["area_varandas"]
 
 # --------------------------------------------------------------------------- #
 # Descrição de negócio, para o dicionário publicado e para a aplicação

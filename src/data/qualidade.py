@@ -28,9 +28,7 @@ def perfil_colunas(dados: pd.DataFrame) -> pd.DataFrame:
         preenchida = serie.dropna()
         moda = preenchida.mode()
         valor_frequente = moda.iloc[0] if len(moda) else np.nan
-        freq_relativa = (
-            float((preenchida == valor_frequente).mean()) if len(preenchida) else np.nan
-        )
+        freq_relativa = float((preenchida == valor_frequente).mean()) if len(preenchida) else np.nan
         linhas.append(
             {
                 "coluna": coluna,
@@ -56,9 +54,7 @@ def colunas_constantes(dados: pd.DataFrame, limiar: float = 99.5) -> pd.DataFram
         limiar: percentual de concentração acima do qual a coluna é sinalizada.
     """
     perfil = perfil_colunas(dados)
-    alvo = perfil[
-        (perfil["distintos"] <= 1) | (perfil["pct_valor_mais_frequente"] >= limiar)
-    ]
+    alvo = perfil[(perfil["distintos"] <= 1) | (perfil["pct_valor_mais_frequente"] >= limiar)]
     return alvo[["distintos", "valor_mais_frequente", "pct_valor_mais_frequente"]]
 
 
@@ -87,44 +83,90 @@ def resumo_numericas(dados: pd.DataFrame, colunas: list[str]) -> pd.DataFrame:
     return resumo.round(3)
 
 
+#: Regras de plausibilidade do domínio imobiliário: nome, colunas exigidas e o
+#: teste. A lista é declarada fora da função para que a checagem seja auditável
+#: sem ler o corpo dela.
+CHECAGENS: list[tuple[str, list[str], object]] = [
+    (
+        "idade negativa (construído após a venda)",
+        ["ano_construcao", "ano_venda"],
+        lambda d: d["ano_construcao"] > d["ano_venda"],
+    ),
+    (
+        "reforma anterior à construção",
+        ["ano_reforma", "ano_construcao"],
+        lambda d: d["ano_reforma"] < d["ano_construcao"],
+    ),
+    (
+        "garagem construída depois da venda",
+        ["ano_garagem", "ano_venda"],
+        lambda d: d["ano_garagem"].notna() & (d["ano_garagem"] > d["ano_venda"]),
+    ),
+    (
+        "área habitável nula ou negativa",
+        ["area_habitavel"],
+        lambda d: d["area_habitavel"] <= 0,
+    ),
+    ("sem dormitório acima do solo", ["dormitorios"], lambda d: d["dormitorios"] == 0),
+    (
+        "sem banheiro completo",
+        ["banheiros_completos", "banheiros_completos_porao"],
+        lambda d: d["banheiros_completos"] + d["banheiros_completos_porao"] == 0,
+    ),
+    (
+        "área do porão diverge da soma das partes",
+        ["area_porao_acabada_1", "area_porao_acabada_2", "area_porao_bruta", "area_porao"],
+        lambda d: (
+            (
+                d["area_porao_acabada_1"].fillna(0)
+                + d["area_porao_acabada_2"].fillna(0)
+                + d["area_porao_bruta"].fillna(0)
+                - d["area_porao"].fillna(0)
+            ).abs()
+            > 1
+        ),
+    ),
+    (
+        "imóvel acima de 4.000 pés² (recomendação de De Cock)",
+        ["area_habitavel"],
+        lambda d: d["area_habitavel"] > 4000,
+    ),
+]
+
+
 def valores_implausiveis(dados: pd.DataFrame) -> pd.DataFrame:
     """Regras de plausibilidade específicas do domínio imobiliário.
 
     Cada regra devolve quantos registros a violam. Regra sem violação também
     aparece — é evidência de que a checagem foi feita.
+
+    A regra cuja coluna não existe no conjunto recebido aparece como *não
+    aplicável*, e não desaparece do relatório: checagem omitida em silêncio é
+    checagem que ninguém percebe que deixou de rodar.
     """
-    regras = {
-        "idade negativa (construído após a venda)": (
-            dados["ano_construcao"] > dados["ano_venda"]
-        ),
-        "reforma anterior à construção": (dados["ano_reforma"] < dados["ano_construcao"]),
-        "garagem construída depois da venda": (
-            dados["ano_garagem"].notna() & (dados["ano_garagem"] > dados["ano_venda"])
-        ),
-        "área habitável nula ou negativa": (dados["area_habitavel"] <= 0),
-        "sem dormitório acima do solo": (dados["dormitorios"] == 0),
-        "sem banheiro completo": (
-            dados["banheiros_completos"] + dados["banheiros_completos_porao"] == 0
-        ),
-        "área do porão diverge da soma das partes": (
-            (
-                dados["area_porao_acabada_1"].fillna(0)
-                + dados["area_porao_acabada_2"].fillna(0)
-                + dados["area_porao_bruta"].fillna(0)
-                - dados["area_porao"].fillna(0)
-            ).abs()
-            > 1
-        ),
-        "imóvel acima de 4.000 pés² (recomendação de De Cock)": (
-            dados["area_habitavel"] > 4000
-        ),
-    }
-    return pd.DataFrame(
-        [
-            {"regra": nome, "registros": int(mascara.sum()), "pct": round(100 * mascara.mean(), 2)}
-            for nome, mascara in regras.items()
-        ]
-    ).set_index("regra")
+    linhas = []
+    for nome, exigidas, teste in CHECAGENS:
+        if not set(exigidas) <= set(dados.columns):
+            ausentes = ", ".join(c for c in exigidas if c not in dados.columns)
+            linhas.append(
+                {
+                    "regra": nome,
+                    "registros": pd.NA,
+                    "pct": pd.NA,
+                    "situacao": f"não aplicável — sem {ausentes}",
+                }
+            )
+            continue
+        mascara = teste(dados)
+        linhas.append(
+            {
+                "regra": nome,
+                "registros": int(mascara.sum()),
+                "pct": round(100 * mascara.mean(), 2),
+                "situacao": "verificada",
+            }
+        )
+    return pd.DataFrame(linhas).set_index("regra")
 
 
 def matriz_ausencia(dados: pd.DataFrame, colunas: list[str] | None = None) -> pd.DataFrame:
