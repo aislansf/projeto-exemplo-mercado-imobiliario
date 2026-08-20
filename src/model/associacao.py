@@ -101,8 +101,9 @@ def montar_transacoes(curada: pd.DataFrame, segmentos: np.ndarray | None = None)
         itens[f"{nome}:sim"] = curada[coluna] == 1
 
     if segmentos is not None:
-        marcadores = pd.get_dummies(pd.Series(segmentos, index=curada.index), prefix="segmento",
-                                    prefix_sep=":")
+        marcadores = pd.get_dummies(
+            pd.Series(segmentos, index=curada.index), prefix="segmento", prefix_sep=":"
+        )
         itens = pd.concat([itens, marcadores], axis=1)
 
     return itens.astype(bool)
@@ -310,9 +311,7 @@ def remover_tautologias(
 
     def e_tautologia(regra) -> bool:
         antes, depois = prefixos(regra["antecedents"]), prefixos(regra["consequents"])
-        return any(
-            (a in antes and b in depois) or (b in antes and a in depois) for a, b in pares
-        )
+        return any((a in antes and b in depois) or (b in antes and a in depois) for a, b in pares)
 
     if regras.empty:
         return regras, regras
@@ -425,10 +424,7 @@ def itens_por_tamanho(frequentes: pd.DataFrame) -> pd.DataFrame:
     """Distribuição dos conjuntos frequentes por número de itens."""
     tamanhos = frequentes["itemsets"].apply(len)
     return (
-        tamanhos.value_counts()
-        .sort_index()
-        .rename_axis("itens_no_conjunto")
-        .to_frame("conjuntos")
+        tamanhos.value_counts().sort_index().rename_axis("itens_no_conjunto").to_frame("conjuntos")
     )
 
 

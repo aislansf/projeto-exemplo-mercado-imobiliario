@@ -95,7 +95,9 @@ def fase_1_distribuicao_atributos(bruto: pd.DataFrame, curada: pd.DataFrame) -> 
     eixos[1].set_xlabel("valores distintos")
     eixos[1].bar_label(eixos[1].containers[0], padding=3, fontsize=9)
     fig.suptitle(
-        "1ª fase — Distribuição dos atributos", fontsize=14, fontweight="bold",
+        "1ª fase — Distribuição dos atributos",
+        fontsize=14,
+        fontweight="bold",
         color=config.AZUL_PROFUNDO,
     )
     salvar_figura(fig, SECAO, "f1-panorama-atributos", contagem.to_frame("colunas"))
@@ -115,8 +117,10 @@ def fase_1_distribuicao_atributos(bruto: pd.DataFrame, curada: pd.DataFrame) -> 
     _registrar(
         "1ª — Distribuição dos atributos",
         f"{len(constantes)} colunas são praticamente constantes: "
-        + ", ".join(f"`{c}` ({constantes.loc[c, 'pct_valor_mais_frequente']:.1f}%)"
-                    for c in constantes.index),
+        + ", ".join(
+            f"`{c}` ({constantes.loc[c, 'pct_valor_mais_frequente']:.1f}%)"
+            for c in constantes.index
+        ),
         "Variância quase nula não separa grupo nenhum e ainda gera divisão por zero "
         "na padronização. Nenhuma delas entra no espaço de atributos.",
         "f1-colunas-constantes.csv",
@@ -151,14 +155,19 @@ def fase_2_univariada(curada: pd.DataFrame) -> pd.DataFrame:
         eixo.axvline(
             serie.median(), color=config.CORAL, lw=2, label=f"mediana {serie.median():,.0f}"
         )
-        eixo.axvline(serie.mean(), color=config.AMARELO, lw=2, ls="--",
-                     label=f"média {serie.mean():,.0f}")
+        eixo.axvline(
+            serie.mean(), color=config.AMARELO, lw=2, ls="--", label=f"média {serie.mean():,.0f}"
+        )
         eixo.set_title(f"{dic.rotulo(coluna)}  (assimetria {serie.skew():.2f})", fontsize=10)
         eixo.legend(fontsize=7)
-    for eixo in eixos.ravel()[len(dic.NUMERICAS):]:
+    for eixo in eixos.ravel()[len(dic.NUMERICAS) :]:
         eixo.axis("off")
-    fig.suptitle("2ª fase — Distribuição das variáveis numéricas", fontsize=14,
-                 fontweight="bold", color=config.AZUL_PROFUNDO)
+    fig.suptitle(
+        "2ª fase — Distribuição das variáveis numéricas",
+        fontsize=14,
+        fontweight="bold",
+        color=config.AZUL_PROFUNDO,
+    )
     salvar_figura(fig, SECAO, "f2-histogramas-numericas", resumo)
 
     # Boxplots padronizados: mostram, no mesmo eixo, quem tem cauda.
@@ -168,8 +177,12 @@ def fase_2_univariada(curada: pd.DataFrame) -> pd.DataFrame:
     ordem = padronizado.skew().sort_values(ascending=False).index
     fig, eixo = plt.subplots(figsize=(12, 5.5), constrained_layout=True)
     sns.boxplot(
-        data=padronizado[ordem], orient="v", ax=eixo, color=config.AZUL_CLARO,
-        fliersize=2, linewidth=1,
+        data=padronizado[ordem],
+        orient="v",
+        ax=eixo,
+        color=config.AZUL_CLARO,
+        fliersize=2,
+        linewidth=1,
     )
     eixo.set_xticks(range(len(ordem)))
     eixo.set_xticklabels([dic.rotulo(c) for c in ordem], rotation=35, ha="right")
@@ -183,25 +196,37 @@ def fase_2_univariada(curada: pd.DataFrame) -> pd.DataFrame:
     fig, eixos = plt.subplots(2, 3, figsize=(14, 7), constrained_layout=True)
     for eixo, coluna in zip(eixos.ravel(), dic.ORDINAIS, strict=False):
         contagem = curada[coluna].value_counts().sort_index()
-        eixo.bar(contagem.index.astype(str), contagem.to_numpy(), color=config.VERDE,
-                 edgecolor="white")
+        eixo.bar(
+            contagem.index.astype(str), contagem.to_numpy(), color=config.VERDE, edgecolor="white"
+        )
         eixo.set_title(dic.rotulo(coluna), fontsize=10)
         eixo.set_xlabel("nível")
-    fig.suptitle("2ª fase — Distribuição das variáveis ordinais", fontsize=14,
-                 fontweight="bold", color=config.AZUL_PROFUNDO)
-    salvar_figura(fig, SECAO, "f2-ordinais",
-                  curada[dic.ORDINAIS].describe().T)
+    fig.suptitle(
+        "2ª fase — Distribuição das variáveis ordinais",
+        fontsize=14,
+        fontweight="bold",
+        color=config.AZUL_PROFUNDO,
+    )
+    salvar_figura(fig, SECAO, "f2-ordinais", curada[dic.ORDINAIS].describe().T)
 
     fig, eixos = plt.subplots(2, 3, figsize=(14, 7.5), constrained_layout=True)
     nominais_grafico = dic.NOMINAIS + ["bairro"]
     for eixo, coluna in zip(eixos.ravel(), nominais_grafico, strict=False):
         contagem = curada[coluna].value_counts().head(10)
-        eixo.barh(contagem.index[::-1].astype(str), contagem.to_numpy()[::-1],
-                  color=config.ROXO, edgecolor="white")
+        eixo.barh(
+            contagem.index[::-1].astype(str),
+            contagem.to_numpy()[::-1],
+            color=config.ROXO,
+            edgecolor="white",
+        )
         eixo.set_title(dic.rotulo(coluna), fontsize=10)
         eixo.tick_params(axis="y", labelsize=8)
-    fig.suptitle("2ª fase — Distribuição das variáveis nominais (10 categorias mais frequentes)",
-                 fontsize=14, fontweight="bold", color=config.AZUL_PROFUNDO)
+    fig.suptitle(
+        "2ª fase — Distribuição das variáveis nominais (10 categorias mais frequentes)",
+        fontsize=14,
+        fontweight="bold",
+        color=config.AZUL_PROFUNDO,
+    )
     contagens_nominais = pd.concat(
         {c: curada[c].value_counts(normalize=True).head(10).round(4) for c in nominais_grafico}
     )
@@ -263,8 +288,9 @@ def fase_3_bivariada(curada: pd.DataFrame) -> pd.DataFrame:
     fig, eixos = plt.subplots(2, 3, figsize=(14, 8), constrained_layout=True)
     linhas_pares = []
     for eixo, (x, y) in zip(eixos.ravel(), pares, strict=False):
-        eixo.scatter(curada[x], curada[y], s=8, alpha=0.25, color=config.AZUL_COBALTO,
-                     edgecolors="none")
+        eixo.scatter(
+            curada[x], curada[y], s=8, alpha=0.25, color=config.AZUL_COBALTO, edgecolors="none"
+        )
         rho = curada[x].corr(curada[y], method="spearman")
         eixo.set_xlabel(dic.rotulo(x))
         eixo.set_ylabel(dic.rotulo(y))
@@ -272,8 +298,12 @@ def fase_3_bivariada(curada: pd.DataFrame) -> pd.DataFrame:
         if x in dic.ASSIMETRICAS:
             eixo.set_xscale("log")
         linhas_pares.append({"variavel_x": x, "variavel_y": y, "spearman": round(rho, 3)})
-    fig.suptitle("3ª fase — Relações entre pares de variáveis numéricas", fontsize=14,
-                 fontweight="bold", color=config.AZUL_PROFUNDO)
+    fig.suptitle(
+        "3ª fase — Relações entre pares de variáveis numéricas",
+        fontsize=14,
+        fontweight="bold",
+        color=config.AZUL_PROFUNDO,
+    )
     tabela_pares = pd.DataFrame(linhas_pares)
     salvar_figura(fig, SECAO, "f3-dispersao-pares", tabela_pares)
 
@@ -281,8 +311,18 @@ def fase_3_bivariada(curada: pd.DataFrame) -> pd.DataFrame:
     nominais = dic.NOMINAIS + ["bairro", "fundacao", "estilo_telhado"]
     cramer = est.matriz_cramer(curada, nominais)
     fig, eixo = plt.subplots(figsize=(8.5, 7), constrained_layout=True)
-    sns.heatmap(cramer.astype(float), annot=True, fmt=".2f", cmap="Blues", vmin=0, vmax=1,
-                ax=eixo, cbar_kws={"label": "V de Cramér"}, linewidths=0.5, linecolor="white")
+    sns.heatmap(
+        cramer.astype(float),
+        annot=True,
+        fmt=".2f",
+        cmap="Blues",
+        vmin=0,
+        vmax=1,
+        ax=eixo,
+        cbar_kws={"label": "V de Cramér"},
+        linewidths=0.5,
+        linecolor="white",
+    )
     eixo.set_xticklabels([dic.rotulo(c) for c in nominais], rotation=35, ha="right")
     eixo.set_yticklabels([dic.rotulo(c) for c in nominais], rotation=0)
     eixo.set_title("3ª fase — Associação entre variáveis nominais (V de Cramér)")
@@ -299,8 +339,18 @@ def fase_3_bivariada(curada: pd.DataFrame) -> pd.DataFrame:
         }
     )
     fig, eixo = plt.subplots(figsize=(8, 4), constrained_layout=True)
-    sns.heatmap(eta, annot=True, fmt=".2f", cmap="YlGnBu", ax=eixo, vmin=0, vmax=1,
-                cbar_kws={"label": "η² (variância explicada)"}, linewidths=0.5, linecolor="white")
+    sns.heatmap(
+        eta,
+        annot=True,
+        fmt=".2f",
+        cmap="YlGnBu",
+        ax=eixo,
+        vmin=0,
+        vmax=1,
+        cbar_kws={"label": "η² (variância explicada)"},
+        linewidths=0.5,
+        linecolor="white",
+    )
     eixo.set_xticklabels([dic.rotulo(c) for c in eta.columns], rotation=25, ha="right")
     eixo.set_yticklabels([dic.rotulo(c) for c in eta.index], rotation=0)
     eixo.set_title("3ª fase — Quanto cada nominal explica de cada numérica (η²)")
@@ -326,9 +376,7 @@ def fase_3_bivariada(curada: pd.DataFrame) -> pd.DataFrame:
     fora_diagonal = cramer.where(~np.eye(len(cramer), dtype=bool)).stack()
     par_mais_forte = fora_diagonal.idxmax()
     entre_nominais = cramer.loc[dic.NOMINAIS, dic.NOMINAIS]
-    maximo_entre_nominais = (
-        entre_nominais.where(~np.eye(len(dic.NOMINAIS), dtype=bool)).max().max()
-    )
+    maximo_entre_nominais = entre_nominais.where(~np.eye(len(dic.NOMINAIS), dtype=bool)).max().max()
     _registrar(
         "3ª — Bivariada",
         f"A associação nominal mais forte é `{par_mais_forte[0]}` × `{par_mais_forte[1]}` "
@@ -380,38 +428,62 @@ def fase_4_multivariada(curada: pd.DataFrame) -> pd.DataFrame:
     eixos[0].set_title("Scree plot exploratório")
 
     dispersao = eixos[1].scatter(
-        projecao[:, 0], projecao[:, 1], c=curada["qualidade_geral"], cmap="viridis",
-        s=10, alpha=0.6, edgecolors="none",
+        projecao[:, 0],
+        projecao[:, 1],
+        c=curada["qualidade_geral"],
+        cmap="viridis",
+        s=10,
+        alpha=0.6,
+        edgecolors="none",
     )
     fig.colorbar(dispersao, ax=eixos[1], label="qualidade geral")
     eixos[1].set_xlabel(f"CP1 ({pca.explained_variance_ratio_[0]:.1%})")
     eixos[1].set_ylabel(f"CP2 ({pca.explained_variance_ratio_[1]:.1%})")
     eixos[1].set_title("Projeção em 2 componentes, colorida pela qualidade")
-    fig.suptitle("4ª fase — Estrutura multivariada", fontsize=14, fontweight="bold",
-                 color=config.AZUL_PROFUNDO)
+    fig.suptitle(
+        "4ª fase — Estrutura multivariada",
+        fontsize=14,
+        fontweight="bold",
+        color=config.AZUL_PROFUNDO,
+    )
     salvar_figura(fig, SECAO, "f4-pca-exploratorio", variancia)
 
     # Cargas: o que cada componente significa em linguagem de negócio.
     cargas = pd.DataFrame(
-        pca.components_[:3].T, index=[dic.rotulo(c) for c in espaco],
+        pca.components_[:3].T,
+        index=[dic.rotulo(c) for c in espaco],
         columns=["CP1", "CP2", "CP3"],
     ).round(3)
     fig, eixo = plt.subplots(figsize=(7.5, 6.5), constrained_layout=True)
-    sns.heatmap(cargas, annot=True, fmt=".2f", cmap="RdBu_r", center=0, ax=eixo,
-                linewidths=0.5, linecolor="white", cbar_kws={"label": "carga"})
+    sns.heatmap(
+        cargas,
+        annot=True,
+        fmt=".2f",
+        cmap="RdBu_r",
+        center=0,
+        ax=eixo,
+        linewidths=0.5,
+        linecolor="white",
+        cbar_kws={"label": "carga"},
+    )
     eixo.set_title("4ª fase — Cargas dos três primeiros componentes")
     salvar_figura(fig, SECAO, "f4-cargas-componentes", cargas)
 
     # Perfil médio por estilo construtivo: leitura multivariada legível.
     perfil_estilo = (
-        curada.groupby("estilo")[espaco]
-        .mean()
-        .pipe(lambda d: (d - d.mean()) / d.std())
-        .round(2)
+        curada.groupby("estilo")[espaco].mean().pipe(lambda d: (d - d.mean()) / d.std()).round(2)
     )
     fig, eixo = plt.subplots(figsize=(13, 5), constrained_layout=True)
-    sns.heatmap(perfil_estilo, cmap="RdBu_r", center=0, annot=False, ax=eixo,
-                linewidths=0.4, linecolor="white", cbar_kws={"label": "desvios da média"})
+    sns.heatmap(
+        perfil_estilo,
+        cmap="RdBu_r",
+        center=0,
+        annot=False,
+        ax=eixo,
+        linewidths=0.4,
+        linecolor="white",
+        cbar_kws={"label": "desvios da média"},
+    )
     eixo.set_xticklabels([dic.rotulo(c) for c in espaco], rotation=40, ha="right", fontsize=8)
     eixo.set_title("4ª fase — Perfil padronizado por estilo construtivo")
     eixo.set_ylabel("")
@@ -478,8 +550,16 @@ def fase_5_ausentes(bruto: pd.DataFrame) -> pd.DataFrame:
     grupo_porao = ["Bsmt Qual", "Bsmt Cond", "Bsmt Exposure", "BsmtFin Type 1", "BsmtFin Type 2"]
     coocorrencia = q.matriz_ausencia(bruto, grupo_garagem + grupo_porao + ["Lot Frontage"])
     fig, eixo = plt.subplots(figsize=(9, 7), constrained_layout=True)
-    sns.heatmap(coocorrencia, annot=True, fmt="d", cmap="Reds", ax=eixo, linewidths=0.5,
-                linecolor="white", cbar_kws={"label": "registros ausentes em ambas"})
+    sns.heatmap(
+        coocorrencia,
+        annot=True,
+        fmt="d",
+        cmap="Reds",
+        ax=eixo,
+        linewidths=0.5,
+        linecolor="white",
+        cbar_kws={"label": "registros ausentes em ambas"},
+    )
     eixo.set_title("5ª fase — Coocorrência de ausência")
     salvar_figura(fig, SECAO, "f5-coocorrencia-ausencia", coocorrencia)
 
@@ -553,7 +633,9 @@ def fase_6_discrepantes(curada: pd.DataFrame) -> pd.DataFrame:
                 }
             ]
         ),
-        SECAO, "f6-discrepantes-multivariados", indice=False,
+        SECAO,
+        "f6-discrepantes-multivariados",
+        indice=False,
     )
 
     fig, eixos = plt.subplots(1, 2, figsize=(14, 5.5), constrained_layout=True)
@@ -567,20 +649,32 @@ def fase_6_discrepantes(curada: pd.DataFrame) -> pd.DataFrame:
     eixos[1].scatter(
         curada.loc[~multivariado.to_numpy(), "area_habitavel"],
         curada.loc[~multivariado.to_numpy(), "qualidade_geral"],
-        s=10, alpha=0.3, color=config.AZUL_CLARO, label="típico", edgecolors="none",
+        s=10,
+        alpha=0.3,
+        color=config.AZUL_CLARO,
+        label="típico",
+        edgecolors="none",
     )
     eixos[1].scatter(
         curada.loc[multivariado.to_numpy(), "area_habitavel"],
         curada.loc[multivariado.to_numpy(), "qualidade_geral"],
-        s=22, alpha=0.85, color=config.CORAL, label="atípico (Isolation Forest)",
-        edgecolors="white", linewidths=0.3,
+        s=22,
+        alpha=0.85,
+        color=config.CORAL,
+        label="atípico (Isolation Forest)",
+        edgecolors="white",
+        linewidths=0.3,
     )
     eixos[1].set_xlabel(dic.rotulo("area_habitavel"))
     eixos[1].set_ylabel(dic.rotulo("qualidade_geral"))
     eixos[1].set_title(f"Atípicos multivariados: {int(multivariado.sum())} imóveis (5%)")
     eixos[1].legend()
-    fig.suptitle("6ª fase — Valores discrepantes por três métodos", fontsize=14,
-                 fontweight="bold", color=config.AZUL_PROFUNDO)
+    fig.suptitle(
+        "6ª fase — Valores discrepantes por três métodos",
+        fontsize=14,
+        fontweight="bold",
+        color=config.AZUL_PROFUNDO,
+    )
     salvar_figura(fig, SECAO, "f6-discrepantes", tabela)
 
     # Perfil de quem foi marcado como atípico — é isso que decide o tratamento.
@@ -640,14 +734,30 @@ def fase_7_correlacao(curada: pd.DataFrame) -> pd.DataFrame:
         eixos, [pearson, spearman], ["Pearson (linear)", "Spearman (monotônica)"], strict=True
     ):
         mascara = np.triu(np.ones_like(matriz, dtype=bool), k=1)
-        sns.heatmap(matriz, mask=mascara, cmap="RdBu_r", center=0, vmin=-1, vmax=1,
-                    annot=True, fmt=".2f", annot_kws={"size": 6}, ax=eixo,
-                    linewidths=0.4, linecolor="white", cbar_kws={"shrink": 0.7})
+        sns.heatmap(
+            matriz,
+            mask=mascara,
+            cmap="RdBu_r",
+            center=0,
+            vmin=-1,
+            vmax=1,
+            annot=True,
+            fmt=".2f",
+            annot_kws={"size": 6},
+            ax=eixo,
+            linewidths=0.4,
+            linecolor="white",
+            cbar_kws={"shrink": 0.7},
+        )
         eixo.set_xticklabels([dic.rotulo(c) for c in espaco], rotation=45, ha="right", fontsize=8)
         eixo.set_yticklabels([dic.rotulo(c) for c in espaco], rotation=0, fontsize=8)
         eixo.set_title(titulo)
-    fig.suptitle("7ª fase — Detecção de correlação", fontsize=14, fontweight="bold",
-                 color=config.AZUL_PROFUNDO)
+    fig.suptitle(
+        "7ª fase — Detecção de correlação",
+        fontsize=14,
+        fontweight="bold",
+        color=config.AZUL_PROFUNDO,
+    )
     salvar_figura(fig, SECAO, "f7-correlacao", pearson.round(3))
     salvar_tabela(spearman.round(3), SECAO, "f7-correlacao-spearman")
 
@@ -657,8 +767,9 @@ def fase_7_correlacao(curada: pd.DataFrame) -> pd.DataFrame:
     salvar_tabela(redundantes, SECAO, "f7-pares-redundantes", indice=False)
 
     if len(redundantes):
-        fig, eixo = plt.subplots(figsize=(9, max(2.5, 0.45 * len(redundantes))),
-                                 constrained_layout=True)
+        fig, eixo = plt.subplots(
+            figsize=(9, max(2.5, 0.45 * len(redundantes))), constrained_layout=True
+        )
         rotulos = redundantes["variavel_a"] + "  ×  " + redundantes["variavel_b"]
         eixo.barh(rotulos[::-1], redundantes["correlacao"].abs()[::-1], color=config.CORAL)
         eixo.axvline(0.7, ls="--", color=config.CINZA)
@@ -771,21 +882,29 @@ def fase_8_selecao(curada: pd.DataFrame, redundantes: pd.DataFrame) -> pd.DataFr
     )
 
     fig, eixos = plt.subplots(1, 2, figsize=(13, 4.5), constrained_layout=True)
-    eixos[0].bar(composicao.index, composicao.to_numpy(),
-                 color=[config.AZUL_PROFUNDO, config.VERDE, config.ROXO, config.AMARELO])
+    eixos[0].bar(
+        composicao.index,
+        composicao.to_numpy(),
+        color=[config.AZUL_PROFUNDO, config.VERDE, config.ROXO, config.AMARELO],
+    )
     eixos[0].bar_label(eixos[0].containers[0], padding=3)
     eixos[0].set_ylabel("nº de variáveis")
     eixos[0].set_title(f"Espaço de atributos final: {len(espaco_final)} variáveis (+4 binárias)")
     eixos[0].tick_params(axis="x", rotation=15)
 
     contagem_decisoes = tabela["decisao"].value_counts()
-    eixos[1].barh(contagem_decisoes.index[::-1], contagem_decisoes.to_numpy()[::-1],
-                  color=config.AZUL_COBALTO)
+    eixos[1].barh(
+        contagem_decisoes.index[::-1], contagem_decisoes.to_numpy()[::-1], color=config.AZUL_COBALTO
+    )
     eixos[1].bar_label(eixos[1].containers[0], padding=3)
     eixos[1].set_xlabel("nº de decisões registradas")
     eixos[1].set_title("Decisões de seleção documentadas")
-    fig.suptitle("8ª fase — Seleção de características", fontsize=14, fontweight="bold",
-                 color=config.AZUL_PROFUNDO)
+    fig.suptitle(
+        "8ª fase — Seleção de características",
+        fontsize=14,
+        fontweight="bold",
+        color=config.AZUL_PROFUNDO,
+    )
     salvar_figura(fig, SECAO, "f8-selecao-caracteristicas", composicao.to_frame("variaveis"))
 
     _registrar(

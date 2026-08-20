@@ -46,9 +46,7 @@ def joelho_k_distancia(curva: np.ndarray) -> tuple[int, float]:
     return indice, float(curva[indice])
 
 
-def varrer_dbscan(
-    dados: np.ndarray, valores_eps: np.ndarray, min_amostras: int
-) -> pd.DataFrame:
+def varrer_dbscan(dados: np.ndarray, valores_eps: np.ndarray, min_amostras: int) -> pd.DataFrame:
     """Aplica DBSCAN para uma grade de `eps` e resume o resultado de cada um."""
     linhas = []
     for eps in valores_eps:
@@ -120,9 +118,7 @@ def varrer_mean_shift(
     return pd.DataFrame(linhas).set_index("quantil")
 
 
-def perfil_do_ruido(
-    curada: pd.DataFrame, rotulos: np.ndarray, colunas: list[str]
-) -> pd.DataFrame:
+def perfil_do_ruido(curada: pd.DataFrame, rotulos: np.ndarray, colunas: list[str]) -> pd.DataFrame:
     """Compara a mediana dos pontos de ruído com a dos pontos agrupados.
 
     Sem esta tabela, o ruído é apenas um número. Com ela, vira a descrição de um

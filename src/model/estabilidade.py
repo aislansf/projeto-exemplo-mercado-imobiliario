@@ -51,9 +51,7 @@ def estabilidade_bootstrap(
             {
                 "repeticao": repeticao + 1,
                 "ari": round(float(adjusted_rand_score(referencia[indices], rotulos)), 4),
-                "ami": round(
-                    float(adjusted_mutual_info_score(referencia[indices], rotulos)), 4
-                ),
+                "ami": round(float(adjusted_mutual_info_score(referencia[indices], rotulos)), 4),
             }
         )
     return pd.DataFrame(resultados).set_index("repeticao")

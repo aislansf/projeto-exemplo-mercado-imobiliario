@@ -125,8 +125,15 @@ def desenhar_dendrograma(eixo, ligacao_matriz: np.ndarray, k: int, titulo: str, 
     )
     eixo.axhline(altura_corte, ls="--", lw=1.4, color=cor_corte)
     eixo.text(
-        0.99, altura_corte, f" corte em k={k}", transform=eixo.get_yaxis_transform(),
-        ha="right", va="bottom", color=cor_corte, fontsize=9, fontweight="bold",
+        0.99,
+        altura_corte,
+        f" corte em k={k}",
+        transform=eixo.get_yaxis_transform(),
+        ha="right",
+        va="bottom",
+        color=cor_corte,
+        fontsize=9,
+        fontweight="bold",
     )
     eixo.set_title(titulo, fontsize=11)
     eixo.set_xlabel("grupos (dendrograma truncado nas 25 últimas fusões)")
