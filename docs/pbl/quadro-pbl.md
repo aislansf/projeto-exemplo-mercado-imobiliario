@@ -115,17 +115,17 @@ regras se sustentam mutuamente.
 | # | Hipótese | Destino | Evidência |
 |:-:|:---|:---|:---|
 | H1 | O preço é o melhor separador e deveria ser usado | **descartada por método** | Critério eliminatório: descaracterizaria o problema |
-| H2 | A ausência de 60% em `Mas Vnr Type` inviabiliza a coluna | **derrubada** | `f5-inventario-sentinelas.csv` |
-| H3 | Os discrepantes de área do terreno são erro | **derrubada** | `f6-perfil-atipicos.csv` |
-| H4 | A silhueta maior indica o melhor pré-processamento | **derrubada** | `m4-sensibilidade-escala.csv` |
-| H5 | Gower dará o melhor resultado | **derrubada** | `m13-composicao-nominal.csv` |
-| H6 | k = 5 é o melhor, porque o orçamento comporta 5 | **derrubada** | `m2-escolha-de-k.csv` |
-| H7 | O DBSCAN encontrará grupos que o K-Means não vê | **derrubada** | `m7-dbscan-varredura.csv` |
-| H8 | O BIC indicará o k do GMM claramente | **derrubada** | `m9-gmm-varredura.csv` |
-| H9 | Suporte de 5% dará um conjunto utilizável | **derrubada** | `r1-sensibilidade-limiares.csv` |
-| H10 | Regras com lift alto são sempre descobertas | **derrubada** | `r2-tautologias-descartadas.csv` |
-| H11 | As regras de cada segmento serão as mesmas da base | **derrubada** | `r3-regras-diferenciais.csv` |
-| H12 | Haverá 3 ou 4 grupos naturais | **confirmada** | 4 grupos, estáveis |
+| H2 | A ausência de 60% em `Mas Vnr Type` inviabiliza a coluna | **derrubada** | `eda-exploratoria/valores-ausentes.csv` |
+| H3 | Os discrepantes de área do terreno são erro | **derrubada** | `eda-exploratoria/valores-discrepantes.csv` |
+| H4 | A silhueta maior indica o melhor pré-processamento | **derrubada** | `preparacao/sensibilidade-a-escala.csv` |
+| H5 | Gower dará o melhor resultado | **derrubada** | `modelagem/gower-por-estilo.csv` |
+| H6 | O maior *k* dentro do orçamento é o melhor | **derrubada** | `modelagem/decisao-de-k.csv` |
+| H7 | O DBSCAN encontrará grupos que o K-Means não vê | **derrubada** | `modelagem/densidade-dbscan-e-mean-shift.csv` |
+| H8 | O BIC indicará o *k* do GMM claramente | **derrubada** | `modelagem/gmm-selecao.csv` |
+| H9 | A maior silhueta da varredura indica o melhor modelo | **derrubada** | `avaliacao/as-dez-maiores-silhuetas.csv` |
+| H10 | Reduzir a dimensão melhora o agrupamento | **derrubada** | `avaliacao/sensibilidade-de-dimensao.csv` |
+| H11 | O modelo pode agir sozinho em toda a carteira | **derrubada** | `implantacao/calibracao-da-fronteira.csv` |
+| H12 | Haverá 3 ou 4 grupos naturais | **confirmada** | 3 grupos, estáveis (ARI 0,9575) |
 
 Onze hipóteses derrubadas e uma confirmada. É o retrato honesto de como um projeto de
 dados anda: a maior parte do trabalho é descobrir que o palpite inicial estava errado —

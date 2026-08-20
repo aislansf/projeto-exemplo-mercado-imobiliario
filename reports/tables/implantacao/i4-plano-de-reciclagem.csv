@@ -1,5 +1,0 @@
-﻿gatilho;condicao;procedimento
-Calendário;a cada 12 meses;reexecutar `uv run invoke pipeline` sobre a base acumulada e comparar a nova partição com a vigente por ARI
-Data drift;PSI ≥ 0.25 em qualquer atributo;reciclagem imediata, com registro do atributo que disparou
-Cluster drift;silhueta < 0.15 por dois trimestres;reciclagem com nova varredura de k, incluindo teste de estabilidade
-Mudança de escopo;entrada de um novo tipo de ativo na carteira (comercial, terreno);revisão do espaço de atributos antes de qualquer reciclagem — o dicionário de dados muda primeiro

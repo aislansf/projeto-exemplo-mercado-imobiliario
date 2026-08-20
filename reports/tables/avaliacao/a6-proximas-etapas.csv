@@ -1,7 +1,0 @@
-﻿acao;responsavel;prazo;decisao
-Implantar a segmentação como classificação padrão da carteira;Diretoria Comercial;30 dias;implantar
-Publicar a aplicação de consulta para os 12 corretores;Área de Dados;15 dias;implantar
-Avaliar individualmente os 53 imóveis fora de padrão apontados pelo DBSCAN;Gerência de Ativos;90 dias;implantar
-Reciclar o agrupamento com os dados do próximo exercício e comparar por ARI;Área de Dados;12 meses;iterar
-Buscar dado de tempo de permanência em estoque, ausente na base atual;Área de Dados + TI;6 meses;iterar
-Reavaliar o segmento S1 (80 imóveis) quando a carteira dobrar de tamanho;Área de Dados;18 meses;iterar

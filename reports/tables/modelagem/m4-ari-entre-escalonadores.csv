@@ -1,5 +1,0 @@
-﻿;sem_escala;minmax;padrao;robusto
-sem_escala;1,0;0,07;0,116;0,097
-minmax;0,07;1,0;0,203;0,072
-padrao;0,116;0,203;1,0;0,354
-robusto;0,097;0,072;0,354;1,0

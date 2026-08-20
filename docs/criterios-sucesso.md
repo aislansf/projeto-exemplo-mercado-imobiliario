@@ -45,7 +45,7 @@ seguir. Cada objetivo está no formato de história de usuário (**Como** / **Qu
 
     **Entrega:** `data/processed/base_segmentada.parquet` ·
     [placar dos candidatos](modelagem.md#os-algoritmos-comparados) ·
-    `reports/tables/modelagem/m12-matriz-comparativa.csv`
+    `reports/tables/modelagem/placar-dos-candidatos.csv`
 
 ## 2. Descrever cada linha em linguagem de negócio
 

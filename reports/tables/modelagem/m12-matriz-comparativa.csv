@@ -1,8 +1,0 @@
-﻿algoritmo;grupos;silhueta;davies_bouldin;calinski_harabasz;pct_ruido;maior_grupo_pct;espaco_da_metrica;forma_suposta;representante;k_definido_pelo_analista;leitura_de_negocio
-K-Means (euclidiano);4;0,1775;1,8;580,4;0,0;35,6;euclidiano padronizado (referência comum);esférica;centroide médio (não existe);sim — k fixado;escolhido: estável, interpretável e dentro do teto
-K-Means (euclid. + one-hot);4;0,176;1,806;580,1;0,0;35,7;euclidiano padronizado (referência comum);esférica;centroide médio;sim — k fixado;"28 binárias diluem a distância; silhueta cai sem mudar a partição"
-K-Medoids (Gower);4;0,2001;3,011;386,7;0,0;30,4;dissimilaridade de Gower — NÃO comparável às demais;arbitrária;medoide (imóvel real);sim — k fixado;particiona por estilo construtivo: as nominais dominam o peso
-Hierárquica (Ward);4;0,1532;1,85;528,8;0,0;42,0;euclidiano padronizado (referência comum);esférica;sem representante;não — corte no dendrograma;"concorda em 64% com o K-Means; útil como validação, não como produto"
-DBSCAN;3;0,3024;1,142;227,4;1,81;92,1;euclidiano padronizado (referência comum);arbitrária;sem representante;não — emerge do eps;degenerado: um grupo com 92% dos imóveis. Entrega o ruído, não a segmentação
-Mean Shift;3;0,3087;1,241;290,9;0,0;92,2;euclidiano padronizado (referência comum);arbitrária;modo da densidade;não — emerge da banda;degenerado pelo mesmo motivo: não há vale de densidade neste espaço
-GMM;4;0,1145;2,536;377,1;0,0;40,8;euclidiano padronizado (referência comum);elipsoidal;média da componente;sim — BIC não minimiza;"grupos menos coesos; contribui com o grau de pertencimento"

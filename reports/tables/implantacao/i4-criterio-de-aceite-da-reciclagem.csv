@@ -1,4 +1,0 @@
-﻿resultado_da_reciclagem;interpretacao;decisao
-ARI ≥ 0,80 com a partição vigente;mesma estrutura;atualizar centroides, manter personas
-ARI entre 0,50 e 0,80;estrutura deslocada;revisar as personas afetadas com a Diretoria Comercial
-ARI < 0,50;estrutura diferente;novo ciclo de CRISP-DM a partir do entendimento de negócio

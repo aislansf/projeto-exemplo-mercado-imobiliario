@@ -1,4 +1,0 @@
-﻿algoritmo;conjuntos_frequentes;tempo_s;identico_ao_apriori;conjuntos_a_mais;conjuntos_a_menos
-Apriori;1597;0,023;True;0;0
-FP-Growth;1597;0,126;True;0;0
-Eclat (implementação própria);1597;0,151;True;0;0
