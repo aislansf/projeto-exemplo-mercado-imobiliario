@@ -6,25 +6,24 @@ si ficam nas figuras de `reports/figures/` e nas tabelas de `reports/tables/`.
 
 ## Mapa dos notebooks
 
-| Notebook | Objetivo | Recorte | Saída principal |
+| Notebook | Fase | Recorte | Saída principal |
 |:---|:-:|:---|:---|
-| `01-entendimento-e-descricao-dos-dados` | 1 | camada bruta, 2.930 × 82 | Manifesto de carga, perfil de qualidade, Canvas preenchido |
-| `02-eda-fluxo-8-fases` | 1, 3 | base curada, 2.925 × 91 | 18 figuras, 26 tabelas, coleção de 21 insights |
-| `02b-sensibilidade-escala` | 1 | matriz de modelagem | Experimento com quatro escalonadores, comparados por ARI |
-| `03-clusterizacao-particional-hierarquica` | 1, 2 | espaço euclidiano e Gower | Escolha de *k*, três partições comparadas, personas |
-| `04-densidade-gmm-reducao-dimensional` | 1, 4 | espaço euclidiano | Matriz comparativa de seis algoritmos, PCA e Kernel PCA |
-| `05-regras-de-associacao` | 3 | 2.925 × 62 itens | 256 regras podadas, 252 diferenciais por segmento |
-| `06-avaliacao-e-implantacao` | 2, 5 | base segmentada | Confronto com critérios, drift, artefatos publicados |
+| `00-dicionario-dados` | 2.2 | camada bruta, 2.930 × 82 | Dicionário gerado a partir do código, com papel de cada coluna |
+| `01-analise-exploratoria` | 2.3 | camada bruta, 2.930 × 82 | 55 figuras, 63 tabelas, coleção de 12 insights |
+| `02-ajustes-dados` | 3 | bruta → curada | O funil de curadoria, de 2.930 a 2.350 imóveis |
+| `03-preparacao` | 3 | base curada, 2.350 × 83 | Espaço de 17 variáveis e o experimento de escala |
+| `04-modelagem` | 4 | espaço euclidiano e Gower | 47 execuções, escolha de *k*, personas |
+| `05-avaliacao` | 5 | base segmentada, com o rótulo aberto | Confronto com os critérios e varredura ampla de 90 configurações |
+| `06-implantacao` | 6 | modelo aprovado | Contrato, regra de fronteira, monitoramento e o pacote `.pkl` |
 
-A coluna **Objetivo** referencia a numeração dos [critérios de sucesso](criterios-sucesso.md).
-
-Um notebook por **objetivo de negócio**, não por técnica. É o que permite rastrear
-cada entrega até o critério de aceite que ela atende.
+Um notebook por **fase do CRISP-DM**, não por técnica. É o que permite rastrear cada
+entrega até o critério de aceite que ela atende — ver
+[critérios de sucesso](criterios-sucesso.md).
 
 ## Desenho da EDA
 
-O fluxo é o das oito fases, aplicado sobre as 22 variáveis do espaço de atributos mais
-as reservadas, quando a fase exige.
+O fluxo é o das oito etapas, aplicado sobre a **camada bruta** — antes da curadoria,
+justamente porque é a exploração que descobre o que precisa ser ajustado.
 
 ```
 Base de dados
@@ -66,11 +65,12 @@ pergunta:
   normal, idade normal e qualidade normal, e ainda assim ser atípico pela combinação
   das três.
 
-![Discrepantes por três métodos](imagens/evidencias/eda/f6-discrepantes.png)
+![Discrepantes por três métodos](imagens/eda/valores-discrepantes.png)
 
-Os 147 imóveis (5%) marcados pelo Isolation Forest não foram removidos: viraram
-hipótese para a fase de modelagem. A pergunta era se o DBSCAN os reencontraria como
-ruído — e, em boa medida, reencontrou.
+O achado que mudou a curadoria veio daqui: `Overall Cond` concentra 56% dos imóveis na
+nota 5, e por isso 8,6% dos registros caem fora das cercas de Tukey. É **discrepância de
+escala**, não imóvel atípico — e foi o que levou a fase 3 a adotar 3×IQR em vez do 1,5
+de Tukey, que marcava cerca de um quinto da carteira.
 
 ## Escolhas metodológicas
 
@@ -111,49 +111,45 @@ seja revertida por engano depois.
 
 ## Coleção de insights
 
-O produto da fase exploratória são 21 insights, cada um com três campos: o **achado**,
-a **consequência** para a análise e a **evidência** que o sustenta. Um insight sem
-consequência é curiosidade.
+O produto da fase exploratória são **12 insights**, cada um com o **achado** e a
+**consequência** para a análise. Um insight sem consequência é curiosidade.
 
-A tabela completa está em `reports/tables/eda/colecao-de-insights.csv`. Os que mais
+A tabela completa está em `reports/tables/eda-exploratoria/insights.csv`. Os que mais
 influenciaram o resto do projeto:
 
-| # | Fase | Achado | Consequência |
+| # | Etapa | Achado | Consequência |
 |:-:|:---|:---|:---|
-| I13 | 5ª | A palavra `None` em `Mas Vnr Type` é categoria legítima, mas a leitura padrão a converte em nulo | Sem declarar `na_values`, a coluna aparenta 60,6% de ausência contra 0,8% reais |
-| I12 | 5ª | As 5 colunas de garagem faltam nos mesmos 157–159 imóveis; as de porão, nos mesmos 79–83 | Ausência estrutural: rótulo próprio e área zero, não imputação |
-| I04 | 2ª | 3 variáveis superam o limiar de assimetria de 0,75; a área do terreno chega a 13,2 | Só essas recebem `log1p`. Sem a transformação, o K-Means devolve um cluster gigante com satélites de um elemento |
-| I05 | 2ª | Massa concentrada em zero: 2,7% sem porão, 5,4% sem garagem, 16,5% sem varanda | O zero é categoria ("não tem"), não medida. As flags binárias preservam o que a área sozinha esconde |
-| I08 | 3ª | `bairro` explica 56% da variância da qualidade geral e 78% da idade do imóvel | Reforça mantê-lo fora da modelagem: é proxy de preço por caminho indireto |
-| I15 | 6ª | A área do terreno tem 125 discrepantes por Tukey, mas são lotes grandes legítimos | Discrepante legítimo não se remove: a resposta é `log1p`, não exclusão |
-| I18 | 7ª | 5 pares ultrapassam \|ρ\| = 0,70; o mais forte é área habitável × cômodos (0,81) | Redundância tratada par a par na 8ª fase, não em bloco |
-| I21 | 8ª | A redundância entre área e cômodos foi mantida **deliberadamente** | Redundância estatística não é redundância de negócio |
+| 1 | 1ª | Duas linhas são idênticas nas 24 características e só diferem em `Order` e `PID` | O mesmo imóvel contado duas vezes em qualquer média — removido na curadoria |
+| 2 | 5ª | Das 27 colunas com célula vazia, 14 são **ausência estrutural** (`Pool QC` 99,6%, `Alley` 93,2%) | Rótulo próprio e área zero, não imputação. `Lot Frontage` (16,7%) é a única ausência de fato desconhecida com peso |
+| 3 | 2ª | `Lot Area` tem assimetria **12,8**, a maior da base — máximo de 215.245 pé² | Transformação obrigatória antes de qualquer distância… até a curadoria remover os lotes extremos e a assimetria cair para 0,42 |
+| 4 | 6ª | `Overall Cond` concentra 56% dos imóveis na nota 5, e 8,6% caem fora das cercas de Tukey | É discrepância **de escala**, não imóvel atípico — e é o que motivou adotar 3×IQR |
+| 5 | 3ª | A qualidade explica o preço melhor que a área: ρ = 0,81 contra 0,72 | O padrão construtivo é eixo de produto, não só de preço |
+| 7 | 3ª | O bairro sozinho responde por η = 0,76 do preço; NoRidge vende a 183% da média | É o motivo de `Neighborhood` ficar **reservada** para validação externa |
+| 10 | 2ª | 2010 tem 341 registros e termina em julho: a série está **truncada** | Qualquer leitura de queda no último ano é artefato de coleta, não de mercado |
+| 11 | 2ª | 82% das vendas são `Normal`; `Partial` (8,4%) carrega preço acima da média **por construção** | Fundamentou a regra de curadoria que remove 492 vendas não normais |
 
 ### As 8 fases, em uma imagem cada
 
-=== "1ª · Distribuição"
-    ![](imagens/evidencias/eda/f1-panorama-atributos.png)
-
 === "2ª · Univariada"
-    ![](imagens/evidencias/eda/f2-histogramas-numericas.png)
+    ![](imagens/eda/univariada-discreta-Overall%20Qual.png)
 
 === "3ª · Bivariada"
-    ![](imagens/evidencias/eda/f3-eta-nominal-numerica.png)
+    ![](imagens/eda/bivariada-Gr%20Liv%20Area%20X%20Neighborhood.png)
 
 === "4ª · Multivariada"
-    ![](imagens/evidencias/eda/f4-pca-exploratorio.png)
+    ![](imagens/eda/multivariada-ca-Neighborhood%20X%20Bldg%20Type.png)
 
 === "5ª · Ausentes"
-    ![](imagens/evidencias/eda/f5-coocorrencia-ausencia.png)
+    ![](imagens/eda/valores-ausentes.png)
 
 === "6ª · Discrepantes"
-    ![](imagens/evidencias/eda/f6-discrepantes.png)
+    ![](imagens/eda/valores-discrepantes.png)
 
 === "7ª · Correlação"
-    ![](imagens/evidencias/eda/f7-correlacao.png)
+    ![](imagens/eda/correlacao.png)
 
-=== "8ª · Seleção"
-    ![](imagens/evidencias/eda/f8-selecao-caracteristicas.png)
+As 24 análises bivariadas e as 24 univariadas completas estão em `docs/imagens/eda/`,
+cada uma com o CSV que a originou em `reports/tables/eda-exploratoria/`.
 
 ## Reprodução
 
@@ -175,8 +171,8 @@ tem como divergir do gráfico.
 | Destino | Conteúdo | Formato |
 |:---|:---|:---|
 | `reports/figures/<seção>/<nome>.png` | Figura, 150 dpi | PNG |
-| `docs/imagens/evidencias/<seção>/<nome>.png` | Cópia que o MkDocs enxerga | PNG |
-| `reports/tables/<seção>/<nome>.csv` | Tabela-fonte | CSV, `;` e decimal `,`, UTF-8 com BOM |
+| `docs/imagens/<seção>/<nome>.png` | Cópia que o MkDocs enxerga | PNG |
+| `reports/tables/<seção>/<nome>.csv` | Tabela-fonte, com o **mesmo nome** da figura | CSV, `;` e decimal `,`, UTF-8 com BOM |
 
 O separador `;` com decimal `,` abre direto no Excel em português — detalhe pequeno
 que decide se a área de negócio consegue ou não conferir o número.

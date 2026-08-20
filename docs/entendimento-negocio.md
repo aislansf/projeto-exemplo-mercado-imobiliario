@@ -122,10 +122,11 @@ cientista de dados. Aqui o projeto é de demonstração, e a concentração em u
 
 #### Infraestrutura
 
-Nenhuma além de um notebook. É uma característica do problema, não um atalho: 2.925
+Nenhuma além de um notebook. É uma característica do problema, não um atalho: 2.930
 registros e 82 colunas cabem em memória com folga, e a matriz de dissimilaridade de
-Gower — o artefato mais pesado do projeto — ocupa **34 MB**. Um projeto que precisasse
-de cluster para 2.925 linhas teria um problema de engenharia, não de dados.
+Gower — o artefato mais pesado do projeto — é a única estrutura de custo quadrático. Um
+projeto que precisasse de cluster para 2.350 linhas teria um problema de engenharia, não
+de dados.
 
 #### Recursos financeiros
 
@@ -180,7 +181,7 @@ implementados no projeto — o que é parte do material didático:
 
 | Requisito | Situação |
 |:---|:---|
-| Ao menos 800 registros e 8 atributos, sendo 4 numéricos | **atendido** — 2.925 × 82, com 34 numéricas |
+| Ao menos 800 registros e 8 atributos, sendo 4 numéricos | **atendido** — 2.930 × 82 na origem, 2.350 × 83 após a curadoria |
 | Atributos que descrevam o **produto**, não só a transação | **atendido** — porte, configuração, padrão e idade |
 | Ausência de dado pessoal identificável | **atendido** — `PID` é matrícula do imóvel |
 | Licença compatível com uso educacional | **atendido** — citação do artigo original é suficiente |
@@ -203,9 +204,9 @@ implementados no projeto — o que é parte do material didático:
 |:---|:---|
 | **Custo** — esforço técnico | ~40 h de análise, sem infraestrutura adicional |
 | **Custo** — manutenção | 2 h/mês de monitoramento, 8 h/ano de reciclagem |
-| **Benefício** — alocação de reforma | Redirecionar o capital de reforma de S4 (que não precisa) e S1 (onde não se paga) para S3, onde o retorno é maior |
-| **Benefício** — giro | Precificação por giro em S2, o maior segmento em unidades |
-| **Benefício** — estoque inerte | 80 imóveis de S1 saem do limbo com decisão binária |
+| **Benefício** — alocação de reforma | Redirecionar o capital de reforma do S3 (que não precisa) e do S1 (onde não se paga) para o S2, onde o retorno é maior |
+| **Benefício** — giro | Precificação por giro no S1, o maior segmento em unidades |
+| **Benefício** — estoque inerte | 914 imóveis do S1 saem do limbo com decisão de destino em 12 meses |
 | **Risco de não fazer** | Continuar reformando imóvel que já está no padrão e anunciando imóvel de entrada por corretagem cara |
 
 ## 1.3 · Determinar as metas de mineração de dados
@@ -236,12 +237,12 @@ flowchart LR
 
 | Fase | Entregável | Notebook | Módulo |
 |:---|:---|:---|:---|
-| 1 · Entendimento de negócio | Canvas, critérios de sucesso | `01` | — |
-| 2 · Entendimento dos dados | Manifesto, perfil de qualidade, 21 insights | `01`, `02` | `src.data.ingestao`, `src.eda` |
-| 3 · Preparação | Base curada, matriz de modelagem, experimento de escala | `02b` | `src.data.preparacao` |
-| 4 · Modelagem | Matriz comparativa, personas, regras | `03`, `04`, `05` | `src.pipeline.modelagem`, `src.pipeline.regras` |
-| 5 · Avaliação | Confronto com critérios, limitações | `06` | `src.pipeline.avaliacao` |
-| 6 · Implantação | Pipeline serializado, aplicação, plano de monitoramento | `06` | `src.pipeline.implantacao`, `src.deployment` |
+| 1 · Entendimento de negócio | Canvas, critérios de sucesso | — | — |
+| 2 · Entendimento dos dados | Dicionário, manifesto de carga, 12 insights | `00`, `01` | `src.data.ingestao`, `src.data.dicionario`, `src.eda` |
+| 3 · Preparação | Curadoria, base de modelagem, experimento de escala | `02`, `03` | `src.data.preparacao`, `src.data.qualidade` |
+| 4 · Modelagem | 47 execuções, escolha de *k*, linhas de produto | `04` | `src.model.*` |
+| 5 · Avaliação | Confronto com critérios, varredura ampla, limitações | `05` | `src.model.*` |
+| 6 · Implantação | Pacote `.pkl`, contrato, monitoramento, aplicação | `06` | `src.app` |
 
-Cada fase é executável isoladamente por uma tarefa do `invoke`; `uv run invoke pipeline`
-roda a sequência inteira.
+Cada fase corresponde a um notebook da cadeia; `uv run invoke notebooks` roda a
+sequência inteira e **falha** se algum deles quebrar.

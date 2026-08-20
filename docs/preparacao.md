@@ -11,21 +11,20 @@ qualidade, aqui ficam as decisões tomadas a respeito deles.
 
 ```mermaid
 flowchart TD
-    A["jse.amstat.org<br/>2.930 × 82"] -->|"src.data.ingestao"| B
-    B["data/raw<br/>cópia imutável + manifesto"] -->|"src.data.preparacao"| C
-    C["data/processed/imoveis_curados<br/>2.925 × 91 · unidades originais"] --> D
-    C --> E
-    D["data/processed/matriz_modelagem<br/>2.925 × 34 · sem rótulo"]
-    E["data/processed/transacoes<br/>2.925 × 62 itens booleanos"]
+    A["jse.amstat.org<br/>2.930 × 82"] -->|"notebook 00 · ingestão"| B
+    B["data/raw<br/>cópia imutável + manifesto"] -->|"notebook 02 · curadoria"| C
+    C["data/processed/imoveis_curados<br/>2.350 × 83 · unidades originais"] -->|"notebook 03"| D
+    D["data/processed/base_modelagem<br/>2.350 × 24 · sem rótulo"] -->|"notebook 04"| E
+    E["data/processed/base_segmentada<br/>2.350 × 5 · com o segmento"]
 ```
 
 | Camada | Diretório | Papel |
 |:---|:---|:---|
 | Bruta | `data/raw` | cópia imutável da origem, assinada por `sha256` |
 | Curada | `data/processed/imoveis_curados.parquet` | colunas renomeadas, tipadas, limpas e derivadas, em unidades originais |
-| Modelagem | `data/processed/matriz_modelagem.parquet` | recorte com o espaço de atributos, sem rótulo reservado |
-| Transacional | `data/processed/transacoes.parquet` | matriz booleana imóveis × itens, para as regras de associação |
-| Segmentada | `data/processed/imoveis_segmentados.parquet` | base curada + segmento, persona e sinalizadores |
+| Modelagem | `data/processed/base_modelagem.parquet` | recorte com o espaço de atributos, **sem as reservadas no arquivo** |
+| Segmentada | `data/processed/base_segmentada.parquet` | chave, segmento canônico e faixa de confiança |
+| Publicada | `data/processed/carteira_classificada.parquet` | a carteira que a operação consome |
 
 A camada bruta é tratada como **imutável**: nenhuma outra parte do projeto escreve em
 `data/raw`. Reprocessar sempre parte dela, nunca de um arquivo editado à mão.
@@ -92,18 +91,35 @@ Implementadas em `src/data/preparacao.py`, em uma única passada, e publicadas e
 
 ## O espaço de atributos
 
-Das 82 colunas da origem, **22** compõem o espaço de atributos e 4 binárias derivadas
-se somam a ele no espaço euclidiano.
+O funil vai de 83 colunas curadas a **17** no espaço que entra na distância:
+
+| Etapa | Colunas | Saíram |
+|:---|---:|---:|
+| Base curada | 83 | — |
+| Depois de reservar rótulo, bairro, transação e descritivas | 26 | **57** |
+| Depois de remover duplicatas e binárias | 22 | 4 |
+| **Espaço euclidiano** (entra na distância) | **17** | 5 |
+
+![Funil da preparação](imagens/preparacao/funil-da-preparacao.png)
 
 | Natureza | Nº | Variáveis |
 |:---|:-:|:---|
 | Numéricas | 11 | `area_habitavel`, `area_porao`, `area_terreno`, `area_garagem`, `area_varandas`, `banheiros_total`, `comodos`, `dormitorios`, `lareiras`, `idade_imovel`, `anos_desde_reforma` |
 | Ordinais | 6 | `qualidade_geral`, `conservacao_geral`, `qualidade_externa`, `qualidade_cozinha`, `qualidade_porao`, `acabamento_garagem` |
-| Nominais | 5 | `zoneamento`, `tipo_construcao`, `estilo`, `tipo_garagem`, `ar_central` |
-| Binárias derivadas | 4 | `tem_porao`, `tem_garagem`, `tem_lareira`, `tem_segundo_pavimento` |
-| **Reservadas** | 2 | `preco_venda` (rótulo), `bairro` (validação externa) |
+| Nominais (só no espaço Gower) | 5 | `zoneamento`, `tipo_construcao`, `estilo`, `tipo_garagem`, `ar_central` |
+| **Reservadas** | 3 | `preco_venda` (rótulo), `preco_por_pe2` (derivada do rótulo), `bairro` (validação externa) |
 
-![Seleção de características](imagens/evidencias/eda/f8-selecao-caracteristicas.png)
+!!! success "A reserva é física, não disciplinar"
+    As três reservadas **não estão no arquivo** `base_modelagem.parquet`. Não é uma
+    convenção que se cumpre por atenção: é impossível usá-las por engano, porque não
+    foram materializadas. A fase 5 auditou os cinco artefatos que alimentam algoritmo e
+    confirmou.
+
+    O motivo de `bairro` estar entre elas está medido: η² de **0,574** sobre o preço —
+    é a variável mais explicativa de preço da base inteira, com 28 categorias. Usá-la
+    seria contrabandear o rótulo.
+
+![Papel das colunas](imagens/preparacao/papel-das-colunas.png)
 
 ### O que ficou de fora, e por quê
 
@@ -120,48 +136,77 @@ se somam a ele no espaço euclidiano.
 
 ## Formatação e escala
 
-### `log1p`, e só onde a assimetria justifica
+### Uma transformação só, e escolhida por ensaio
 
 O limiar é **0,75** de assimetria absoluta — convenção usual. Abaixo dele, o ganho não
 compensa a perda de legibilidade da unidade original.
 
+Depois da curadoria, **uma única variável** passa do limiar entre as contínuas:
+
 | Variável | Assimetria | Decisão |
 |:---|---:|:---|
-| `area_terreno` | 13,20 | `log1p` |
-| `area_varandas` | 1,36 | `log1p` |
-| `area_habitavel` | 0,88 | `log1p` |
-| `area_porao` | 0,40 | — |
-| `comodos` | 0,71 | — |
-| `idade_imovel` | 0,60 | — |
+| `area_varandas` | **0,974** | transformar |
+| `area_habitavel` | 0,747 | — (logo abaixo do limiar) |
+| `area_terreno` | 0,417 | — |
+| `area_porao` | 0,296 | — |
 
-A área do porão fica de fora deliberadamente: transformá-la seria hábito, não decisão.
+!!! info "A lista encolheu porque a base mudou"
+    Na base bruta, `area_terreno` marcava **13,20** de assimetria. Depois de a curadoria
+    remover os lotes extremos, caiu para **0,417**. O que parecia forma da distribuição
+    era um punhado de valores extremos — transformá-la agora seria hábito, não decisão.
+
+    E `area_habitavel` ficou em **0,747**, logo abaixo do limiar de 0,75. Fica de fora
+    pelo critério declarado: mudar o limiar para acomodar a variável inverteria a ordem
+    entre regra e resultado.
+
+A transformação não foi escolhida por convenção, e sim por ensaio das três opções:
+
+| Transformação | Assimetria resultante | Dentro do limiar | *z* máximo |
+|:---|---:|:-:|---:|
+| nenhuma | 0,974 | ❌ | 4,50 |
+| `log1p` | **−1,348** | ❌ | 1,22 |
+| **raiz quadrada** | **−0,320** | ✅ | 2,62 |
+
+![Transformações da assimétrica](imagens/preparacao/transformacoes-da-assimetrica.png)
+
+O `log1p` **corrige demais**: joga a assimetria de +0,97 para −1,35, trocando uma cauda
+à direita por uma à esquerda. A raiz quadrada é a que entra no pipeline publicado — e é
+por isso que o pacote tem um passo chamado `raiz_area_varandas`.
+
+As ordinais `qualidade_externa` (0,81) e `qualidade_porao` (−1,38) também passam do
+limiar e **não** são transformadas: `log1p` sobre nota de 0 a 5 destrói o passo constante
+que dá sentido à escala.
 
 ### O experimento de sensibilidade à escala
 
 Quatro escalonadores, o **mesmo** K-Means, o **mesmo** *k*. Se as partições
 resultantes discordarem, quem definiu os segmentos foi o pré-processamento.
 
-![Sensibilidade à escala](imagens/evidencias/modelagem/m4-sensibilidade-escala.png)
+![Sensibilidade à escala](imagens/preparacao/sensibilidade-a-escala.png)
 
-| Escalador | Silhueta | Davies-Bouldin | Menor grupo | Maior grupo | Atributo que de fato particionou | Razão entre/dentro |
-|:---|---:|---:|---:|---:|:---|---:|
-| `sem_escala` | **0,3545** | 0,909 | 294 | 1.361 | Área do porão | 5,23 |
-| `minmax` | 0,2983 | 1,431 | 535 | 889 | Lareiras | 4,22 |
-| `padrao` | 0,1775 | 1,800 | 80 | 1.041 | Qualidade do porão | **2,46** |
-| `robusto` | 0,2000 | 1,720 | 283 | 1.102 | Idade do imóvel | 1,20 |
+| Escalador | Silhueta | Menor grupo | Maior grupo | Atributo que de fato particionou | Razão entre/dentro |
+|:---|---:|---:|---:|:---|---:|
+| `sem_escala` | **0,4698** | 162 | 1.064 | Área do terreno | **6,81** |
+| `minmax` | 0,1975 | 418 | 850 | Anos desde a reforma | 4,61 |
+| **`padrao`** | 0,1388 | 392 | 808 | Área habitável | **1,42** |
+| `robusto` | 0,1350 | 456 | 864 | Conservação | 1,53 |
 
 A última coluna mede a razão entre a variância **entre** grupos e a variância
 **dentro** dos grupos, para o atributo em que ela é máxima. Quanto maior, mais o
 resultado depende de uma variável só.
 
 !!! danger "A armadilha: a maior silhueta é a pior segmentação"
-    `sem_escala` tem a **melhor** métrica de todas — e é o pior resultado.
+    `sem_escala` tem a **melhor** métrica de todas — silhueta 0,4698, mais que o triplo
+    da padronizada — e é o pior resultado.
 
-    Sem padronização, a variável com maior amplitude numérica domina a distância
-    euclidiana. Aqui é `area_porao`, cuja amplitude bruta é de **3.206** contra 9 da
-    qualidade geral e 8 dos dormitórios. O K-Means acaba particionando quase pelo
-    tamanho do porão sozinho — e a silhueta fica alta porque um agrupamento
+    Sem padronização, a variável de maior amplitude numérica domina a distância
+    euclidiana. Aqui é `area_terreno`, que se mede em milhares contra os 9 níveis da
+    qualidade geral. O K-Means acaba particionando quase pelo tamanho do lote sozinho —
+    razão entre/dentro de **6,81** — e a silhueta fica alta porque um agrupamento
     praticamente **unidimensional** é, de fato, bem separado.
+
+    A escala padrão é a que tem a razão mais equilibrada (**1,42**): nenhuma variável
+    isolada define a partição. É essa a razão de ela ser a escolhida — não a métrica.
 
     Só que "imóveis com porão grande" não é uma linha de produto: é uma coluna que já
     existia na base, e para descobri-la não era preciso algoritmo nenhum.
@@ -182,15 +227,18 @@ produzem grupos interpretáveis: **nenhuma variável isolada define a partição
 
 | | `sem_escala` | `minmax` | `padrao` | `robusto` |
 |:---|---:|---:|---:|---:|
-| **`sem_escala`** | 1,000 | 0,070 | 0,116 | 0,097 |
-| **`minmax`** | 0,070 | 1,000 | 0,203 | 0,072 |
-| **`padrao`** | 0,116 | 0,203 | 1,000 | 0,354 |
-| **`robusto`** | 0,097 | 0,072 | 0,354 | 1,000 |
+| **`sem_escala`** | 1,000 | 0,018 | **0,069** | 0,066 |
+| **`minmax`** | 0,018 | 1,000 | 0,373 | 0,365 |
+| **`padrao`** | 0,069 | 0,373 | 1,000 | **0,442** |
+| **`robusto`** | 0,066 | 0,365 | 0,442 | 1,000 |
 
-Nenhum par passa de **0,354** de índice de Rand ajustado. Trocar o escalonador não
-ajusta a segmentação: **produz outra**. É a demonstração mais direta de que, em
-algoritmos baseados em distância, o pré-processamento não é uma etapa preparatória —
-é parte da modelagem.
+![Desvio por escalador](imagens/preparacao/desvio-por-escalador.png)
+
+Nenhum par passa de **0,442** de índice de Rand ajustado, e `sem_escala` contra `padrao`
+fica em **0,069** — praticamente nenhuma concordância. Trocar o escalonador não ajusta a
+segmentação: **produz outra**. É a demonstração mais direta de que, em algoritmos
+baseados em distância, o pré-processamento não é uma etapa preparatória — é parte da
+modelagem.
 
 ## Conferências
 
@@ -200,31 +248,48 @@ Validações executadas antes de seguir para a análise:
 |:---|:---|---:|
 | Contagem de linhas na carga | arquivo lido × dimensões declaradas pela fonte | 2.930 = 2.930 |
 | Unicidade da chave | `PID` distintos × linhas | 2.930 = 2.930 |
-| Registros removidos | recomendação de De Cock | 5 |
-| Nulos remanescentes na matriz de modelagem | soma de nulos em 34 colunas | **0** |
-| Soma das áreas do porão | partes × total declarado | 0 divergências |
+| Registros removidos pela curadoria | funil declarado, regra a regra | 580 |
+| Nulos remanescentes na base de modelagem | soma de nulos nas 17 colunas do espaço | **0** |
+| Reservadas na base de modelagem | `preco_venda`, `preco_por_pe2`, `bairro` | **nenhuma** |
 | Faixa da dissimilaridade de Gower | mínimo e máximo | [0,000; 1,000] |
-| Reprodução pelo pipeline serializado | classificação do artefato × classificação do treino | **100,00%** |
+| Reprodução pelo pacote serializado | classificação relida do `.pkl` × partição aprovada | **100,00%** |
 
-## Agregados
+## A curadoria, regra a regra
 
-| Agregado | Objetivo | Grão |
-|:---|:-:|:---|
-| `matriz_modelagem` | 1 | um imóvel, 22 atributos de produto + 4 binárias |
-| `transacoes` | 3 | um imóvel, 62 itens booleanos |
-| `imoveis_segmentados` | 1, 2, 4, 5 | um imóvel, com segmento, persona, confiança e sinalizador de fora de padrão |
+O funil de 2.930 a 2.350 é declarado, e cada degrau tem motivo:
+
+| Etapa | Registros | Removidos | % do total |
+|:---|---:|---:|---:|
+| Base bruta | 2.930 | — | 100,0% |
+| Descartar registros com mais de 5% dos campos vazios | 2.929 | 1 | 100,0% |
+| Remover imóveis com área habitável acima de 4.000 pé² | 2.924 | 5 | 99,8% |
+| Remover valores extremos, além de 3×IQR em qualquer atributo | 2.848 | 76 | 97,2% |
+| **Remover as vendas não normais** | 2.356 | **492** | 80,4% |
+| Remover cadastros sem dormitório acima do solo e sem banheiro | **2.350** | 6 | **80,2%** |
+
+![Funil da curadoria](imagens/ajustes/funil-da-curadoria.png)
+
+!!! info "O corte grande é o das vendas não normais"
+    492 dos 580 registros removidos saem numa única regra. São vendas entre familiares,
+    execuções hipotecárias, permutas e transferências — transações cujo preço e cujas
+    condições não descrevem o mercado.
+
+    Removê-las é o que permite ler o resultado como *carteira comercializável*. É também
+    a decisão que mais mudou o modelo em relação à cadeia anterior, que operava sobre as
+    2.925 unidades sem esse filtro.
 
 ## Tratamento de outliers
 
-Os valores extremos desta base são, na sua maioria, **legítimos**: lotes grandes de
-verdade, casas antigas de verdade, imóveis de alto padrão de verdade.
+Os valores extremos desta base são, em boa parte, **legítimos**: lotes grandes de
+verdade, casas antigas de verdade, imóveis de alto padrão de verdade. A régua escolhida
+reflete isso.
 
 | Situação | Decisão | Motivo |
 |:---|:---|:---|
-| Área do terreno com 125 discrepantes por Tukey | **preservados**, com `log1p` | Remover o lote grande apagaria o segmento de alto padrão que a diretoria quer enxergar |
-| 5 imóveis acima de 4.000 pés² | **removidos** | Recomendação explícita do autor da base: são vendas parciais atípicas |
+| Limiar do valor extremo | **3×IQR**, não 1,5×IQR | O 1,5 de Tukey marca cerca de um quinto da carteira, incluindo o alto padrão que a segmentação precisa isolar. O 3 alcança só a anomalia |
+| 5 imóveis acima de 4.000 pé² | **removidos** | Recomendação explícita do autor da base: são vendas parciais atípicas |
+| Lotes acima de 200.000 pé² | **removidos** como extremos | Depois deles, a assimetria de `area_terreno` cai de 13,20 para 0,417 — eram eles a "forma" da distribuição |
 | `ano_garagem = 2207` | **corrigido** | Erro de digitação, não valor extremo |
-| 147 imóveis (5%) marcados pelo Isolation Forest | **preservados**, e marcados | Viraram hipótese para a modelagem: o DBSCAN os reencontraria como ruído? |
 
 Onde o extremo distorce a leitura, o projeto usa **mediana** em vez de média (toda a
 perfilagem) e **escala logarítmica** nos gráficos das variáveis de cauda longa.
@@ -233,5 +298,5 @@ perfilagem) e **escala logarítmica** nos gráficos das variáveis de cauda long
 
 ```bash
 uv run invoke ingestao      # data/raw
-uv run invoke preparacao    # data/processed
+uv run invoke notebooks     # a preparação é o notebook 03; a curadoria, o 02
 ```

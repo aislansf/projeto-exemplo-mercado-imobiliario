@@ -70,7 +70,7 @@ para 0,44 (k = 5). A quinta linha não se reproduz.
 
 | FATOS | HIPÓTESES | QUESTÕES DE APRENDIZAGEM | PLANO DE AÇÃO |
 |:---|:---|:---|:---|
-| ✅ k = 4, com silhueta 0,1775 e estabilidade 0,943 | O DBSCAN vai encontrar grupos de forma arbitrária que o K-Means não vê | Como calibrar `eps` sem tentativa e erro? | Construir o gráfico k-distância |
+| ✅ k = 3, com silhueta 0,1726 e estabilidade 0,9575 | O DBSCAN vai encontrar grupos de forma arbitrária que o K-Means não vê | Como calibrar `eps` sem tentativa e erro? | Construir o gráfico k-distância |
 | ✅ Ward tem o pior cofenético e o melhor equilíbrio | O BIC vai indicar o k do GMM claramente | Por que o BIC penaliza a complexidade? | Varrer k e 4 tipos de covariância |
 | ✅ `average` e `single` produzem um grupo de 1 imóvel | O Kernel PCA vai dar uma projeção melhor | O que se perde ao usar Kernel PCA? | Comparar 3 kernels |
 | | | Por que o LDA não pode entrar na modelagem? | Reservar o LDA para a avaliação |

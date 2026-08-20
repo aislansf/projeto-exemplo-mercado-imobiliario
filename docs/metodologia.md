@@ -120,7 +120,7 @@ persistidos em disco.
 | 6 · Implantação | `src.pipeline.implantacao`, `src.deployment` | `06` | Pipeline serializado, linha de base, aplicação |
 
 A natureza **iterativa** do processo aparece em dois pontos concretos do percurso, e os
-dois estão registrados na [revisão do processo](avaliacao.md#revisao-do-processo):
+dois estão registrados nas [hipóteses derrubadas](avaliacao.md#hipoteses-derrubadas):
 
 1. um achado da **fase 2** (a categoria `None` virando nulo) obrigou a voltar à leitura
    da origem e refazer a **fase 3**;

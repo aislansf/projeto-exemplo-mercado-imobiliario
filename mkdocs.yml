@@ -1,8 +1,9 @@
 site_name: Segmentação da carteira residencial — Meridiano
 site_description: >-
   Projeto de aprendizado não supervisionado percorrendo o CRISP-DM de ponta a ponta:
-  segmentação de 2.925 imóveis residenciais em quatro linhas de produto, com regras de
-  associação, avaliação sob a ótica do negócio e aplicação de implantação.
+  segmentação de 2.350 imóveis residenciais em três linhas de produto, com critérios
+  declarados antes do resultado, avaliação sob a ótica do negócio e aplicação de
+  implantação servida por um pacote autocontido.
 site_url: https://github.com/aislansf/projeto-exemplo-mercado-imobiliario
 repo_url: https://github.com/aislansf/projeto-exemplo-mercado-imobiliario
 repo_name: projeto-exemplo-mercado-imobiliario

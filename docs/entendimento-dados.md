@@ -91,7 +91,7 @@ escala significa "não tem". Imputar pela mediana criaria porões que nunca exis
 
 ### Mapa da ausência
 
-![Ausência por coluna, separada por natureza](imagens/evidencias/eda/f5-mapa-ausencia.png)
+![Ausência por coluna, separada por natureza](imagens/eda/valores-ausentes.png)
 
 | Coluna | Ausentes | % | Natureza |
 |:---|---:|---:|:---|
@@ -108,7 +108,7 @@ escala significa "não tem". Imputar pela mediana criaria porões que nunca exis
 
 ### A ausência é blocada, não aleatória
 
-![Coocorrência de ausência](imagens/evidencias/eda/f5-coocorrencia-ausencia.png)
+![Coocorrência de ausência](imagens/ajustes/ausencia-por-natureza.png)
 
 As cinco colunas de garagem faltam nos **mesmos** 157 a 159 imóveis; as cinco de porão,
 nos mesmos 79 a 83. Quando duas colunas faltam sempre juntas, a ausência não é

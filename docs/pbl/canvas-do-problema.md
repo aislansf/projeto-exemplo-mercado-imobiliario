@@ -12,7 +12,8 @@
 
 A **Meridiano Imobiliária** compra, requalifica e revende imóveis residenciais, além de
 intermediar vendas de terceiros. Opera em Ames, Iowa, com uma carteira histórica de
-2.925 imóveis transacionados entre 2006 e 2010.
+**2.350 imóveis comercializáveis**, depurados de 2.930 registros transacionados entre
+2006 e 2010.
 
 Quem decide o quê:
 
@@ -22,7 +23,7 @@ Quem decide o quê:
 
 ## 2 · A dor
 
-Política **única** para 2.925 imóveis muito diferentes entre si: mesma régua de preço,
+Política **única** para 2.350 imóveis muito diferentes entre si: mesma régua de preço,
 mesmo teto de reforma, mesmo canal de anúncio.
 
 Quem sofre com isso:
@@ -90,29 +91,32 @@ bairro desapareceria) nem o comprador (não há dado sobre ele).
 
 ## 9 · Perguntas orientadas a dados (SMART)
 
-1. **Quantos grupos distintos emergem** entre os 2.925 imóveis quando se consideram
+1. **Quantos grupos distintos emergem** entre os 2.350 imóveis quando se consideram
    porte, configuração, padrão construtivo e idade, com silhueta ≥ 0,15 e no máximo 5
    grupos?
-   → *Resposta: 4.* [Escolha de k](../modelagem.md#a-escolha-de-k)
+   → *Resposta: **3**, com silhueta 0,1726.* [Escolha de k](../modelagem.md#a-escolha-de-k)
 
 2. **Qual grupo concentra mais de 40% da receita** transacionada no período de 2006 a
    2010?
-   → *Resposta: S4 · Novo de alto padrão, com 49,5%.*
+   → *Resposta: **S3 · Recente de alto padrão, com 44,8%**.*
    [Leitura de negócio](../avaliacao.md#quanto-vale-cada-segmento)
 
 3. **Quais combinações de até três atributos construtivos** ocorrem juntas com suporte
    ≥ 10% e lift ≥ 1,30, e quais delas valem apenas dentro de um grupo específico?
-   → *Resposta: 256 regras após poda; 252 diferenciais, cobrindo os 4 segmentos.*
-   [Regras de associação](../modelagem.md#regras-de-associacao)
+   → ***Sem resposta nesta cadeia.*** A etapa de regras não foi executada sobre a
+   carteira depurada; a decisão entre refazê-la ou revisar esta meta está entre as
+   deliberações da sessão de encerramento.
+   [O que esta fase não entregou](../modelagem.md#o-que-esta-fase-nao-entregou)
 
 4. **Que percentual dos imóveis é classificado como ruído** por um DBSCAN calibrado com
    `minPts = 2 × d`, e qual é o perfil desses imóveis?
-   → *Resposta: 1,81% (53 imóveis), com perfil sistematicamente diferente do típico.*
+   → *Resposta: **a varredura não encontrou configuração admissível** — nenhum `eps`
+   entrega simultaneamente ruído ≤ 10% e de 2 a 5 grupos.*
    [DBSCAN](../modelagem.md#por-que-dbscan-e-mean-shift-falharam)
 
 5. **A segmentação é distinguível de uma faixa de preço**, medida por índice de Rand
    ajustado abaixo de 0,40 contra os quartis de `preco_venda`?
-   → *Resposta: sim — ARI de 0,3112.*
+   → *Resposta: **sim — ARI de 0,3345**.*
    [Confronto](../avaliacao.md#a-segmentacao-e-uma-tabela-de-preco-disfarcada)
 
 ## 10 · Restrições e riscos
@@ -140,7 +144,7 @@ Para cada linha de produto encontrada, a diretoria decidirá:
 > Se a resposta a "que decisão será tomada com o resultado" fosse "nenhuma", o projeto
 > não deveria existir.
 
-As quatro ações definidas estão em [Personas](../modelagem.md#as-quatro-personas).
+As três ações definidas estão em [As três linhas de produto](../modelagem.md#as-tres-linhas-de-produto).
 
 ---
 

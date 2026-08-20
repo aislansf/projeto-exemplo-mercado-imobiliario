@@ -46,7 +46,7 @@
     - [x] Aplicar 6 famílias de algoritmo (K-Means, K-Medoids, hierárquica, DBSCAN, Mean Shift, GMM)
     - [x] Reduzir dimensionalidade com PCA e Kernel PCA
     - [x] Minerar regras com Apriori, Eclat e FP-Growth
-    - [x] Produzir a [matriz comparativa](modelagem.md#a-matriz-comparativa) e as [personas](modelagem.md#as-quatro-personas)
+    - [x] Produzir o [placar dos candidatos](modelagem.md#os-algoritmos-comparados) e as [linhas de produto](modelagem.md#as-tres-linhas-de-produto)
 
 ???+ success "Fase 6: Avaliação"
     - [x] Produzir o [relatório da avaliação dos resultados](avaliacao.md)
@@ -56,7 +56,7 @@
 
 ???+ success "Fase 7: Implementação"
     - [x] Gerar o desenho da implementação
-    - [x] Desenvolver o script da implementação (`src/deployment/`)
+    - [x] Desenvolver a aplicação de implantação (`src/app/`)
     - [x] Produzir o [relatório de monitoramento e manutenção](implementacao.md#monitoramento-e-manutencao)
     - [x] Produzir o relatório final contendo todas as fases anteriores (este site)
 

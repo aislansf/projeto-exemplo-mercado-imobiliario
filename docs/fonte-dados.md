@@ -125,11 +125,11 @@ As métricas aditivas são poucas, porque a base é predominantemente descritiva
 ```mermaid
 flowchart LR
     A["jse.amstat.org<br/>2.930 × 82 · 0,96 MB"] --> B["data/raw<br/>cópia imutável + manifesto"]
-    B --> C["data/processed/imoveis_curados<br/>2.925 × 91 · limpa e derivada"]
-    C --> D["data/processed/matriz_modelagem<br/>2.925 × 34 · sem rótulo"]
-    C --> E["data/processed/transacoes<br/>2.925 × 62 itens booleanos"]
-    D --> F["models/<br/>pipeline + linha de base"]
-    D --> G["reports/<br/>figuras e tabelas"]
+    B --> C["data/processed/imoveis_curados<br/>2.350 × 83 · limpa e derivada"]
+    C --> D["data/processed/base_modelagem<br/>2.350 × 24 · sem as reservadas"]
+    D --> E["data/processed/base_segmentada<br/>2.350 × 5 · com o segmento"]
+    E --> F["models/<br/>pacote .pkl + linha de base"]
+    E --> G["reports/<br/>figuras e tabelas"]
 ```
 
 A carga é implementada em `src/data/ingestao.py` e é **idempotente**: se o arquivo já
@@ -146,13 +146,12 @@ arquivo original.
 
 ```bash
 uv run invoke ingestao      # baixa e materializa data/raw
-uv run invoke preparacao    # constrói data/processed
 ```
 
 Ou, do zero aos artefatos finais:
 
 ```bash
-uv run invoke pipeline
+uv run invoke notebooks
 ```
 
 !!! tip "Se a origem sair do ar"

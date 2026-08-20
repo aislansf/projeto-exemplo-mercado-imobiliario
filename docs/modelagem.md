@@ -9,20 +9,19 @@ técnicas foram testadas e como o resultado é avaliado tecnicamente.
 > Descobrir em quantos grupos naturais a carteira residencial se divide e o que
 > caracteriza cada um, **sem usar o preço**.
 
-Corresponde aos objetivos **1**, **2**, **3** e **4** dos
+Corresponde aos objetivos **1** e **2** dos
 [critérios de sucesso](criterios-sucesso.md).
 
 | Onde está implementado | Arquivo |
 |:---|:---|
-| Clusterização, escolha de *k*, comparativo | `src/pipeline/modelagem.py` |
-| Regras de associação | `src/pipeline/regras.py` |
+| Clusterização, escolha de *k*, comparativo | `notebooks/04-modelagem.ipynb` |
 | Distâncias, incluindo Gower | `src/model/distancias.py` |
 | K-Means, K-Medoids, métricas de escolha de *k* | `src/model/particional.py` |
 | Hierárquica | `src/model/hierarquica.py` |
 | DBSCAN e Mean Shift | `src/model/densidade.py` |
 | GMM | `src/model/mistura.py` |
 | PCA, Kernel PCA e LDA | `src/model/reducao.py` |
-| Notebooks | `03`, `04`, `05` |
+| Perfilagem e catálogo de linhas | `src/model/perfilagem.py`, `src/model/personas.py` |
 
 ## Unidade de análise
 
@@ -33,528 +32,462 @@ unidade fosse a transação por bairro, os bairros grandes dominariam o resultad
 fosse o bairro, a variação **dentro** do bairro — que é onde estão as linhas de
 produto — desapareceria na média.
 
-## Variáveis
+## O desenho do experimento
 
-| Critério pede | Variáveis usadas | Observação |
+A fase 4 não é "rodar um K-Means e olhar". É uma grade declarada antes de qualquer
+execução, com o critério de aprovação escrito primeiro.
+
+![Desenho do experimento](imagens/modelagem/desenho-do-experimento.png)
+
+| Bloco | Imóveis | Papel |
+|:---|---:|:---|
+| Carteira | 2.350 | Base de modelagem |
+| Ajuste | 1.880 | Prova 3 — onde a receita é ajustada |
+| **Retido** | **470** | Prova 3 — **nunca visto pelo modelo** |
+| Reamostra | 1.880 | Prova 2 — 20 sorteios sem reposição |
+
+### As três provas
+
+| Prova | O que mede | Como |
 |:---|:---|:---|
-| Porte do imóvel | `area_habitavel`, `area_porao`, `area_terreno`, `area_garagem`, `area_varandas` | Cinco medidas de área, três com `log1p` |
-| Configuração | `comodos`, `dormitorios`, `banheiros_total`, `lareiras` | O que distingue produtos de mesma metragem |
-| Padrão construtivo | `qualidade_geral`, `qualidade_externa`, `qualidade_cozinha`, `qualidade_porao`, `acabamento_garagem` | Escalas ordinais mapeadas para inteiro |
-| Idade e conservação | `idade_imovel`, `anos_desde_reforma`, `conservacao_geral` | Distingue o antigo reformado do antigo intocado |
-| Tipologia | `zoneamento`, `tipo_construcao`, `estilo`, `tipo_garagem`, `ar_central` | Nominais — entram por Gower ou *one-hot* |
-| — | `tem_porao`, `tem_garagem`, `tem_lareira`, `tem_segundo_pavimento` | Acrescentadas: preservam a informação que o zero da área esconde |
+| **1 · Varredura** | O modelo separa? | Silhueta, tamanho do menor grupo e ruído sobre a grade inteira |
+| **2 · Reamostragem** | O modelo se reproduz? | 20 sorteios de 80%, reagrupando do zero, ARI contra a partição de referência |
+| **3 · Hold-out** | O modelo generaliza? | Ajuste em 1.880, atribuição dos 470 retidos, silhueta e ARI no retido |
 
-O pré-processamento está descrito em [Preparação dos dados](preparacao.md).
+Um modelo só é aprovado se passa nas **três**. A tabela de critérios foi lida do
+manifesto da fase 1 — nunca redigitada:
 
-## As três leituras do espaço de atributos
+| Critério | Valor | Origem |
+|:---|:---|:---|
+| Número de grupos | entre 2 e 5 | Canvas · o orçamento financia até 5 ações diferenciadas |
+| Silhueta | ≥ 0,15 | Canvas · piso abaixo do qual não há separação defensável |
+| Menor segmento | ≥ 2% da carteira | Canvas · abaixo disso não há massa para ação própria |
+| Ruído (métodos de densidade) | ≤ 10% da carteira | Canvas · imóvel sem grupo é entrega, mas não pode ser a regra |
+| Estabilidade sob reamostragem | ARI ≥ 0,75 | Canvas · revisão 2 do quadro de critérios |
+| Generalização ao retido | ARI ≥ 0,75 e silhueta ≥ 0,15 | Desenho deste notebook · exigência da fase 6 |
+| Independência do rótulo reservado | ARI contra quartis de preço < 0,40 | Canvas · revisão 3 — **medido na fase 5**, com o rótulo aberto |
 
-A escolha da distância não é detalhe de implementação: ela define quem é vizinho de
-quem. Três leituras foram construídas e comparadas.
+> Evidência: `reports/tables/modelagem/criterios-de-aceitacao.csv` ·
+> `reports/tables/modelagem/desenho-do-experimento.csv`
+
+### A grade
+
+**47 execuções**, distribuídas em cinco famílias de técnica:
+
+| Família | Configuração | Espaço | Parâmetro varrido | Execuções |
+|:---|:---|:---|:---|---:|
+| Particional | K-Means | euclidiano | *k* = 2…10 | 9 |
+| Particional | K-Medoids | Gower | no *k* decidido | 1 |
+| Hierárquica | Aglomerativa | euclidiano | 4 ligações | 4 |
+| Densidade | DBSCAN | euclidiano | 13 valores de `eps`, minPts = 2*d* | 13 |
+| Densidade | Mean Shift | euclidiano | 4 quantis de largura de banda | 4 |
+| Probabilística | GMM | euclidiano | 4 covariâncias × *k* = 2…5 | 16 |
+| | | | **TOTAL** | **47** |
+
+## Variáveis e espaços de atributos
+
+O espaço publicado tem **17 variáveis**. A escolha da distância não é detalhe de
+implementação: ela define quem é vizinho de quem.
+
+| Critério pede | Variáveis usadas |
+|:---|:---|
+| Porte do imóvel | `area_habitavel`, `area_porao`, `area_terreno`, `area_garagem`, `area_varandas` |
+| Configuração | `comodos`, `dormitorios`, `banheiros_total`, `lareiras` |
+| Padrão construtivo | `qualidade_geral`, `qualidade_externa`, `qualidade_cozinha`, `qualidade_porao`, `acabamento_garagem` |
+| Idade e conservação | `idade_imovel`, `anos_desde_reforma`, `conservacao_geral` |
 
 | Espaço | Variáveis | Distância | O que se ganha, o que se perde |
 |:---|:-:|:---|:---|
-| **Euclidiano enxuto** | 21 | euclidiana sobre variáveis padronizadas | As nominais ficam de fora; nenhuma delas domina a geometria |
-| **Euclidiano com one-hot** | 49 | euclidiana sobre variáveis padronizadas | 28 colunas binárias não padronizadas competem com 21 contínuas |
+| **Euclidiano** | 17 | euclidiana sobre variáveis padronizadas | As nominais ficam de fora; nenhuma delas domina a geometria |
 | **Misto (Gower)** | 22 | dissimilaridade de Gower, peso igual por variável | Trata nominais nativamente — mas cada nominal pesa tanto quanto cada numérica |
+
+O pré-processamento está descrito em [Preparação dos dados](preparacao.md).
 
 !!! info "Sobre a dissimilaridade de Gower"
     Não existe no `scikit-learn`. A implementação é própria (`src/model/distancias.py`)
     e a fórmula cabe em quinze linhas: para cada par de registros, é a média das
     contribuições de cada variável — diferença normalizada pela amplitude, no caso das
-    numéricas; 0 ou 1, no caso das nominais.
+    numéricas; 0 ou 1, no caso das nominais. O custo é quadrático: acima de ~10.000
+    registros, amostre.
 
-    Com 2.925 imóveis a matriz ocupa **34 MB** em `float32` e leva cerca de 1 s para
-    ser calculada. O custo é quadrático: acima de ~10.000 registros, amostre.
+### O diagnóstico do espaço, antes de agrupar
+
+Medir a geometria antes de escolher a técnica evita descobrir na saída o que a entrada
+já dizia.
+
+| Medida | Valor | Lê-se |
+|:---|---:|:---|
+| Registros por dimensão | 138,2 | Folgado — não há maldição da dimensionalidade aqui |
+| Contraste p99/p01 | 4,28 | Há contraste de distância: técnicas de centroide fazem sentido |
+| Coef. de variação das distâncias | 0,298 | — |
+| Dissimilaridade de Gower mediana | 0,237 | — |
+| **Razão joelho / mediana da k-distância** | **1,29** | **Sem degrau: previsão de falha para densidade** |
+| Duplicatas exatas no espaço | 6 | Irrelevante para o agrupamento |
+
+O último número é o que importa: a curva de k-distância **não tem joelho**. Isso foi
+registrado como *previsão de falha* para DBSCAN e Mean Shift **antes** de os dois
+rodarem — e a varredura confirmou.
+
+> Evidência: `reports/tables/modelagem/diagnostico-do-espaco.csv` ·
+> `reports/tables/modelagem/familias-de-tecnicas.csv`
 
 ## A escolha de *k*
 
-Quatro métricas internas, mais estabilidade por reamostragem, mais o teto operacional
-de cinco grupos.
+![Varredura de k](imagens/modelagem/varredura-de-k.png)
 
-![Escolha de k](imagens/evidencias/modelagem/m2-escolha-de-k.png)
+A regra foi declarada antes do resultado: **o maior *k* que ainda passa em todos os
+critérios**. Ela *não* é "o *k* de maior silhueta", e o motivo é de negócio — a
+silhueta cresce quando *k* diminui, e levada ao limite devolve dois grupos, "caro" e
+"barato", que a diretoria já tem.
 
-| k | Inércia | Silhueta | Davies-Bouldin | Calinski-Harabasz | Menor grupo | Estabilidade (ARI) |
-|:-:|---:|---:|---:|---:|---:|---:|
-| 2 | 46.593 | **0,2204** | 1,652 | **930,5** | 1.322 | **0,980** |
-| 3 | 42.571 | 0,1632 | 2,124 | 647,0 | 830 | 0,731 |
-| **4** | **38.485** | **0,1775** | 1,800 | 580,4 | 80 | **0,943** |
-| 5 | 35.816 | 0,1943 | **1,603** | 521,9 | 80 | 0,437 |
-| 6 | 32.650 | 0,1659 | 1,684 | 514,5 | 80 | 0,871 |
-| 7 | 30.934 | 0,1725 | 1,661 | 479,4 | 80 | 0,820 |
-| 8 | 29.415 | 0,1702 | 1,668 | 453,5 | 80 | 0,886 |
+| *k* | Silhueta | Menor grupo | ARI médio | ARI mínimo | Passa em tudo |
+|:-:|---:|---:|---:|---:|:-:|
+| 2 | **0,2468** | 41,3% | **0,9942** | 0,9746 | ✅ |
+| **3** | **0,1726** | 28,4% | 0,9575 | 0,9354 | ✅ |
+| 4 | 0,1388 | 16,7% | 0,9323 | 0,8645 | ❌ silhueta |
+| 5 | 0,1337 | 14,6% | 0,9411 | 0,8738 | ❌ silhueta |
+| 6 | 0,1320 | 9,1% | 0,9464 | 0,8902 | ❌ silhueta, *k* fora da faixa |
+| 7 | 0,1392 | 2,7% | 0,9109 | 0,5843 | ❌ silhueta, *k*, ARI mínimo |
+| 8 | 0,1333 | 2,7% | 0,7298 | 0,6408 | ❌ silhueta, *k*, ARI |
+| 9 | 0,1183 | 2,6% | 0,7658 | 0,6540 | ❌ silhueta, *k*, ARI mínimo |
+| 10 | 0,1138 | 2,6% | 0,7822 | 0,4946 | ❌ silhueta, *k*, ARI mínimo |
 
-### A decisão, critério a critério
+![Decisão de k](imagens/modelagem/decisao-de-k.png)
 
-| Critério | Aponta para | Leitura |
-|:---|:-:|:---|
-| Cotovelo da inércia | 6 | Sugere mais grupos do que o negócio consegue operar |
-| Maior silhueta global | 2 | 0,2204 — mas com apenas duas linhas de produto |
-| Maior silhueta dentro do teto de 5 | 2 | 0,2204 |
-| Menor Davies-Bouldin dentro do teto | 5 | 1,6032 |
-| Estabilidade por reamostragem (ARI ≥ 0,75) | 2 e 4 | Os demais não se reproduzem |
-| Restrição operacional do Canvas | 2 a 5 | Orçamento para cinco ações diferenciadas |
-| **DECISÃO** | **4** | Maior *k* simultaneamente estável, acima da silhueta mínima e viável |
+Só **dois** valores passam em tudo: *k* = 2 e *k* = 3. Pela regra, vence o maior —
+**k = 3**. E *k* = 4 não é uma escolha que se possa fazer: reprova por **0,0112** de
+silhueta (0,1388 contra o piso de 0,15).
 
-!!! success "O que o teste de estabilidade derrubou"
-    As métricas de coesão preferiam **k = 5**: melhor Davies-Bouldin de toda a faixa
-    (1,603) e silhueta superior à de k = 4 (0,1943 contra 0,1775).
+!!! warning "A margem é estreita — e está registrada"
+    Reprovar *k* = 4 por pouco mais de um centésimo de silhueta é frágil o suficiente
+    para merecer registro. O piso único de 0,15 favorece *k* pequeno **por construção**:
+    a silhueta cai à medida que *k* cresce, então um piso fixo vira, na prática, um teto
+    de granularidade.
 
-    O teste de estabilidade derrubou. Reamostrando 80% da carteira 40 vezes e
-    reagrupando do zero, o índice de Rand ajustado médio contra a partição de
-    referência cai de **0,943** (k = 4) para **0,437** (k = 5). A quinta linha de
-    produto não se reproduz: ela existe nesta amostra, não no mercado.
+    Isso foi levado à sessão de encerramento como deliberação formal — *declarar o piso
+    de silhueta por faixa de k, antes da próxima execução da cadeia*. É revisão do
+    critério, não do resultado: enquanto o critério vigente for este, o resultado é
+    *k* = 3.
 
-    Sem esse teste, o projeto teria entregue cinco segmentos — com métrica melhor e
-    resultado pior.
+### A estabilidade, faixa a faixa
 
-E **k = 2**, que tem a melhor métrica e a melhor estabilidade? Foi descartado por
-critério de negócio, não técnico: dois grupos são "caro" e "barato", e a diretoria já
-sabe disso. O pedido era por linhas de produto operáveis, e duas não justificam o
-projeto.
+Reamostrando 80% da carteira 20 vezes e reagrupando do zero:
+
+| *k* | ARI médio | ARI mínimo | Desvio | Repetições abaixo do piso |
+|:-:|---:|---:|---:|---:|
+| 2 | 0,9942 | 0,9746 | 0,0055 | 0 |
+| **3** | **0,9575** | **0,9354** | 0,0123 | **0** |
+| 4 | 0,9323 | 0,8645 | 0,0375 | 0 |
+| 5 | 0,9411 | 0,8738 | 0,0305 | 0 |
+| 6 | 0,9464 | 0,8902 | 0,0214 | 0 |
+| 7 | 0,9109 | 0,5843 | 0,0995 | **2** |
+| 8 | 0,7298 | 0,6408 | 0,0902 | **17** |
+| 9 | 0,7658 | 0,6540 | 0,0930 | **9** |
+| 10 | 0,7822 | 0,4946 | 0,1049 | **6** |
+
+![Estabilidade por k](imagens/modelagem/estabilidade-por-k.png)
+
+A leitura importante está na coluna do ARI **mínimo**, não na média: a partir de *k* = 7
+a média ainda parece aceitável enquanto o pior sorteio despenca. Média de estabilidade
+esconde instabilidade.
 
 ### A silhueta que a média esconde
 
-![Silhueta por segmento](imagens/evidencias/modelagem/m3-silhueta-por-segmento.png)
+![Métricas internas](imagens/modelagem/metricas-internas.png)
 
 | Segmento | Registros | Silhueta média | Mediana | Mínimo | % negativa |
 |:---|---:|---:|---:|---:|---:|
-| S1 · Requalificação sem porão | 80 | **0,3757** | 0,3787 | 0,1170 | 0,0% |
-| S2 · Compacto de entrada | 1.010 | 0,1391 | 0,1477 | −0,0634 | 5,2% |
-| S3 · Familiar consolidado | 794 | **0,1118** | 0,1126 | −0,0510 | 4,9% |
-| S4 · Novo de alto padrão | 1.041 | 0,2497 | 0,2640 | 0,0239 | 0,0% |
+| **S1** · Compacto herdado | 914 | 0,1786 | 0,1823 | −0,0359 | 0,8% |
+| **S2** · Amplo para requalificar | 667 | **0,0555** | 0,0509 | −0,0647 | **25,6%** |
+| **S3** · Recente de alto padrão | 769 | **0,2669** | 0,2881 | 0,0330 | 0,0% |
 
-A média global de 0,1775 esconde uma variação de 3,4× entre o grupo mais coeso (S1) e o
-menos coeso (S3). **S3 é o segmento de fronteira**: fica entre S2 e S4 no espaço de
-atributos, e 4,9% dos seus imóveis têm silhueta negativa — estariam melhor alocados em
-outro grupo.
+A média global de 0,1726 esconde uma variação de quase **5×** entre o grupo mais coeso
+(S3) e o menos coeso (S2). **S2 é o segmento de fronteira**: fica entre S1 e S3 no
+espaço de atributos, e **um quarto** dos seus imóveis tem silhueta negativa — estariam
+melhor alocados em outro grupo.
 
-Isso não invalida S3; é informação operacional. É o segmento em que a classificação
-automática deve ser revisada com mais frequência, e a aplicação sinaliza esses casos.
+Isso não invalida o S2; é informação operacional, e é ela que sustenta a
+[regra de fronteira](implementacao.md) da fase 6. É o segmento assistido: onde a
+classificação automática deve ser revisada por gente.
+
+> Evidência: `reports/tables/modelagem/silhueta-por-segmento.csv` ·
+> `reports/tables/modelagem/varredura-de-k.csv` ·
+> `reports/tables/modelagem/estabilidade-por-k.csv`
 
 ## Os algoritmos comparados
 
-### Hierárquica: quatro critérios de ligação
-
-![Dendrogramas](imagens/evidencias/modelagem/m6-dendrogramas.png)
-
-| Ligação | Cofenético | Menor grupo | Maior grupo | Razão | Leitura |
-|:---|---:|---:|---:|---:|:---|
-| `ward` | 0,429 | 80 | 1.229 | 15× | Pior cofenético, **melhor equilíbrio** |
-| `complete` | 0,596 | 28 | 2.779 | 99× | Um grupo com 95% da carteira |
-| `average` | **0,768** | **1** | 2.844 | 2.844× | Encadeamento: um grupo de um elemento |
-| `single` | 0,694 | **1** | 2.844 | 2.844× | Encadeamento clássico |
-
-!!! warning "Quando a melhor métrica é o pior resultado — de novo"
-    O coeficiente cofenético favorece `average` (0,768), que é a métrica canônica para
-    escolher critério de ligação. E `average` produz um grupo com **2.844 imóveis** e
-    outro com **um**.
-
-    É o efeito de encadeamento: ligações baseadas em distância mínima ou média entre
-    grupos vão agregando os pontos um a um ao mesmo aglomerado. O dendrograma
-    representa bem as distâncias originais — e não serve para nada, porque nenhum
-    orçamento se reparte 2.844 para 1.
-
-    `ward` é a escolha, e a justificativa é a viabilidade, não a métrica.
-
-### A matriz comparativa
+![Placar dos candidatos](imagens/modelagem/placar-dos-candidatos.png)
 
 Todas as métricas medidas no **mesmo espaço de referência** — o euclidiano padronizado
 —, independentemente do espaço em que cada algoritmo foi ajustado. É a única forma de
 comparar.
 
-![Matriz comparativa](imagens/evidencias/modelagem/m12-matriz-comparativa.png)
-
-| Algoritmo | Grupos | Silhueta | Davies-Bouldin | Ruído | Maior grupo | Leitura de negócio |
-|:---|:-:|---:|---:|---:|---:|:---|
-| **K-Means (euclidiano)** | 4 | 0,1775 | 1,800 | 0% | 35,6% | **Escolhido:** estável, interpretável e dentro do teto |
-| K-Means (euclid. + one-hot) | 4 | 0,1760 | 1,806 | 0% | 35,7% | 28 binárias diluem a distância; silhueta cai sem mudar a partição |
-| K-Medoids (Gower) | 4 | 0,2001 ¹ | 3,011 | 0% | 30,4% | Particiona por estilo construtivo: as nominais dominam o peso |
-| Hierárquica (Ward) | 4 | 0,1532 | 1,850 | 0% | 42,0% | Concorda em 64% com o K-Means; útil como validação, não como produto |
-| DBSCAN | 3 | 0,3024 | 1,142 | 1,81% | **92,1%** | Degenerado. Entrega o ruído, não a segmentação |
-| Mean Shift | 3 | 0,3087 | 1,241 | 0% | **92,2%** | Degenerado pelo mesmo motivo |
-| GMM | 4 | 0,1145 | 2,536 | 0% | 40,8% | Grupos menos coesos; contribui com o grau de pertencimento |
+| Modelo | Grupos | Silhueta | Davies-Bouldin | Menor grupo | ARI médio | Silhueta no retido | Critérios reprovados |
+|:---|:-:|---:|---:|---:|---:|---:|:-:|
+| **K-Means** | 3 | 0,1726 | 2,089 | 28,4% | **0,9575** | 0,1782 | **0** ✅ |
+| Hierárquica (ward) | 3 | 0,1277 | 2,195 | 20,4% | 0,4345 | 0,1807 | 4 |
+| GMM (full) | 3 | 0,1169 | 3,519 | 7,2% | 0,9109 | 0,1204 | 3 |
+| GMM (diag) · *fora do protocolo* | 3 | **0,2015** | 3,133 | 8,5% | **0,9907** | 0,2014 | 1 |
+| K-Medoids (Gower) | 3 | **0,2232** ¹ | — | 19,8% | 0,8505 | 0,2202 | 2 |
 
 ¹ Medida na própria dissimilaridade de Gower. **Não é comparável** às demais: silhueta
 calculada em espaços métricos diferentes não é uma escala comum.
 
+!!! danger "O candidato que ganharia — e por que não conta"
+    O **GMM com covariância diagonal** tem a melhor combinação da tabela: silhueta
+    0,2015 contra 0,1726 do K-Means, ARI de reamostragem 0,9907 contra 0,9575, e passa
+    no retido. Pela métrica, ganharia.
+
+    Ele está marcado como **fora do protocolo** porque a covariância `diag` não constava
+    da grade declarada antes da execução — apareceu na varredura das quatro covariâncias
+    e teria sido escolhida *depois* de ver o resultado. Aceitá-la seria mover a trave: o
+    protocolo existe justamente para que o melhor número não redefina a regra.
+
+    Fica registrado como candidato para a próxima execução, com a covariância declarada
+    **antes**. É a diferença entre um achado e um resultado.
+
 ### Concordância entre as partições
 
-| | K-Means | one-hot | Gower | Ward | GMM |
+ARI de cada par de candidatos:
+
+| | K-Means | Ward | GMM (full) | GMM (diag) | K-Medoids |
 |:---|---:|---:|---:|---:|---:|
-| **K-Means** | 1,00 | 0,98 | 0,25 | 0,64 | 0,36 |
-| **one-hot** | 0,98 | 1,00 | 0,25 | 0,65 | 0,36 |
-| **Gower** | 0,25 | 0,25 | 1,00 | 0,22 | 0,20 |
-| **Ward** | 0,64 | 0,65 | 0,22 | 1,00 | 0,32 |
-| **GMM** | 0,36 | 0,36 | 0,20 | 0,32 | 1,00 |
+| **K-Means** | 1,000 | 0,406 | 0,283 | 0,478 | 0,368 |
+| **Ward** | 0,406 | 1,000 | 0,225 | 0,491 | 0,339 |
+| **GMM (full)** | 0,283 | 0,225 | 1,000 | 0,531 | 0,237 |
+| **GMM (diag)** | 0,478 | 0,491 | 0,531 | 1,000 | 0,396 |
+| **K-Medoids** | 0,368 | 0,339 | 0,237 | 0,396 | 1,000 |
 
-Três leituras do resultado:
+![Concordância entre candidatos](imagens/modelagem/concordancia-entre-candidatos.png)
 
-1. **Acrescentar as nominais em *one-hot* não muda nada** (ARI 0,98) e ainda reduz a
-   silhueta. As 28 colunas binárias acrescentam ruído, não informação — caminho
-   abandonado, e registrado como tal.
-2. **Gower produz outra coisa** (ARI 0,25). Ver abaixo.
-3. **Ward concorda em 64% com o K-Means.** Concordância parcial é o esperado entre um
-   método aglomerativo e um particional; serve como validação cruzada da estrutura.
+Nenhum par passa de 0,53. Os algoritmos **não** estão encontrando a mesma estrutura por
+caminhos diferentes — cada um lê o espaço com uma premissa própria, e a premissa muda o
+resultado. É mais uma razão para o critério de aprovação valer mais que a métrica
+isolada.
+
+### Hierárquica: quatro critérios de ligação
+
+![Ligações e dendrograma](imagens/modelagem/ligacoes-e-dendrograma.png)
+
+| Ligação | Cofenético | Menor grupo | Maior grupo | Razão | Salto da última fusão |
+|:---|---:|---:|---:|---:|---:|
+| `ward` | 0,4720 | 480 | 1.211 | **2,5×** | 2,109 |
+| `complete` | 0,5121 | 65 | 1.755 | 27× | 1,262 |
+| `average` | **0,6464** | **1** | 2.326 | 2.326× | 1,013 |
+| `single` | 0,4922 | **1** | 2.348 | 2.348× | 1,078 |
+
+!!! warning "Quando a melhor métrica é o pior resultado"
+    O coeficiente cofenético favorece `average` (0,6464), que é a métrica canônica para
+    escolher critério de ligação. E `average` produz um grupo com **2.326 imóveis** e
+    outro com **um**.
+
+    É o efeito de encadeamento: ligações baseadas em distância mínima ou média vão
+    agregando os pontos um a um ao mesmo aglomerado. O dendrograma representa bem as
+    distâncias originais — e não serve para nada, porque nenhum orçamento se reparte
+    2.326 para 1.
+
+    `ward` é a escolha, e a justificativa é a viabilidade, não a métrica. Ainda assim
+    reprova em 4 critérios: ARI de reamostragem 0,4345, com **as 20 reamostras abaixo do
+    piso**.
 
 ### Por que o Gower foi descartado
 
-![Composição nominal](imagens/evidencias/modelagem/m13-composicao-nominal.png)
+O K-Medoids sobre Gower tem a maior silhueta da tabela — e particiona a carteira por
+**estilo construtivo**, não por linha de produto:
 
-Com peso igual por variável, as cinco nominais respondem por 5 das 22 contribuições —
-e `estilo`, sozinha, separa a carteira. O K-Medoids sobre Gower devolve um grupo com
-**93% de casas térreas** e outro com **90% de sobrados**.
+| Segmento | 1Story | 2Story | 1.5Fin | SLvl | outras |
+|:-:|---:|---:|---:|---:|---:|
+| 0 | **78,3%** | 5,9% | 4,4% | 6,2% | 5,2% |
+| 1 | 13,9% | 31,3% | **43,3%** | 1,7% | 9,8% |
+| 2 | 37,7% | **53,6%** | 2,1% | 4,9% | 1,7% |
 
-Isso é um fato construtivo, não uma linha de produto: a Meridiano não tem política
-diferente para casa de um ou de dois pavimentos. **Hipótese derrubada**, e registrada
-em [Avaliação](avaliacao.md#limitacoes-e-hipoteses-derrubadas).
+![Gower por estilo](imagens/modelagem/gower-por-estilo.png)
 
-O que o K-Medoids entregou de valor foi outra coisa: o **medoide**, o imóvel real mais
-central de cada segmento.
+Com peso igual por variável, as cinco nominais respondem por 5/22 da dissimilaridade — e
+`estilo` sozinho reorganiza o resultado. A partição é coesa e é sobre outra pergunta: *de
+que estilo é o imóvel*, e não *que linha de produto ele é*. A leitura de negócio
+reprovou.
 
 ### Por que DBSCAN e Mean Shift falharam
 
-![DBSCAN](imagens/evidencias/modelagem/m7-dbscan.png)
+O diagnóstico já previa: razão joelho/mediana de **1,29**, sem degrau. A varredura de 13
+valores de `eps` confirmou.
 
-O `eps` foi calibrado pelo método correto — joelho do gráfico k-distância, com
-`minPts = 2 × d = 42`. Em **toda** a faixa testada o resultado é o mesmo: um grupo com
-mais de 90% da carteira, mais ruído.
+![Densidade](imagens/modelagem/densidade-dbscan-e-mean-shift.png)
 
-O motivo é geométrico. Em 21 dimensões padronizadas os pontos se distribuem de forma
-aproximadamente uniforme em densidade: não existem regiões densas separadas por regiões
-vazias, que é a estrutura que o DBSCAN procura. O Mean Shift falha pela mesma razão —
-sem modos de densidade separados, a busca converge quase toda para o mesmo modo.
+| `eps` | Grupos | % ruído | Maior grupo |
+|---:|:-:|---:|---:|
+| 1,8 | 3 | **89,6%** | 3,8% |
+| 2,0 | 3 | **70,1%** | 16,7% |
+| 2,2 | 2 | **56,6%** | 21,8% |
+| 2,4 | 1 | 40,5% | 59,5% |
+| 3,0 | 1 | 10,8% | 89,2% |
+| 4,0 | 1 | 1,3% | **98,7%** |
 
-Repare que a silhueta **sobe** conforme o resultado degenera (0,30 e 0,31, as maiores
-da tabela). Um agrupamento com 92% em um grupo é trivialmente "bem separado".
+Não existe `eps` que entregue simultaneamente **ruído ≤ 10%** e **de 2 a 5 grupos**. Ou
+o algoritmo joga a maioria da carteira no ruído, ou colapsa tudo num grupo só. Não é
+defeito de parametrização: a carteira **não tem vales de densidade** entre as linhas de
+produto — os grupos são regiões contíguas de um contínuo, e é por isso que técnicas de
+centroide funcionam aqui e técnicas de densidade não.
 
-!!! success "O ruído como produto"
-    O DBSCAN não serviu para segmentar — e entregou a resposta ao **objetivo 4**: os
-    **53 imóveis** (1,81%) que não pertencem a nenhuma linha de produto e precisam de
-    avaliação individual.
+!!! note "Consequência para o objetivo 4"
+    O objetivo 4 do Canvas — *isolar os imóveis fora de padrão* — dependia de uma
+    configuração de densidade admissível, e não há. Ele **não foi entregue** nesta
+    cadeia. O que a fase 6 entrega no lugar não é a mesma coisa, e não se apresenta como
+    tal: a [faixa de fronteira](implementacao.md) marca o imóvel que está *entre dois
+    grupos*, não o imóvel que está *fora de todos*.
 
-    O perfil deles é sistematicamente diferente do típico, e a lista com identificador
-    está em `reports/tables/modelagem/m7-imoveis-fora-de-padrao.csv`.
+### GMM: a varredura das covariâncias
 
-### GMM: quando o BIC não tem mínimo
+| Covariância | *k* | BIC | Silhueta | % na fronteira |
+|:---|:-:|---:|---:|---:|
+| `full` | 3 | 57.419,9 | 0,1169 | 0,3% |
+| `tied` | 3 | 89.886,4 | 0,1264 | 0,3% |
+| `diag` | 3 | 72.324,0 | **0,2015** | 0,6% |
+| `spherical` | 3 | 101.485,1 | 0,1561 | 1,7% |
+| `full` | 5 | **37.842,8** | 0,0448 | 0,0% |
 
-![BIC e AIC do GMM](imagens/evidencias/modelagem/m9-gmm-bic-aic.png)
+![Seleção do GMM](imagens/modelagem/gmm-selecao.png)
 
-Nenhuma das quatro curvas de BIC apresenta mínimo entre *k* = 2 e 10. Isso **não** é
-erro de execução: é o que acontece quando os dados não são uma mistura de gaussianas
-bem separadas. Cada componente a mais sempre melhora a verossimilhança o suficiente
-para vencer a penalização de complexidade.
+O BIC **não tem mínimo** na faixa: cai monotonicamente com *k* e com a flexibilidade da
+covariância, e o menor valor de toda a varredura é o do modelo com a pior silhueta
+(`full`, *k* = 5: BIC 37.842,8 e silhueta 0,0448). Selecionar por BIC aqui devolveria o
+modelo menos útil da tabela.
 
-O que se faz então: usar o **joelho da curva** (que aponta k = 4 para covariância
-`diag`) e o teto operacional, e **declarar a limitação** em vez de fingir que o BIC
-decidiu.
+## O modelo escolhido
 
-O GMM entrou na matriz comparativa e perdeu em coesão. O que ele contribui é o **grau
-de pertencimento**: a distinção entre um imóvel no núcleo do segmento e um na fronteira
-entre dois. Essa informação vai para a base segmentada, na coluna `confianca_gmm`, e é
-usada na aplicação para suspender a ação automática nos casos duvidosos.
+**K-Means, *k* = 3, espaço euclidiano de 17 variáveis, semente 42.** Único candidato com
+zero critérios reprovados.
 
-## Redução de dimensionalidade
+![Perfil do modelo escolhido](imagens/modelagem/perfil-do-modelo-escolhido.png)
 
-![PCA](imagens/evidencias/modelagem/m10-pca.png)
+| Segmento | Imóveis | Part. | Área hab. | Porão | Terreno | Banh. | Cômodos | Lareiras | Idade | Desde reforma | Qual. geral |
+|:-:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| **S1** | 914 | 39% | 1.048 | 864 | 8.094 | 1,5 | 5 | 0 | 52 | 39 | 5 |
+| **S2** | 667 | 28% | 1.628 | 995 | 10.304 | 2,0 | 7 | 1 | 43 | 31 | 6 |
+| **S3** | 769 | 33% | 1.673 | 1.254 | 9.765 | 3,0 | 7 | 1 | **6** | **6** | 7 |
 
-São necessários **8 componentes** para reter 80% da variância de 21 variáveis. O CP1
-sozinho retém 34,3%, e o CP2 mais 12,5%.
+Valores medianos, em unidades originais (pé² e anos).
 
-### As cargas — o que dá nome de negócio aos eixos
+### A assinatura: por que os grupos são diferentes
 
-| Variável | CP1 | CP2 |
-|:---|---:|---:|
-| Qualidade geral | **+0,318** | −0,061 |
-| Qualidade externa | +0,284 | −0,155 |
-| Qualidade do porão | +0,274 | −0,197 |
-| Área habitável | +0,273 | **+0,357** |
-| Banheiros | +0,269 | +0,078 |
-| Idade do imóvel | **−0,260** | +0,244 |
-| Anos desde a reforma | −0,243 | +0,156 |
-| Dormitórios | +0,066 | **+0,471** |
-| Cômodos | +0,192 | **+0,442** |
-| Tem 2º pavimento | +0,052 | **+0,381** |
+A leitura em uma frase por linha:
 
-**CP1 = porte e padrão.** Carrega positivamente qualidade e tamanho, negativamente
-idade. É o eixo "imóvel novo e bom" contra "imóvel velho e simples".
+- **S1** está abaixo da mediana em toda medida de porte e acima em idade e tempo desde a
+  reforma. É o estoque herdado;
+- **S2** tem porte de S3 e padrão construtivo de S1 — 55% mais área que o S1, com
+  qualidade de cozinha e banheiro meio nível abaixo do S3. É onde a reforma tem alavanca;
+- **S3** se separa por **idade**, não por tamanho: 6 anos contra 43 do S2, com área
+  habitável quase igual.
 
-**CP2 = configuração familiar.** Carrega dormitórios, cômodos, segundo pavimento e área
-habitável — e é **ortogonal** ao padrão. Separa a casa grande com muitos quartos da
-casa compacta de acabamento superior.
+O que distingue S2 de S3 **não é metragem, é estado**. Essa é a leitura que uma tabela
+de preço não dá.
 
-Sem esta leitura, "CP1" e "CP2" são rótulos vazios e a projeção 2D não é defensável.
+### Os representantes reais
 
-### Kernel PCA
+Cada linha tem um imóvel de verdade no centro, com matrícula — não um centroide médio
+que não existe na carteira:
 
-| Kernel | Silhueta na projeção 2D |
-|:---|---:|
-| `linear` | 0,2985 |
-| `cosine` | 0,2087 |
-| `rbf` | 0,1223 |
+| Segmento | `pid` | Área hab. | Qual. geral | Idade | Banheiros | Cômodos | Estilo |
+|:-:|---:|---:|:-:|---:|---:|:-:|:---|
+| **S1** | 532376180 | 909 | 5 | 38 | 1,0 | 5 | 1Story |
+| **S2** | 905103040 | 1.683 | 6 | 31 | 2,5 | 7 | 2Story |
+| **S3** | 907187040 | 1.873 | 7 | 8 | 2,5 | 7 | 2Story |
 
-A tabela mede **legibilidade do gráfico**, não qualidade do agrupamento. Confundir as
-duas coisas é o erro que esta nota existe para evitar: uma projeção mais separada não
-torna os grupos mais reais.
-
-O Kernel PCA captura estrutura não linear, e o preço é a interpretabilidade — **não
-existem cargas**, porque a projeção acontece em um espaço de dimensão implícita. Serve
-para visualizar, não para explicar.
-
-!!! danger "LDA não aparece nesta fase, e a razão é conceitual"
-    `LinearDiscriminantAnalysis` é **supervisionado**: procura as direções que separam
-    classes conhecidas. Usá-lo antes de clusterizar seria contrabandear o rótulo
-    reservado para dentro do modelo.
-
-    O LDA aparece uma única vez neste projeto, em [Avaliação](avaliacao.md#pca-lda),
-    sobre a faixa de preço derivada de `preco_venda`, **depois** que os segmentos já
-    estão definidos. É avaliação, não modelagem.
-
-## As quatro personas
-
-![Assinatura](imagens/evidencias/modelagem/m13-assinatura.png)
-
-| | S1 · Requalificação sem porão | S2 · Compacto de entrada | S3 · Familiar consolidado | S4 · Novo de alto padrão |
-|:---|---:|---:|---:|---:|
-| **Imóveis** | 80 (2,7%) | 1.010 (34,5%) | 794 (27,1%) | 1.041 (35,6%) |
-| Área habitável | 1.152 pés² | 1.068 pés² | 1.577 pés² | 1.689 pés² |
-| Área do porão | **0** | 871 pés² | 988 pés² | 1.317 pés² |
-| Área do terreno | 8.777 pés² | 8.327 pés² | 10.158 pés² | 10.120 pés² |
-| Área da garagem | 397 pés² | 308 pés² | 469 pés² | 576 pés² |
-| Cômodos | 6 | 5 | 7 | 7 |
-| Dormitórios | 2 | 3 | 3 | 3 |
-| Banheiros | 1,75 | 1,5 | 2,0 | 3,0 |
-| Lareiras | 0 | 0 | 1 | 1 |
-| **Idade** | 54 anos | 51 anos | 46 anos | **4 anos** |
-| Anos desde a reforma | 51,5 | 39 | 32 | 4 |
-| Qualidade geral | 4 | 5 | 6 | 7 |
-| Conservação | 5 | 6 | 6 | 5 |
-| Tipo predominante | 34% duplex | 83% unifamiliar | 88% unifamiliar | 80% unifamiliar, 16% *townhouse* |
-| Estilo predominante | 75% térrea | 60% térrea | 36% térrea, 33% sobrado | 51% térrea, 45% sobrado |
-
-### Ação diferenciada e métrica de acompanhamento
-
-=== "S1 · Requalificação sem porão"
-    **Perfil.** Imóvel antigo, sem porão, de padrão construtivo mais baixo e com um
-    terço do grupo em formato duplex. É o estoque que a carteira herdou e nunca tratou.
-
-    **Ação.** Avaliação individual por unidade, com decisão binária: converter em ativo
-    de renda (locação, aproveitando o formato duplex) ou desinvestir. Teto de
-    requalificação limitado a 8% do valor de avaliação — acima disso, o retorno não se
-    paga neste padrão.
-
-    **Métrica.** Percentual do grupo com destino definido em 12 meses (meta: 100%) e
-    retorno sobre o capital requalificado (meta: ≥ 12% a.a.).
-
-    **Canal.** Carteira de investidores e gestores de locação.
-
-    **Representante real.** PID `905402070` · Edwards · 1.383 pés² · qualidade 4 ·
-    55 anos.
-
-=== "S2 · Compacto de entrada"
-    **Perfil.** Casa pequena, meio século de idade, sem reforma recente, com garagem
-    apertada e um banheiro e meio. É o imóvel de primeira aquisição — e o maior grupo
-    da carteira em unidades.
-
-    **Ação.** Precificação por giro, não por margem: preço alinhado ao percentil 40 do
-    bairro e pacote de reforma leve padronizado (pintura, piso e louças), com teto de
-    6% do valor. Financiamento facilitado como argumento de venda.
-
-    **Métrica.** Tempo médio de giro do estoque (meta: reduzir de 90 para 60 dias) e
-    taxa de conversão do canal digital (meta: ≥ 3%).
-
-    **Canal.** Digital, com foco em primeira moradia e crédito facilitado.
-
-    **Representante real.** PID `527455250` · NAmes · 988 pés² · qualidade 5 · 41 anos.
-
-=== "S3 · Familiar consolidado"
-    **Perfil.** Imóvel amplo, de meia-idade, com sete cômodos, dois banheiros e
-    lareira. Padrão médio bem conservado, em bairros estabelecidos. É onde a reforma
-    tem o melhor retorno da carteira.
-
-    **Ação.** Pacote de reforma de valorização concentrado em cozinha e banheiro — os
-    dois atributos em que este grupo fica meio nível abaixo do segmento superior, com
-    teto de 12% do valor de avaliação. Precificação por comparação de bairro.
-
-    **Métrica.** Ganho de preço realizado sobre o custo da reforma (meta: ≥ 1,8× o
-    investido) e percentual de unidades reformadas antes do anúncio (meta: ≥ 70%).
-
-    **Canal.** Corretagem tradicional, com foco em família em segunda aquisição.
-
-    **Representante real.** PID `534252240` · NWAmes · 1.342 pés² · qualidade 6 ·
-    42 anos.
-
-=== "S4 · Novo de alto padrão"
-    **Perfil.** Construção recente, grande, com três banheiros, porão amplo e
-    acabamento superior. Um terço da carteira em unidades, **metade da receita**.
-
-    **Ação.** Nenhuma reforma: o imóvel já está no padrão. Corretor dedicado, material
-    de venda com fotografia profissional e precificação por comparação direta com os
-    lançamentos do período. Descontos autorizados apenas acima de 90 dias.
-
-    **Métrica.** Razão entre preço realizado e preço anunciado (meta: ≥ 0,97) e
-    percentual de vendas fechadas sem desconto (meta: ≥ 60%).
-
-    **Canal.** Corretagem dedicada e vitrine premium.
-
-    **Representante real.** PID `528439080` · Somerst · 1.506 pés² · qualidade 7 ·
-    2 anos.
-
-!!! tip "Por que o medoide, e não o centroide"
-    O centroide do K-Means é um imóvel médio que **não existe** — pode ter 2,7
-    dormitórios. O medoide é um imóvel **real da carteira**, com matrícula, que pode
-    ser visitado. Em uma reunião de diretoria, a segunda coisa é muito mais fácil de
-    defender.
-
-    Os medoides desta tabela foram calculados sobre a matriz de Gower, que é a
-    dissimilaridade que considera todas as 22 variáveis, inclusive as nominais.
+> Evidência: `reports/tables/modelagem/placar-dos-candidatos.csv` ·
+> `reports/tables/modelagem/perfil-do-modelo-escolhido.csv` ·
+> `reports/tables/modelagem/representantes-reais.csv` ·
+> `reports/tables/modelagem/assinatura-dos-segmentos.csv`
 
 ### Reprodutibilidade dos rótulos
 
-Os rótulos do K-Means não têm ordem: rodar de novo com outra semente troca o número dos
-grupos, e qualquer texto que se refira a "segmento 0" fica errado na execução seguinte.
+O rótulo que o K-Means atribui é arbitrário: reexecutar com outra semente troca o número
+dos grupos. `src/model/personas.py` reordena os segmentos por qualidade geral e área, de
+modo que o **segmento 0 seja sempre o de padrão mais baixo**, e o pacote publicado leva o
+`mapa_canonico` correspondente. Sem isso, qualquer texto que se refira a "S2" fica errado
+na próxima rodada.
 
-`personas.ordenar_canonicamente` resolve isso reordenando os segmentos por qualidade
-geral e área habitável, de modo que **o segmento 0 seja sempre o de padrão mais baixo**.
-É o que permite amarrar persona a segmento sem depender da sorte da inicialização.
+## As três linhas de produto
 
-## Regras de associação
+O agrupamento vira produto quando cada grupo tem **um nome**, **uma ação** e **uma forma
+de saber se a ação funcionou**.
 
-A entidade da transação é o **imóvel**. Cada um vira uma cesta de itens, e 62 itens
-compõem o universo.
+=== "S1 · Compacto herdado"
 
-| Origem | Itens | Discretização |
-|:---|:-:|:---|
-| Nominais | 27 | **nenhuma** — a categoria já é o item |
-| Ordinais em faixas de mercado | 9 | cortes em 4 e 7 na escala 1–10 |
-| Numéricas em quartis | 16 | quartis da própria carteira |
-| Binárias construtivas | 4 | **nenhuma** — presença do item |
-| Segmento | 4 | resultado da clusterização, para o cruzamento |
+    **914 imóveis · 38,9% da carteira · 27,3% da receita**
 
-!!! note "Por que quartis, e não faixas absolutas"
-    Quartil é relativo ao estoque: "área no quartil superior **desta carteira**". Uma
-    faixa absoluta em pés quadrados envelheceria a cada ano e exigiria recalibração
-    manual. O custo da escolha é que os itens mudam de significado a cada reciclagem —
-    e isso está registrado no plano de reciclagem.
+    1.048 pé² habitáveis, 52 anos de idade e 39 anos desde a última reforma; qualidade
+    geral 5, 1,5 banheiros e sem lareira. 30% em zoneamento de média densidade.
 
-### Calibração do limiar
+    | | |
+    |:---|:---|
+    | **Política de preço** | Percentil 40 do bairro — precificação por giro, não por margem |
+    | **Teto de reforma** | 6% do valor de avaliação |
+    | **Ação** | Decisão unidade a unidade em 12 meses: reforma leve padronizada (pintura, piso e louças) e venda, ou conversão em ativo de renda, ou desinvestimento. Acima do teto de 6%, o retorno não se paga neste padrão |
+    | **Canal** | Digital, com foco em primeira aquisição e crédito facilitado |
+    | **Métrica** | Percentual do grupo com destino definido em 12 meses e tempo médio de giro |
+    | **Meta** | 100% com destino definido · giro de 90 para 60 dias |
 
-![Calibração dos limiares](imagens/evidencias/associacao/r1-sensibilidade-limiares.png)
+=== "S2 · Amplo para requalificar"
 
-| Suporte | Imóveis | Até 2 itens | Até 3 itens | Até 4 itens |
-|---:|---:|---:|---:|---:|
-| 3% | 88 | 42 regras | 960 | 9.640 |
-| 5% | 146 | 32 | 699 | 6.274 |
-| **10%** | **292** | 22 | **353** | 2.541 |
-| 15% | 439 | 18 | 229 | 1.227 |
-| 20% | 585 | 5 | 48 | 226 |
-| 30% | 878 | 0 | 2 | 13 |
+    **667 imóveis · 28,4% da carteira · 27,9% da receita**
 
-Ponto de operação: **suporte ≥ 10%, até 3 itens, confiança ≥ 70%, lift ≥ 1,30**.
+    1.628 pé² habitáveis — 55% mais espaço que o S1 — com 7 cômodos, 2,0 banheiros e
+    lareira, aos 43 anos. É o **menor preço por pé² da carteira**: US$ 105,42 contra
+    US$ 133,90 do S3.
 
-A primeira rodada usou 5% e 4 itens, e produziu 6.274 regras — volume que nenhuma área
-comercial lê, e que não traz padrão novo, apenas variações redundantes das mesmas
-combinações. A recalibração está registrada na
-[revisão do processo](avaliacao.md#revisao-do-processo).
+    | | |
+    |:---|:---|
+    | **Política de preço** | Comparação direta de bairro, com reavaliação após a reforma |
+    | **Teto de reforma** | 12% do valor de avaliação |
+    | **Ação** | Pacote de valorização concentrado em cozinha e banheiro — os dois atributos em que o grupo fica meio nível abaixo do S3 — executado antes do anúncio |
+    | **Canal** | Corretagem tradicional, com foco em família em segunda aquisição |
+    | **Métrica** | Ganho de preço realizado sobre o custo da reforma e percentual reformado antes do anúncio |
+    | **Meta** | ganho ≥ 1,8× o investido · ≥ 70% reformados antes do anúncio |
 
-### Os três algoritmos
+    !!! warning "É a linha assistida"
+        25,6% dos imóveis do S2 têm silhueta negativa e 25,8% caem na faixa de fronteira.
+        É a linha em que a classificação automática **não** dispara sozinha.
 
-| Algoritmo | Conjuntos frequentes | Tempo | Idêntico ao Apriori |
-|:---|---:|---:|:-:|
-| Apriori | 1.597 | 0,030 s | — |
-| FP-Growth | 1.597 | 0,195 s | ✅ |
-| **Eclat** (implementação própria) | 1.597 | 0,154 s | ✅ |
+=== "S3 · Recente de alto padrão"
 
-Os três chegam ao **mesmo** resultado por caminhos diferentes. O Eclat aqui é
-implementação própria — o `mlxtend` não o traz — e usa a representação que dá nome ao
-algoritmo: em vez da lista de itens de cada transação, guarda para cada item a lista de
-transações em que ele aparece (o *tidset*). O suporte de um conjunto vira o tamanho da
-interseção dos tidsets: uma operação de conjunto, sem varrer a base de novo.
+    **769 imóveis · 32,7% da carteira · 44,8% da receita**
 
-### O funil de poda
+    6 anos de idade mediana, qualidade geral 7, 3,0 banheiros e porão de 1.254 pé². É um
+    terço da carteira em unidades e quase metade da receita transacionada.
 
-![Funil de poda](imagens/evidencias/associacao/r2-funil-de-poda.png)
+    | | |
+    |:---|:---|
+    | **Política de preço** | Comparação com lançamentos do período; desconto só acima de 90 dias em estoque |
+    | **Teto de reforma** | sem reforma — o imóvel já está no padrão |
+    | **Ação** | Corretor dedicado, material de venda com fotografia profissional e vitrine premium. Nenhum orçamento de requalificação: gastar aqui é destruir margem no grupo que sustenta a receita |
+    | **Canal** | Corretagem dedicada e vitrine premium |
+    | **Métrica** | Razão entre preço realizado e preço anunciado e percentual de vendas sem desconto |
+    | **Meta** | realizado ÷ anunciado ≥ 0,97 · ≥ 60% sem desconto |
 
-| Etapa | Restam | Critério |
-|:---|---:|:---|
-| Conjuntos frequentes (suporte ≥ 10%) | 1.597 | Antimonotonicidade: todo subconjunto de um frequente é frequente |
-| Confiança ≥ 70% e lift ≥ 1,30 | 353 | Lift ≤ 1 significa que a regra é pior que o acaso |
-| Sem faixas da mesma variável | 353 | Faixas de uma variável não coocorrem — nenhuma sobreviveria mesmo |
-| Sem redundância por especialização | 282 | `{A,B}→C` some quando `{A}→C` já tem confiança igual ou maior |
-| **Sem tautologia semântica** | **256** | Relação definicional, não de mercado |
+## O que esta fase não entregou
 
-!!! danger "A tautologia que nenhuma métrica pega"
-    Uma casa de estilo `2Story` tem segundo pavimento porque é isso que `2Story`
-    significa. A regra `tem 2º pavimento → estilo:2Story` tem suporte 11%, confiança
-    90% e **lift 3,03** — passaria por todos os filtros estatísticos.
+| Prometido no Canvas | Situação |
+|:---|:---|
+| **Objetivo 3** — regras de coocorrência entre atributos construtivos | Não executado sobre a carteira depurada. A implementação de Apriori, Eclat e FP-Growth permanece em `src/model/associacao.py`, com teste, mas a etapa não foi refeita |
+| **Objetivo 4** — isolar os imóveis fora de padrão | A varredura não encontrou configuração de densidade admissível (ver acima). Sem entrega |
 
-    Suporte, confiança e lift são altos **justamente** porque a relação é perfeita.
-    Nenhuma métrica detecta isso: só o conhecimento do domínio separa a tautologia da
-    descoberta.
-
-    Por isso a lista de pares definicionais é **explícita** em
-    `src/model/associacao.py`, e as 26 regras removidas são publicadas em
-    `r2-tautologias-descartadas.csv` — mostrar o que foi removido, e por quê, é o que
-    impede a suspeita de que o resultado foi escolhido a dedo.
-
-### As regras que sobreviveram
-
-| Se o imóvel tem | Então também tem | Suporte | Confiança | Lift |
-|:---|:---|---:|---:|---:|
-| 2º pavimento + garagem destacada | idade no quartil mais alto | 0,107 | 0,763 | **3,05** |
-| conservação média + qualidade alta | idade no quartil mais baixo | 0,114 | 0,727 | 2,91 |
-| qualidade alta | cozinha superior + lareira | 0,142 | 0,859 | 2,86 |
-| cozinha superior + qualidade alta | idade no quartil mais baixo | 0,114 | 0,707 | 2,83 |
-| idade no quartil mais baixo | conservação média + cozinha superior | 0,239 | 0,956 | 2,51 |
-| qualidade alta + idade baixa | cozinha superior | 0,114 | **0,997** | 2,14 |
-
-A leitura de negócio: **qualidade construtiva vem em pacote**. Cozinha superior,
-lareira e garagem interna aparecem juntas com muito mais frequência do que o acaso
-explicaria — o que confirma que "padrão" é atributo do imóvel inteiro, e não de uma
-peça isolada.
-
-### O cruzamento com a segmentação
-
-![Regras por segmento](imagens/evidencias/associacao/r3-regras-por-segmento.png)
-
-| Segmento | Regras válidas nele | Das quais, exclusivas |
-|:---|---:|---:|
-| S1 · Requalificação sem porão | 146 | 144 |
-| S2 · Compacto de entrada | 47 | 42 |
-| S3 · Familiar consolidado | 49 | 41 |
-| S4 · Novo de alto padrão | 38 | 25 |
-
-Os padrões diferenciais confirmam as personas por um caminho **independente** da
-clusterização:
-
-- **S1** — `Duplex` aparece junto de dois banheiros e conservação média com lift acima
-  de 2,4, e essa combinação **não existe** na base inteira. É a assinatura do estoque
-  de renda.
-- **S2** — zoneamento `RM` (média densidade) leva a terreno no primeiro quartil. Lote
-  pequeno em zona adensada é o produto de entrada.
-- **S3** — garagem destacada leva a imóvel no quartil mais velho com segundo pavimento:
-  o casario consolidado dos bairros antigos.
-- **S4** — sobrado com lareira leva a área no quartil superior.
-
-Se as regras de cada grupo fossem as mesmas da base inteira, o agrupamento não teria
-achado nada que a frequência global já não dissesse. Não é o caso.
+As duas foram levadas à sessão de encerramento como **deliberações formais**, com dono e
+prazo — não como resultados parciais. O registro está em
+`reports/tables/implantacao/deliberacoes.csv`.
 
 ## Saídas
 
 | Arquivo | Conteúdo |
 |:---|:---|
-| `data/processed/imoveis_segmentados.parquet` | Base curada + segmento, persona, confiança do GMM e sinalizador de fora de padrão |
-| `data/processed/transacoes.parquet` | Matriz booleana 2.925 × 62 itens |
-| `models/pipeline_segmentacao.joblib` | Pré-processador + K-Means em um único objeto |
-| `models/metadados_segmentacao.json` | *k*, espaço de atributos, semente, métricas, tradução de rótulos |
-| `models/linha_de_base.json` | Distribuições de referência para o monitoramento |
-| `reports/figures/modelagem/*.png` | 15 figuras |
-| `reports/figures/associacao/*.png` | 6 figuras |
-| `reports/tables/modelagem/*.csv` | 21 tabelas |
-| `reports/tables/associacao/*.csv` | 14 tabelas |
+| `data/processed/base_segmentada.parquet` | Base de modelagem + segmento canônico |
+| `models/modelo-segmentacao.joblib` | Pré-processador + K-Means em um único objeto |
+| `data/processed/manifesto_modelagem.json` | *k*, espaço, semente, métricas, modelos reprovados e as 30 decisões |
+| `docs/imagens/modelagem/*.png` | 15 figuras |
+| `reports/tables/modelagem/*.csv` | Tabelas-fonte de cada figura |
 
 ## Reprodução
 
 ```bash
-uv run invoke modelagem     # clusterização, comparativo, personas
-uv run invoke regras        # Apriori, Eclat e FP-Growth
+uv run invoke notebooks     # executa a cadeia 00–06; a fase 4 é o notebook 04
 ```
