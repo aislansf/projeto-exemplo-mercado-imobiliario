@@ -1,8 +1,16 @@
-"""As quatro personas: nome, descrição, ação diferenciada e métrica de acompanhamento.
+"""As três linhas de produto: nome, ação diferenciada e métrica de acompanhamento.
 
 Um agrupamento vira produto quando cada grupo tem **um nome**, **uma ação** e
-**uma forma de saber se a ação funcionou**. Sem os três, o resultado é um
-gráfico bonito que ninguém usa.
+**uma forma de saber se a ação funcionou**. Sem os três, o resultado é um gráfico
+bonito que ninguém usa.
+
+O catálogo aqui é o mesmo que a fase 6 publica em
+``models/catalogo_de_personas.json`` e embute no pacote da aplicação. Ele está
+declarado no código — e não lido do JSON — porque o notebook 04 importa este
+módulo antes de o notebook 06 gravar o arquivo; uma leitura em tempo de importação
+quebraria a cadeia numa reconstrução limpa. O que impede as duas cópias de
+divergirem é um teste: :func:`tests.test_modelo.test_catalogo_bate_com_o_manifesto`
+compara ``len(PERSONAS)`` com o *k* do manifesto publicado.
 
 Os rótulos do K-Means não têm ordem: rodar de novo com outra semente troca o
 número dos grupos. :func:`ordenar_canonicamente` resolve isso reordenando os
@@ -21,85 +29,76 @@ from src import config
 #: Ordem canônica: critério de desempate para tornar o rótulo reprodutível.
 CRITERIO_ORDENACAO = ["qualidade_geral", "area_habitavel"]
 
+#: Versão do modelo a que este catálogo pertence. Muda junto com as personas.
+VERSAO_DO_CATALOGO = "2.0.0"
+
 PERSONAS: dict[int, dict[str, str]] = {
     0: {
         "codigo": "S1",
-        "nome": "Requalificação sem porão",
-        "resumo": (
-            "Imóvel antigo, sem porão, de padrão construtivo mais baixo e com um terço "
-            "do grupo em formato duplex. É o estoque que a carteira herdou e nunca tratou."
+        "nome": "Compacto herdado",
+        "retrato": (
+            "1048 pé² habitáveis, 52 anos de idade e 39 anos desde a última reforma; "
+            "qualidade geral 5, 1.5 banheiros e sem lareira. 30% em zoneamento de "
+            "média densidade."
         ),
+        "politica_de_preco": "Percentil 40 do bairro — precificação por giro, não por margem",
+        "teto_de_reforma": "6% do valor de avaliação",
         "acao": (
-            "Avaliação individual por unidade, com decisão binária: converter em ativo de "
-            "renda (locação, aproveitando o formato duplex) ou desinvestir. Teto de "
-            "requalificação limitado a 8% do valor de avaliação — acima disso, o retorno "
-            "não se paga neste padrão."
+            "Decisão unidade a unidade em 12 meses: reforma leve padronizada (pintura, "
+            "piso e louças) e venda, ou conversão em ativo de renda, ou desinvestimento. "
+            "Acima do teto de 6%, o retorno não se paga neste padrão."
         ),
-        "metrica": (
-            "Percentual do grupo com destino definido em 12 meses (meta: 100%) e retorno "
-            "sobre o capital requalificado (meta: ≥ 12% a.a.)."
-        ),
-        "canal": "Carteira de investidores e gestores de locação",
-        "cor": config.ROXO,
+        "canal": "Digital, com foco em primeira aquisição e crédito facilitado",
+        "metrica": ("Percentual do grupo com destino definido em 12 meses e tempo médio de giro"),
+        "meta": "100% com destino definido · giro de 90 para 60 dias",
+        "cor": config.AZUL_PROFUNDO,
     },
     1: {
         "codigo": "S2",
-        "nome": "Compacto de entrada",
-        "resumo": (
-            "Casa pequena, meio século de idade, sem reforma recente, com garagem "
-            "apertada e um banheiro e meio. É o imóvel de primeira aquisição — e o maior "
-            "grupo da carteira."
+        "nome": "Amplo para requalificar",
+        "retrato": (
+            "1628 pé² habitáveis — 55% mais espaço que o S1 — com 7 cômodos, 2.0 "
+            "banheiros e lareira, aos 43 anos. É o **menor preço por pé² da carteira**: "
+            "105.42 dólares contra 133.90 do S3."
         ),
+        "politica_de_preco": "Comparação direta de bairro, com reavaliação após a reforma",
+        "teto_de_reforma": "12% do valor de avaliação",
         "acao": (
-            "Precificação por giro, não por margem: preço alinhado ao percentil 40 do "
-            "bairro e pacote de reforma leve padronizado (pintura, piso e louças), com "
-            "teto de 6% do valor. Financiamento facilitado como argumento de venda."
+            "Pacote de valorização concentrado em cozinha e banheiro — os dois atributos "
+            "em que o grupo fica meio nível abaixo do S3 — executado antes do anúncio. É "
+            "onde a reforma tem a maior alavanca da carteira: espaço barato que a reforma "
+            "reprecifica."
         ),
+        "canal": "Corretagem tradicional, com foco em família em segunda aquisição",
         "metrica": (
-            "Tempo médio de giro do estoque (meta: reduzir de 90 para 60 dias) e taxa de "
-            "conversão do canal digital (meta: ≥ 3%)."
+            "Ganho de preço realizado sobre o custo da reforma e percentual reformado "
+            "antes do anúncio"
         ),
-        "canal": "Digital, com foco em primeira moradia e crédito facilitado",
-        "cor": config.AZUL_CLARO,
+        "meta": "ganho ≥ 1,8× o investido · ≥ 70% reformados antes do anúncio",
+        "cor": config.CORAL,
     },
     2: {
         "codigo": "S3",
-        "nome": "Familiar consolidado",
-        "resumo": (
-            "Imóvel amplo, de meia-idade, com sete cômodos, dois banheiros e lareira. "
-            "Padrão médio bem conservado, em bairros estabelecidos. É onde a reforma "
-            "tem o melhor retorno da carteira."
+        "nome": "Recente de alto padrão",
+        "retrato": (
+            "6 anos de idade mediana, qualidade geral 7, 3.0 banheiros e porão de 1254 "
+            "pé². É 33% da carteira em unidades e 44.8% da receita transacionada."
         ),
+        "politica_de_preco": (
+            "Comparação com lançamentos do período; desconto só acima de 90 dias em estoque"
+        ),
+        "teto_de_reforma": "sem reforma — o imóvel já está no padrão",
         "acao": (
-            "Pacote de reforma de valorização concentrado em cozinha e banheiro — os dois "
-            "atributos em que este grupo fica meio nível abaixo do segmento superior, com "
-            "teto de 12% do valor de avaliação. Precificação por comparação de bairro."
-        ),
-        "metrica": (
-            "Ganho de preço realizado sobre o custo da reforma (meta: ≥ 1,8× o investido) "
-            "e percentual de unidades reformadas antes do anúncio (meta: ≥ 70%)."
-        ),
-        "canal": "Corretagem tradicional, com foco em família em segunda aquisição",
-        "cor": config.VERDE,
-    },
-    3: {
-        "codigo": "S4",
-        "nome": "Novo de alto padrão",
-        "resumo": (
-            "Construção recente, grande, com três banheiros, porão amplo e acabamento "
-            "superior. Um terço da carteira em unidades, metade da receita."
-        ),
-        "acao": (
-            "Nenhuma reforma: o imóvel já está no padrão. Corretor dedicado, material de "
-            "venda com fotografia profissional e precificação por comparação direta com "
-            "os lançamentos do período. Descontos autorizados apenas acima de 90 dias."
-        ),
-        "metrica": (
-            "Razão entre preço realizado e preço anunciado (meta: ≥ 0,97) e percentual de "
-            "vendas fechadas sem desconto (meta: ≥ 60%)."
+            "Corretor dedicado, material de venda com fotografia profissional e vitrine "
+            "premium. Nenhum orçamento de requalificação: gastar aqui é destruir margem "
+            "no grupo que sustenta a receita."
         ),
         "canal": "Corretagem dedicada e vitrine premium",
-        "cor": config.CORAL,
+        "metrica": (
+            "Razão entre preço realizado e preço anunciado e percentual de vendas sem desconto"
+        ),
+        "meta": "realizado ÷ anunciado ≥ 0,97 · ≥ 60% sem desconto",
+        "cor": config.VERDE,
     },
 }
 
@@ -115,8 +114,7 @@ def ordenar_canonicamente(
     Args:
         curada: base curada, em unidades originais.
         rotulos: rótulos como saíram do algoritmo.
-        criterio: colunas de ordenação; o padrão é
-            :data:`CRITERIO_ORDENACAO`.
+        criterio: colunas de ordenação; o padrão é :data:`CRITERIO_ORDENACAO`.
 
     Returns:
         Vetor de rótulos renumerados, com 0 sempre no padrão mais baixo.
@@ -136,10 +134,13 @@ def tabela_personas() -> pd.DataFrame:
                 "segmento": segmento,
                 "código": dados["codigo"],
                 "persona": dados["nome"],
-                "descrição": dados["resumo"],
+                "retrato": dados["retrato"],
+                "política de preço": dados["politica_de_preco"],
+                "teto de reforma": dados["teto_de_reforma"],
                 "ação diferenciada": dados["acao"],
-                "métrica de acompanhamento": dados["metrica"],
                 "canal": dados["canal"],
+                "métrica de acompanhamento": dados["metrica"],
+                "meta": dados["meta"],
             }
             for segmento, dados in PERSONAS.items()
         ]
@@ -157,5 +158,5 @@ def nomes() -> list[str]:
 
 
 def codigo(segmento: int) -> str:
-    """Código de negócio de um segmento (``S1`` a ``S4``)."""
+    """Código de negócio de um segmento (``S1`` a ``S3``)."""
     return PERSONAS[int(segmento)]["codigo"]

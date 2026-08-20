@@ -4,8 +4,8 @@ Liste as tarefas disponíveis com `uv run invoke --list`.
 
 O caminho completo, do zero ao painel publicado:
 
-    uv run invoke pipeline     # as seis fases do CRISP-DM
-    uv run invoke app          # a aplicação de implantação
+    uv run invoke notebooks    # as seis fases do CRISP-DM, nos notebooks 00 a 06
+    uv run invoke app          # a aplicação, servida pelo pacote .pkl
 """
 
 import glob
@@ -38,38 +38,12 @@ def eda(c):
 
 
 @task
-def modelagem(c):
-    """CRISP-DM 4 — Clusterização: escolha de k, seis algoritmos e perfilagem."""
-    c.run("python -m src.pipeline.modelagem")
-
-
-@task
-def regras(c):
-    """CRISP-DM 4 — Regras de associação com Apriori, Eclat e FP-Growth."""
-    c.run("python -m src.pipeline.regras")
-
-
-@task
-def avaliacao(c):
-    """CRISP-DM 5 — Confronto com os critérios de aceite e leitura de negócio."""
-    c.run("python -m src.pipeline.avaliacao")
-
-
-@task
-def implantacao(c):
-    """CRISP-DM 6 — Artefatos de implantação, drift e plano de monitoramento."""
-    c.run("python -m src.pipeline.implantacao")
-
-
-@task
-def pipeline(c):
-    """Executa as seis fases do CRISP-DM na ordem, do download aos artefatos."""
-    c.run('python -c "from src.pipeline import executar_tudo; executar_tudo()"')
-
-
-@task
 def notebooks(c):
-    """Executa os notebooks na ordem e grava as versões executadas em reports/."""
+    """CRISP-DM 4 a 6 — Executa os notebooks 00 a 06 na ordem e grava as saídas.
+
+    É o pipeline do projeto: são estes notebooks que ajustam o modelo, avaliam a
+    partição e gravam o pacote ``models/aplicacao-segmentacao.pkl``.
+    """
     c.run("python -m src.utils.executar_notebooks")
 
 
@@ -86,8 +60,11 @@ def lab(c):
 
 @task
 def app(c):
-    """Executa a aplicação Streamlit definida em src/deployment/app.py."""
-    c.run("streamlit run src/deployment/app.py")
+    """Executa a aplicação Streamlit servida por models/aplicacao-segmentacao.pkl.
+
+    Roda inteiramente local, em http://localhost:8501.
+    """
+    c.run("streamlit run src/app/app.py")
 
 
 @task
@@ -134,8 +111,10 @@ def limpar(c):
         "data/processed/*.parquet",
         "models/*.joblib",
         "models/*.json",
+        "models/*.pkl",
         "reports/figures",
         "reports/tables",
+        "reports/notebooks",
         "docs/imagens/evidencias",
         "site",
     ]
@@ -145,4 +124,4 @@ def limpar(c):
                 shutil.rmtree(caminho, ignore_errors=True)
             else:
                 os.remove(caminho)
-    print("Artefatos removidos. Reconstrua com: uv run invoke pipeline")
+    print("Artefatos removidos. Reconstrua com: uv run invoke notebooks")
