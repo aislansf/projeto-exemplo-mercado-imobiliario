@@ -68,20 +68,22 @@ Cada decisão do projeto tem uma evidência em disco. A tabela abaixo é o índi
 
 | Fase | Decisão | Evidência |
 |:---|:---|:---|
-| 2 | A categoria `None` virava nulo na leitura padrão | `reports/tables/eda/f5-inventario-sentinelas.csv` |
-| 2 | Ausência de garagem e porão é estrutural, não faltante | `reports/tables/eda/f5-coocorrencia-ausencia.csv` |
-| 3 | `log1p` em 3 variáveis, com limiar de assimetria 0,75 | `reports/tables/eda/f2-resumo-numericas.csv` |
-| 3 | `StandardScaler`, apesar de não ter a melhor silhueta | `reports/tables/modelagem/m4-sensibilidade-escala.csv` |
-| 3 | `preco_venda` e `bairro` reservados | `src/data/dicionario.py` |
-| 4 | *k* = 4 | `reports/tables/modelagem/m2-decisao-de-k.csv` |
-| 4 | K-Means sobre espaço euclidiano padronizado | `reports/tables/modelagem/m12-matriz-comparativa.csv` |
-| 4 | Ward, apesar do pior coeficiente cofenético | `reports/tables/modelagem/m6-comparacao-ligacoes.csv` |
-| 4 | Suporte 10%, até 3 itens | `reports/tables/associacao/r1-sensibilidade-limiares.csv` |
-| 4 | Poda de tautologia semântica | `reports/tables/associacao/r2-tautologias-descartadas.csv` |
-| 5 | Não é tabela de preço (ARI 0,31) | `reports/tables/avaliacao/a2-concordancia-com-preco.csv` |
-| 5 | 3 hipóteses derrubadas | `reports/tables/avaliacao/a7-limitacoes-e-hipoteses.csv` |
-| 6 | O artefato reproduz 100% do treino | `reports/tables/implantacao/i5-verificacao-de-implantacao.csv` |
-| 6 | Nenhum atributo em drift de ação | `reports/tables/implantacao/i1-drift-por-atributo.csv` |
+| 2 | Ausência de garagem e porão é estrutural, não faltante | `reports/tables/eda-exploratoria/valores-ausentes.csv` |
+| 2 | 8,6% fora das cercas de Tukey é discrepância de escala | `reports/tables/eda-exploratoria/valores-discrepantes.csv` |
+| 3 | Remover 492 vendas não normais — 85% do que a curadoria corta | `reports/tables/ajustes-dados/funil-da-curadoria.csv` |
+| 3 | 3×IQR em vez do 1,5 de Tukey | `reports/tables/ajustes-dados/discrepantes-dois-criterios.csv` |
+| 3 | Raiz quadrada em `area_varandas`, e só nela | `reports/tables/preparacao/transformacoes-da-assimetrica.csv` |
+| 3 | `StandardScaler`, apesar de não ter a melhor silhueta | `reports/tables/preparacao/sensibilidade-a-escala.csv` |
+| 3 | `preco_venda`, `preco_por_pe2` e `bairro` reservados **fisicamente** | `reports/tables/preparacao/evidencia-das-reservadas.csv` |
+| 4 | *k* = 3 — o maior *k* que passa em todos os critérios | `reports/tables/modelagem/decisao-de-k.csv` |
+| 4 | K-Means sobre espaço euclidiano de 17 variáveis | `reports/tables/modelagem/placar-dos-candidatos.csv` |
+| 4 | Ward, apesar do pior coeficiente cofenético | `reports/tables/modelagem/ligacoes-e-dendrograma.csv` |
+| 4 | GMM (diag) recusado por estar fora do protocolo declarado | `reports/tables/modelagem/gmm-selecao.csv` |
+| 5 | Não é tabela de preço (ARI 0,3345) | `reports/tables/avaliacao/independencia-do-preco.csv` |
+| 5 | As maiores silhuetas da varredura ampla são degeneradas | `reports/tables/avaliacao/as-dez-maiores-silhuetas.csv` |
+| 6 | Corte de fronteira 0,915, calibrado por F1 sob teto de 15% | `reports/tables/implantacao/calibracao-da-fronteira.csv` |
+| 6 | O pacote relido reproduz 100% da partição aprovada | `reports/tables/implantacao/conferencia-do-pacote.csv` |
+| 6 | Nenhum atributo em drift de ação (PSI máximo 0,0369) | `reports/tables/implantacao/desvio-medido.csv` |
 
 ## O que ficou em aberto
 
