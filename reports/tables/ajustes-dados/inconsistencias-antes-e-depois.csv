@@ -1,0 +1,4 @@
+﻿regra;antes;depois
+garagem construída depois da venda;2;1
+reforma anterior à construção;1;0
+garagem declarada sem medida;1;0

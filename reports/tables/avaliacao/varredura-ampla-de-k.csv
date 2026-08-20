@@ -1,0 +1,91 @@
+﻿algoritmo;espaco;k;silhueta;davies_bouldin;menor_grupo;menor_grupo_pct;maior_grupo_pct
+K-Means;euclidiano (17);2;0,2468;1,528;970;41,277;58,7
+Hierárquica (ward);euclidiano (17);2;0,2168;1,677;1139;48,468;51,5
+Hierárquica (average);euclidiano (17);2;0,2858;0,576;1;0,043;100,0
+Hierárquica (complete);euclidiano (17);2;0,2033;1,562;530;22,553;77,4
+Hierárquica (single);euclidiano (17);2;0,3213;0,543;1;0,043;100,0
+GMM (full);euclidiano (17);2;0,1326;2,286;1111;47,277;52,7
+GMM (tied);euclidiano (17);2;0,2142;1,66;804;34,213;65,8
+GMM (diag);euclidiano (17);2;0,2149;1,607;820;34,894;65,1
+GMM (spherical);euclidiano (17);2;0,2471;1,518;938;39,915;60,1
+K-Medoids (Gower);Gower (22);2;0,2543;;1095;46,596;53,4
+K-Means;euclidiano (17);3;0,1726;2,089;667;28,383;38,9
+Hierárquica (ward);euclidiano (17);3;0,1277;2,195;480;20,426;51,5
+Hierárquica (average);euclidiano (17);3;0,2155;1,307;1;0,043;99,0
+Hierárquica (complete);euclidiano (17);3;0,1621;1,547;65;2,766;74,7
+Hierárquica (single);euclidiano (17);3;0,3125;0,52;1;0,043;99,9
+GMM (full);euclidiano (17);3;0,1169;3,519;169;7,191;46,6
+GMM (tied);euclidiano (17);3;0,1264;2,791;565;24,043;41,7
+GMM (diag);euclidiano (17);3;0,2015;3,133;200;8,511;58,6
+GMM (spherical);euclidiano (17);3;0,1561;1,91;417;17,745;59,6
+K-Medoids (Gower);Gower (22);3;0,2232;;466;19,83;40,5
+K-Means;euclidiano (17);4;0,1388;2,073;392;16,681;34,4
+Hierárquica (ward);euclidiano (17);4;0,1103;2,258;222;9,447;42,1
+Hierárquica (average);euclidiano (17);4;0,191;1,311;1;0,043;96,3
+Hierárquica (complete);euclidiano (17);4;0,1173;2,266;65;2,766;63,8
+Hierárquica (single);euclidiano (17);4;0,295;0,516;1;0,043;99,9
+GMM (full);euclidiano (17);4;0,0745;4,639;286;12,17;32,9
+GMM (tied);euclidiano (17);4;0,0998;2,549;50;2,128;41,8
+GMM (diag);euclidiano (17);4;0,1314;2,883;135;5,745;57,1
+GMM (spherical);euclidiano (17);4;0,149;2,024;324;13,787;42,2
+K-Medoids (Gower);Gower (22);4;0,2013;;465;19,787;35,7
+K-Means;euclidiano (17);5;0,1337;2,033;342;14,553;25,4
+Hierárquica (ward);euclidiano (17);5;0,1038;2,137;222;9,447;42,1
+Hierárquica (average);euclidiano (17);5;0,1778;1,295;1;0,043;96,3
+Hierárquica (complete);euclidiano (17);5;0,0881;2,318;65;2,766;63,8
+Hierárquica (single);euclidiano (17);5;0,229;0,55;1;0,043;99,8
+GMM (full);euclidiano (17);5;0,0448;3,885;154;6,553;36,9
+GMM (tied);euclidiano (17);5;0,1125;2,39;62;2,638;41,5
+GMM (diag);euclidiano (17);5;0,0715;3,678;146;6,213;29,9
+GMM (spherical);euclidiano (17);5;0,1306;2,112;151;6,426;37,8
+K-Medoids (Gower);Gower (22);5;0,1955;;220;9,362;29,8
+K-Means;euclidiano (17);6;0,132;2,047;215;9,149;23,1
+Hierárquica (ward);euclidiano (17);6;0,1137;2,021;63;2,681;39,4
+Hierárquica (average);euclidiano (17);6;0,174;1,164;1;0,043;96,3
+Hierárquica (complete);euclidiano (17);6;0,0953;2,31;65;2,766;48,5
+Hierárquica (single);euclidiano (17);6;0,2268;0,543;1;0,043;99,8
+GMM (full);euclidiano (17);6;0,0583;3,382;54;2,298;29,0
+GMM (tied);euclidiano (17);6;0,0859;2,246;48;2,043;36,7
+GMM (diag);euclidiano (17);6;0,0795;3,455;69;2,936;35,0
+GMM (spherical);euclidiano (17);6;0,1123;2,261;259;11,021;24,5
+K-Medoids (Gower);Gower (22);6;0,2071;;135;5,745;22,8
+K-Means;euclidiano (17);7;0,1392;1,927;64;2,723;24,1
+Hierárquica (ward);euclidiano (17);7;0,0955;2,097;63;2,681;29,6
+Hierárquica (average);euclidiano (17);7;0,1129;1,095;1;0,043;96,2
+Hierárquica (complete);euclidiano (17);7;0,0894;2,18;65;2,766;48,5
+Hierárquica (single);euclidiano (17);7;0,1738;0,572;1;0,043;99,7
+GMM (full);euclidiano (17);7;-0,0267;3,71;37;1,574;40,3
+GMM (tied);euclidiano (17);7;0,0886;2,177;35;1,489;34,4
+GMM (diag);euclidiano (17);7;0,0698;3,251;64;2,723;36,1
+GMM (spherical);euclidiano (17);7;0,0894;2,223;181;7,702;22,6
+K-Medoids (Gower);Gower (22);7;0,1694;;133;5,66;22,8
+K-Means;euclidiano (17);8;0,1333;1,931;63;2,681;23,2
+Hierárquica (ward);euclidiano (17);8;0,0998;2,077;63;2,681;29,6
+Hierárquica (average);euclidiano (17);8;0,0897;1,2;1;0,043;95,7
+Hierárquica (complete);euclidiano (17);8;0,0831;2,146;65;2,766;48,5
+Hierárquica (single);euclidiano (17);8;0,174;0,605;1;0,043;99,7
+GMM (full);euclidiano (17);8;0,0571;3,436;38;1,617;34,5
+GMM (tied);euclidiano (17);8;0,0631;2,431;49;2,085;32,1
+GMM (diag);euclidiano (17);8;0,0901;3,131;63;2,681;25,3
+GMM (spherical);euclidiano (17);8;0,093;2,189;106;4,511;23,1
+K-Medoids (Gower);Gower (22);8;0,2086;;63;2,681;23,2
+K-Means;euclidiano (17);9;0,1183;1,966;62;2,638;18,2
+Hierárquica (ward);euclidiano (17);9;0,0918;2,154;63;2,681;21,2
+Hierárquica (average);euclidiano (17);9;0,0681;1,19;1;0,043;95,7
+Hierárquica (complete);euclidiano (17);9;0,0831;2,119;11;0,468;48,5
+Hierárquica (single);euclidiano (17);9;0,1675;0,595;1;0,043;99,6
+GMM (full);euclidiano (17);9;0,027;4,035;43;1,83;34,6
+GMM (tied);euclidiano (17);9;0,0927;2,338;46;1,957;29,4
+GMM (diag);euclidiano (17);9;0,0258;3,445;24;1,021;43,6
+GMM (spherical);euclidiano (17);9;0,0953;2,1;66;2,809;23,4
+K-Medoids (Gower);Gower (22);9;0,1832;;60;2,553;19,6
+K-Means;euclidiano (17);10;0,1138;2,028;62;2,638;14,8
+Hierárquica (ward);euclidiano (17);10;0,0885;2,183;63;2,681;21,2
+Hierárquica (average);euclidiano (17);10;0,0633;1,199;1;0,043;95,7
+Hierárquica (complete);euclidiano (17);10;0,0823;2,032;10;0,426;48,5
+Hierárquica (single);euclidiano (17);10;0,1401;0,593;1;0,043;99,6
+GMM (full);euclidiano (17);10;0,0235;4,246;37;1,574;42,7
+GMM (tied);euclidiano (17);10;0,0688;2,449;25;1,064;26,9
+GMM (diag);euclidiano (17);10;0,0649;3,356;11;0,468;36,9
+GMM (spherical);euclidiano (17);10;0,073;2,165;60;2,553;15,2
+K-Medoids (Gower);Gower (22);10;0,1931;;91;3,872;19,5

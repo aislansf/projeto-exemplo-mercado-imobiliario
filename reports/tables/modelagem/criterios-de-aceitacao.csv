@@ -1,0 +1,8 @@
+﻿criterio;valor;origem;medido_em
+Número de grupos;entre 2 e 5;Canvas · orçamento financia até 5 ações diferenciadas;prova 1 — varredura
+Silhueta;≥ 0.15;Canvas · piso abaixo do qual não há separação defensável;prova 1 — varredura
+Menor segmento;≥ 2% da carteira;Canvas · abaixo disso não há massa para ação própria;prova 1 — varredura
+Ruído (métodos de densidade);≤ 10% da carteira;Canvas · imóvel sem grupo é entrega, mas não pode ser a regra;prova 1 — varredura
+Estabilidade sob reamostragem de 80%;ARI ≥ 0.75;Canvas · revisão 2 do quadro de critérios;prova 2 — reamostragem
+Generalização ao conjunto retido;ARI ≥ 0.75 e silhueta ≥ 0.15;Desenho deste notebook · exigência da fase 6;prova 3 — hold-out
+Independência do rótulo reservado;ARI contra quartis de preço < 0,40;Canvas · revisão 3 do quadro de critérios;PENDENTE — fase 5, com o rótulo aberto

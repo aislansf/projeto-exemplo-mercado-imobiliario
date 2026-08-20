@@ -1,0 +1,18 @@
+﻿campo;rotulo;tipo;obrigatorio;observado_minimo;observado_maximo;aceito_minimo;aceito_maximo;padrao
+area_habitavel;Área habitável;numérica;True;334,0;3493,0;0,0;4366,25;1422,0
+area_porao;Área do porão;numérica;False;0,0;2633,0;0,0;3291,25;964,0
+area_terreno;Área do terreno;numérica;False;1300,0;23730,0;0,0;29662,5;9283,0
+area_garagem;Área da garagem;numérica;False;0,0;1314,0;0,0;1642,5;467,5
+area_varandas;Área de varandas;numérica;False;0,0;850,0;0,0;1062,5;164,0
+banheiros_total;Banheiros;numérica;False;1,0;5,0;0,0;6,25;2,0
+comodos;Cômodos;numérica;False;2,0;13,0;0,0;16,25;6,0
+dormitorios;Dormitórios;numérica;False;1,0;6,0;0,0;7,5;3,0
+lareiras;Lareiras;numérica;False;0,0;4,0;0,0;5,0;1,0
+idade_imovel;Idade do imóvel;numérica;True;0,0;136,0;0,0;170,0;36,5
+anos_desde_reforma;Anos desde a reforma;numérica;False;0,0;60,0;0,0;75,0;17,0
+qualidade_geral;Qualidade geral;ordinal;True;1,0;10,0;1,0;10,0;6,0
+conservacao_geral;Conservação;ordinal;False;2,0;9,0;2,0;9,0;5,0
+qualidade_externa;Qualidade externa;ordinal;False;2,0;5,0;2,0;5,0;3,0
+qualidade_cozinha;Qualidade da cozinha;ordinal;False;1,0;5,0;1,0;5,0;3,0
+qualidade_porao;Qualidade do porão;ordinal;False;0,0;5,0;0,0;5,0;3,0
+acabamento_garagem;Acabamento da garagem;ordinal;False;0,0;3,0;0,0;3,0;2,0

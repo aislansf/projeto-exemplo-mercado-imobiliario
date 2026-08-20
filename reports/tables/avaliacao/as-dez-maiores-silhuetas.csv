@@ -1,0 +1,11 @@
+﻿algoritmo;espaco;k;silhueta;davies_bouldin;menor_grupo;menor_grupo_pct;maior_grupo_pct;ganho_sobre_a_fase_4;admissivel
+Hierárquica (single);euclidiano (17);2;0,3213;0,543;1;0,043;100,0;0,1487;False
+Hierárquica (single);euclidiano (17);3;0,3125;0,52;1;0,043;99,9;0,1399;False
+Hierárquica (single);euclidiano (17);4;0,295;0,516;1;0,043;99,9;0,1224;False
+Hierárquica (average);euclidiano (17);2;0,2858;0,576;1;0,043;100,0;0,1132;False
+K-Medoids (Gower);Gower (22);2;0,2543;;1095;46,596;53,4;0,0817;False
+GMM (spherical);euclidiano (17);2;0,2471;1,518;938;39,915;60,1;0,0745;True
+K-Means;euclidiano (17);2;0,2468;1,528;970;41,277;58,7;0,0742;True
+Hierárquica (single);euclidiano (17);5;0,229;0,55;1;0,043;99,8;0,0564;False
+Hierárquica (single);euclidiano (17);6;0,2268;0,543;1;0,043;99,8;0,0542;False
+K-Medoids (Gower);Gower (22);3;0,2232;;466;19,83;40,5;0,0506;False

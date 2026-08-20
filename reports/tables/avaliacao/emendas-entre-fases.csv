@@ -1,0 +1,5 @@
+﻿emenda;esperado;observado;confere
+carga → curadoria;2930;2930;True
+curadoria → preparação;2350;2350;True
+preparação → modelagem;2350;2350;True
+modelagem → avaliação;2350;2350;True

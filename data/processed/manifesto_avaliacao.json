@@ -1,0 +1,78 @@
+{
+  "origem": {
+    "base_modelagem": "data/processed/base_modelagem.parquet",
+    "base_segmentada": "data/processed/base_segmentada.parquet",
+    "modelo": "models/modelo-segmentacao.joblib",
+    "rotulo_reservado_aberto_de": "data/processed/imoveis_curados.parquet"
+  },
+  "modelo_avaliado": {
+    "algoritmo": "K-Means",
+    "k": 3,
+    "silhueta": 0.1726,
+    "reproduz_a_particao_avaliada": true,
+    "ari_da_reexecucao": 1.0
+  },
+  "varredura_de_k": {
+    "configuracoes_de_k_por_algoritmo": 90,
+    "configuracoes_de_escala": 20,
+    "configuracoes_de_dimensao": 16,
+    "total": 126,
+    "melhor_silhueta_absoluta": {
+      "configuracao": "Hierárquica (single), k = 2",
+      "silhueta": 0.3213,
+      "menor_grupo": 1,
+      "admissivel": false,
+      "motivo": "menor grupo abaixo do piso de 2% da carteira"
+    },
+    "melhor_silhueta_admissivel": {
+      "configuracao": "GMM (spherical), k = 2",
+      "silhueta": 0.2471,
+      "adotada": false,
+      "motivo": "reproduz a política de duas faixas em vigor — ARI 0.5343 contra o corte pela mediana de preço"
+    },
+    "k_pela_regra_declarada": 3,
+    "k_pela_silhueta": 2
+  },
+  "avaliacao_de_negocio": {
+    "ari_contra_quartis_de_preco": 0.3345,
+    "teto_do_canvas": 0.4,
+    "criterio_pendente_atendido": true,
+    "ari_contra_o_corte_pela_mediana": 0.4314,
+    "v_de_cramer_contra_bairro": 0.6305,
+    "segmento_lider_em_receita": 2,
+    "pct_receita_do_lider": 44.8,
+    "segmento_de_fronteira": 1,
+    "imoveis_em_silhueta_negativa": 178
+  },
+  "criterios_do_canvas": {
+    "tecnicos_atendidos": 7,
+    "tecnicos_totais": 7,
+    "de_negocio_pendentes_de_implantacao": 5
+  },
+  "revisao_do_processo": {
+    "cadeia_integra": true,
+    "artefatos_auditados": 5,
+    "vazamento_encontrado": false,
+    "ocorrencias_documentais_desatualizadas": 54,
+    "divergencias_abertas": 5,
+    "divergencias_de_gravidade_alta": 3
+  },
+  "veredito": "prosseguir para a fase 6, com as divergências documentais como condição de publicação",
+  "prossegue_para_implantacao": true,
+  "itens_que_bloqueiam_a_publicacao": 3,
+  "candidato_de_revisao": {
+    "k": 4,
+    "silhueta": 0.1388,
+    "distancia_do_piso": 0.0112,
+    "decidir_em": "Canvas §6, antes da próxima execução da cadeia"
+  },
+  "semente": 42,
+  "julgamentos": 15,
+  "julgamentos_por_acao": {
+    "critério medido": 5,
+    "decisão mantida": 4,
+    "divergência registrada": 3,
+    "armadilha registrada": 2,
+    "próxima etapa": 1
+  }
+}

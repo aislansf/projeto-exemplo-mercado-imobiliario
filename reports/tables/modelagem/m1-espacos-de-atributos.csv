@@ -1,4 +1,4 @@
 ﻿espaço;variáveis;composição;distância;observação
 Euclidiano enxuto;21;11 numéricas + 6 ordinais + 4 binárias;euclidiana sobre variáveis padronizadas;"as nominais ficam de fora; nenhuma delas domina a geometria"
-Euclidiano com one-hot;49;21 do enxuto + 28 binárias de one-hot;euclidiana sobre variáveis padronizadas;28 colunas binárias não padronizadas competem com 21 contínuas
+Euclidiano com one-hot;48;21 do enxuto + 27 binárias de one-hot;euclidiana sobre variáveis padronizadas;28 colunas binárias não padronizadas competem com 21 contínuas
 Misto (Gower);22;17 numéricas/ordinais + 5 nominais em estado bruto;dissimilaridade de Gower, peso igual por variável;cada nominal pesa tanto quanto cada numérica — inclusive `estilo`

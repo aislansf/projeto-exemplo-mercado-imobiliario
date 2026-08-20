@@ -1,0 +1,8 @@
+﻿deliberacao;quem_decide;prazo;consequencia_se_nao_decidir
+Aprovar o catálogo de 3 linhas de produto como política comercial;Diretoria Comercial;na sessão;a janela 1 não abre — não há ação a colocar em sombra
+Autorizar a janela 1 (sombra, 30 dias) sem mudança de ação comercial;Patrocinador;na sessão;o modelo fica publicado sem uso, e a primeira leitura de monitoramento não acontece
+Instrumentar `preco_anunciado`, `data_anuncio` e `custo_reforma_executada` no sistema comercial;Diretoria Comercial com Engenharia de Dados;até D+90;4 dos critérios de negócio do Canvas permanecem sem leitura por tempo indeterminado
+Retirar de produção os artefatos da cadeia anterior (`pipeline_segmentacao.joblib` e `metadados_segmentacao.json`);Área de Dados;antes da janela 1;permanece o caminho que classifica 280 imóveis na linha errada
+Atualizar as páginas publicadas para a cadeia atual antes de qualquer divulgação externa;Área de Dados;antes da janela 2;54 ocorrências continuam descrevendo outro experimento
+Decidir no Canvas §6 o piso de silhueta por faixa de k e o destino do candidato k = 4;Patrocinador e Área de Dados;antes da próxima reciclagem;a próxima execução repete a decisão por um piso único, que favorece k pequeno por construção
+Decidir o destino da meta de mineração não entregue (regras de associação e detecção de anomalia);Patrocinador;antes da próxima reciclagem;o Canvas §5 continua prometendo entrega que a cadeia atual não produz

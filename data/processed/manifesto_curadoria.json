@@ -1,0 +1,33 @@
+{
+  "origem": "data/raw/ames_housing.parquet",
+  "destino": "data/processed/imoveis_curados.parquet",
+  "linhas_entrada": 2930,
+  "colunas_entrada": 82,
+  "linhas_saida": 2350,
+  "colunas_saida": 83,
+  "registros_removidos": 580,
+  "pct_registros_removidos": 19.8,
+  "limiar_ausencia": 0.05,
+  "fator_extremo": 3.0,
+  "colunas_derivadas": [
+    "area_varandas",
+    "banheiros_total",
+    "idade_imovel",
+    "anos_desde_reforma",
+    "tem_porao",
+    "tem_garagem",
+    "tem_lareira",
+    "tem_segundo_pavimento",
+    "preco_por_pe2"
+  ],
+  "celulas_vazias_entrada": 13997,
+  "celulas_vazias_saida": 0,
+  "ajustes": 20,
+  "ajustes_por_acao": {
+    "corrigido": 10,
+    "removido": 7,
+    "imputado": 2,
+    "verificado, sem ação": 1
+  },
+  "equivalente_ao_pipeline": true
+}

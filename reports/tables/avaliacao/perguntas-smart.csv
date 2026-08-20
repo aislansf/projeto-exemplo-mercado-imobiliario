@@ -1,0 +1,6 @@
+﻿n;pergunta;resposta_publicada;resposta_medida;situacao
+1;Quantos grupos distintos emergem, com silhueta ≥ 0,15 e no máximo 5 grupos?;"4 (silhueta 0,1775; base de 2.925 imóveis)";"3 (silhueta 0.1726; base de 2.350 imóveis)";resposta mudou
+2;Qual grupo concentra mais de 40% da receita transacionada?;S4 · Novo de alto padrão, com 49,5%;Segmento 2, com 44.8%;resposta mudou de rótulo, conclusão preservada
+3;Que combinações de até três atributos ocorrem juntas com suporte ≥ 10% e lift ≥ 1,30?;"256 regras após poda; 252 diferenciais, cobrindo 4 segmentos";não refeita — a cadeia 00–04 não contém a etapa de regras;sem resposta na cadeia atual
+4;Que percentual dos imóveis é classificado como ruído por um DBSCAN com minPts = 2 × d?;1,81% (53 imóveis);a fase 4 varreu eps e não encontrou configuração com ruído dentro do teto e número de grupos na faixa;resposta mudou
+5;A segmentação é distinguível de uma faixa de preço (ARI < 0,40)?;sim — ARI de 0,3112;sim — ARI de 0.3345;conclusão confirmada, número atualizado

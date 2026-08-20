@@ -1,0 +1,9 @@
+﻿rotina;periodicidade;como;evidencia;responsavel
+Reexecução da cadeia 00–06;anual ou por gatilho;`uv run invoke notebooks`, com a semente do projeto e o ambiente do uv.lock;manifestos regravados e ARI contra a partição vigente;Área de Dados
+Aposentadoria dos artefatos da cadeia anterior;uma vez;remover `pipeline_segmentacao.joblib` e `metadados_segmentacao.json`, e reapontar `src/deployment/scoring.py` para o pacote carimbado;nenhum artefato de k = 4 em models/;Área de Dados
+Desativar a regravação da linha de base pela cadeia anterior;uma vez;"`src/pipeline/implantacao.py` grava `models/linha_de_base.json` com a referência de k = 4; enquanto `uv run invoke implantacao` puder ser executado, ele apaga a linha de base publicada aqui";o SHA-256 da linha de base confere com o de metadados_implantacao.json depois de rodar a suíte de tarefas;Área de Dados
+Verificação do carimbo na carga;a cada carga;recalcular o SHA-256 do pacote e comparar com metadados_implantacao.json;log da carga com o resumo conferido;Engenharia de Dados
+Teste automatizado do catálogo;a cada commit;teste que compara o número de personas ao k do manifesto e valida os campos obrigatórios de cada linha de produto;suíte verde em `uv run invoke test`;Área de Dados
+Congelamento de dependências;trimestral;"revisar `uv.lock`; atualização de scikit-learn exige reexecutar a cadeia e conferir o ARI contra a partição vigente";ARI ≥ 0,99 após a atualização, ou reciclagem registrada;Área de Dados
+Retenção de versões;a cada publicação;manter as duas últimas versões do pacote, com manifesto e carimbo;diretório de versões com no mínimo o par vigente e anterior;Engenharia de Dados
+Publicação da documentação;a cada versão;`uv run invoke build` após atualizar as páginas afetadas;site sem ocorrência do resultado anterior;Área de Dados

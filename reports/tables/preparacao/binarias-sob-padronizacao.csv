@@ -1,0 +1,5 @@
+﻿flag;pct_em_1;minoria;z_da_minoria;contribuicao_para_d2;correlacao_com_a_fonte;cramer_com;cramer
+tem_porao;97,3;63;-6,02;36,3;0,28;qualidade_porao;0,999
+tem_garagem;95,1;115;-4,41;19,4;0,374;tipo_garagem;0,999
+tem_segundo_pavimento;43,8;1029;1,13;1,3;0,948;estilo;0,963
+tem_lareira;51,1;1149;-1,02;1,0;0,97;qualidade_lareira;0,999

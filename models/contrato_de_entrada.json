@@ -1,0 +1,181 @@
+{
+  "versao_modelo": "2.0.0",
+  "folga_das_continuas": 0.25,
+  "obrigatorios": [
+    "area_habitavel",
+    "idade_imovel",
+    "qualidade_geral"
+  ],
+  "campos": {
+    "area_habitavel": {
+      "rotulo": "Área habitável",
+      "tipo": "numérica",
+      "obrigatorio": true,
+      "observado_minimo": 334.0,
+      "observado_maximo": 3493.0,
+      "aceito_minimo": 0.0,
+      "aceito_maximo": 4366.25,
+      "padrao": 1422.0
+    },
+    "area_porao": {
+      "rotulo": "Área do porão",
+      "tipo": "numérica",
+      "obrigatorio": false,
+      "observado_minimo": 0.0,
+      "observado_maximo": 2633.0,
+      "aceito_minimo": 0.0,
+      "aceito_maximo": 3291.25,
+      "padrao": 964.0
+    },
+    "area_terreno": {
+      "rotulo": "Área do terreno",
+      "tipo": "numérica",
+      "obrigatorio": false,
+      "observado_minimo": 1300.0,
+      "observado_maximo": 23730.0,
+      "aceito_minimo": 0.0,
+      "aceito_maximo": 29662.5,
+      "padrao": 9283.0
+    },
+    "area_garagem": {
+      "rotulo": "Área da garagem",
+      "tipo": "numérica",
+      "obrigatorio": false,
+      "observado_minimo": 0.0,
+      "observado_maximo": 1314.0,
+      "aceito_minimo": 0.0,
+      "aceito_maximo": 1642.5,
+      "padrao": 467.5
+    },
+    "area_varandas": {
+      "rotulo": "Área de varandas",
+      "tipo": "numérica",
+      "obrigatorio": false,
+      "observado_minimo": 0.0,
+      "observado_maximo": 850.0,
+      "aceito_minimo": 0.0,
+      "aceito_maximo": 1062.5,
+      "padrao": 164.0
+    },
+    "banheiros_total": {
+      "rotulo": "Banheiros",
+      "tipo": "numérica",
+      "obrigatorio": false,
+      "observado_minimo": 1.0,
+      "observado_maximo": 5.0,
+      "aceito_minimo": 0.0,
+      "aceito_maximo": 6.25,
+      "padrao": 2.0
+    },
+    "comodos": {
+      "rotulo": "Cômodos",
+      "tipo": "numérica",
+      "obrigatorio": false,
+      "observado_minimo": 2.0,
+      "observado_maximo": 13.0,
+      "aceito_minimo": 0.0,
+      "aceito_maximo": 16.25,
+      "padrao": 6.0
+    },
+    "dormitorios": {
+      "rotulo": "Dormitórios",
+      "tipo": "numérica",
+      "obrigatorio": false,
+      "observado_minimo": 1.0,
+      "observado_maximo": 6.0,
+      "aceito_minimo": 0.0,
+      "aceito_maximo": 7.5,
+      "padrao": 3.0
+    },
+    "lareiras": {
+      "rotulo": "Lareiras",
+      "tipo": "numérica",
+      "obrigatorio": false,
+      "observado_minimo": 0.0,
+      "observado_maximo": 4.0,
+      "aceito_minimo": 0.0,
+      "aceito_maximo": 5.0,
+      "padrao": 1.0
+    },
+    "idade_imovel": {
+      "rotulo": "Idade do imóvel",
+      "tipo": "numérica",
+      "obrigatorio": true,
+      "observado_minimo": 0.0,
+      "observado_maximo": 136.0,
+      "aceito_minimo": 0.0,
+      "aceito_maximo": 170.0,
+      "padrao": 36.5
+    },
+    "anos_desde_reforma": {
+      "rotulo": "Anos desde a reforma",
+      "tipo": "numérica",
+      "obrigatorio": false,
+      "observado_minimo": 0.0,
+      "observado_maximo": 60.0,
+      "aceito_minimo": 0.0,
+      "aceito_maximo": 75.0,
+      "padrao": 17.0
+    },
+    "qualidade_geral": {
+      "rotulo": "Qualidade geral",
+      "tipo": "ordinal",
+      "obrigatorio": true,
+      "observado_minimo": 1.0,
+      "observado_maximo": 10.0,
+      "aceito_minimo": 1.0,
+      "aceito_maximo": 10.0,
+      "padrao": 6.0
+    },
+    "conservacao_geral": {
+      "rotulo": "Conservação",
+      "tipo": "ordinal",
+      "obrigatorio": false,
+      "observado_minimo": 2.0,
+      "observado_maximo": 9.0,
+      "aceito_minimo": 2.0,
+      "aceito_maximo": 9.0,
+      "padrao": 5.0
+    },
+    "qualidade_externa": {
+      "rotulo": "Qualidade externa",
+      "tipo": "ordinal",
+      "obrigatorio": false,
+      "observado_minimo": 2.0,
+      "observado_maximo": 5.0,
+      "aceito_minimo": 2.0,
+      "aceito_maximo": 5.0,
+      "padrao": 3.0
+    },
+    "qualidade_cozinha": {
+      "rotulo": "Qualidade da cozinha",
+      "tipo": "ordinal",
+      "obrigatorio": false,
+      "observado_minimo": 1.0,
+      "observado_maximo": 5.0,
+      "aceito_minimo": 1.0,
+      "aceito_maximo": 5.0,
+      "padrao": 3.0
+    },
+    "qualidade_porao": {
+      "rotulo": "Qualidade do porão",
+      "tipo": "ordinal",
+      "obrigatorio": false,
+      "observado_minimo": 0.0,
+      "observado_maximo": 5.0,
+      "aceito_minimo": 0.0,
+      "aceito_maximo": 5.0,
+      "padrao": 3.0
+    },
+    "acabamento_garagem": {
+      "rotulo": "Acabamento da garagem",
+      "tipo": "ordinal",
+      "obrigatorio": false,
+      "observado_minimo": 0.0,
+      "observado_maximo": 3.0,
+      "aceito_minimo": 0.0,
+      "aceito_maximo": 3.0,
+      "padrao": 2.0
+    }
+  }
+}

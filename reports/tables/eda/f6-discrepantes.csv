@@ -1,12 +1,12 @@
 ﻿variavel;IQR (Tukey 1,5);z robusto (MAD > 3)
-Área habitável;70;34
-Área do porão;120;42
-Área do terreno;125;106
-Área da garagem;40;27
-Área de varandas;62;39
-Banheiros;22;22
-Cômodos;48;48
-Dormitórios;78;0
-Lareiras;12;0
-Idade do imóvel;10;0
+Área habitável;42;19
+Área do porão;109;43
+Área do terreno;69;47
+Área da garagem;20;16
+Área de varandas;41;20
+Banheiros;10;10
+Cômodos;25;25
+Dormitórios;46;0
+Lareiras;10;0
+Idade do imóvel;8;0
 Anos desde a reforma;0;0

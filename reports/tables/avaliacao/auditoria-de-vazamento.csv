@@ -1,0 +1,6 @@
+﻿artefato;papel;reservadas_encontradas;limpo
+data/processed/base_modelagem.parquet;entrada de todo algoritmo;—;True
+data/processed/base_segmentada.parquet;saída da fase 4;—;True
+manifesto_modelagem.json · variaveis;declaração do espaço do modelo;—;True
+models/modelo-segmentacao.joblib;o objeto que a fase 6 vai executar;—;True
+models/preprocessador-euclidiano.joblib;receita de pré-processamento;—;True

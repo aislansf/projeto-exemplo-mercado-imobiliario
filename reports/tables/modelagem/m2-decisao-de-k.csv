@@ -1,8 +1,8 @@
 ﻿critério;aponta para;leitura
 Cotovelo da inércia;6;sugere mais grupos do que o negócio consegue operar
-Maior silhueta (global);2;0.2204 — mas com apenas 2 linhas de produto
-Maior silhueta dentro do teto de 5;2;0.2204
-Menor Davies-Bouldin dentro do teto;5;1.6032
-Estabilidade por reamostragem (ARI ≥ 0,75);2, 4;os demais não se reproduzem em reamostragem
+Maior silhueta (global);2;0.2125 — mas com apenas 2 linhas de produto
+Maior silhueta dentro do teto de 5;2;0.2125
+Menor Davies-Bouldin dentro do teto;5;1.6840
+Estabilidade por reamostragem (ARI ≥ 0,75);2, 4, 5;os demais não se reproduzem em reamostragem
 Restrição operacional do Canvas;2 a 5;orçamento para no máximo cinco ações diferenciadas
-DECISÃO;4;maior k que é simultaneamente estável, acima da silhueta mínima e viável
+DECISÃO;5;maior k que é simultaneamente estável, acima da silhueta mínima e viável

@@ -1,0 +1,11 @@
+﻿licao;categoria;fase;evidencia;consequencia
+Escrever o critério antes de rodar o algoritmo;sustentou;4 · Modelagem;126 configurações varridas na fase 5 sem que a régua se mexesse;A varredura virou auditoria da decisão, e não renegociação dela
+Reservar o rótulo fisicamente, e não por disciplina;sustentou;3 · Preparação;ARI 0.3345 contra os quartis de preço, medido depois da modelagem;O critério de independência do preço virou prova, e não afirmação
+Gravar um manifesto por fase, com o que foi decidido e a medida;sustentou;todas;"5 manifestos lidos por este notebook; nenhuma tabela redigitada";A fase 6 reconstruiu a cadeia inteira sem consultar ninguém
+Ordenar os segmentos por um critério canônico;sustentou;4 · Modelagem;mapa canônico {0: 0, 1: 2, 2: 1} gravado dentro do pacote;O S1 continua sendo o mesmo imóvel na próxima execução, e o texto de negócio não envelhece em uma rodada
+Medir o desvio no dado real antes de publicar o plano;sustentou;6 · Implantação;PSI máximo 0.0369 e ARI 0.9366 na reciclagem simulada;O plano nasce com a primeira leitura feita, e os limiares são verificáveis em vez de plausíveis
+Deixar a documentação publicada para o fim;não sustentou;todas;54 ocorrências descrevendo o experimento anterior;Virou a maior dívida do projeto, e bloqueia a divulgação externa
+Deixar artefatos de produção antigos convivendo com os novos;não sustentou;6 · Implantação;ARI 0.7172 e 280 imóveis com linha de produto diferente;"Um diretório com dois modelos é um modelo em produção e uma armadilha; o carimbo resolve, e devia existir desde a primeira publicação"
+Amarrar constante de negócio ao modelo sem teste automatizado;não sustentou;4 · Modelagem;catálogo com 4 personas para um modelo de 3 segmentos;"Foi pego por leitura manual na fase 5; um teste de uma linha teria pego no commit"
+Usar um piso de silhueta único para todas as faixas de k;não sustentou;1 · Entendimento do negócio;k = 4 reprovado por 0.0112 de silhueta;"A silhueta cai com k por construção; o piso único favorece k pequeno sem que ninguém tenha decidido isso"
+Prometer entrega de mineração sem prever o esforço na cadeia;não sustentou;1 · Entendimento do negócio;"Canvas §5 promete regras de associação e anomalia; a cadeia não tem nenhuma das duas";Uma das cinco perguntas SMART ficou sem resposta na cadeia atual

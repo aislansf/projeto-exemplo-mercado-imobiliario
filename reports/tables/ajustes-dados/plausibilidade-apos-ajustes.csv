@@ -1,0 +1,9 @@
+﻿regra;registros;pct;situacao
+idade negativa (construído após a venda);0;0.0;verificada
+reforma anterior à construção;0;0.0;verificada
+garagem construída depois da venda;;;não aplicável — sem ano_garagem
+área habitável nula ou negativa;0;0.0;verificada
+sem dormitório acima do solo;0;0.0;verificada
+sem banheiro completo;0;0.0;verificada
+área do porão diverge da soma das partes;0;0.0;verificada
+imóvel acima de 4.000 pés² (recomendação de De Cock);0;0.0;verificada

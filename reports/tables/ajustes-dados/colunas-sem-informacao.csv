@@ -1,0 +1,8 @@
+﻿coluna;distintos;valor_dominante;pct_dominante;protegida
+condicao_venda;1;Normal;100,0;True
+infraestrutura;2;4;99,96;False
+tipo_via;2;Pave;99,7;False
+area_piscina;8;0;99,7;False
+qualidade_piscina;5;0;99,7;False
+condicao_entorno_2;8;Norm;99,11;False
+material_telhado;6;CompShg;99,02;False

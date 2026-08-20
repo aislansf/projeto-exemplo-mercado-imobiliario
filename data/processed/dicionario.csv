@@ -1,0 +1,83 @@
+variavel;descricao;valores;Tipo
+Order;Número de ordem do registro no arquivo original;[1, 2930];Discreta
+PID;Identificador cadastral do lote na prefeitura (Parcel ID);[526301100, 1007100110];Discreta
+MS SubClass;Código do tipo de imóvel envolvido na venda (idade, pavimentos e estilo);[20, 190];Discreta
+MS Zoning;Classificação geral de zoneamento urbano do lote;['RL', 'A (agr)'];Nominal
+Lot Frontage;Testada: pés lineares de rua conectados ao lote;[21.0, 313.0];Contínua
+Lot Area;Área do terreno, em pés quadrados;[1300, 215245];Discreta
+Street;Tipo de pavimentação da via de acesso;['Pave', 'Grvl'];Nominal
+Alley;Tipo de pavimentação da viela de acesso (NA = sem viela);['Pave', 'Grvl'];Nominal
+Lot Shape;Regularidade do formato do lote;['IR3', 'Reg'];Ordinal
+Land Contour;Relevo do terreno (plano, encosta, depressão);['Lvl', 'Low'];Nominal
+Utilities;Infraestrutura urbana disponível no lote;['ELO', 'AllPub'];Ordinal
+Lot Config;Configuração do lote (interno, esquina, fundo de rua);['Corner', 'FR3'];Nominal
+Land Slope;Declividade do terreno;['Sev', 'Gtl'];Ordinal
+Neighborhood;Bairro de Ames em que o imóvel se localiza;['NAmes', 'Landmrk'];Nominal
+Condition 1;Proximidade de via principal, ferrovia ou área de interesse;['Norm', 'RRNn'];Nominal
+Condition 2;Segunda proximidade relevante, quando há mais de uma;['Norm', 'RRAn'];Nominal
+Bldg Type;Tipo de construção (isolada, geminada, sobreposta);['1Fam', '2fmCon'];Nominal
+House Style;Estilo da residência e número de pavimentos;['1Story', '2.5Fin'];Nominal
+Overall Qual;Qualidade geral do material e do acabamento (1 a 10);[1, 10];Discreta
+Overall Cond;Estado geral de conservação (1 a 10);[1, 9];Discreta
+Year Built;Ano da construção original;[1872, 2010];Discreta
+Year Remod/Add;Ano da última reforma ou ampliação (igual à construção se nunca houve);[1950, 2010];Discreta
+Roof Style;Estilo do telhado;['Hip', 'Flat'];Nominal
+Roof Matl;Material do telhado;['CompShg', 'Metal'];Nominal
+Exterior 1st;Revestimento externo predominante;['BrkFace', 'ImStucc'];Nominal
+Exterior 2nd;Segundo revestimento externo, quando há mais de um material;['Plywood', 'Other'];Nominal
+Mas Vnr Type;Tipo de alvenaria aparente (None = sem revestimento aparente);['Stone', 'CBlock'];Nominal
+Mas Vnr Area;Área de alvenaria aparente, em pés quadrados;[0.0, 1600.0];Contínua
+Exter Qual;Qualidade do material de revestimento externo;['Po', 'Ex'];Ordinal
+Exter Cond;Estado de conservação do revestimento externo;['Po', 'Ex'];Ordinal
+Foundation;Tipo de fundação;['CBlock', 'Stone'];Nominal
+Bsmt Qual;Altura e qualidade do porão (NA = sem porão);['Po', 'Ex'];Ordinal
+Bsmt Cond;Estado de conservação do porão (NA = sem porão);['Po', 'Ex'];Ordinal
+Bsmt Exposure;Exposição do porão à luz externa ou saída para o jardim;['No', 'Gd'];Ordinal
+BsmtFin Type 1;Qualidade do acabamento da primeira área acabada do porão;['Unf', 'GLQ'];Ordinal
+BsmtFin SF 1;Área acabada tipo 1 do porão, em pés quadrados;[0.0, 5644.0];Contínua
+BsmtFin Type 2;Qualidade do acabamento da segunda área acabada do porão;['Unf', 'GLQ'];Ordinal
+BsmtFin SF 2;Área acabada tipo 2 do porão, em pés quadrados;[0.0, 1526.0];Contínua
+Bsmt Unf SF;Área do porão sem acabamento, em pés quadrados;[0.0, 2336.0];Contínua
+Total Bsmt SF;Área total do porão, em pés quadrados (0 = sem porão);[0.0, 6110.0];Contínua
+Heating;Tipo de sistema de aquecimento;['GasA', 'OthW'];Nominal
+Heating QC;Qualidade e condição do sistema de aquecimento;['Po', 'Ex'];Ordinal
+Central Air;Possui ar-condicionado central (Y/N);['Y', 'N'];Nominal
+Electrical;Tipo de sistema elétrico;['SBrkr', 'Mix'];Nominal
+1st Flr SF;Área do pavimento térreo, em pés quadrados;[334, 5095];Discreta
+2nd Flr SF;Área do pavimento superior, em pés quadrados (0 = pavimento único);[0, 2065];Discreta
+Low Qual Fin SF;Área acabada de baixa qualidade, somando todos os pavimentos;[0, 1064];Discreta
+Gr Liv Area;Área habitável acima do solo, em pés quadrados;[334, 5642];Discreta
+Bsmt Full Bath;Banheiros completos no porão;[0.0, 3.0];Contínua
+Bsmt Half Bath;Lavabos no porão;[0.0, 2.0];Contínua
+Full Bath;Banheiros completos acima do solo;[0, 4];Discreta
+Half Bath;Lavabos acima do solo;[0, 2];Discreta
+Bedroom AbvGr;Dormitórios acima do solo (não inclui os do porão);[0, 8];Discreta
+Kitchen AbvGr;Cozinhas acima do solo;[0, 3];Discreta
+Kitchen Qual;Qualidade da cozinha;['Po', 'Ex'];Ordinal
+TotRms AbvGrd;Total de cômodos acima do solo, exceto banheiros;[2, 15];Discreta
+Functional;Funcionalidade da residência, com dedução por limitações de uso;['Sal', 'Typ'];Ordinal
+Fireplaces;Número de lareiras;[0, 4];Discreta
+Fireplace Qu;Qualidade da lareira (NA = sem lareira);['Po', 'Ex'];Ordinal
+Garage Type;Posição da garagem em relação à casa;['Attchd', '2Types'];Nominal
+Garage Yr Blt;Ano de construção da garagem;[1895.0, 2207.0];Contínua
+Garage Finish;Acabamento interno da garagem;['Unf', 'Fin'];Ordinal
+Garage Cars;Capacidade da garagem, em número de vagas;[0.0, 5.0];Contínua
+Garage Area;Área da garagem, em pés quadrados;[0.0, 1488.0];Contínua
+Garage Qual;Qualidade da garagem (NA = sem garagem);['Po', 'Ex'];Ordinal
+Garage Cond;Estado de conservação da garagem (NA = sem garagem);['Po', 'Ex'];Ordinal
+Paved Drive;Pavimentação do acesso de veículos;['N', 'Y'];Ordinal
+Wood Deck SF;Área de deck de madeira, em pés quadrados;[0, 1424];Discreta
+Open Porch SF;Área de varanda aberta, em pés quadrados;[0, 742];Discreta
+Enclosed Porch;Área de varanda fechada, em pés quadrados;[0, 1012];Discreta
+3Ssn Porch;Área de varanda de três estações, em pés quadrados;[0, 508];Discreta
+Screen Porch;Área de varanda com tela, em pés quadrados;[0, 576];Discreta
+Pool Area;Área da piscina, em pés quadrados (0 = sem piscina);[0, 800];Discreta
+Pool QC;Qualidade da piscina (NA = sem piscina);['Po', 'Ex'];Ordinal
+Fence;Tipo e qualidade da cerca (NA = sem cerca);['MnWw', 'GdPrv'];Ordinal
+Misc Feature;Item extra não coberto pelas demais colunas (galpão, quadra, elevador);['Gar2', 'TenC'];Nominal
+Misc Val;Valor do item extra, em dólares;[0, 17000];Discreta
+Mo Sold;Mês da venda (1 a 12);[1, 12];Discreta
+Yr Sold;Ano da venda (2006 a 2010);[2006, 2010];Discreta
+Sale Type;Modalidade da venda;['WD ', 'VWD'];Nominal
+Sale Condition;Condição da venda (normal, parcial, familiar, execução);['Normal', 'AdjLand'];Nominal
+SalePrice;Preço de venda em dólares — rótulo reservado, fora da modelagem;[12789, 755000];Discreta

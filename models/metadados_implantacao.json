@@ -1,0 +1,131 @@
+{
+  "origem": {
+    "manifesto_avaliacao": "data/processed/manifesto_avaliacao.json",
+    "modelo": "models/modelo-segmentacao.joblib",
+    "base_modelagem": "data/processed/base_modelagem.parquet",
+    "base_segmentada": "data/processed/base_segmentada.parquet",
+    "rotulo_reservado_aberto_de": "data/processed/imoveis_curados.parquet",
+    "backlog_da_fase_5": "reports/tables/avaliacao/proximas-etapas.csv"
+  },
+  "versao_modelo": "2.0.0",
+  "versao_anterior_no_repositorio": "1.0.0",
+  "regra_de_versionamento": {
+    "maior": "muda k, o espaço de atributos ou o algoritmo",
+    "menor": "reajuste de centroides com o mesmo k e o mesmo espaço",
+    "correcao": "muda limiar operacional, texto de persona ou documentação"
+  },
+  "modelo": {
+    "algoritmo": "K-Means",
+    "k": 3,
+    "espaco": [
+      "area_habitavel",
+      "area_porao",
+      "area_terreno",
+      "area_garagem",
+      "area_varandas",
+      "banheiros_total",
+      "comodos",
+      "dormitorios",
+      "lareiras",
+      "idade_imovel",
+      "anos_desde_reforma",
+      "qualidade_geral",
+      "conservacao_geral",
+      "qualidade_externa",
+      "qualidade_cozinha",
+      "qualidade_porao",
+      "acabamento_garagem"
+    ],
+    "mapa_canonico": {
+      "0": 0,
+      "1": 2,
+      "2": 1
+    },
+    "silhueta": 0.1726,
+    "semente": 42,
+    "imoveis_de_treino": 2350,
+    "periodo_de_treino": "2006–2010"
+  },
+  "carimbo": {
+    "modelo": {
+      "arquivo": "models/modelo-segmentacao.joblib",
+      "sha256": "1a5108376174e9ef5b94d5ab88331e8b0fa4abca072d86bcc30100e699c5e802",
+      "bytes": 14570
+    },
+    "base_segmentada": {
+      "arquivo": "data/processed/base_segmentada.parquet",
+      "sha256": "dfb255551bc466e18cb3b25270b45b2b159a4fefff4b4d42ab8053c5c15949ba",
+      "bytes": 62787
+    },
+    "base_modelagem": {
+      "arquivo": "data/processed/base_modelagem.parquet",
+      "sha256": "639bcafccd4f777b89650dba2de8a68c61ca9688e24311a14ad7e258b7f5890d",
+      "bytes": 93434
+    },
+    "manifesto_modelagem": {
+      "arquivo": "data/processed/manifesto_modelagem.json",
+      "sha256": "7fd3cc2350ce05c467d786a3d0a4b662ff201869c2058ce17d4d995c1f933464",
+      "bytes": 1661
+    },
+    "manifesto_avaliacao": {
+      "arquivo": "data/processed/manifesto_avaliacao.json",
+      "sha256": "1cb6e44b784bd2249d5498c6f2e235f44c99d44a81752cb20cc5468260b66c42",
+      "bytes": 2550
+    }
+  },
+  "regra_de_atribuicao": {
+    "corte_de_nucleo": 0.609,
+    "corte_de_fronteira": 0.915,
+    "teto_operacional": 0.15,
+    "calibrado_por": "F1 na identificação da silhueta negativa, sob o teto operacional",
+    "imoveis_em_fronteira": 339,
+    "pct_em_fronteira": 14.43,
+    "revocacao_da_silhueta_negativa": 0.826
+  },
+  "contrato_de_entrada": {
+    "campos": 17,
+    "obrigatorios": [
+      "area_habitavel",
+      "idade_imovel",
+      "qualidade_geral"
+    ],
+    "folga_das_continuas": 0.25,
+    "arquivo": "models/contrato_de_entrada.json"
+  },
+  "catalogo": {
+    "S1": {
+      "nome": "Compacto herdado",
+      "imoveis": 914,
+      "pct_receita": 27.3,
+      "teto_de_reforma": "6% do valor de avaliação"
+    },
+    "S2": {
+      "nome": "Amplo para requalificar",
+      "imoveis": 667,
+      "pct_receita": 27.9,
+      "teto_de_reforma": "12% do valor de avaliação"
+    },
+    "S3": {
+      "nome": "Recente de alto padrão",
+      "imoveis": 769,
+      "pct_receita": 44.8,
+      "teto_de_reforma": "sem reforma — o imóvel já está no padrão"
+    }
+  },
+  "pacote_da_aplicacao": {
+    "arquivo": "models/aplicacao-segmentacao.pkl",
+    "formato": "meridiano.segmentacao/1",
+    "bytes": 433124,
+    "sha256": "6c947e7d1cf84a27a2499016ddc2c02c82ccef9119f7b0577237e32d62dde3ba",
+    "bibliotecas_exigidas": [
+      "builtins",
+      "numpy",
+      "pandas",
+      "pyarrow",
+      "sklearn"
+    ],
+    "referencia_a_src_ou_main": false,
+    "releitura_reproduz_a_particao": true,
+    "releitura_reproduz_as_faixas": true
+  }
+}

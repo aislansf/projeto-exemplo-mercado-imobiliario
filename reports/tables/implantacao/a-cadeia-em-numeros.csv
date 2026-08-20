@@ -1,0 +1,7 @@
+﻿fase;pergunta;o_que_decidiu;registros;evidencia
+1 · Entendimento do negócio;Que problema a segmentação resolve, e como se sabe que resolveu?;Canvas do Problema com objetivo, critérios técnicos e de negócio, e cinco perguntas SMART;12;docs/pbl/canvas-do-problema.md
+2 · Entendimento e ajuste dos dados;A base descreve a carteira que a diretoria quer segmentar?;2.930 registros brutos → 2.350 imóveis curados, com 580 removidos por regra declarada;20;data/processed/manifesto_curadoria.json
+3 · Preparação dos dados;Que espaço de atributos descreve o imóvel sem descrever o preço?;"17 variáveis no espaço euclidiano; 3 reservadas fisicamente fora do arquivo de modelagem";16;data/processed/manifesto_preparacao.json
+4 · Modelagem;Quantos grupos, com que algoritmo, e por que esses?;"K-Means com k = 3, escolhido pela regra declarada antes do resultado; 4 modelos reprovados com o motivo registrado";30;data/processed/manifesto_modelagem.json
+5 · Avaliação;O modelo resolve o problema do negócio e a cadeia aguenta auditoria?;"7 de 7 critérios técnicos atendidos; 126 configurações varridas; veredito de prosseguir";15;data/processed/manifesto_avaliacao.json
+6 · Implantação;O que precisa existir para a segmentação funcionar amanhã?;Pacote 2.0.0 carimbado, contrato de entrada, catálogo de 3 linhas, regra de fronteira e plano de monitoramento com 6 indicadores;14;data/processed/manifesto_implantacao.json

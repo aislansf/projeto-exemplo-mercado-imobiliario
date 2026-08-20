@@ -1,0 +1,6 @@
+﻿modelo;ari_medio;ari_minimo;reamostras_abaixo_do_piso;regra_de_atribuicao;silhueta_no_retido;ari_no_retido
+K-Means;0,9575;0,9354;0;centroide mais próximo;0,1782;0,9403
+Hierárquica (ward);0,4345;0,3407;20;centro mais próximo (emprestada);0,1807;0,3988
+GMM (full);0,9109;0,4465;3;probabilidade a posteriori;0,1204;0,9875
+GMM (diag) · fora do protocolo;0,9907;0,9821;0;probabilidade a posteriori;0,2014;0,9709
+K-Medoids (Gower);0,8505;0,3031;4;medoide mais próximo;0,2202;1,0

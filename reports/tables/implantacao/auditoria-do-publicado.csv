@@ -1,0 +1,6 @@
+﻿artefato;o_que_publica;o_que_a_fase_5_aprovou;diferenca_medida;gravidade
+models/pipeline_segmentacao.joblib;k = 4, 2.925 imóveis, 21 variáveis;k = 3, 2.350 imóveis, 17 variáveis;ARI 0.7172 entre as duas partições;alta
+models/metadados_segmentacao.json;versão 1.0.0, 4 personas;3 segmentos, catálogo ainda inexistente;1 persona a mais do que o modelo tem segmentos;alta
+src/model/personas.py;os códigos S1, S2, S3, S4 com 4 nomes da cadeia anterior;3 linhas de produto, ainda sem código publicado;os códigos S1, S2, S3 vão existir nas duas cadeias com significados diferentes;alta
+models/linha_de_base.json;distribuições de 2.925 imóveis;carteira curada de 2.350 imóveis;575 imóveis de diferença na referência de monitoramento;alta
+src/deployment/scoring.py;procura os passos ['kmeans', 'preparacao'];o pacote expõe ['preparo', 'segmentacao'];erro de chave na primeira chamada, não resultado errado;média

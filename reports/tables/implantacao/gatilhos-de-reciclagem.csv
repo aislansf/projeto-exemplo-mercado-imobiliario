@@ -1,0 +1,6 @@
+﻿gatilho;condicao;procedimento;responsavel
+Calendário;a cada 12 meses, independentemente de desvio;reexecutar a cadeia 00–06 sobre a base acumulada e comparar a nova partição com a vigente por ARI;Área de Dados
+Data drift;PSI ≥ 0.25 em qualquer atributo;reciclagem imediata, com registro do atributo que disparou;Área de Dados
+Cluster drift;silhueta < 0.15 por dois trimestres consecutivos;reciclagem com nova varredura de k, incluindo teste de estabilidade;Área de Dados
+Mudança de escopo;entrada de novo tipo de ativo na carteira (comercial, terreno, multi-família);revisão do espaço de atributos antes de qualquer reciclagem — o dicionário de dados muda primeiro;Área de Dados com a Diretoria
+Decisão comercial;mudança de estratégia que altere o teto de reforma ou o canal de uma linha;revisão do catálogo de personas sem reciclar o modelo — versão de correção;Diretoria Comercial

@@ -1,0 +1,6 @@
+﻿k;linhas_de_produto;silhueta;ari_minimo;menor_grupo_pct;menor_receita_pct;desequilibrio_da_receita_pp;ari_contra_quartis;ari_contra_a_mediana;amplitude_mediana;passa_nos_criterios_tecnicos
+2;2;0,2468;0,9746;41,3;45,3;4,7;0,2944;0,5343;1,83;True
+3;3;0,1726;0,9271;28,4;27,3;11,5;0,3345;0,4314;1,74;True
+4;4;0,1388;0,872;16,7;23,6;2,1;0,3373;0,3198;1,67;False
+5;5;0,1337;0,8358;14,6;11,8;8,2;0,2991;0,2377;1,6;False
+6;6;0,132;0,9181;9,1;8,3;9,2;0,288;0,2151;1,65;False

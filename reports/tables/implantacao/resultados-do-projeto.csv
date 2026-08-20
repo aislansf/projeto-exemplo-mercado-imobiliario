@@ -1,0 +1,7 @@
+﻿resultado;valor;regua;criterio;atende
+Linhas de produto;3;Canvas §6;entre 2 e 5;True
+Coesão (silhueta);0.1726;Canvas §6;≥ 0.15;True
+Estabilidade (ARI sob reamostragem);0.9575;Canvas §6;≥ 0.75;True
+Independência do preço (ARI contra quartis);0.3345;Canvas §6;< 0.40;True
+Receita na linha líder;44.8%;Canvas §9;> 40% numa única linha (SMART 2);True
+Validação externa (V de Cramér contra bairro);0.630;—;sem piso declarado — `bairro` nunca entrou em algoritmo nenhum;True

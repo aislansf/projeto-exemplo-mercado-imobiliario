@@ -259,6 +259,15 @@ wheels = [
 ]
 
 [[package]]
+name = "circlify"
+version = "0.15.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/00/8f/ff3d9a37dec872ea83681627239c29c852675f6514380a50ed55982a0371/circlify-0.15.1.tar.gz", hash = "sha256:54103d82ab679128edb4cb77a0a1d8501935ca866a2dd8ae5605650508621bc9", size = 11808, upload-time = "2025-09-16T01:26:47.77Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/aa/d8/0abcfb8629cc529e12df60e8bd73717c2588588f0744415158bde9d94ebf/circlify-0.15.1-py3-none-any.whl", hash = "sha256:5905236d60fa8e8adc6e10812392df7da274ab7454916d4a98f9a913eb474a1f", size = 11500, upload-time = "2025-09-16T01:26:46.556Z" },
+]
+
+[[package]]
 name = "click"
 version = "8.4.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1464,6 +1473,21 @@ wheels = [
 ]
 
 [[package]]
+name = "prince"
+version = "0.20.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "altair" },
+    { name = "pandas" },
+    { name = "scikit-learn" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/5a/8c/578d4ab977f67af6550912a3809c16be2b7b7dd0fa4c97ae83a9e0bc5530/prince-0.20.1.tar.gz", hash = "sha256:8493bad93c0d6202134d87b2a08e10eacd9d51d143eeadd6ea510de7174bfc10", size = 216373, upload-time = "2026-06-30T20:27:16.033Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/35/aa/f1ddb9be3406964c7408c7a527c14e8a2be0101a99c6e39d70faa700fa17/prince-0.20.1-py3-none-any.whl", hash = "sha256:d7e55388735c32e7cc97f8def38747cd9f300c9bc93701f80bffefe6cdd9236f", size = 203965, upload-time = "2026-06-30T20:27:14.519Z" },
+]
+
+[[package]]
 name = "prometheus-client"
 version = "0.26.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1891,6 +1915,7 @@ name = "segmentacao-imobiliaria"
 version = "1.0.0"
 source = { editable = "." }
 dependencies = [
+    { name = "circlify" },
     { name = "ipywidgets" },
     { name = "joblib" },
     { name = "jupyterlab" },
@@ -1899,6 +1924,7 @@ dependencies = [
     { name = "numpy" },
     { name = "pandas" },
     { name = "plotly" },
+    { name = "prince" },
     { name = "pyarrow" },
     { name = "scikit-learn" },
     { name = "scipy" },
@@ -1928,6 +1954,7 @@ docs = [
 
 [package.metadata]
 requires-dist = [
+    { name = "circlify", specifier = ">=0.15.1" },
     { name = "ipywidgets", specifier = ">=8.1.3" },
     { name = "joblib", specifier = ">=1.4.2" },
     { name = "jupyterlab", specifier = ">=4.3.0" },
@@ -1936,6 +1963,7 @@ requires-dist = [
     { name = "numpy", specifier = ">=2.0.0" },
     { name = "pandas", specifier = ">=2.2.2" },
     { name = "plotly", specifier = ">=5.24.0" },
+    { name = "prince", specifier = ">=0.20.1" },
     { name = "pyarrow", specifier = ">=17.0.0" },
     { name = "scikit-learn", specifier = ">=1.5.1" },
     { name = "scipy", specifier = ">=1.14.0" },

@@ -1,0 +1,7 @@
+﻿linhas;colunas;inercia_2d;figura
+Garage Type;Bldg Type;96,68;True
+Neighborhood;Bldg Type;88,54;True
+Neighborhood;Garage Type;88,17;True
+House Style;Garage Type;86,75;True
+Neighborhood;House Style;76,36;False
+House Style;Bldg Type;71,67;False

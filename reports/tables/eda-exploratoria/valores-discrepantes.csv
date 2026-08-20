@@ -1,0 +1,12 @@
+﻿variavel;discrepantes;percentual;limite_inferior;limite_superior;menor_discrepante;maior_discrepante
+Overall Cond;252;8,61;3,5;7,5;1,0;9,0
+Lot Frontage;187;7,67;25,0;113,0;21,0;313,0
+SalePrice;137;4,68;3500,0;339500,0;339750,0;755000,0
+Lot Area;127;4,34;1267,875;17728,875;17755,0;215245,0
+Total Bsmt SF;122;4,17;29,5;2065,5;0,0;6110,0
+Bedroom AbvGr;78;2,66;0,5;4,5;0,0;8,0
+Gr Liv Area;74;2,53;200,5;2668,5;2673,0;5642,0
+TotRms AbvGrd;51;1,74;2,0;10,0;11,0;15,0
+Garage Area;42;1,43;-64,0;960,0;962,0;1488,0
+Fireplaces;13;0,44;-1,5;2,5;3,0;4,0
+Overall Qual;4;0,14;2,0;10,0;1,0;1,0

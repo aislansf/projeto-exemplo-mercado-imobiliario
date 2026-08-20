@@ -1,0 +1,21 @@
+﻿coluna;escala;niveis;registros_em_zero;mediana_codificada
+Pool QC;Po < Fa < TA < Gd < Ex;5;2916;0,0
+Fence;MnWw < GdWo < MnPrv < GdPrv;4;2358;0,0
+Fireplace Qu;Po < Fa < TA < Gd < Ex;5;1421;1,0
+Garage Cond;Po < Fa < TA < Gd < Ex;5;159;3,0
+Garage Finish;Unf < RFn < Fin;3;159;2,0
+Garage Qual;Po < Fa < TA < Gd < Ex;5;159;3,0
+Bsmt Exposure;No < Mn < Av < Gd;4;82;1,0
+BsmtFin Type 2;Unf < LwQ < Rec < BLQ < ALQ < GLQ;6;80;1,0
+BsmtFin Type 1;Unf < LwQ < Rec < BLQ < ALQ < GLQ;6;79;4,0
+Bsmt Cond;Po < Fa < TA < Gd < Ex;5;79;3,0
+Bsmt Qual;Po < Fa < TA < Gd < Ex;5;79;4,0
+Exter Cond;Po < Fa < TA < Gd < Ex;5;0;3,0
+Exter Qual;Po < Fa < TA < Gd < Ex;5;0;3,0
+Heating QC;Po < Fa < TA < Gd < Ex;5;0;5,0
+Kitchen Qual;Po < Fa < TA < Gd < Ex;5;0;3,0
+Functional;Sal < Sev < Maj2 < Maj1 < Mod < Min2 < Min1 < Typ;8;0;8,0
+Lot Shape;IR3 < IR2 < IR1 < Reg;4;0;4,0
+Land Slope;Sev < Mod < Gtl;3;0;3,0
+Paved Drive;N < P < Y;3;0;3,0
+Utilities;ELO < NoSeWa < NoSewr < AllPub;4;0;4,0

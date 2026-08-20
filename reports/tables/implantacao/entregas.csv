@@ -1,0 +1,8 @@
+﻿entrega;consumidor;meio;periodicidade;prazo;responsavel
+Carteira classificada;Sistema comercial e Gerência de Ativos;data/processed/carteira_classificada.parquet;a cada carga (mensal);até D+1 da carga;Área de Dados
+Lista de imóveis para revisão humana;Gerência de Ativos;reports/tables/implantacao/imoveis-para-revisao-humana.csv;a cada carga (mensal);até D+1 da carga;Área de Dados
+Classificação de um imóvel novo, antes da aquisição;Comitê de Aquisição;formulário da aplicação e serviço `classificar`;sob demanda;resposta imediata;Diretoria Comercial
+Catálogo de linhas de produto, com ação, teto e métrica;Diretoria Comercial;models/catalogo_de_personas.json e o painel;a cada versão MAIOR do modelo;antes da entrada em vigor;Área de Dados com a Diretoria Comercial
+Painel de monitoramento de desvio;Área de Dados;aba de monitoramento da aplicação;mensal;até o 5º dia útil;Área de Dados
+Relatório executivo com resultados e insights;Diretoria e patrocinador;reports/relatorio-final.md e site MkDocs;a cada reciclagem, no mínimo anual;até 10 dias após a reciclagem;Área de Dados
+Leitura das métricas de negócio por linha de produto;Diretoria Comercial;reports/tables/implantacao/metricas-de-negocio.csv e o painel;trimestral;até 15 dias após o fim do trimestre;Diretoria Comercial

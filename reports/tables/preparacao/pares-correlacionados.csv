@@ -1,0 +1,4 @@
+﻿variavel_a;variavel_b;correlacao;leitura
+lareiras;tem_lareira;0,97;duplicata — remover
+area_habitavel;comodos;0,811;forte, esperada pelo domínio — manter
+idade_imovel;qualidade_porao;-0,771;forte, esperada pelo domínio — manter

@@ -1,0 +1,29 @@
+﻿algoritmo;espaco;k;silhueta;davies_bouldin;menor_grupo;menor_grupo_pct;maior_grupo_pct;e_o_modelo_da_fase_4
+GMM (spherical);euclidiano (17);2;0,2471;1,518;938;39,915;60,1;False
+K-Means;euclidiano (17);2;0,2468;1,528;970;41,277;58,7;False
+Hierárquica (ward);euclidiano (17);2;0,2168;1,677;1139;48,468;51,5;False
+GMM (diag);euclidiano (17);2;0,2149;1,607;820;34,894;65,1;False
+GMM (tied);euclidiano (17);2;0,2142;1,66;804;34,213;65,8;False
+Hierárquica (complete);euclidiano (17);2;0,2033;1,562;530;22,553;77,4;False
+GMM (diag);euclidiano (17);3;0,2015;3,133;200;8,511;58,6;False
+K-Means;euclidiano (17);3;0,1726;2,089;667;28,383;38,9;True
+Hierárquica (complete);euclidiano (17);3;0,1621;1,547;65;2,766;74,7;False
+GMM (spherical);euclidiano (17);3;0,1561;1,91;417;17,745;59,6;False
+GMM (spherical);euclidiano (17);4;0,149;2,024;324;13,787;42,2;False
+K-Means;euclidiano (17);4;0,1388;2,073;392;16,681;34,4;False
+K-Means;euclidiano (17);5;0,1337;2,033;342;14,553;25,4;False
+GMM (full);euclidiano (17);2;0,1326;2,286;1111;47,277;52,7;False
+GMM (diag);euclidiano (17);4;0,1314;2,883;135;5,745;57,1;False
+GMM (spherical);euclidiano (17);5;0,1306;2,112;151;6,426;37,8;False
+Hierárquica (ward);euclidiano (17);3;0,1277;2,195;480;20,426;51,5;False
+GMM (tied);euclidiano (17);3;0,1264;2,791;565;24,043;41,7;False
+Hierárquica (complete);euclidiano (17);4;0,1173;2,266;65;2,766;63,8;False
+GMM (full);euclidiano (17);3;0,1169;3,519;169;7,191;46,6;False
+GMM (tied);euclidiano (17);5;0,1125;2,39;62;2,638;41,5;False
+Hierárquica (ward);euclidiano (17);4;0,1103;2,258;222;9,447;42,1;False
+Hierárquica (ward);euclidiano (17);5;0,1038;2,137;222;9,447;42,1;False
+GMM (tied);euclidiano (17);4;0,0998;2,549;50;2,128;41,8;False
+Hierárquica (complete);euclidiano (17);5;0,0881;2,318;65;2,766;63,8;False
+GMM (full);euclidiano (17);4;0,0745;4,639;286;12,17;32,9;False
+GMM (diag);euclidiano (17);5;0,0715;3,678;146;6,213;29,9;False
+GMM (full);euclidiano (17);5;0,0448;3,885;154;6,553;36,9;False
