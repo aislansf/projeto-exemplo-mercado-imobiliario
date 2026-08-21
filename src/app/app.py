@@ -8,7 +8,7 @@ pacote for copiado para outra máquina junto com este diretório, a aplicação 
 
 Execute com::
 
-    uv run invoke app-pkl
+    uv run invoke app
     # ou
     uv run streamlit run src/app/app.py
 
@@ -107,7 +107,7 @@ try:
 except FileNotFoundError:
     st.error(
         f"O pacote `{pac.CAMINHO_PACOTE.name}` não existe em `models/`. "
-        "Ele é gravado na fase de implantação:\n\n```bash\nuv run invoke pipeline\n```"
+        "Ele é gravado na fase de implantação:\n\n```bash\nuv run invoke notebooks\n```"
     )
     st.stop()
 except pac.PacoteInvalido as erro:

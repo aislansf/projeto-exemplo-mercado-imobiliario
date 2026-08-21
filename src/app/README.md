@@ -11,7 +11,7 @@ diretório para outra máquina é suficiente para a tela subir.
 ## Como executar
 
 ```bash
-uv run invoke app-pkl
+uv run invoke app
 ```
 
 Ou, sem o invoke:
@@ -23,7 +23,7 @@ uv run streamlit run src/app/app.py
 Se o pacote ainda não existir, ele é gravado na fase 6 do CRISP-DM:
 
 ```bash
-uv run invoke pipeline
+uv run invoke notebooks
 ```
 
 ## Os dois módulos

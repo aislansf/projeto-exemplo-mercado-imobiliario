@@ -16,7 +16,7 @@ from src.app import pacote as pac
 
 pytestmark = pytest.mark.skipif(
     not pac.CAMINHO_PACOTE.exists(),
-    reason="o pacote ainda não foi gravado — execute `invoke pipeline`",
+    reason="o pacote ainda não foi gravado — execute `invoke notebooks`",
 )
 
 BASE_DE_TREINO = pac.RAIZ / "data" / "processed" / "base_modelagem.parquet"
