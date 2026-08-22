@@ -22,9 +22,9 @@
   ],
   "celulas_vazias_entrada": 13997,
   "celulas_vazias_saida": 0,
-  "ajustes": 20,
+  "ajustes": 22,
   "ajustes_por_acao": {
-    "corrigido": 10,
+    "corrigido": 12,
     "removido": 7,
     "imputado": 2,
     "verificado, sem ação": 1

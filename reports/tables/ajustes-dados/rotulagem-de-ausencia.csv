@@ -1,16 +1,16 @@
 ﻿coluna;rotulo;celulas
-Pool QC;SemPiscina;2917
-Misc Feature;SemExtra;2824
-Alley;SemViela;2732
-Fence;SemCerca;2358
-Fireplace Qu;SemLareira;1422
-Garage Finish;SemGaragem;159
-Garage Qual;SemGaragem;159
-Garage Cond;SemGaragem;159
-Garage Type;SemGaragem;157
-Bsmt Exposure;SemPorao;83
-BsmtFin Type 2;SemPorao;81
-BsmtFin Type 1;SemPorao;80
-Bsmt Cond;SemPorao;80
-Bsmt Qual;SemPorao;80
-Mas Vnr Type;NaoInformado;23
+Alley;SemViela;0
+Bsmt Qual;SemPorao;0
+Bsmt Cond;SemPorao;0
+Bsmt Exposure;SemPorao;0
+BsmtFin Type 1;SemPorao;0
+BsmtFin Type 2;SemPorao;0
+Fireplace Qu;SemLareira;0
+Garage Type;SemGaragem;0
+Garage Finish;SemGaragem;0
+Garage Qual;SemGaragem;0
+Garage Cond;SemGaragem;0
+Pool QC;SemPiscina;0
+Fence;SemCerca;0
+Misc Feature;SemExtra;0
+Mas Vnr Type;NaoInformado;0

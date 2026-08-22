@@ -1,3 +1,6 @@
+uv run streamlit run app/app_imobiliario.py
+
+
 # Segmentação da carteira residencial — Meridiano Imobiliária
 
 > **Projeto de demonstração** da disciplina *Método de Aprendizado Não Supervisionado*.
