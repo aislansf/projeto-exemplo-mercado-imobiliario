@@ -2,8 +2,9 @@
 
 Este módulo é a **fonte única da verdade** sobre o significado de cada coluna.
 A base original (Ames Housing, De Cock 2011) usa nomes em inglês com espaço no
-meio (``Gr Liv Area``, ``Bsmt Qual``); a camada curada renomeia tudo para
-`snake_case` em português, porque o resultado é lido por gente de negócio.
+meio (``Gr Liv Area``, ``Bsmt Qual``) e categorias em código (``RL``, ``1Fam``);
+a camada curada renomeia as colunas para `snake_case` em português e traduz as
+categorias, porque o resultado é lido por gente de negócio.
 
 Três decisões registradas aqui, e não no código de análise:
 
@@ -174,6 +175,229 @@ RENOMEAR: dict[str, str] = {
     "Sale Condition": "condicao_venda",
     "SalePrice": "preco_venda",
 }
+
+# --------------------------------------------------------------------------- #
+# Tradução das categorias para a camada curada
+# --------------------------------------------------------------------------- #
+
+#: Rótulos compartilhados por mais de uma coluna.
+_PAVIMENTO = {"Grvl": "Cascalho", "Pave": "Pavimentada"}
+
+_ENTORNO = {
+    "Norm": "Normal",
+    "Artery": "Junto a via arterial",
+    "Feedr": "Junto a via coletora",
+    "RRNn": "Até 200 pés da ferrovia norte-sul",
+    "RRAn": "Vizinho à ferrovia norte-sul",
+    "RRNe": "Até 200 pés da ferrovia leste-oeste",
+    "RRAe": "Vizinho à ferrovia leste-oeste",
+    "PosN": "Próximo a área verde",
+    "PosA": "Vizinho a área verde",
+}
+
+#: As duas colunas de revestimento grafam o mesmo material de formas diferentes
+#: na origem (`CemntBd` × `CmentBd`, `WdShing` × `Wd Shng`, `BrkComm` ×
+#: `Brk Cmn`). A tradução unifica a grafia: o material é um só.
+_REVESTIMENTO = {
+    "AsbShng": "Placas de amianto",
+    "AsphShn": "Placas asfálticas",
+    "BrkComm": "Tijolo comum",
+    "Brk Cmn": "Tijolo comum",
+    "BrkFace": "Tijolo aparente",
+    "CBlock": "Bloco de concreto",
+    "CemntBd": "Placa cimentícia",
+    "CmentBd": "Placa cimentícia",
+    "HdBoard": "Chapa de fibra",
+    "ImStucc": "Estuque imitação",
+    "MetalSd": "Metálico",
+    "Other": "Outro",
+    "Plywood": "Compensado",
+    "PreCast": "Pré-moldado",
+    "Stone": "Pedra",
+    "Stucco": "Estuque",
+    "VinylSd": "Vinil",
+    "Wd Sdng": "Tábuas de madeira",
+    "WdShing": "Escamas de madeira",
+    "Wd Shng": "Escamas de madeira",
+}
+
+#: Códigos da origem (De Cock, 2011) → rótulo em português, por coluna curada.
+#:
+#: A tradução roda **depois** da renomeação e troca só o texto: cada coluna
+#: continua com o mesmo número de categorias e os mesmos imóveis em cada uma, o
+#: que deixa Gower, *one-hot* e qualquer contagem inalterados. Os rótulos de
+#: ausência (`SemGaragem`, `NaoInformado`…) entram aqui também, porque são
+#: aplicados antes, ainda sobre os nomes originais.
+#:
+#: Bairro é nome próprio: o código abreviado dá lugar ao nome por extenso, sem
+#: tradução. As colunas ordinais não aparecem porque já viraram inteiro.
+TRADUCAO_CATEGORIAS: dict[str, dict[str, str]] = {
+    "zoneamento": {
+        "RL": "Residencial de baixa densidade",
+        "RM": "Residencial de média densidade",
+        "RH": "Residencial de alta densidade",
+        "FV": "Residencial em vila planejada",
+        "C (all)": "Comercial",
+        "I (all)": "Industrial",
+        "A (agr)": "Agrícola",
+    },
+    "tipo_via": _PAVIMENTO,
+    "tipo_viela": {**_PAVIMENTO, "SemViela": "Sem viela"},
+    "relevo": {
+        "Lvl": "Plano",
+        "Bnk": "Talude",
+        "HLS": "Encosta",
+        "Low": "Baixada",
+    },
+    "config_lote": {
+        "Inside": "Meio de quadra",
+        "Corner": "Esquina",
+        "CulDSac": "Rua sem saída",
+        "FR2": "Duas frentes",
+        "FR3": "Três frentes",
+    },
+    "bairro": {
+        "Blmngtn": "Bloomington Heights",
+        "Blueste": "Bluestem",
+        "BrDale": "Briardale",
+        "BrkSide": "Brookside",
+        "ClearCr": "Clear Creek",
+        "CollgCr": "College Creek",
+        "Crawfor": "Crawford",
+        "Edwards": "Edwards",
+        "Gilbert": "Gilbert",
+        "Greens": "Greens",
+        "GrnHill": "Green Hills",
+        "IDOTRR": "Iowa DOT and Rail Road",
+        "Landmrk": "Landmark",
+        "MeadowV": "Meadow Village",
+        "Mitchel": "Mitchell",
+        "NAmes": "North Ames",
+        "NoRidge": "Northridge",
+        "NPkVill": "Northpark Villa",
+        "NridgHt": "Northridge Heights",
+        "NWAmes": "Northwest Ames",
+        "OldTown": "Old Town",
+        "SWISU": "South & West of ISU",
+        "Sawyer": "Sawyer",
+        "SawyerW": "Sawyer West",
+        "Somerst": "Somerset",
+        "StoneBr": "Stone Brook",
+        "Timber": "Timberland",
+        "Veenker": "Veenker",
+    },
+    "condicao_entorno_1": _ENTORNO,
+    "condicao_entorno_2": _ENTORNO,
+    "tipo_construcao": {
+        "1Fam": "Unifamiliar isolada",
+        "2fmCon": "Bifamiliar convertida",
+        "Duplex": "Duplex",
+        "TwnhsE": "Casa em fileira, ponta",
+        "Twnhs": "Casa em fileira, meio",
+    },
+    "estilo": {
+        "1Story": "Térrea",
+        "1.5Fin": "1,5 pavimento, superior acabado",
+        "1.5Unf": "1,5 pavimento, superior inacabado",
+        "2Story": "Dois pavimentos",
+        "2.5Fin": "2,5 pavimentos, superior acabado",
+        "2.5Unf": "2,5 pavimentos, superior inacabado",
+        "SFoyer": "Entrada em meio-nível",
+        "SLvl": "Meios-níveis",
+    },
+    "estilo_telhado": {
+        "Flat": "Plano",
+        "Gable": "Duas águas",
+        "Gambrel": "Holandês",
+        "Hip": "Quatro águas",
+        "Mansard": "Mansarda",
+        "Shed": "Uma água",
+    },
+    "material_telhado": {
+        "ClyTile": "Telha cerâmica",
+        "CompShg": "Telha asfáltica",
+        "Membran": "Membrana",
+        "Metal": "Metal",
+        "Roll": "Manta em rolo",
+        "Tar&Grv": "Piche e cascalho",
+        "WdShake": "Lascas de madeira",
+        "WdShngl": "Telha de madeira",
+    },
+    "revestimento_1": _REVESTIMENTO,
+    "revestimento_2": _REVESTIMENTO,
+    "tipo_alvenaria_aparente": {
+        "BrkCmn": "Tijolo comum",
+        "BrkFace": "Tijolo aparente",
+        "CBlock": "Bloco de concreto",
+        "Stone": "Pedra",
+        "None": "Sem alvenaria aparente",
+        "NaoInformado": "Não informado",
+    },
+    "fundacao": {
+        "BrkTil": "Tijolo e telha",
+        "CBlock": "Bloco de concreto",
+        "PConc": "Concreto moldado",
+        "Slab": "Radier",
+        "Stone": "Pedra",
+        "Wood": "Madeira",
+    },
+    "aquecimento": {
+        "Floor": "Fornalha de piso",
+        "GasA": "Ar forçado a gás",
+        "GasW": "Água quente a gás",
+        "Grav": "Fornalha por gravidade",
+        "OthW": "Água quente, outro combustível",
+        "Wall": "Fornalha de parede",
+    },
+    "ar_central": {"Y": "Sim", "N": "Não"},
+    "sistema_eletrico": {
+        "SBrkr": "Disjuntores",
+        "FuseA": "Fusíveis acima de 60 A",
+        "FuseF": "Fusíveis de 60 A",
+        "FuseP": "Fusíveis de 60 A, fiação antiga",
+        "Mix": "Misto",
+    },
+    "tipo_garagem": {
+        "Attchd": "Anexa à casa",
+        "Detchd": "Separada da casa",
+        "BuiltIn": "Embutida",
+        "Basment": "No porão",
+        "CarPort": "Telheiro",
+        "2Types": "Mais de um tipo",
+        "SemGaragem": "Sem garagem",
+    },
+    "item_extra": {
+        "Elev": "Elevador",
+        "Gar2": "Segunda garagem",
+        "Othr": "Outro",
+        "Shed": "Depósito",
+        "TenC": "Quadra de tênis",
+        "SemExtra": "Sem item extra",
+    },
+    "tipo_venda": {
+        "WD ": "Escritura convencional",
+        "CWD": "Escritura com pagamento à vista",
+        "VWD": "Escritura com financiamento de veterano",
+        "New": "Imóvel novo",
+        "COD": "Escritura judicial ou de espólio",
+        "Con": "Contrato, entrada de 15%",
+        "ConLw": "Contrato, entrada e juros baixos",
+        "ConLI": "Contrato, juros baixos",
+        "ConLD": "Contrato, entrada baixa",
+        "Oth": "Outra",
+    },
+    "condicao_venda": {
+        "Normal": "Normal",
+        "Abnorml": "Anormal",
+        "AdjLand": "Terreno adjacente",
+        "Alloca": "Matrículas conjuntas",
+        "Family": "Entre familiares",
+        "Partial": "Parcial",
+    },
+}
+
+#: Condição de venda que a depuração da carteira mantém.
+VENDA_NORMAL = TRADUCAO_CATEGORIAS["condicao_venda"]["Normal"]
 
 # --------------------------------------------------------------------------- #
 # Papel de cada coluna no projeto

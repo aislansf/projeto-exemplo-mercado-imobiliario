@@ -63,15 +63,16 @@ Implementadas em `src/data/preparacao.py`, em uma única passada, e publicadas e
 | # | Regra | Motivo |
 |:-:|:---|:---|
 | 1 | Renomear as 82 colunas para `snake_case` em português | Os nomes originais têm espaço no meio (`Gr Liv Area`), o que obriga a usar colchetes em toda referência. O resultado é lido por gente de negócio. |
-| 2 | Ler o arquivo com `na_values=['NA', '']`, em vez do padrão do `pandas` | A palavra `None` em `Mas Vnr Type` é categoria legítima. A leitura padrão a converte em nulo e transforma 1.752 imóveis descritos em desconhecidos, inflando a ausência de 0,8% para 60,6%. |
-| 3 | Converter `NA` em rótulo de ausência estrutural em 14 colunas | Nessas colunas `NA` significa "o item não existe" — sem porão, sem garagem, sem lareira. Imputar pela mediana inventaria porões que nunca existiram. |
-| 4 | Mapear 20 colunas ordinais para inteiro, com **0** para ausência | `Ex > Gd > TA > Fa > Po` tem ordem semântica. *One-hot* destruiria a ordem e multiplicaria a dimensionalidade sem ganho. |
-| 5 | Corrigir `ano_garagem = 2207` para o ano de construção do imóvel | Erro de digitação evidente: o imóvel foi vendido em 2007. Sem a correção, a idade da garagem fica negativa em 200 anos e domina qualquer padronização. |
-| 6 | Imputar `testada_lote` pela mediana do **bairro** | 16,7% de ausência concentrada em lotes de esquina e de fundo — ausência MAR, explicada pela geometria. A mediana global achataria a variação entre bairros. |
-| 7 | Preencher com 0 as áreas e contagens de itens inexistentes | Área de garagem ausente em imóvel sem garagem é zero, não desconhecida. |
-| 8 | Remover os 5 imóveis com área habitável acima de 4.000 pés² | Recomendação explícita do autor da base (De Cock, 2011, §4): são vendas parciais de imóveis atípicos. Decisão citável, não arbitrária. |
-| 9 | Derivar 8 atributos: áreas somadas, banheiros equivalentes, idades e flags | Cinco colunas de varanda medem a mesma coisa; separadas, cada uma é quase toda zero e nenhuma tem poder de separação. Somadas, viram um atributo com variância útil. |
-| 10 | **Manter** as vendas não normais (17,7% dos registros) | A condição da venda descreve a transação, não o produto. Para segmentar o imóvel, uma venda entre familiares continua sendo um imóvel válido. |
+| 2 | Traduzir as categorias das colunas nominais para o português (`dic.TRADUCAO_CATEGORIAS`) | `RL`, `1Fam` e `Attchd` são códigos do cadastro de Ames e não dizem nada a quem opera a carteira. A tradução troca só o rótulo: cada coluna mantém as mesmas categorias com os mesmos imóveis, e o modelo não muda. O mapa completo, com a contagem por categoria, está em `reports/tables/ajustes-dados/traducao-das-categorias.csv`. |
+| 3 | Ler o arquivo com `na_values=['NA', '']`, em vez do padrão do `pandas` | A palavra `None` em `Mas Vnr Type` é categoria legítima. A leitura padrão a converte em nulo e transforma 1.752 imóveis descritos em desconhecidos, inflando a ausência de 0,8% para 60,6%. |
+| 4 | Converter `NA` em rótulo de ausência estrutural em 14 colunas | Nessas colunas `NA` significa "o item não existe" — sem porão, sem garagem, sem lareira. Imputar pela mediana inventaria porões que nunca existiram. |
+| 5 | Mapear 20 colunas ordinais para inteiro, com **0** para ausência | `Ex > Gd > TA > Fa > Po` tem ordem semântica. *One-hot* destruiria a ordem e multiplicaria a dimensionalidade sem ganho. |
+| 6 | Corrigir `ano_garagem = 2207` para o ano de construção do imóvel | Erro de digitação evidente: o imóvel foi vendido em 2007. Sem a correção, a idade da garagem fica negativa em 200 anos e domina qualquer padronização. |
+| 7 | Imputar `testada_lote` pela mediana do **bairro** | 16,7% de ausência concentrada em lotes de esquina e de fundo — ausência MAR, explicada pela geometria. A mediana global achataria a variação entre bairros. |
+| 8 | Preencher com 0 as áreas e contagens de itens inexistentes | Área de garagem ausente em imóvel sem garagem é zero, não desconhecida. |
+| 9 | Remover os 5 imóveis com área habitável acima de 4.000 pés² | Recomendação explícita do autor da base (De Cock, 2011, §4): são vendas parciais de imóveis atípicos. Decisão citável, não arbitrária. |
+| 10 | Derivar 8 atributos: áreas somadas, banheiros equivalentes, idades e flags | Cinco colunas de varanda medem a mesma coisa; separadas, cada uma é quase toda zero e nenhuma tem poder de separação. Somadas, viram um atributo com variância útil. |
+| 11 | **Manter** as vendas não normais (17,7% dos registros) | A condição da venda descreve a transação, não o produto. Para segmentar o imóvel, uma venda entre familiares continua sendo um imóvel válido. |
 
 ### Os atributos derivados
 

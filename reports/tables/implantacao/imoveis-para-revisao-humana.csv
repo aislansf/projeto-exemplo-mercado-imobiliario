@@ -1,340 +1,340 @@
 ﻿pid;segmento;codigo_segmento;persona;razao_de_fronteira;confianca;acao_automatica_liberada;versao_modelo;carimbo_do_pacote;bairro;preco_venda;area_habitavel;qualidade_geral
-924151050;2;S3;Recente de alto padrão;0,9999;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;188000;2000;7
-527376090;1;S2;Amplo para requalificar;0,9992;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;153500;1074;5
-909176140;1;S2;Amplo para requalificar;0,9987;fronteira;False;2.0.0;1a5108376174e9ef;SWISU;127000;1691;5
-527302070;1;S2;Amplo para requalificar;0,9977;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;181900;1260;7
-903484110;1;S2;Amplo para requalificar;0,9971;fronteira;False;2.0.0;1a5108376174e9ef;IDOTRR;116000;1403;6
-909252020;0;S1;Compacto herdado;0,9969;fronteira;False;2.0.0;1a5108376174e9ef;SWISU;155000;1135;7
-531451150;0;S1;Compacto herdado;0,9965;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;128000;1266;6
-916386080;2;S3;Recente de alto padrão;0,9963;fronteira;False;2.0.0;1a5108376174e9ef;Timber;167500;1394;5
-914476130;0;S1;Compacto herdado;0,9963;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;148000;1210;6
-909175030;1;S2;Amplo para requalificar;0,9961;fronteira;False;2.0.0;1a5108376174e9ef;SWISU;140000;1595;6
-908102020;0;S1;Compacto herdado;0,996;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;98000;1436;4
-908152110;0;S1;Compacto herdado;0,9959;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;160500;1398;6
-906201050;1;S2;Amplo para requalificar;0,9957;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;156500;1338;6
-902303100;1;S2;Amplo para requalificar;0,995;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;144100;1650;6
-526302040;0;S1;Compacto herdado;0,995;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;157500;1024;6
-914476020;1;S2;Amplo para requalificar;0,9948;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;126000;1734;5
-923225200;0;S1;Compacto herdado;0,9948;fronteira;False;2.0.0;1a5108376174e9ef;MeadowV;129500;1475;5
-903233050;0;S1;Compacto herdado;0,9944;fronteira;False;2.0.0;1a5108376174e9ef;BrkSide;137500;1513;5
-534401110;0;S1;Compacto herdado;0,994;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;159000;1209;5
-907200280;1;S2;Amplo para requalificar;0,9939;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;150000;1026;5
-909101140;0;S1;Compacto herdado;0,9939;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;117000;1604;5
-902109080;1;S2;Amplo para requalificar;0,9939;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;118000;1594;4
-903202170;1;S2;Amplo para requalificar;0,9938;fronteira;False;2.0.0;1a5108376174e9ef;BrkSide;137000;1654;5
-534479130;1;S2;Amplo para requalificar;0,9934;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;133000;1578;6
-534177210;1;S2;Amplo para requalificar;0,9933;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;175500;1242;7
-908225320;1;S2;Amplo para requalificar;0,9929;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;113000;1487;6
-909250030;1;S2;Amplo para requalificar;0,9929;fronteira;False;2.0.0;1a5108376174e9ef;SWISU;100000;1666;5
-534401130;0;S1;Compacto herdado;0,9924;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;174900;1165;6
-527454130;1;S2;Amplo para requalificar;0,9924;fronteira;False;2.0.0;1a5108376174e9ef;NPkVill;137900;1456;6
-902107030;1;S2;Amplo para requalificar;0,9923;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;139500;1456;6
-532354090;0;S1;Compacto herdado;0,992;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;148000;1155;5
-908152290;1;S2;Amplo para requalificar;0,9919;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;171500;1408;5
-908225370;0;S1;Compacto herdado;0,9916;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;98000;1529;4
-909452114;1;S2;Amplo para requalificar;0,9915;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;203135;1652;7
-534202030;1;S2;Amplo para requalificar;0,9907;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;143000;1214;5
-905102010;0;S1;Compacto herdado;0,9902;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;165000;1020;5
-905202230;1;S2;Amplo para requalificar;0,9902;fronteira;False;2.0.0;1a5108376174e9ef;ClearCr;235000;1252;6
-903234220;0;S1;Compacto herdado;0,9901;fronteira;False;2.0.0;1a5108376174e9ef;BrkSide;150000;1582;5
-907290250;0;S1;Compacto herdado;0,9899;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;145000;848;6
-902110080;0;S1;Compacto herdado;0,9895;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;135000;1389;7
-909428110;1;S2;Amplo para requalificar;0,9895;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;157000;1336;5
-904100030;1;S2;Amplo para requalificar;0,9894;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;137500;1422;5
-909251040;1;S2;Amplo para requalificar;0,989;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;146500;1298;6
-527225035;1;S2;Amplo para requalificar;0,9889;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;164000;1752;8
-535456010;0;S1;Compacto herdado;0,9888;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;119000;1556;5
-906476030;2;S3;Recente de alto padrão;0,9886;fronteira;False;2.0.0;1a5108376174e9ef;ClearCr;200000;1688;6
-903426200;0;S1;Compacto herdado;0,988;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;159900;1560;6
-905225040;1;S2;Amplo para requalificar;0,988;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;140000;1601;5
-535375050;1;S2;Amplo para requalificar;0,988;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;135000;1656;5
-905451390;0;S1;Compacto herdado;0,9878;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;154000;1626;6
-924100040;1;S2;Amplo para requalificar;0,9872;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;196000;1567;6
-908152280;2;S3;Recente de alto padrão;0,987;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;157000;1090;5
-535453070;0;S1;Compacto herdado;0,9869;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;154000;1246;5
-527328010;1;S2;Amplo para requalificar;0,9868;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;169000;1102;6
-902301060;0;S1;Compacto herdado;0,9867;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;87500;1510;4
-535151110;0;S1;Compacto herdado;0,9864;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;142100;1053;5
-906402200;1;S2;Amplo para requalificar;0,9861;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;320000;3222;7
-535382100;1;S2;Amplo para requalificar;0,9858;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;156500;1690;7
-533213120;1;S2;Amplo para requalificar;0,9857;fronteira;False;2.0.0;1a5108376174e9ef;Somerst;172900;1549;6
-908186050;0;S1;Compacto herdado;0,9854;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;140000;1072;6
-909428190;1;S2;Amplo para requalificar;0,9854;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;224000;1640;6
-906204150;1;S2;Amplo para requalificar;0,9853;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;262280;2329;7
-905100030;1;S2;Amplo para requalificar;0,9851;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;148000;1382;4
-907185060;2;S3;Recente de alto padrão;0,9846;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;200500;1682;6
-534475250;1;S2;Amplo para requalificar;0,9845;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;175000;1691;6
-902103090;1;S2;Amplo para requalificar;0,9842;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;111500;1657;4
-905107070;0;S1;Compacto herdado;0,984;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;149500;1400;6
-907290240;0;S1;Compacto herdado;0,9837;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;143000;848;6
-535452120;0;S1;Compacto herdado;0,9833;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;127000;1507;5
-534252110;0;S1;Compacto herdado;0,9828;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;139900;1422;5
-535380050;0;S1;Compacto herdado;0,9828;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;140000;1558;5
-909100110;1;S2;Amplo para requalificar;0,9828;fronteira;False;2.0.0;1a5108376174e9ef;SWISU;128000;1647;6
-532351140;1;S2;Amplo para requalificar;0,9826;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;112000;1902;6
-526302030;0;S1;Compacto herdado;0,9817;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;149900;1293;6
-908103280;1;S2;Amplo para requalificar;0,9816;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;135000;1127;6
-535454100;1;S2;Amplo para requalificar;0,9805;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;133500;1461;4
-923203140;0;S1;Compacto herdado;0,9805;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;160500;1189;6
-534428100;0;S1;Compacto herdado;0,9805;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;153000;1118;5
-909275160;0;S1;Compacto herdado;0,9801;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;153500;1226;5
-909451100;0;S1;Compacto herdado;0,9801;fronteira;False;2.0.0;1a5108376174e9ef;Blueste;137000;1229;6
-909427230;1;S2;Amplo para requalificar;0,9801;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;266500;2340;7
-908228040;0;S1;Compacto herdado;0,9798;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;104900;1221;5
-535450100;0;S1;Compacto herdado;0,9796;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;147500;1521;4
-923227030;0;S1;Compacto herdado;0,9795;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;152500;1160;5
-908151050;0;S1;Compacto herdado;0,9789;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;159500;1426;6
-535453020;0;S1;Compacto herdado;0,9782;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;159000;1256;5
-908201120;0;S1;Compacto herdado;0,9781;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;118000;1440;4
-909252220;0;S1;Compacto herdado;0,978;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;147500;1264;6
-907200190;0;S1;Compacto herdado;0,9778;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;153500;1025;5
-531375120;1;S2;Amplo para requalificar;0,9776;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;155000;1114;6
-526351030;2;S3;Recente de alto padrão;0,9774;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;176500;1414;6
-905402090;1;S2;Amplo para requalificar;0,9773;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;177000;1357;6
-528290140;1;S2;Amplo para requalificar;0,9769;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;173000;1671;6
-905402060;1;S2;Amplo para requalificar;0,9768;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;139600;1733;3
-527455280;1;S2;Amplo para requalificar;0,9766;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;148800;1120;5
-905105070;1;S2;Amplo para requalificar;0,9765;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;154000;1060;5
-909276200;1;S2;Amplo para requalificar;0,9764;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;160000;1308;5
-905476120;0;S1;Compacto herdado;0,976;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;119000;1367;5
-527165100;2;S3;Recente de alto padrão;0,9758;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;163900;1482;7
-907202010;0;S1;Compacto herdado;0,9757;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;158000;1174;5
-527356020;1;S2;Amplo para requalificar;0,9756;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;250000;2784;7
-909425060;0;S1;Compacto herdado;0,9753;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;174500;1564;7
-535425010;2;S3;Recente de alto padrão;0,9752;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;242000;2978;7
-527402060;0;S1;Compacto herdado;0,9744;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;151000;1054;6
-534278150;1;S2;Amplo para requalificar;0,9739;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;140500;1187;5
-528231050;1;S2;Amplo para requalificar;0,9734;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;192140;1838;5
-531452010;0;S1;Compacto herdado;0,9731;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;120000;1217;6
-535176050;1;S2;Amplo para requalificar;0,973;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;145250;1383;6
-908102170;1;S2;Amplo para requalificar;0,9722;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;144000;1196;5
-527455080;2;S3;Recente de alto padrão;0,972;fronteira;False;2.0.0;1a5108376174e9ef;NPkVill;138000;1456;6
-903227020;0;S1;Compacto herdado;0,972;fronteira;False;2.0.0;1a5108376174e9ef;BrkSide;128000;1196;6
-906475050;1;S2;Amplo para requalificar;0,9715;fronteira;False;2.0.0;1a5108376174e9ef;ClearCr;180000;988;6
-905426030;1;S2;Amplo para requalificar;0,9712;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;260000;1518;5
-526352090;1;S2;Amplo para requalificar;0,9706;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;167000;1277;7
-534402140;1;S2;Amplo para requalificar;0,9704;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;154000;1154;5
-535403010;1;S2;Amplo para requalificar;0,9703;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;139000;1044;5
-903427090;1;S2;Amplo para requalificar;0,97;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;161000;1666;8
-531375130;1;S2;Amplo para requalificar;0,97;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;153000;1114;5
-902106010;0;S1;Compacto herdado;0,9697;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;150000;1558;5
-905226080;0;S1;Compacto herdado;0,9696;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;165250;1302;7
-905426200;1;S2;Amplo para requalificar;0,9695;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;144500;1074;6
-527163080;2;S3;Recente de alto padrão;0,9694;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;160000;1187;7
-905300080;0;S1;Compacto herdado;0,969;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;142500;894;5
-907227060;0;S1;Compacto herdado;0,9689;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;127000;864;5
-914478045;0;S1;Compacto herdado;0,9688;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;169900;1034;6
-532377130;1;S2;Amplo para requalificar;0,9679;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;131400;1144;5
-905107280;1;S2;Amplo para requalificar;0,9677;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;153000;1034;6
-535454070;0;S1;Compacto herdado;0,9668;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;166000;1385;5
-527165130;1;S2;Amplo para requalificar;0,9664;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;173000;1167;6
-905451050;1;S2;Amplo para requalificar;0,9661;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;135000;1488;5
-527325090;1;S2;Amplo para requalificar;0,9661;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;192000;1930;7
-905202210;0;S1;Compacto herdado;0,9654;fronteira;False;2.0.0;1a5108376174e9ef;ClearCr;164000;1000;5
-905352140;1;S2;Amplo para requalificar;0,9651;fronteira;False;2.0.0;1a5108376174e9ef;ClearCr;230000;1981;6
-535154130;0;S1;Compacto herdado;0,9648;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;149500;988;6
-527378010;0;S1;Compacto herdado;0,9648;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;155000;1103;6
-527453160;1;S2;Amplo para requalificar;0,9646;fronteira;False;2.0.0;1a5108376174e9ef;NPkVill;143000;1456;6
-908128060;1;S2;Amplo para requalificar;0,9644;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;198500;1922;7
-534455030;0;S1;Compacto herdado;0,9644;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;141500;1496;5
-535301170;0;S1;Compacto herdado;0,9643;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;153000;1297;5
-905101310;1;S2;Amplo para requalificar;0,9642;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;136500;1768;4
-527162090;1;S2;Amplo para requalificar;0,9639;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;176000;1253;7
-923203090;0;S1;Compacto herdado;0,9637;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;164000;1216;6
-902404010;0;S1;Compacto herdado;0,9636;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;153500;1559;5
-916403130;1;S2;Amplo para requalificar;0,9632;fronteira;False;2.0.0;1a5108376174e9ef;Timber;250000;2514;7
-534151175;1;S2;Amplo para requalificar;0,9632;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;243500;2495;6
-909280030;1;S2;Amplo para requalificar;0,9629;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;250000;2057;7
-923225040;0;S1;Compacto herdado;0,9628;fronteira;False;2.0.0;1a5108376174e9ef;MeadowV;129900;1060;5
-527455060;1;S2;Amplo para requalificar;0,962;fronteira;False;2.0.0;1a5108376174e9ef;NPkVill;148500;1441;6
-904352190;1;S2;Amplo para requalificar;0,962;fronteira;False;2.0.0;1a5108376174e9ef;SWISU;114900;1680;5
-527359030;0;S1;Compacto herdado;0,962;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;159900;1444;6
-534252040;1;S2;Amplo para requalificar;0,9617;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;144000;1344;5
-914476380;2;S3;Recente de alto padrão;0,9616;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;173000;1217;7
-923229040;0;S1;Compacto herdado;0,9607;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;153500;1008;5
-534178010;0;S1;Compacto herdado;0,9595;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;127000;1052;6
-527165010;2;S3;Recente de alto padrão;0,9593;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;185000;1709;6
-531375050;0;S1;Compacto herdado;0,9592;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;146000;1175;6
-905351089;2;S3;Recente de alto padrão;0,959;fronteira;False;2.0.0;1a5108376174e9ef;ClearCr;173000;1291;6
-904100170;1;S2;Amplo para requalificar;0,9585;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;131000;1640;5
-526351010;1;S2;Amplo para requalificar;0,9577;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;172000;1329;6
-907125040;0;S1;Compacto herdado;0,9566;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;139500;1022;5
-528294060;1;S2;Amplo para requalificar;0,9561;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;185900;1651;7
-911226010;0;S1;Compacto herdado;0,956;fronteira;False;2.0.0;1a5108376174e9ef;IDOTRR;81000;894;3
-909253180;0;S1;Compacto herdado;0,9556;fronteira;False;2.0.0;1a5108376174e9ef;SWISU;145000;1477;7
-910205010;1;S2;Amplo para requalificar;0,9553;fronteira;False;2.0.0;1a5108376174e9ef;IDOTRR;126000;1656;5
-923201020;1;S2;Amplo para requalificar;0,9552;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;169000;1264;5
-907126010;1;S2;Amplo para requalificar;0,9551;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;152000;1040;5
-909177120;0;S1;Compacto herdado;0,955;fronteira;False;2.0.0;1a5108376174e9ef;SWISU;168000;1424;7
-907135040;1;S2;Amplo para requalificar;0,9542;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;145000;1097;5
-909276170;0;S1;Compacto herdado;0,954;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;188700;1660;6
-532377050;0;S1;Compacto herdado;0,9535;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;145000;1040;5
-531452210;2;S3;Recente de alto padrão;0,9529;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;150000;1320;6
-527453130;1;S2;Amplo para requalificar;0,9528;fronteira;False;2.0.0;1a5108376174e9ef;NPkVill;149900;1456;6
-907290150;2;S3;Recente de alto padrão;0,9523;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;136500;848;6
-905480160;1;S2;Amplo para requalificar;0,9521;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;91500;1456;5
-527166030;1;S2;Amplo para requalificar;0,952;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;176500;1632;7
-535325320;0;S1;Compacto herdado;0,9516;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;115000;1540;4
-527328050;1;S2;Amplo para requalificar;0,9515;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;151500;1177;6
-533234020;1;S2;Amplo para requalificar;0,9503;fronteira;False;2.0.0;1a5108376174e9ef;Somerst;223000;1789;7
-527106150;1;S2;Amplo para requalificar;0,9503;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;192000;1638;6
-907425015;2;S3;Recente de alto padrão;0,9502;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;141000;848;6
-907425010;2;S3;Recente de alto padrão;0,9502;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;149300;848;6
-907425030;2;S3;Recente de alto padrão;0,9501;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;149000;848;6
-923202060;1;S2;Amplo para requalificar;0,9499;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;115000;1771;5
-533212100;2;S3;Recente de alto padrão;0,9497;fronteira;False;2.0.0;1a5108376174e9ef;Somerst;151000;1200;7
-535402070;1;S2;Amplo para requalificar;0,9497;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;159950;1086;5
-533352170;1;S2;Amplo para requalificar;0,9497;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;130500;1479;6
-909251050;0;S1;Compacto herdado;0,9494;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;147500;1232;6
-534201240;0;S1;Compacto herdado;0,9492;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;141000;1464;5
-902402010;0;S1;Compacto herdado;0,9486;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;149700;1236;6
-527402150;0;S1;Compacto herdado;0,9484;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;143250;981;6
-905352180;1;S2;Amplo para requalificar;0,9483;fronteira;False;2.0.0;1a5108376174e9ef;ClearCr;211000;2060;6
-923275040;0;S1;Compacto herdado;0,9483;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;165500;1110;5
-526355190;2;S3;Recente de alto padrão;0,9482;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;268000;2217;8
-907290140;2;S3;Recente de alto padrão;0,9479;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;131500;848;6
-910226060;1;S2;Amplo para requalificar;0,9477;fronteira;False;2.0.0;1a5108376174e9ef;IDOTRR;139000;1638;6
-909254090;1;S2;Amplo para requalificar;0,9471;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;189950;1426;7
-535353160;0;S1;Compacto herdado;0,9471;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;138000;1544;4
-904351280;0;S1;Compacto herdado;0,9466;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;127500;1355;5
-535425050;0;S1;Compacto herdado;0,9465;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;157500;1472;7
-902330010;1;S2;Amplo para requalificar;0,9464;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;122000;2358;8
-909281130;1;S2;Amplo para requalificar;0,9461;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;315000;2727;8
-916402125;1;S2;Amplo para requalificar;0,9461;fronteira;False;2.0.0;1a5108376174e9ef;Timber;176000;1137;6
-527162110;1;S2;Amplo para requalificar;0,946;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;185000;1718;7
-533221080;2;S3;Recente de alto padrão;0,9456;fronteira;False;2.0.0;1a5108376174e9ef;Somerst;166000;1524;6
-534278170;0;S1;Compacto herdado;0,9455;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;137500;964;5
-905402110;1;S2;Amplo para requalificar;0,9452;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;146000;1350;4
-527165230;1;S2;Amplo para requalificar;0,9447;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;185000;1187;6
-909131170;1;S2;Amplo para requalificar;0,9439;fronteira;False;2.0.0;1a5108376174e9ef;SWISU;140000;1482;6
-905480180;0;S1;Compacto herdado;0,9437;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;120000;1340;5
-528280130;1;S2;Amplo para requalificar;0,9435;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;186500;1792;6
-532351150;1;S2;Amplo para requalificar;0,9429;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;119500;1654;6
-907290230;2;S3;Recente de alto padrão;0,9428;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;155900;848;6
-527354050;1;S2;Amplo para requalificar;0,9428;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;192350;1353;6
-527359160;2;S3;Recente de alto padrão;0,9423;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;174000;1324;7
-531379030;1;S2;Amplo para requalificar;0,9422;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;187000;1837;6
-535402100;1;S2;Amplo para requalificar;0,942;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;165000;1146;6
-903454090;1;S2;Amplo para requalificar;0,9419;fronteira;False;2.0.0;1a5108376174e9ef;IDOTRR;141000;1375;6
-527452310;0;S1;Compacto herdado;0,9419;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;123000;900;5
-907130100;2;S3;Recente de alto padrão;0,9417;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;231500;1764;6
-535101020;0;S1;Compacto herdado;0,9416;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;178000;1128;6
-914452090;1;S2;Amplo para requalificar;0,9414;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;183500;1299;6
-526355170;1;S2;Amplo para requalificar;0,9414;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;244000;2223;7
-531453100;1;S2;Amplo para requalificar;0,9409;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;162000;1400;6
-910205130;1;S2;Amplo para requalificar;0,9408;fronteira;False;2.0.0;1a5108376174e9ef;IDOTRR;152000;1558;5
-903429080;1;S2;Amplo para requalificar;0,9407;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;155000;1826;7
-923275010;1;S2;Amplo para requalificar;0,9407;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;135000;1178;5
-904301100;0;S1;Compacto herdado;0,9407;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;159900;1152;5
-527163130;2;S3;Recente de alto padrão;0,9405;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;181316;1516;6
-903232090;1;S2;Amplo para requalificar;0,9405;fronteira;False;2.0.0;1a5108376174e9ef;BrkSide;162900;1573;5
-907275030;2;S3;Recente de alto padrão;0,9402;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;210900;2049;7
-534427140;0;S1;Compacto herdado;0,9402;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;150750;1327;5
-533251120;0;S1;Compacto herdado;0,9399;fronteira;False;2.0.0;1a5108376174e9ef;Veenker;162500;1232;6
-909276110;1;S2;Amplo para requalificar;0,9392;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;177500;1494;6
-527226010;1;S2;Amplo para requalificar;0,939;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;169000;2320;5
-535327160;0;S1;Compacto herdado;0,9389;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;116900;925;5
-527182020;0;S1;Compacto herdado;0,9387;fronteira;False;2.0.0;1a5108376174e9ef;StoneBr;130000;1204;8
-532376160;0;S1;Compacto herdado;0,9383;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;138500;894;5
-902328100;1;S2;Amplo para requalificar;0,938;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;144000;1690;7
-903426010;1;S2;Amplo para requalificar;0,9377;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;140000;1344;7
-908152270;2;S3;Recente de alto padrão;0,9371;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;176000;1132;4
-905401100;1;S2;Amplo para requalificar;0,937;fronteira;False;2.0.0;1a5108376174e9ef;ClearCr;190000;1867;5
-902327070;1;S2;Amplo para requalificar;0,9365;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;160000;2007;6
-527163020;2;S3;Recente de alto padrão;0,9365;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;165600;1501;6
-909475020;2;S3;Recente de alto padrão;0,9364;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;223000;1844;6
-909177100;1;S2;Amplo para requalificar;0,9361;fronteira;False;2.0.0;1a5108376174e9ef;SWISU;160000;2650;4
-906201021;2;S3;Recente de alto padrão;0,9361;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;162000;1061;7
-533213130;1;S2;Amplo para requalificar;0,9358;fronteira;False;2.0.0;1a5108376174e9ef;Somerst;176500;1501;6
-905476230;2;S3;Recente de alto padrão;0,9354;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;139500;1049;5
-906425045;0;S1;Compacto herdado;0,9354;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;138500;1445;6
-903206070;0;S1;Compacto herdado;0,9348;fronteira;False;2.0.0;1a5108376174e9ef;BrkSide;153000;1738;5
-916402215;2;S3;Recente de alto padrão;0,9347;fronteira;False;2.0.0;1a5108376174e9ef;Timber;180000;1256;6
-902401120;2;S3;Recente de alto padrão;0,9342;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;325000;2775;10
-909475300;2;S3;Recente de alto padrão;0,9342;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;222000;1680;6
-903429110;1;S2;Amplo para requalificar;0,9341;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;179900;1944;7
-527162140;1;S2;Amplo para requalificar;0,9341;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;204000;2299;6
-905452150;1;S2;Amplo para requalificar;0,9339;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;149900;1609;6
-916386040;1;S2;Amplo para requalificar;0,9338;fronteira;False;2.0.0;1a5108376174e9ef;Timber;172500;1442;5
-527106010;2;S3;Recente de alto padrão;0,9337;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;222000;2236;7
-907135020;0;S1;Compacto herdado;0,9337;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;144000;1099;5
-527325160;1;S2;Amplo para requalificar;0,9336;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;235000;2263;7
-527455100;1;S2;Amplo para requalificar;0,9333;fronteira;False;2.0.0;1a5108376174e9ef;NPkVill;144000;1456;6
-909276070;1;S2;Amplo para requalificar;0,933;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;194000;1717;5
-923400025;0;S1;Compacto herdado;0,9329;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;143000;1362;5
-532477040;2;S3;Recente de alto padrão;0,9326;fronteira;False;2.0.0;1a5108376174e9ef;Veenker;294000;2167;7
-923276250;1;S2;Amplo para requalificar;0,9326;fronteira;False;2.0.0;1a5108376174e9ef;Mitchel;159000;2432;5
-907135230;0;S1;Compacto herdado;0,9323;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;156000;990;5
-907131060;2;S3;Recente de alto padrão;0,932;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;175000;1308;6
-527325240;1;S2;Amplo para requalificar;0,9318;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;161000;1211;6
-907131190;2;S3;Recente de alto padrão;0,9318;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;207000;1463;7
-905201020;0;S1;Compacto herdado;0,9315;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;144900;960;5
-905475510;0;S1;Compacto herdado;0,9314;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;114000;1298;5
-528290180;1;S2;Amplo para requalificar;0,9313;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;190000;1514;6
-902204120;1;S2;Amplo para requalificar;0,9308;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;139000;1566;5
-535327210;1;S2;Amplo para requalificar;0,9306;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;159000;1384;5
-533213070;0;S1;Compacto herdado;0,9304;fronteira;False;2.0.0;1a5108376174e9ef;Somerst;179400;1501;7
-527180040;2;S3;Recente de alto padrão;0,9304;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;171500;1341;7
-533221060;2;S3;Recente de alto padrão;0,9302;fronteira;False;2.0.0;1a5108376174e9ef;Somerst;177000;1573;6
-903227150;1;S2;Amplo para requalificar;0,93;fronteira;False;2.0.0;1a5108376174e9ef;BrkSide;132000;1453;5
-902206270;1;S2;Amplo para requalificar;0,9299;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;137000;1798;4
-907290170;2;S3;Recente de alto padrão;0,9297;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;143750;848;6
-916403010;1;S2;Amplo para requalificar;0,9294;fronteira;False;2.0.0;1a5108376174e9ef;Timber;175000;1412;6
-531363040;0;S1;Compacto herdado;0,9287;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;147000;1143;7
-905452160;0;S1;Compacto herdado;0,9287;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;128000;1172;5
-527164020;1;S2;Amplo para requalificar;0,9286;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;166000;1190;6
-902109130;0;S1;Compacto herdado;0,9284;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;94550;1701;4
-907200290;0;S1;Compacto herdado;0,9281;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;161750;1392;6
-534427040;0;S1;Compacto herdado;0,928;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;142000;1252;6
-535325350;0;S1;Compacto herdado;0,9277;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;125000;1056;5
-902300020;1;S2;Amplo para requalificar;0,9275;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;184900;1772;8
-527163100;1;S2;Amplo para requalificar;0,9271;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;188000;1658;6
-905452040;0;S1;Compacto herdado;0,9268;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;154400;1639;6
-527325070;1;S2;Amplo para requalificar;0,9268;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;272000;2872;6
-916403200;1;S2;Amplo para requalificar;0,926;fronteira;False;2.0.0;1a5108376174e9ef;Timber;204000;2237;6
-916402115;1;S2;Amplo para requalificar;0,9257;fronteira;False;2.0.0;1a5108376174e9ef;Timber;184000;1651;6
-923225240;1;S2;Amplo para requalificar;0,9254;fronteira;False;2.0.0;1a5108376174e9ef;MeadowV;127000;1475;5
-905475160;0;S1;Compacto herdado;0,9253;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;125000;1089;5
-907290210;2;S3;Recente de alto padrão;0,925;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;140000;848;6
-902328040;1;S2;Amplo para requalificar;0,9248;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;128000;1484;6
-534400050;1;S2;Amplo para requalificar;0,9248;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;167000;1516;6
-531385070;1;S2;Amplo para requalificar;0,9247;fronteira;False;2.0.0;1a5108376174e9ef;SawyerW;179000;1349;7
-535327230;1;S2;Amplo para requalificar;0,9244;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;100000;1764;5
-903201080;2;S3;Recente de alto padrão;0,9236;fronteira;False;2.0.0;1a5108376174e9ef;BrkSide;205000;1548;7
-535453150;0;S1;Compacto herdado;0,9235;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;140000;1170;5
-527454200;1;S2;Amplo para requalificar;0,9234;fronteira;False;2.0.0;1a5108376174e9ef;NPkVill;146000;1456;6
-527180100;1;S2;Amplo para requalificar;0,9234;fronteira;False;2.0.0;1a5108376174e9ef;Gilbert;180500;1442;7
-535457020;1;S2;Amplo para requalificar;0,9231;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;156500;1377;5
-535178060;0;S1;Compacto herdado;0,9226;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;139000;1196;6
-905109170;2;S3;Recente de alto padrão;0,9226;fronteira;False;2.0.0;1a5108376174e9ef;ClearCr;270000;1483;7
-907290180;2;S3;Recente de alto padrão;0,9225;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;144000;848;6
-902405100;0;S1;Compacto herdado;0,9225;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;124900;1869;5
-909282030;1;S2;Amplo para requalificar;0,9223;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;381000;3447;8
-527354040;2;S3;Recente de alto padrão;0,9218;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;241500;1872;7
-902109160;0;S1;Compacto herdado;0,9213;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;122250;1740;5
-535152280;0;S1;Compacto herdado;0,9212;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;132000;1364;5
-527328020;1;S2;Amplo para requalificar;0,9209;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;148000;1032;6
-535125010;1;S2;Amplo para requalificar;0,9204;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;180000;2207;7
-905103130;1;S2;Amplo para requalificar;0,92;fronteira;False;2.0.0;1a5108376174e9ef;Sawyer;153600;1064;5
-527375210;1;S2;Amplo para requalificar;0,9199;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;158000;1193;7
-904351240;0;S1;Compacto herdado;0,9197;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;63000;1112;5
-908102130;0;S1;Compacto herdado;0,9197;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;100000;1664;5
-911103060;1;S2;Amplo para requalificar;0,9196;fronteira;False;2.0.0;1a5108376174e9ef;IDOTRR;119600;1991;5
-902306130;1;S2;Amplo para requalificar;0,9193;fronteira;False;2.0.0;1a5108376174e9ef;OldTown;161000;1378;7
-908152035;1;S2;Amplo para requalificar;0,919;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;127000;1149;4
-908275280;1;S2;Amplo para requalificar;0,9187;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;135500;1393;5
-533213040;0;S1;Compacto herdado;0,9181;fronteira;False;2.0.0;1a5108376174e9ef;Somerst;172500;1471;6
-905450020;1;S2;Amplo para requalificar;0,9181;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;127500;1689;6
-905478140;0;S1;Compacto herdado;0,9179;fronteira;False;2.0.0;1a5108376174e9ef;Edwards;125000;1342;5
-909275050;1;S2;Amplo para requalificar;0,9179;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;149000;1502;7
-527454050;1;S2;Amplo para requalificar;0,9179;fronteira;False;2.0.0;1a5108376174e9ef;NPkVill;147000;1322;6
-527302050;1;S2;Amplo para requalificar;0,9178;fronteira;False;2.0.0;1a5108376174e9ef;NWAmes;175500;1422;6
-533253060;2;S3;Recente de alto padrão;0,9176;fronteira;False;2.0.0;1a5108376174e9ef;Greens;155000;788;8
-907131120;1;S2;Amplo para requalificar;0,9175;fronteira;False;2.0.0;1a5108376174e9ef;CollgCr;211000;1796;6
-532476050;2;S3;Recente de alto padrão;0,9173;fronteira;False;2.0.0;1a5108376174e9ef;Veenker;260000;2646;7
-535426260;1;S2;Amplo para requalificar;0,9169;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;157000;1253;6
-903226060;0;S1;Compacto herdado;0,9164;fronteira;False;2.0.0;1a5108376174e9ef;BrkSide;164900;1672;6
-903206170;1;S2;Amplo para requalificar;0,916;fronteira;False;2.0.0;1a5108376174e9ef;BrkSide;210000;1635;6
-534202160;1;S2;Amplo para requalificar;0,9158;fronteira;False;2.0.0;1a5108376174e9ef;NAmes;142250;1232;5
-909254050;1;S2;Amplo para requalificar;0,9156;fronteira;False;2.0.0;1a5108376174e9ef;Crawfor;231000;1512;8
-533223050;2;S3;Recente de alto padrão;0,915;fronteira;False;2.0.0;1a5108376174e9ef;Somerst;148800;1102;7
+924151050;2;S3;Recente de alto padrão;0,9999;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;188000;2000;7
+527376090;1;S2;Amplo para requalificar;0,9992;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;153500;1074;5
+909176140;1;S2;Amplo para requalificar;0,9987;fronteira;False;2.0.0;3234409bf8a041db;South & West of ISU;127000;1691;5
+527302070;1;S2;Amplo para requalificar;0,9977;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;181900;1260;7
+903484110;1;S2;Amplo para requalificar;0,9971;fronteira;False;2.0.0;3234409bf8a041db;Iowa DOT and Rail Road;116000;1403;6
+909252020;0;S1;Compacto herdado;0,9969;fronteira;False;2.0.0;3234409bf8a041db;South & West of ISU;155000;1135;7
+531451150;0;S1;Compacto herdado;0,9965;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;128000;1266;6
+916386080;2;S3;Recente de alto padrão;0,9963;fronteira;False;2.0.0;3234409bf8a041db;Timberland;167500;1394;5
+914476130;0;S1;Compacto herdado;0,9963;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;148000;1210;6
+909175030;1;S2;Amplo para requalificar;0,9961;fronteira;False;2.0.0;3234409bf8a041db;South & West of ISU;140000;1595;6
+908102020;0;S1;Compacto herdado;0,996;fronteira;False;2.0.0;3234409bf8a041db;Edwards;98000;1436;4
+908152110;0;S1;Compacto herdado;0,9959;fronteira;False;2.0.0;3234409bf8a041db;Edwards;160500;1398;6
+906201050;1;S2;Amplo para requalificar;0,9957;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;156500;1338;6
+902303100;1;S2;Amplo para requalificar;0,995;fronteira;False;2.0.0;3234409bf8a041db;Old Town;144100;1650;6
+526302040;0;S1;Compacto herdado;0,995;fronteira;False;2.0.0;3234409bf8a041db;North Ames;157500;1024;6
+914476020;1;S2;Amplo para requalificar;0,9948;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;126000;1734;5
+923225200;0;S1;Compacto herdado;0,9948;fronteira;False;2.0.0;3234409bf8a041db;Meadow Village;129500;1475;5
+903233050;0;S1;Compacto herdado;0,9944;fronteira;False;2.0.0;3234409bf8a041db;Brookside;137500;1513;5
+534401110;0;S1;Compacto herdado;0,994;fronteira;False;2.0.0;3234409bf8a041db;North Ames;159000;1209;5
+907200280;1;S2;Amplo para requalificar;0,9939;fronteira;False;2.0.0;3234409bf8a041db;College Creek;150000;1026;5
+909101140;0;S1;Compacto herdado;0,9939;fronteira;False;2.0.0;3234409bf8a041db;Edwards;117000;1604;5
+902109080;1;S2;Amplo para requalificar;0,9939;fronteira;False;2.0.0;3234409bf8a041db;Old Town;118000;1594;4
+903202170;1;S2;Amplo para requalificar;0,9938;fronteira;False;2.0.0;3234409bf8a041db;Brookside;137000;1654;5
+534479130;1;S2;Amplo para requalificar;0,9934;fronteira;False;2.0.0;3234409bf8a041db;North Ames;133000;1578;6
+534177210;1;S2;Amplo para requalificar;0,9933;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;175500;1242;7
+908225320;1;S2;Amplo para requalificar;0,9929;fronteira;False;2.0.0;3234409bf8a041db;Edwards;113000;1487;6
+909250030;1;S2;Amplo para requalificar;0,9929;fronteira;False;2.0.0;3234409bf8a041db;South & West of ISU;100000;1666;5
+534401130;0;S1;Compacto herdado;0,9924;fronteira;False;2.0.0;3234409bf8a041db;North Ames;174900;1165;6
+527454130;1;S2;Amplo para requalificar;0,9924;fronteira;False;2.0.0;3234409bf8a041db;Northpark Villa;137900;1456;6
+902107030;1;S2;Amplo para requalificar;0,9923;fronteira;False;2.0.0;3234409bf8a041db;Old Town;139500;1456;6
+532354090;0;S1;Compacto herdado;0,992;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;148000;1155;5
+908152290;1;S2;Amplo para requalificar;0,9919;fronteira;False;2.0.0;3234409bf8a041db;Edwards;171500;1408;5
+908225370;0;S1;Compacto herdado;0,9916;fronteira;False;2.0.0;3234409bf8a041db;Edwards;98000;1529;4
+909452114;1;S2;Amplo para requalificar;0,9915;fronteira;False;2.0.0;3234409bf8a041db;Crawford;203135;1652;7
+534202030;1;S2;Amplo para requalificar;0,9907;fronteira;False;2.0.0;3234409bf8a041db;North Ames;143000;1214;5
+905102010;0;S1;Compacto herdado;0,9902;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;165000;1020;5
+905202230;1;S2;Amplo para requalificar;0,9902;fronteira;False;2.0.0;3234409bf8a041db;Clear Creek;235000;1252;6
+903234220;0;S1;Compacto herdado;0,9901;fronteira;False;2.0.0;3234409bf8a041db;Brookside;150000;1582;5
+907290250;0;S1;Compacto herdado;0,9899;fronteira;False;2.0.0;3234409bf8a041db;College Creek;145000;848;6
+902110080;0;S1;Compacto herdado;0,9895;fronteira;False;2.0.0;3234409bf8a041db;Old Town;135000;1389;7
+909428110;1;S2;Amplo para requalificar;0,9895;fronteira;False;2.0.0;3234409bf8a041db;Crawford;157000;1336;5
+904100030;1;S2;Amplo para requalificar;0,9894;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;137500;1422;5
+909251040;1;S2;Amplo para requalificar;0,989;fronteira;False;2.0.0;3234409bf8a041db;Crawford;146500;1298;6
+527225035;1;S2;Amplo para requalificar;0,9889;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;164000;1752;8
+535456010;0;S1;Compacto herdado;0,9888;fronteira;False;2.0.0;3234409bf8a041db;North Ames;119000;1556;5
+906476030;2;S3;Recente de alto padrão;0,9886;fronteira;False;2.0.0;3234409bf8a041db;Clear Creek;200000;1688;6
+903426200;0;S1;Compacto herdado;0,988;fronteira;False;2.0.0;3234409bf8a041db;Old Town;159900;1560;6
+905225040;1;S2;Amplo para requalificar;0,988;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;140000;1601;5
+535375050;1;S2;Amplo para requalificar;0,988;fronteira;False;2.0.0;3234409bf8a041db;Old Town;135000;1656;5
+905451390;0;S1;Compacto herdado;0,9878;fronteira;False;2.0.0;3234409bf8a041db;Edwards;154000;1626;6
+924100040;1;S2;Amplo para requalificar;0,9872;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;196000;1567;6
+908152280;2;S3;Recente de alto padrão;0,987;fronteira;False;2.0.0;3234409bf8a041db;Edwards;157000;1090;5
+535453070;0;S1;Compacto herdado;0,9869;fronteira;False;2.0.0;3234409bf8a041db;North Ames;154000;1246;5
+527328010;1;S2;Amplo para requalificar;0,9868;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;169000;1102;6
+902301060;0;S1;Compacto herdado;0,9867;fronteira;False;2.0.0;3234409bf8a041db;Old Town;87500;1510;4
+535151110;0;S1;Compacto herdado;0,9864;fronteira;False;2.0.0;3234409bf8a041db;North Ames;142100;1053;5
+906402200;1;S2;Amplo para requalificar;0,9861;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;320000;3222;7
+535382100;1;S2;Amplo para requalificar;0,9858;fronteira;False;2.0.0;3234409bf8a041db;Old Town;156500;1690;7
+533213120;1;S2;Amplo para requalificar;0,9857;fronteira;False;2.0.0;3234409bf8a041db;Somerset;172900;1549;6
+908186050;0;S1;Compacto herdado;0,9854;fronteira;False;2.0.0;3234409bf8a041db;Edwards;140000;1072;6
+909428190;1;S2;Amplo para requalificar;0,9854;fronteira;False;2.0.0;3234409bf8a041db;Crawford;224000;1640;6
+906204150;1;S2;Amplo para requalificar;0,9853;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;262280;2329;7
+905100030;1;S2;Amplo para requalificar;0,9851;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;148000;1382;4
+907185060;2;S3;Recente de alto padrão;0,9846;fronteira;False;2.0.0;3234409bf8a041db;College Creek;200500;1682;6
+534475250;1;S2;Amplo para requalificar;0,9845;fronteira;False;2.0.0;3234409bf8a041db;North Ames;175000;1691;6
+902103090;1;S2;Amplo para requalificar;0,9842;fronteira;False;2.0.0;3234409bf8a041db;Old Town;111500;1657;4
+905107070;0;S1;Compacto herdado;0,984;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;149500;1400;6
+907290240;0;S1;Compacto herdado;0,9837;fronteira;False;2.0.0;3234409bf8a041db;College Creek;143000;848;6
+535452120;0;S1;Compacto herdado;0,9833;fronteira;False;2.0.0;3234409bf8a041db;North Ames;127000;1507;5
+534252110;0;S1;Compacto herdado;0,9828;fronteira;False;2.0.0;3234409bf8a041db;North Ames;139900;1422;5
+535380050;0;S1;Compacto herdado;0,9828;fronteira;False;2.0.0;3234409bf8a041db;North Ames;140000;1558;5
+909100110;1;S2;Amplo para requalificar;0,9828;fronteira;False;2.0.0;3234409bf8a041db;South & West of ISU;128000;1647;6
+532351140;1;S2;Amplo para requalificar;0,9826;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;112000;1902;6
+526302030;0;S1;Compacto herdado;0,9817;fronteira;False;2.0.0;3234409bf8a041db;North Ames;149900;1293;6
+908103280;1;S2;Amplo para requalificar;0,9816;fronteira;False;2.0.0;3234409bf8a041db;Edwards;135000;1127;6
+535454100;1;S2;Amplo para requalificar;0,9805;fronteira;False;2.0.0;3234409bf8a041db;North Ames;133500;1461;4
+923203140;0;S1;Compacto herdado;0,9805;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;160500;1189;6
+534428100;0;S1;Compacto herdado;0,9805;fronteira;False;2.0.0;3234409bf8a041db;North Ames;153000;1118;5
+909275160;0;S1;Compacto herdado;0,9801;fronteira;False;2.0.0;3234409bf8a041db;Crawford;153500;1226;5
+909451100;0;S1;Compacto herdado;0,9801;fronteira;False;2.0.0;3234409bf8a041db;Bluestem;137000;1229;6
+909427230;1;S2;Amplo para requalificar;0,9801;fronteira;False;2.0.0;3234409bf8a041db;Crawford;266500;2340;7
+908228040;0;S1;Compacto herdado;0,9798;fronteira;False;2.0.0;3234409bf8a041db;Edwards;104900;1221;5
+535450100;0;S1;Compacto herdado;0,9796;fronteira;False;2.0.0;3234409bf8a041db;North Ames;147500;1521;4
+923227030;0;S1;Compacto herdado;0,9795;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;152500;1160;5
+908151050;0;S1;Compacto herdado;0,9789;fronteira;False;2.0.0;3234409bf8a041db;Edwards;159500;1426;6
+535453020;0;S1;Compacto herdado;0,9782;fronteira;False;2.0.0;3234409bf8a041db;North Ames;159000;1256;5
+908201120;0;S1;Compacto herdado;0,9781;fronteira;False;2.0.0;3234409bf8a041db;Edwards;118000;1440;4
+909252220;0;S1;Compacto herdado;0,978;fronteira;False;2.0.0;3234409bf8a041db;Crawford;147500;1264;6
+907200190;0;S1;Compacto herdado;0,9778;fronteira;False;2.0.0;3234409bf8a041db;College Creek;153500;1025;5
+531375120;1;S2;Amplo para requalificar;0,9776;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;155000;1114;6
+526351030;2;S3;Recente de alto padrão;0,9774;fronteira;False;2.0.0;3234409bf8a041db;North Ames;176500;1414;6
+905402090;1;S2;Amplo para requalificar;0,9773;fronteira;False;2.0.0;3234409bf8a041db;Edwards;177000;1357;6
+528290140;1;S2;Amplo para requalificar;0,9769;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;173000;1671;6
+905402060;1;S2;Amplo para requalificar;0,9768;fronteira;False;2.0.0;3234409bf8a041db;Edwards;139600;1733;3
+527455280;1;S2;Amplo para requalificar;0,9766;fronteira;False;2.0.0;3234409bf8a041db;North Ames;148800;1120;5
+905105070;1;S2;Amplo para requalificar;0,9765;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;154000;1060;5
+909276200;1;S2;Amplo para requalificar;0,9764;fronteira;False;2.0.0;3234409bf8a041db;Crawford;160000;1308;5
+905476120;0;S1;Compacto herdado;0,976;fronteira;False;2.0.0;3234409bf8a041db;Edwards;119000;1367;5
+527165100;2;S3;Recente de alto padrão;0,9758;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;163900;1482;7
+907202010;0;S1;Compacto herdado;0,9757;fronteira;False;2.0.0;3234409bf8a041db;College Creek;158000;1174;5
+527356020;1;S2;Amplo para requalificar;0,9756;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;250000;2784;7
+909425060;0;S1;Compacto herdado;0,9753;fronteira;False;2.0.0;3234409bf8a041db;Crawford;174500;1564;7
+535425010;2;S3;Recente de alto padrão;0,9752;fronteira;False;2.0.0;3234409bf8a041db;North Ames;242000;2978;7
+527402060;0;S1;Compacto herdado;0,9744;fronteira;False;2.0.0;3234409bf8a041db;North Ames;151000;1054;6
+534278150;1;S2;Amplo para requalificar;0,9739;fronteira;False;2.0.0;3234409bf8a041db;North Ames;140500;1187;5
+528231050;1;S2;Amplo para requalificar;0,9734;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;192140;1838;5
+531452010;0;S1;Compacto herdado;0,9731;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;120000;1217;6
+535176050;1;S2;Amplo para requalificar;0,973;fronteira;False;2.0.0;3234409bf8a041db;North Ames;145250;1383;6
+908102170;1;S2;Amplo para requalificar;0,9722;fronteira;False;2.0.0;3234409bf8a041db;Edwards;144000;1196;5
+527455080;2;S3;Recente de alto padrão;0,972;fronteira;False;2.0.0;3234409bf8a041db;Northpark Villa;138000;1456;6
+903227020;0;S1;Compacto herdado;0,972;fronteira;False;2.0.0;3234409bf8a041db;Brookside;128000;1196;6
+906475050;1;S2;Amplo para requalificar;0,9715;fronteira;False;2.0.0;3234409bf8a041db;Clear Creek;180000;988;6
+905426030;1;S2;Amplo para requalificar;0,9712;fronteira;False;2.0.0;3234409bf8a041db;Edwards;260000;1518;5
+526352090;1;S2;Amplo para requalificar;0,9706;fronteira;False;2.0.0;3234409bf8a041db;North Ames;167000;1277;7
+534402140;1;S2;Amplo para requalificar;0,9704;fronteira;False;2.0.0;3234409bf8a041db;North Ames;154000;1154;5
+535403010;1;S2;Amplo para requalificar;0,9703;fronteira;False;2.0.0;3234409bf8a041db;North Ames;139000;1044;5
+903427090;1;S2;Amplo para requalificar;0,97;fronteira;False;2.0.0;3234409bf8a041db;Old Town;161000;1666;8
+531375130;1;S2;Amplo para requalificar;0,97;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;153000;1114;5
+902106010;0;S1;Compacto herdado;0,9697;fronteira;False;2.0.0;3234409bf8a041db;Old Town;150000;1558;5
+905226080;0;S1;Compacto herdado;0,9696;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;165250;1302;7
+905426200;1;S2;Amplo para requalificar;0,9695;fronteira;False;2.0.0;3234409bf8a041db;Edwards;144500;1074;6
+527163080;2;S3;Recente de alto padrão;0,9694;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;160000;1187;7
+905300080;0;S1;Compacto herdado;0,969;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;142500;894;5
+907227060;0;S1;Compacto herdado;0,9689;fronteira;False;2.0.0;3234409bf8a041db;College Creek;127000;864;5
+914478045;0;S1;Compacto herdado;0,9688;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;169900;1034;6
+532377130;1;S2;Amplo para requalificar;0,9679;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;131400;1144;5
+905107280;1;S2;Amplo para requalificar;0,9677;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;153000;1034;6
+535454070;0;S1;Compacto herdado;0,9668;fronteira;False;2.0.0;3234409bf8a041db;North Ames;166000;1385;5
+527165130;1;S2;Amplo para requalificar;0,9664;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;173000;1167;6
+905451050;1;S2;Amplo para requalificar;0,9661;fronteira;False;2.0.0;3234409bf8a041db;Edwards;135000;1488;5
+527325090;1;S2;Amplo para requalificar;0,9661;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;192000;1930;7
+905202210;0;S1;Compacto herdado;0,9654;fronteira;False;2.0.0;3234409bf8a041db;Clear Creek;164000;1000;5
+905352140;1;S2;Amplo para requalificar;0,9651;fronteira;False;2.0.0;3234409bf8a041db;Clear Creek;230000;1981;6
+535154130;0;S1;Compacto herdado;0,9648;fronteira;False;2.0.0;3234409bf8a041db;North Ames;149500;988;6
+527378010;0;S1;Compacto herdado;0,9648;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;155000;1103;6
+527453160;1;S2;Amplo para requalificar;0,9646;fronteira;False;2.0.0;3234409bf8a041db;Northpark Villa;143000;1456;6
+908128060;1;S2;Amplo para requalificar;0,9644;fronteira;False;2.0.0;3234409bf8a041db;Edwards;198500;1922;7
+534455030;0;S1;Compacto herdado;0,9644;fronteira;False;2.0.0;3234409bf8a041db;North Ames;141500;1496;5
+535301170;0;S1;Compacto herdado;0,9643;fronteira;False;2.0.0;3234409bf8a041db;North Ames;153000;1297;5
+905101310;1;S2;Amplo para requalificar;0,9642;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;136500;1768;4
+527162090;1;S2;Amplo para requalificar;0,9639;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;176000;1253;7
+923203090;0;S1;Compacto herdado;0,9637;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;164000;1216;6
+902404010;0;S1;Compacto herdado;0,9636;fronteira;False;2.0.0;3234409bf8a041db;Old Town;153500;1559;5
+916403130;1;S2;Amplo para requalificar;0,9632;fronteira;False;2.0.0;3234409bf8a041db;Timberland;250000;2514;7
+534151175;1;S2;Amplo para requalificar;0,9632;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;243500;2495;6
+909280030;1;S2;Amplo para requalificar;0,9629;fronteira;False;2.0.0;3234409bf8a041db;Crawford;250000;2057;7
+923225040;0;S1;Compacto herdado;0,9628;fronteira;False;2.0.0;3234409bf8a041db;Meadow Village;129900;1060;5
+527455060;1;S2;Amplo para requalificar;0,962;fronteira;False;2.0.0;3234409bf8a041db;Northpark Villa;148500;1441;6
+904352190;1;S2;Amplo para requalificar;0,962;fronteira;False;2.0.0;3234409bf8a041db;South & West of ISU;114900;1680;5
+527359030;0;S1;Compacto herdado;0,962;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;159900;1444;6
+534252040;1;S2;Amplo para requalificar;0,9617;fronteira;False;2.0.0;3234409bf8a041db;North Ames;144000;1344;5
+914476380;2;S3;Recente de alto padrão;0,9616;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;173000;1217;7
+923229040;0;S1;Compacto herdado;0,9607;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;153500;1008;5
+534178010;0;S1;Compacto herdado;0,9595;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;127000;1052;6
+527165010;2;S3;Recente de alto padrão;0,9593;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;185000;1709;6
+531375050;0;S1;Compacto herdado;0,9592;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;146000;1175;6
+905351089;2;S3;Recente de alto padrão;0,959;fronteira;False;2.0.0;3234409bf8a041db;Clear Creek;173000;1291;6
+904100170;1;S2;Amplo para requalificar;0,9585;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;131000;1640;5
+526351010;1;S2;Amplo para requalificar;0,9577;fronteira;False;2.0.0;3234409bf8a041db;North Ames;172000;1329;6
+907125040;0;S1;Compacto herdado;0,9566;fronteira;False;2.0.0;3234409bf8a041db;College Creek;139500;1022;5
+528294060;1;S2;Amplo para requalificar;0,9561;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;185900;1651;7
+911226010;0;S1;Compacto herdado;0,956;fronteira;False;2.0.0;3234409bf8a041db;Iowa DOT and Rail Road;81000;894;3
+909253180;0;S1;Compacto herdado;0,9556;fronteira;False;2.0.0;3234409bf8a041db;South & West of ISU;145000;1477;7
+910205010;1;S2;Amplo para requalificar;0,9553;fronteira;False;2.0.0;3234409bf8a041db;Iowa DOT and Rail Road;126000;1656;5
+923201020;1;S2;Amplo para requalificar;0,9552;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;169000;1264;5
+907126010;1;S2;Amplo para requalificar;0,9551;fronteira;False;2.0.0;3234409bf8a041db;College Creek;152000;1040;5
+909177120;0;S1;Compacto herdado;0,955;fronteira;False;2.0.0;3234409bf8a041db;South & West of ISU;168000;1424;7
+907135040;1;S2;Amplo para requalificar;0,9542;fronteira;False;2.0.0;3234409bf8a041db;College Creek;145000;1097;5
+909276170;0;S1;Compacto herdado;0,954;fronteira;False;2.0.0;3234409bf8a041db;Crawford;188700;1660;6
+532377050;0;S1;Compacto herdado;0,9535;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;145000;1040;5
+531452210;2;S3;Recente de alto padrão;0,9529;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;150000;1320;6
+527453130;1;S2;Amplo para requalificar;0,9528;fronteira;False;2.0.0;3234409bf8a041db;Northpark Villa;149900;1456;6
+907290150;2;S3;Recente de alto padrão;0,9523;fronteira;False;2.0.0;3234409bf8a041db;College Creek;136500;848;6
+905480160;1;S2;Amplo para requalificar;0,9521;fronteira;False;2.0.0;3234409bf8a041db;Edwards;91500;1456;5
+527166030;1;S2;Amplo para requalificar;0,952;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;176500;1632;7
+535325320;0;S1;Compacto herdado;0,9516;fronteira;False;2.0.0;3234409bf8a041db;North Ames;115000;1540;4
+527328050;1;S2;Amplo para requalificar;0,9515;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;151500;1177;6
+533234020;1;S2;Amplo para requalificar;0,9503;fronteira;False;2.0.0;3234409bf8a041db;Somerset;223000;1789;7
+527106150;1;S2;Amplo para requalificar;0,9503;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;192000;1638;6
+907425015;2;S3;Recente de alto padrão;0,9502;fronteira;False;2.0.0;3234409bf8a041db;College Creek;141000;848;6
+907425010;2;S3;Recente de alto padrão;0,9502;fronteira;False;2.0.0;3234409bf8a041db;College Creek;149300;848;6
+907425030;2;S3;Recente de alto padrão;0,9501;fronteira;False;2.0.0;3234409bf8a041db;College Creek;149000;848;6
+923202060;1;S2;Amplo para requalificar;0,9499;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;115000;1771;5
+533212100;2;S3;Recente de alto padrão;0,9497;fronteira;False;2.0.0;3234409bf8a041db;Somerset;151000;1200;7
+535402070;1;S2;Amplo para requalificar;0,9497;fronteira;False;2.0.0;3234409bf8a041db;North Ames;159950;1086;5
+533352170;1;S2;Amplo para requalificar;0,9497;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;130500;1479;6
+909251050;0;S1;Compacto herdado;0,9494;fronteira;False;2.0.0;3234409bf8a041db;Crawford;147500;1232;6
+534201240;0;S1;Compacto herdado;0,9492;fronteira;False;2.0.0;3234409bf8a041db;North Ames;141000;1464;5
+902402010;0;S1;Compacto herdado;0,9486;fronteira;False;2.0.0;3234409bf8a041db;Old Town;149700;1236;6
+527402150;0;S1;Compacto herdado;0,9484;fronteira;False;2.0.0;3234409bf8a041db;North Ames;143250;981;6
+905352180;1;S2;Amplo para requalificar;0,9483;fronteira;False;2.0.0;3234409bf8a041db;Clear Creek;211000;2060;6
+923275040;0;S1;Compacto herdado;0,9483;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;165500;1110;5
+526355190;2;S3;Recente de alto padrão;0,9482;fronteira;False;2.0.0;3234409bf8a041db;North Ames;268000;2217;8
+907290140;2;S3;Recente de alto padrão;0,9479;fronteira;False;2.0.0;3234409bf8a041db;College Creek;131500;848;6
+910226060;1;S2;Amplo para requalificar;0,9477;fronteira;False;2.0.0;3234409bf8a041db;Iowa DOT and Rail Road;139000;1638;6
+909254090;1;S2;Amplo para requalificar;0,9471;fronteira;False;2.0.0;3234409bf8a041db;Crawford;189950;1426;7
+535353160;0;S1;Compacto herdado;0,9471;fronteira;False;2.0.0;3234409bf8a041db;Old Town;138000;1544;4
+904351280;0;S1;Compacto herdado;0,9466;fronteira;False;2.0.0;3234409bf8a041db;Edwards;127500;1355;5
+535425050;0;S1;Compacto herdado;0,9465;fronteira;False;2.0.0;3234409bf8a041db;North Ames;157500;1472;7
+902330010;1;S2;Amplo para requalificar;0,9464;fronteira;False;2.0.0;3234409bf8a041db;Old Town;122000;2358;8
+909281130;1;S2;Amplo para requalificar;0,9461;fronteira;False;2.0.0;3234409bf8a041db;Crawford;315000;2727;8
+916402125;1;S2;Amplo para requalificar;0,9461;fronteira;False;2.0.0;3234409bf8a041db;Timberland;176000;1137;6
+527162110;1;S2;Amplo para requalificar;0,946;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;185000;1718;7
+533221080;2;S3;Recente de alto padrão;0,9456;fronteira;False;2.0.0;3234409bf8a041db;Somerset;166000;1524;6
+534278170;0;S1;Compacto herdado;0,9455;fronteira;False;2.0.0;3234409bf8a041db;North Ames;137500;964;5
+905402110;1;S2;Amplo para requalificar;0,9452;fronteira;False;2.0.0;3234409bf8a041db;Edwards;146000;1350;4
+527165230;1;S2;Amplo para requalificar;0,9447;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;185000;1187;6
+909131170;1;S2;Amplo para requalificar;0,9439;fronteira;False;2.0.0;3234409bf8a041db;South & West of ISU;140000;1482;6
+905480180;0;S1;Compacto herdado;0,9437;fronteira;False;2.0.0;3234409bf8a041db;Edwards;120000;1340;5
+528280130;1;S2;Amplo para requalificar;0,9435;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;186500;1792;6
+532351150;1;S2;Amplo para requalificar;0,9429;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;119500;1654;6
+907290230;2;S3;Recente de alto padrão;0,9428;fronteira;False;2.0.0;3234409bf8a041db;College Creek;155900;848;6
+527354050;1;S2;Amplo para requalificar;0,9428;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;192350;1353;6
+527359160;2;S3;Recente de alto padrão;0,9423;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;174000;1324;7
+531379030;1;S2;Amplo para requalificar;0,9422;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;187000;1837;6
+535402100;1;S2;Amplo para requalificar;0,942;fronteira;False;2.0.0;3234409bf8a041db;North Ames;165000;1146;6
+903454090;1;S2;Amplo para requalificar;0,9419;fronteira;False;2.0.0;3234409bf8a041db;Iowa DOT and Rail Road;141000;1375;6
+527452310;0;S1;Compacto herdado;0,9419;fronteira;False;2.0.0;3234409bf8a041db;North Ames;123000;900;5
+907130100;2;S3;Recente de alto padrão;0,9417;fronteira;False;2.0.0;3234409bf8a041db;College Creek;231500;1764;6
+535101020;0;S1;Compacto herdado;0,9416;fronteira;False;2.0.0;3234409bf8a041db;North Ames;178000;1128;6
+914452090;1;S2;Amplo para requalificar;0,9414;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;183500;1299;6
+526355170;1;S2;Amplo para requalificar;0,9414;fronteira;False;2.0.0;3234409bf8a041db;North Ames;244000;2223;7
+531453100;1;S2;Amplo para requalificar;0,9409;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;162000;1400;6
+910205130;1;S2;Amplo para requalificar;0,9408;fronteira;False;2.0.0;3234409bf8a041db;Iowa DOT and Rail Road;152000;1558;5
+903429080;1;S2;Amplo para requalificar;0,9407;fronteira;False;2.0.0;3234409bf8a041db;Old Town;155000;1826;7
+923275010;1;S2;Amplo para requalificar;0,9407;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;135000;1178;5
+904301100;0;S1;Compacto herdado;0,9407;fronteira;False;2.0.0;3234409bf8a041db;Edwards;159900;1152;5
+527163130;2;S3;Recente de alto padrão;0,9405;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;181316;1516;6
+903232090;1;S2;Amplo para requalificar;0,9405;fronteira;False;2.0.0;3234409bf8a041db;Brookside;162900;1573;5
+907275030;2;S3;Recente de alto padrão;0,9402;fronteira;False;2.0.0;3234409bf8a041db;College Creek;210900;2049;7
+534427140;0;S1;Compacto herdado;0,9402;fronteira;False;2.0.0;3234409bf8a041db;North Ames;150750;1327;5
+533251120;0;S1;Compacto herdado;0,9399;fronteira;False;2.0.0;3234409bf8a041db;Veenker;162500;1232;6
+909276110;1;S2;Amplo para requalificar;0,9392;fronteira;False;2.0.0;3234409bf8a041db;Crawford;177500;1494;6
+527226010;1;S2;Amplo para requalificar;0,939;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;169000;2320;5
+535327160;0;S1;Compacto herdado;0,9389;fronteira;False;2.0.0;3234409bf8a041db;North Ames;116900;925;5
+527182020;0;S1;Compacto herdado;0,9387;fronteira;False;2.0.0;3234409bf8a041db;Stone Brook;130000;1204;8
+532376160;0;S1;Compacto herdado;0,9383;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;138500;894;5
+902328100;1;S2;Amplo para requalificar;0,938;fronteira;False;2.0.0;3234409bf8a041db;Old Town;144000;1690;7
+903426010;1;S2;Amplo para requalificar;0,9377;fronteira;False;2.0.0;3234409bf8a041db;Old Town;140000;1344;7
+908152270;2;S3;Recente de alto padrão;0,9371;fronteira;False;2.0.0;3234409bf8a041db;Edwards;176000;1132;4
+905401100;1;S2;Amplo para requalificar;0,937;fronteira;False;2.0.0;3234409bf8a041db;Clear Creek;190000;1867;5
+902327070;1;S2;Amplo para requalificar;0,9365;fronteira;False;2.0.0;3234409bf8a041db;Old Town;160000;2007;6
+527163020;2;S3;Recente de alto padrão;0,9365;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;165600;1501;6
+909475020;2;S3;Recente de alto padrão;0,9364;fronteira;False;2.0.0;3234409bf8a041db;Crawford;223000;1844;6
+909177100;1;S2;Amplo para requalificar;0,9361;fronteira;False;2.0.0;3234409bf8a041db;South & West of ISU;160000;2650;4
+906201021;2;S3;Recente de alto padrão;0,9361;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;162000;1061;7
+533213130;1;S2;Amplo para requalificar;0,9358;fronteira;False;2.0.0;3234409bf8a041db;Somerset;176500;1501;6
+905476230;2;S3;Recente de alto padrão;0,9354;fronteira;False;2.0.0;3234409bf8a041db;Edwards;139500;1049;5
+906425045;0;S1;Compacto herdado;0,9354;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;138500;1445;6
+903206070;0;S1;Compacto herdado;0,9348;fronteira;False;2.0.0;3234409bf8a041db;Brookside;153000;1738;5
+916402215;2;S3;Recente de alto padrão;0,9347;fronteira;False;2.0.0;3234409bf8a041db;Timberland;180000;1256;6
+902401120;2;S3;Recente de alto padrão;0,9342;fronteira;False;2.0.0;3234409bf8a041db;Old Town;325000;2775;10
+909475300;2;S3;Recente de alto padrão;0,9342;fronteira;False;2.0.0;3234409bf8a041db;Crawford;222000;1680;6
+903429110;1;S2;Amplo para requalificar;0,9341;fronteira;False;2.0.0;3234409bf8a041db;Old Town;179900;1944;7
+527162140;1;S2;Amplo para requalificar;0,9341;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;204000;2299;6
+905452150;1;S2;Amplo para requalificar;0,9339;fronteira;False;2.0.0;3234409bf8a041db;Edwards;149900;1609;6
+916386040;1;S2;Amplo para requalificar;0,9338;fronteira;False;2.0.0;3234409bf8a041db;Timberland;172500;1442;5
+527106010;2;S3;Recente de alto padrão;0,9337;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;222000;2236;7
+907135020;0;S1;Compacto herdado;0,9337;fronteira;False;2.0.0;3234409bf8a041db;College Creek;144000;1099;5
+527325160;1;S2;Amplo para requalificar;0,9336;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;235000;2263;7
+527455100;1;S2;Amplo para requalificar;0,9333;fronteira;False;2.0.0;3234409bf8a041db;Northpark Villa;144000;1456;6
+909276070;1;S2;Amplo para requalificar;0,933;fronteira;False;2.0.0;3234409bf8a041db;Crawford;194000;1717;5
+923400025;0;S1;Compacto herdado;0,9329;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;143000;1362;5
+532477040;2;S3;Recente de alto padrão;0,9326;fronteira;False;2.0.0;3234409bf8a041db;Veenker;294000;2167;7
+923276250;1;S2;Amplo para requalificar;0,9326;fronteira;False;2.0.0;3234409bf8a041db;Mitchell;159000;2432;5
+907135230;0;S1;Compacto herdado;0,9323;fronteira;False;2.0.0;3234409bf8a041db;College Creek;156000;990;5
+907131060;2;S3;Recente de alto padrão;0,932;fronteira;False;2.0.0;3234409bf8a041db;College Creek;175000;1308;6
+527325240;1;S2;Amplo para requalificar;0,9318;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;161000;1211;6
+907131190;2;S3;Recente de alto padrão;0,9318;fronteira;False;2.0.0;3234409bf8a041db;College Creek;207000;1463;7
+905201020;0;S1;Compacto herdado;0,9315;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;144900;960;5
+905475510;0;S1;Compacto herdado;0,9314;fronteira;False;2.0.0;3234409bf8a041db;Edwards;114000;1298;5
+528290180;1;S2;Amplo para requalificar;0,9313;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;190000;1514;6
+902204120;1;S2;Amplo para requalificar;0,9308;fronteira;False;2.0.0;3234409bf8a041db;Old Town;139000;1566;5
+535327210;1;S2;Amplo para requalificar;0,9306;fronteira;False;2.0.0;3234409bf8a041db;North Ames;159000;1384;5
+533213070;0;S1;Compacto herdado;0,9304;fronteira;False;2.0.0;3234409bf8a041db;Somerset;179400;1501;7
+527180040;2;S3;Recente de alto padrão;0,9304;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;171500;1341;7
+533221060;2;S3;Recente de alto padrão;0,9302;fronteira;False;2.0.0;3234409bf8a041db;Somerset;177000;1573;6
+903227150;1;S2;Amplo para requalificar;0,93;fronteira;False;2.0.0;3234409bf8a041db;Brookside;132000;1453;5
+902206270;1;S2;Amplo para requalificar;0,9299;fronteira;False;2.0.0;3234409bf8a041db;Old Town;137000;1798;4
+907290170;2;S3;Recente de alto padrão;0,9297;fronteira;False;2.0.0;3234409bf8a041db;College Creek;143750;848;6
+916403010;1;S2;Amplo para requalificar;0,9294;fronteira;False;2.0.0;3234409bf8a041db;Timberland;175000;1412;6
+531363040;0;S1;Compacto herdado;0,9287;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;147000;1143;7
+905452160;0;S1;Compacto herdado;0,9287;fronteira;False;2.0.0;3234409bf8a041db;Edwards;128000;1172;5
+527164020;1;S2;Amplo para requalificar;0,9286;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;166000;1190;6
+902109130;0;S1;Compacto herdado;0,9284;fronteira;False;2.0.0;3234409bf8a041db;Old Town;94550;1701;4
+907200290;0;S1;Compacto herdado;0,9281;fronteira;False;2.0.0;3234409bf8a041db;College Creek;161750;1392;6
+534427040;0;S1;Compacto herdado;0,928;fronteira;False;2.0.0;3234409bf8a041db;North Ames;142000;1252;6
+535325350;0;S1;Compacto herdado;0,9277;fronteira;False;2.0.0;3234409bf8a041db;North Ames;125000;1056;5
+902300020;1;S2;Amplo para requalificar;0,9275;fronteira;False;2.0.0;3234409bf8a041db;Old Town;184900;1772;8
+527163100;1;S2;Amplo para requalificar;0,9271;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;188000;1658;6
+905452040;0;S1;Compacto herdado;0,9268;fronteira;False;2.0.0;3234409bf8a041db;Edwards;154400;1639;6
+527325070;1;S2;Amplo para requalificar;0,9268;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;272000;2872;6
+916403200;1;S2;Amplo para requalificar;0,926;fronteira;False;2.0.0;3234409bf8a041db;Timberland;204000;2237;6
+916402115;1;S2;Amplo para requalificar;0,9257;fronteira;False;2.0.0;3234409bf8a041db;Timberland;184000;1651;6
+923225240;1;S2;Amplo para requalificar;0,9254;fronteira;False;2.0.0;3234409bf8a041db;Meadow Village;127000;1475;5
+905475160;0;S1;Compacto herdado;0,9253;fronteira;False;2.0.0;3234409bf8a041db;Edwards;125000;1089;5
+907290210;2;S3;Recente de alto padrão;0,925;fronteira;False;2.0.0;3234409bf8a041db;College Creek;140000;848;6
+902328040;1;S2;Amplo para requalificar;0,9248;fronteira;False;2.0.0;3234409bf8a041db;Old Town;128000;1484;6
+534400050;1;S2;Amplo para requalificar;0,9248;fronteira;False;2.0.0;3234409bf8a041db;North Ames;167000;1516;6
+531385070;1;S2;Amplo para requalificar;0,9247;fronteira;False;2.0.0;3234409bf8a041db;Sawyer West;179000;1349;7
+535327230;1;S2;Amplo para requalificar;0,9244;fronteira;False;2.0.0;3234409bf8a041db;North Ames;100000;1764;5
+903201080;2;S3;Recente de alto padrão;0,9236;fronteira;False;2.0.0;3234409bf8a041db;Brookside;205000;1548;7
+535453150;0;S1;Compacto herdado;0,9235;fronteira;False;2.0.0;3234409bf8a041db;North Ames;140000;1170;5
+527454200;1;S2;Amplo para requalificar;0,9234;fronteira;False;2.0.0;3234409bf8a041db;Northpark Villa;146000;1456;6
+527180100;1;S2;Amplo para requalificar;0,9234;fronteira;False;2.0.0;3234409bf8a041db;Gilbert;180500;1442;7
+535457020;1;S2;Amplo para requalificar;0,9231;fronteira;False;2.0.0;3234409bf8a041db;North Ames;156500;1377;5
+535178060;0;S1;Compacto herdado;0,9226;fronteira;False;2.0.0;3234409bf8a041db;North Ames;139000;1196;6
+905109170;2;S3;Recente de alto padrão;0,9226;fronteira;False;2.0.0;3234409bf8a041db;Clear Creek;270000;1483;7
+907290180;2;S3;Recente de alto padrão;0,9225;fronteira;False;2.0.0;3234409bf8a041db;College Creek;144000;848;6
+902405100;0;S1;Compacto herdado;0,9225;fronteira;False;2.0.0;3234409bf8a041db;Old Town;124900;1869;5
+909282030;1;S2;Amplo para requalificar;0,9223;fronteira;False;2.0.0;3234409bf8a041db;Crawford;381000;3447;8
+527354040;2;S3;Recente de alto padrão;0,9218;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;241500;1872;7
+902109160;0;S1;Compacto herdado;0,9213;fronteira;False;2.0.0;3234409bf8a041db;Old Town;122250;1740;5
+535152280;0;S1;Compacto herdado;0,9212;fronteira;False;2.0.0;3234409bf8a041db;North Ames;132000;1364;5
+527328020;1;S2;Amplo para requalificar;0,9209;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;148000;1032;6
+535125010;1;S2;Amplo para requalificar;0,9204;fronteira;False;2.0.0;3234409bf8a041db;North Ames;180000;2207;7
+905103130;1;S2;Amplo para requalificar;0,92;fronteira;False;2.0.0;3234409bf8a041db;Sawyer;153600;1064;5
+527375210;1;S2;Amplo para requalificar;0,9199;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;158000;1193;7
+904351240;0;S1;Compacto herdado;0,9197;fronteira;False;2.0.0;3234409bf8a041db;Edwards;63000;1112;5
+908102130;0;S1;Compacto herdado;0,9197;fronteira;False;2.0.0;3234409bf8a041db;Edwards;100000;1664;5
+911103060;1;S2;Amplo para requalificar;0,9196;fronteira;False;2.0.0;3234409bf8a041db;Iowa DOT and Rail Road;119600;1991;5
+902306130;1;S2;Amplo para requalificar;0,9193;fronteira;False;2.0.0;3234409bf8a041db;Old Town;161000;1378;7
+908152035;1;S2;Amplo para requalificar;0,919;fronteira;False;2.0.0;3234409bf8a041db;Edwards;127000;1149;4
+908275280;1;S2;Amplo para requalificar;0,9187;fronteira;False;2.0.0;3234409bf8a041db;Edwards;135500;1393;5
+533213040;0;S1;Compacto herdado;0,9181;fronteira;False;2.0.0;3234409bf8a041db;Somerset;172500;1471;6
+905450020;1;S2;Amplo para requalificar;0,9181;fronteira;False;2.0.0;3234409bf8a041db;Edwards;127500;1689;6
+905478140;0;S1;Compacto herdado;0,9179;fronteira;False;2.0.0;3234409bf8a041db;Edwards;125000;1342;5
+909275050;1;S2;Amplo para requalificar;0,9179;fronteira;False;2.0.0;3234409bf8a041db;Crawford;149000;1502;7
+527454050;1;S2;Amplo para requalificar;0,9179;fronteira;False;2.0.0;3234409bf8a041db;Northpark Villa;147000;1322;6
+527302050;1;S2;Amplo para requalificar;0,9178;fronteira;False;2.0.0;3234409bf8a041db;Northwest Ames;175500;1422;6
+533253060;2;S3;Recente de alto padrão;0,9176;fronteira;False;2.0.0;3234409bf8a041db;Greens;155000;788;8
+907131120;1;S2;Amplo para requalificar;0,9175;fronteira;False;2.0.0;3234409bf8a041db;College Creek;211000;1796;6
+532476050;2;S3;Recente de alto padrão;0,9173;fronteira;False;2.0.0;3234409bf8a041db;Veenker;260000;2646;7
+535426260;1;S2;Amplo para requalificar;0,9169;fronteira;False;2.0.0;3234409bf8a041db;North Ames;157000;1253;6
+903226060;0;S1;Compacto herdado;0,9164;fronteira;False;2.0.0;3234409bf8a041db;Brookside;164900;1672;6
+903206170;1;S2;Amplo para requalificar;0,916;fronteira;False;2.0.0;3234409bf8a041db;Brookside;210000;1635;6
+534202160;1;S2;Amplo para requalificar;0,9158;fronteira;False;2.0.0;3234409bf8a041db;North Ames;142250;1232;5
+909254050;1;S2;Amplo para requalificar;0,9156;fronteira;False;2.0.0;3234409bf8a041db;Crawford;231000;1512;8
+533223050;2;S3;Recente de alto padrão;0,915;fronteira;False;2.0.0;3234409bf8a041db;Somerset;148800;1102;7

@@ -72,6 +72,14 @@ REGRAS_LIMPEZA: list[dict[str, str]] = [
         ),
     },
     {
+        "regra": "Traduzir as categorias das colunas nominais para o português",
+        "motivo": (
+            "`RL`, `1Fam` e `Attchd` são códigos do cadastro de Ames e não dizem nada a "
+            "quem opera a carteira. A tradução troca só o rótulo: cada coluna mantém as "
+            "mesmas categorias com os mesmos imóveis, e o modelo não muda."
+        ),
+    },
+    {
         "regra": "Ler o arquivo com `na_values=['NA', '']`, em vez do padrão do pandas",
         "motivo": (
             "A palavra `None` em `Mas Vnr Type` é categoria legítima — 'sem "
@@ -324,7 +332,7 @@ def _depurar_carteira(curada: pd.DataFrame) -> pd.DataFrame:
         fora_da_cerca |= (curada[coluna] < limites[0]) | (curada[coluna] > limites[1])
     curada = curada[~fora_da_cerca]
 
-    curada = curada[curada["condicao_venda"] == "Normal"]
+    curada = curada[curada["condicao_venda"] == dic.VENDA_NORMAL]
 
     implausivel = (curada["dormitorios"] == 0) | (
         curada["banheiros_completos"] + curada["banheiros_completos_porao"] == 0
@@ -356,6 +364,24 @@ def _remover_colunas_sem_informacao(curada: pd.DataFrame) -> pd.DataFrame:
         if pct >= LIMIAR_CONCENTRACAO and coluna not in COLUNAS_PROTEGIDAS
     ]
     return curada.drop(columns=descartar)
+
+
+def traduzir_categorias(curada: pd.DataFrame) -> pd.DataFrame:
+    """Troca os códigos das colunas nominais pelo rótulo em português.
+
+    Roda sobre os nomes curados, logo depois da renomeação. Código sem tradução
+    em :data:`dic.TRADUCAO_CATEGORIAS` interrompe a preparação: um valor novo na
+    origem precisa ganhar rótulo antes de chegar à base curada.
+    """
+    curada = curada.copy()
+    for coluna, mapa in dic.TRADUCAO_CATEGORIAS.items():
+        if coluna not in curada.columns:
+            continue
+        sem_traducao = sorted(set(curada[coluna].dropna()) - set(mapa))
+        if sem_traducao:
+            raise ValueError(f"`{coluna}` tem códigos sem tradução: {sem_traducao}")
+        curada[coluna] = curada[coluna].map(mapa)
+    return curada
 
 
 def _derivar(dados: pd.DataFrame) -> pd.DataFrame:
@@ -410,6 +436,7 @@ def construir_base_curada(salvar: bool = True) -> pd.DataFrame:
     bruto = _mapear_ordinais(bruto)
 
     curada = bruto.rename(columns=dic.RENOMEAR)
+    curada = traduzir_categorias(curada)
     curada = _derivar(curada)
 
     # Recomendação explícita do autor da base.

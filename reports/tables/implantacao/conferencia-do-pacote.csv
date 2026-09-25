@@ -4,4 +4,4 @@ Bibliotecas que a máquina da aplicação precisa ter;builtins, numpy, pandas, p
 A releitura reproduz a partição aprovada;2.350 de 2.350 imóveis;aprovado
 A releitura reproduz as faixas de confiança calibradas;cortes 0.609 e 0.915;aprovado
 O catálogo tem uma linha de produto por segmento;3 personas para k = 3;aprovado
-Tamanho, versão e formato do arquivo;423 KB · versão 2.0.0 · formato meridiano.segmentacao/1;aprovado
+Tamanho, versão e formato do arquivo;432 KB · versão 2.0.0 · formato meridiano.segmentacao/1;aprovado

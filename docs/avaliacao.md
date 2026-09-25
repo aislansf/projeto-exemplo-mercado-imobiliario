@@ -119,16 +119,16 @@ Distribuição percentual dos segmentos nos dez maiores bairros:
 
 | Bairro | S1 | S2 | S3 |
 |:---|---:|---:|---:|
-| Somerst | 2,6 | 2,6 | **94,7** |
-| CollgCr | 21,7 | 4,4 | **73,9** |
-| SawyerW | 18,8 | 11,9 | **69,3** |
+| Somerset | 2,6 | 2,6 | **94,7** |
+| College Creek | 21,7 | 4,4 | **73,9** |
+| Sawyer West | 18,8 | 11,9 | **69,3** |
 | Gilbert | 0,8 | 45,2 | **54,0** |
-| NWAmes | 5,1 | **76,9** | 17,9 |
-| BrkSide | **81,6** | 17,3 | 1,0 |
+| Northwest Ames | 5,1 | **76,9** | 17,9 |
+| Brookside | **81,6** | 17,3 | 1,0 |
 | Sawyer | **64,7** | 35,3 | 0,0 |
-| OldTown | **64,6** | 34,3 | 1,0 |
+| Old Town | **64,6** | 34,3 | 1,0 |
 | Edwards | **62,5** | 28,9 | 8,6 |
-| NAmes | **59,2** | 37,8 | 3,1 |
+| North Ames | **59,2** | 37,8 | 3,1 |
 
 **V de Cramér = 0,630.** A associação é forte e a leitura é geográfica: Somerset,
 College Creek e Sawyer West são loteamentos novos e concentram o S3; Brookside, Old Town

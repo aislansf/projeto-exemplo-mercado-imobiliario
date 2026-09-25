@@ -295,7 +295,7 @@ isolada.
 O K-Medoids sobre Gower tem a maior silhueta da tabela — e particiona a carteira por
 **estilo construtivo**, não por linha de produto:
 
-| Segmento | 1Story | 2Story | 1.5Fin | SLvl | outras |
+| Segmento | Térrea | Dois pavimentos | 1,5 pavimento, superior acabado | Meios-níveis | outras |
 |:-:|---:|---:|---:|---:|---:|
 | 0 | **78,3%** | 5,9% | 4,4% | 6,2% | 5,2% |
 | 1 | 13,9% | 31,3% | **43,3%** | 1,7% | 9,8% |
@@ -390,9 +390,9 @@ que não existe na carteira:
 
 | Segmento | `pid` | Área hab. | Qual. geral | Idade | Banheiros | Cômodos | Estilo |
 |:-:|---:|---:|:-:|---:|---:|:-:|:---|
-| **S1** | 532376180 | 909 | 5 | 38 | 1,0 | 5 | 1Story |
-| **S2** | 905103040 | 1.683 | 6 | 31 | 2,5 | 7 | 2Story |
-| **S3** | 907187040 | 1.873 | 7 | 8 | 2,5 | 7 | 2Story |
+| **S1** | 532376180 | 909 | 5 | 38 | 1,0 | 5 | Térrea |
+| **S2** | 905103040 | 1.683 | 6 | 31 | 2,5 | 7 | Dois pavimentos |
+| **S3** | 907187040 | 1.873 | 7 | 8 | 2,5 | 7 | Dois pavimentos |
 
 > Evidência: `reports/tables/modelagem/placar-dos-candidatos.csv` ·
 > `reports/tables/modelagem/perfil-do-modelo-escolhido.csv` ·

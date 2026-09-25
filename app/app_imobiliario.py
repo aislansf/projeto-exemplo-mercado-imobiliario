@@ -1,6 +1,6 @@
 """Aplicação Streamlit que identifica o grupo de um imóvel.
 
-A tela consome o modelo treinado no notebook `08_modelagem_bonus.ipynb`:
+A tela consome o modelo treinado no notebook `07_modelagem_bonus.ipynb`:
 `models/model_bonus_imoveis_k_means.joblib`. É um `Pipeline` do scikit-learn com
 duas etapas — o pré-processamento (normalização e codificação) e o k-means com
 3 grupos. O usuário preenche o formulário, clica em **Identificar grupo** e a
@@ -21,7 +21,7 @@ RAIZ = Path(__file__).resolve().parents[1]
 CAMINHO_MODELO = RAIZ / "models" / "model_bonus_imoveis_k_means.joblib"
 CAMINHO_DADOS = RAIZ / "data" / "processed" / "imoveis_curados.parquet"
 
-#: Colunas que o notebook 08 deixou de fora da modelagem.
+#: Colunas que o notebook 07 deixou de fora da modelagem.
 FORA_DA_MODELAGEM = ["ordem", "pid"]
 
 

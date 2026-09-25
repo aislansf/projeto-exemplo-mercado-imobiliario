@@ -49,7 +49,7 @@
   "carimbo": {
     "modelo": {
       "arquivo": "models/modelo-segmentacao.joblib",
-      "sha256": "1a5108376174e9ef5b94d5ab88331e8b0fa4abca072d86bcc30100e699c5e802",
+      "sha256": "3234409bf8a041db91ae05d2f1ae56359d48da589239273a9f261485552e9312",
       "bytes": 14570
     },
     "base_segmentada": {
@@ -59,8 +59,8 @@
     },
     "base_modelagem": {
       "arquivo": "data/processed/base_modelagem.parquet",
-      "sha256": "639bcafccd4f777b89650dba2de8a68c61ca9688e24311a14ad7e258b7f5890d",
-      "bytes": 93434
+      "sha256": "dd649e262372236e184d3ccf13742af0619224d5bf5ac97f0263ae392ada56cc",
+      "bytes": 93849
     },
     "manifesto_modelagem": {
       "arquivo": "data/processed/manifesto_modelagem.json",
@@ -69,8 +69,8 @@
     },
     "manifesto_avaliacao": {
       "arquivo": "data/processed/manifesto_avaliacao.json",
-      "sha256": "1cb6e44b784bd2249d5498c6f2e235f44c99d44a81752cb20cc5468260b66c42",
-      "bytes": 2550
+      "sha256": "1cc31a072842d98424865c091db062066528bf177dc34677939a7bee104dc84c",
+      "bytes": 2549
     }
   },
   "regra_de_atribuicao": {
@@ -115,8 +115,8 @@
   "pacote_da_aplicacao": {
     "arquivo": "models/aplicacao-segmentacao.pkl",
     "formato": "meridiano.segmentacao/1",
-    "bytes": 433124,
-    "sha256": "6c947e7d1cf84a27a2499016ddc2c02c82ccef9119f7b0577237e32d62dde3ba",
+    "bytes": 442863,
+    "sha256": "c506978d3eb12aab244c6c389832ac0b8d8992a09640cfdfbf6a479fcad55c64",
     "bibliotecas_exigidas": [
       "builtins",
       "numpy",

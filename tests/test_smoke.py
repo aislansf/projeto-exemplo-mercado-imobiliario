@@ -45,3 +45,17 @@ def test_toda_variavel_do_espaco_tem_descricao_e_rotulo():
 
 def test_assimetricas_sao_subconjunto_das_numericas():
     assert set(dic.ASSIMETRICAS) <= set(dic.NUMERICAS)
+
+
+def test_traducao_cobre_as_nominais_e_nao_funde_categorias():
+    """Toda nominal do espaço tem tradução, e códigos distintos não viram o mesmo rótulo.
+
+    A exceção são as grafias diferentes do mesmo material nas duas colunas de
+    revestimento, que nunca aparecem juntas na mesma coluna.
+    """
+    assert set(dic.NOMINAIS) <= set(dic.TRADUCAO_CATEGORIAS)
+    sinonimos = {"Brk Cmn", "CmentBd", "Wd Shng"}
+    for coluna, mapa in dic.TRADUCAO_CATEGORIAS.items():
+        codigos = [c for c in mapa if c not in sinonimos]
+        rotulos = [mapa[c] for c in codigos]
+        assert len(set(rotulos)) == len(rotulos), coluna

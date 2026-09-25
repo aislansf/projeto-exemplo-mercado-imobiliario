@@ -93,7 +93,7 @@ Três decisões de método sustentam o resto:
 
 ## 7 · Implantação
 
-* **Pacote 2.0.0**, carimbado por SHA-256 (`1a5108376174e9ef…`): receita e
+* **Pacote 2.0.0**, carimbado por SHA-256 (`3234409bf8a041db…`): receita e
   agrupador no mesmo objeto, com o mapa canônico dos segmentos;
 * **contrato de entrada** com 17 campos, faixa aceita, faixa observada e padrão;
 * **regra de atribuição com faixa de confiança**: corte de fronteira 0.915,
@@ -130,7 +130,7 @@ feita entre 2006–2008 e 2009–2010, está publicada:
 * **as regras de associação e a detecção de anomalia**, prometidas no Canvas §5, não fazem
   parte desta cadeia — a decisão sobre refazê-las ou revisar a meta está entre as deliberações
   da sessão de encerramento;
-* **a documentação publicada descreve o experimento anterior** em 54
+* **a documentação publicada descreve o experimento anterior** em 6
   ocorrências, e precisa ser reescrita antes de qualquer divulgação externa;
 * **o candidato k = 4** foi reprovado por 0.0112 de silhueta e
   fica registrado para revisão do critério, não para revisão do resultado.

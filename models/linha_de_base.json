@@ -341,57 +341,57 @@
   },
   "zoneamento": {
     "proporcoes": {
-      "RL": 0.78085,
-      "RM": 0.16553,
-      "FV": 0.03915,
-      "RH": 0.00851,
-      "C (all)": 0.00553,
-      "I (all)": 0.00043
+      "Residencial de baixa densidade": 0.78085,
+      "Residencial de média densidade": 0.16553,
+      "Residencial em vila planejada": 0.03915,
+      "Residencial de alta densidade": 0.00851,
+      "Comercial": 0.00553,
+      "Industrial": 0.00043
     }
   },
   "tipo_construcao": {
     "proporcoes": {
-      "1Fam": 0.82979,
-      "TwnhsE": 0.07915,
-      "Twnhs": 0.03957,
+      "Unifamiliar isolada": 0.82979,
+      "Casa em fileira, ponta": 0.07915,
+      "Casa em fileira, meio": 0.03957,
       "Duplex": 0.03106,
-      "2fmCon": 0.02043
+      "Bifamiliar convertida": 0.02043
     }
   },
   "estilo": {
     "proporcoes": {
-      "1Story": 0.49149,
-      "2Story": 0.30255,
-      "1.5Fin": 0.11191,
-      "SLvl": 0.04809,
-      "SFoyer": 0.02723,
-      "2.5Unf": 0.00851,
-      "1.5Unf": 0.00809,
-      "2.5Fin": 0.00213
+      "Térrea": 0.49149,
+      "Dois pavimentos": 0.30255,
+      "1,5 pavimento, superior acabado": 0.11191,
+      "Meios-níveis": 0.04809,
+      "Entrada em meio-nível": 0.02723,
+      "2,5 pavimentos, superior inacabado": 0.00851,
+      "1,5 pavimento, superior inacabado": 0.00809,
+      "2,5 pavimentos, superior acabado": 0.00213
     }
   },
   "tipo_garagem": {
     "proporcoes": {
-      "Attchd": 0.58681,
-      "Detchd": 0.28681,
-      "BuiltIn": 0.05702,
-      "SemGaragem": 0.04894,
-      "Basment": 0.01021,
-      "2Types": 0.00638,
-      "CarPort": 0.00383
+      "Anexa à casa": 0.58681,
+      "Separada da casa": 0.28681,
+      "Embutida": 0.05702,
+      "Sem garagem": 0.04894,
+      "No porão": 0.01021,
+      "Mais de um tipo": 0.00638,
+      "Telheiro": 0.00383
     }
   },
   "ar_central": {
     "proporcoes": {
-      "Y": 0.93617,
-      "N": 0.06383
+      "Sim": 0.93617,
+      "Não": 0.06383
     }
   },
   "_referencia": {
     "versao_modelo": "2.0.0",
     "imoveis": 2350,
     "periodo": "2006–2010",
-    "carimbo_do_pacote": "1a5108376174e9ef5b94d5ab88331e8b0fa4abca072d86bcc30100e699c5e802",
+    "carimbo_do_pacote": "3234409bf8a041db91ae05d2f1ae56359d48da589239273a9f261485552e9312",
     "composicao_por_segmento": {
       "S1": 38.89,
       "S2": 28.38,

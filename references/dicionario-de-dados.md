@@ -129,6 +129,69 @@ Tratá-las como nulo e imputar pela mediana inventaria porões que nunca existir
 |:---|:---|:---|
 | `Mas Vnr Type` | `NaoInformado` | 1.752 registros têm a categoria legítima `None` (sem revestimento); apenas 23 estão realmente em branco. A ausência **não** é estrutural. |
 
+## Tradução das categorias
+
+Na camada curada, os códigos da origem dão lugar a rótulos em português
+(`dic.TRADUCAO_CATEGORIAS`). A tradução troca só o texto: cada coluna mantém as mesmas
+categorias com os mesmos imóveis. Abaixo, as cinco nominais do espaço de atributos; o
+mapa das demais colunas, com a contagem de imóveis por categoria, está em
+`reports/tables/ajustes-dados/traducao-das-categorias.csv`. Bairro é nome próprio: o
+código abreviado vira o nome por extenso (`NAmes` → `North Ames`), sem tradução.
+
+### `zoneamento`
+
+| Código na origem | Rótulo curado |
+|:---|:---|
+| `RL` | Residencial de baixa densidade |
+| `RM` | Residencial de média densidade |
+| `RH` | Residencial de alta densidade |
+| `FV` | Residencial em vila planejada |
+| `C (all)` | Comercial |
+| `I (all)` | Industrial |
+| `A (agr)` | Agrícola |
+
+### `tipo_construcao`
+
+| Código na origem | Rótulo curado |
+|:---|:---|
+| `1Fam` | Unifamiliar isolada |
+| `2fmCon` | Bifamiliar convertida |
+| `Duplex` | Duplex |
+| `TwnhsE` | Casa em fileira, ponta |
+| `Twnhs` | Casa em fileira, meio |
+
+### `estilo`
+
+| Código na origem | Rótulo curado |
+|:---|:---|
+| `1Story` | Térrea |
+| `1.5Fin` | 1,5 pavimento, superior acabado |
+| `1.5Unf` | 1,5 pavimento, superior inacabado |
+| `2Story` | Dois pavimentos |
+| `2.5Fin` | 2,5 pavimentos, superior acabado |
+| `2.5Unf` | 2,5 pavimentos, superior inacabado |
+| `SFoyer` | Entrada em meio-nível |
+| `SLvl` | Meios-níveis |
+
+### `tipo_garagem`
+
+| Código na origem | Rótulo curado |
+|:---|:---|
+| `Attchd` | Anexa à casa |
+| `Detchd` | Separada da casa |
+| `BuiltIn` | Embutida |
+| `Basment` | No porão |
+| `CarPort` | Telheiro |
+| `2Types` | Mais de um tipo |
+| `SemGaragem` | Sem garagem |
+
+### `ar_central`
+
+| Código na origem | Rótulo curado |
+|:---|:---|
+| `Y` | Sim |
+| `N` | Não |
+
 ## Transformações antes da modelagem
 
 `log1p` é aplicado apenas onde a assimetria medida supera o limiar de 0.75:

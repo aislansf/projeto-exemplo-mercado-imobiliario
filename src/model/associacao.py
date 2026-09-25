@@ -280,9 +280,9 @@ def remover_regras_triviais(regras: pd.DataFrame) -> pd.DataFrame:
 
 
 #: Pares de variáveis ligadas **por definição**, e não por comportamento de
-#: mercado. Uma casa de estilo `2Story` tem segundo pavimento porque é isso que
-#: `2Story` significa; um imóvel com `tipo_de_garagem` diferente de `SemGaragem`
-#: tem garagem pela mesma razão.
+#: mercado. Uma casa de estilo `Dois pavimentos` tem segundo pavimento porque é
+#: isso que o estilo significa; um imóvel com `tipo_de_garagem` diferente de
+#: `Sem garagem` tem garagem pela mesma razão.
 #:
 #: Nenhuma métrica detecta isso: suporte, confiança e lift são altos justamente
 #: porque a relação é perfeita. Só o conhecimento do domínio separa a tautologia

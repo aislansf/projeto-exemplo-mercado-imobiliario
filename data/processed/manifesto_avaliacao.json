@@ -53,7 +53,7 @@
     "cadeia_integra": true,
     "artefatos_auditados": 5,
     "vazamento_encontrado": false,
-    "ocorrencias_documentais_desatualizadas": 54,
+    "ocorrencias_documentais_desatualizadas": 6,
     "divergencias_abertas": 5,
     "divergencias_de_gravidade_alta": 3
   },

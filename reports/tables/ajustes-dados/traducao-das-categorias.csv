@@ -1,0 +1,181 @@
+﻿coluna;codigo;rotulo;registros
+zoneamento;RL;Residencial de baixa densidade;2273
+zoneamento;RM;Residencial de média densidade;461
+zoneamento;FV;Residencial em vila planejada;139
+zoneamento;RH;Residencial de alta densidade;27
+zoneamento;C (all);Comercial;25
+zoneamento;I (all);Industrial;2
+zoneamento;A (agr);Agrícola;2
+tipo_via;Pave;Pavimentada;2917
+tipo_via;Grvl;Cascalho;12
+tipo_viela;SemViela;Sem viela;2731
+tipo_viela;Grvl;Cascalho;120
+tipo_viela;Pave;Pavimentada;78
+relevo;Lvl;Plano;2632
+relevo;HLS;Encosta;120
+relevo;Bnk;Talude;117
+relevo;Low;Baixada;60
+config_lote;Inside;Meio de quadra;2140
+config_lote;Corner;Esquina;511
+config_lote;CulDSac;Rua sem saída;180
+config_lote;FR2;Duas frentes;85
+config_lote;FR3;Três frentes;13
+bairro;NAmes;North Ames;443
+bairro;CollgCr;College Creek;267
+bairro;OldTown;Old Town;239
+bairro;Edwards;Edwards;194
+bairro;Somerst;Somerset;182
+bairro;NridgHt;Northridge Heights;166
+bairro;Gilbert;Gilbert;165
+bairro;Sawyer;Sawyer;151
+bairro;NWAmes;Northwest Ames;131
+bairro;SawyerW;Sawyer West;125
+bairro;Mitchel;Mitchell;114
+bairro;BrkSide;Brookside;107
+bairro;Crawfor;Crawford;103
+bairro;IDOTRR;Iowa DOT and Rail Road;93
+bairro;Timber;Timberland;72
+bairro;NoRidge;Northridge;71
+bairro;StoneBr;Stone Brook;51
+bairro;SWISU;South & West of ISU;48
+bairro;ClearCr;Clear Creek;44
+bairro;MeadowV;Meadow Village;37
+bairro;BrDale;Briardale;30
+bairro;Blmngtn;Bloomington Heights;28
+bairro;Veenker;Veenker;24
+bairro;NPkVill;Northpark Villa;23
+bairro;Blueste;Bluestem;10
+bairro;Greens;Greens;8
+bairro;GrnHill;Green Hills;2
+bairro;Landmrk;Landmark;1
+condicao_entorno_1;Norm;Normal;2522
+condicao_entorno_1;Feedr;Junto a via coletora;163
+condicao_entorno_1;Artery;Junto a via arterial;92
+condicao_entorno_1;RRAn;Vizinho à ferrovia norte-sul;50
+condicao_entorno_1;PosN;Próximo a área verde;39
+condicao_entorno_1;RRAe;Vizinho à ferrovia leste-oeste;28
+condicao_entorno_1;PosA;Vizinho a área verde;20
+condicao_entorno_1;RRNn;Até 200 pés da ferrovia norte-sul;9
+condicao_entorno_1;RRNe;Até 200 pés da ferrovia leste-oeste;6
+condicao_entorno_2;Norm;Normal;2899
+condicao_entorno_2;Feedr;Junto a via coletora;13
+condicao_entorno_2;Artery;Junto a via arterial;5
+condicao_entorno_2;PosA;Vizinho a área verde;4
+condicao_entorno_2;PosN;Próximo a área verde;4
+condicao_entorno_2;RRNn;Até 200 pés da ferrovia norte-sul;2
+condicao_entorno_2;RRAe;Vizinho à ferrovia leste-oeste;1
+condicao_entorno_2;RRAn;Vizinho à ferrovia norte-sul;1
+tipo_construcao;1Fam;Unifamiliar isolada;2424
+tipo_construcao;TwnhsE;Casa em fileira, ponta;233
+tipo_construcao;Duplex;Duplex;109
+tipo_construcao;Twnhs;Casa em fileira, meio;101
+tipo_construcao;2fmCon;Bifamiliar convertida;62
+estilo;1Story;Térrea;1480
+estilo;2Story;Dois pavimentos;873
+estilo;1.5Fin;1,5 pavimento, superior acabado;314
+estilo;SLvl;Meios-níveis;128
+estilo;SFoyer;Entrada em meio-nível;83
+estilo;2.5Unf;2,5 pavimentos, superior inacabado;24
+estilo;1.5Unf;1,5 pavimento, superior inacabado;19
+estilo;2.5Fin;2,5 pavimentos, superior acabado;8
+estilo_telhado;Gable;Duas águas;2320
+estilo_telhado;Hip;Quatro águas;551
+estilo_telhado;Gambrel;Holandês;22
+estilo_telhado;Flat;Plano;20
+estilo_telhado;Mansard;Mansarda;11
+estilo_telhado;Shed;Uma água;5
+material_telhado;CompShg;Telha asfáltica;2886
+material_telhado;Tar&Grv;Piche e cascalho;23
+material_telhado;WdShake;Lascas de madeira;9
+material_telhado;WdShngl;Telha de madeira;7
+material_telhado;Membran;Membrana;1
+material_telhado;ClyTile;Telha cerâmica;1
+material_telhado;Roll;Manta em rolo;1
+material_telhado;Metal;Metal;1
+revestimento_1;VinylSd;Vinil;1026
+revestimento_1;MetalSd;Metálico;449
+revestimento_1;HdBoard;Chapa de fibra;442
+revestimento_1;Wd Sdng;Tábuas de madeira;420
+revestimento_1;Plywood;Compensado;221
+revestimento_1;CemntBd;Placa cimentícia;126
+revestimento_1;BrkFace;Tijolo aparente;88
+revestimento_1;WdShing;Escamas de madeira;56
+revestimento_1;AsbShng;Placas de amianto;44
+revestimento_1;Stucco;Estuque;43
+revestimento_1;BrkComm;Tijolo comum;6
+revestimento_1;AsphShn;Placas asfálticas;2
+revestimento_1;CBlock;Bloco de concreto;2
+revestimento_1;Stone;Pedra;2
+revestimento_1;PreCast;Pré-moldado;1
+revestimento_1;ImStucc;Estuque imitação;1
+revestimento_2;VinylSd;Vinil;1015
+revestimento_2;MetalSd;Metálico;447
+revestimento_2;HdBoard;Chapa de fibra;406
+revestimento_2;Wd Sdng;Tábuas de madeira;397
+revestimento_2;Plywood;Compensado;274
+revestimento_2;CmentBd;Placa cimentícia;126
+revestimento_2;Wd Shng;Escamas de madeira;81
+revestimento_2;BrkFace;Tijolo aparente;47
+revestimento_2;Stucco;Estuque;47
+revestimento_2;AsbShng;Placas de amianto;38
+revestimento_2;Brk Cmn;Tijolo comum;22
+revestimento_2;ImStucc;Estuque imitação;15
+revestimento_2;Stone;Pedra;6
+revestimento_2;AsphShn;Placas asfálticas;4
+revestimento_2;CBlock;Bloco de concreto;2
+revestimento_2;PreCast;Pré-moldado;1
+revestimento_2;Other;Outro;1
+tipo_alvenaria_aparente;None;Sem alvenaria aparente;1751
+tipo_alvenaria_aparente;BrkFace;Tijolo aparente;880
+tipo_alvenaria_aparente;Stone;Pedra;249
+tipo_alvenaria_aparente;BrkCmn;Tijolo comum;25
+tipo_alvenaria_aparente;NaoInformado;Não informado;23
+tipo_alvenaria_aparente;CBlock;Bloco de concreto;1
+fundacao;PConc;Concreto moldado;1309
+fundacao;CBlock;Bloco de concreto;1244
+fundacao;BrkTil;Tijolo e telha;311
+fundacao;Slab;Radier;49
+fundacao;Stone;Pedra;11
+fundacao;Wood;Madeira;5
+aquecimento;GasA;Ar forçado a gás;2884
+aquecimento;GasW;Água quente a gás;27
+aquecimento;Grav;Fornalha por gravidade;9
+aquecimento;Wall;Fornalha de parede;6
+aquecimento;OthW;Água quente, outro combustível;2
+aquecimento;Floor;Fornalha de piso;1
+ar_central;Y;Sim;2733
+ar_central;N;Não;196
+sistema_eletrico;SBrkr;Disjuntores;2683
+sistema_eletrico;FuseA;Fusíveis acima de 60 A;187
+sistema_eletrico;FuseF;Fusíveis de 60 A;50
+sistema_eletrico;FuseP;Fusíveis de 60 A, fiação antiga;8
+sistema_eletrico;Mix;Misto;1
+tipo_garagem;Attchd;Anexa à casa;1731
+tipo_garagem;Detchd;Separada da casa;780
+tipo_garagem;BuiltIn;Embutida;186
+tipo_garagem;SemGaragem;Sem garagem;158
+tipo_garagem;Basment;No porão;36
+tipo_garagem;2Types;Mais de um tipo;23
+tipo_garagem;CarPort;Telheiro;15
+item_extra;SemExtra;Sem item extra;2823
+item_extra;Shed;Depósito;95
+item_extra;Gar2;Segunda garagem;5
+item_extra;Othr;Outro;4
+item_extra;Elev;Elevador;1
+item_extra;TenC;Quadra de tênis;1
+tipo_venda;WD ;Escritura convencional;2536
+tipo_venda;New;Imóvel novo;239
+tipo_venda;COD;Escritura judicial ou de espólio;87
+tipo_venda;ConLD;Contrato, entrada baixa;25
+tipo_venda;CWD;Escritura com pagamento à vista;12
+tipo_venda;ConLI;Contrato, juros baixos;9
+tipo_venda;ConLw;Contrato, entrada e juros baixos;8
+tipo_venda;Oth;Outra;7
+tipo_venda;Con;Contrato, entrada de 15%;5
+tipo_venda;VWD;Escritura com financiamento de veterano;1
+condicao_venda;Normal;Normal;2413
+condicao_venda;Partial;Parcial;245
+condicao_venda;Abnorml;Anormal;189
+condicao_venda;Family;Entre familiares;46
+condicao_venda;Alloca;Matrículas conjuntas;24
+condicao_venda;AdjLand;Terreno adjacente;12

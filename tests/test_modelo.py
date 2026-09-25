@@ -11,6 +11,7 @@ import pandas as pd
 import pytest
 
 from src import config
+from src.data import preparacao
 from src.model import associacao as assoc
 from src.model import distancias as dist
 from src.model import particional as part
@@ -269,3 +270,33 @@ def test_catalogo_em_codigo_bate_com_o_catalogo_publicado():
         em_codigo = pers.PERSONAS[int(chave)]
         for campo in ("codigo", "nome", "acao", "metrica", "canal", "teto_de_reforma"):
             assert em_codigo[campo] == persona[campo], f"divergência em {chave}.{campo}"
+
+
+# --------------------------------------------------------------------------- #
+# Tradução das categorias
+# --------------------------------------------------------------------------- #
+
+
+def test_traducao_preserva_as_categorias():
+    curada = pd.DataFrame(
+        {
+            "ar_central": ["Y", "N", "Y", None],
+            "tipo_garagem": ["Attchd", "SemGaragem", "Detchd", "Attchd"],
+            "area_habitavel": [1000, 1200, 900, 1500],
+        }
+    )
+    traduzida = preparacao.traduzir_categorias(curada)
+    assert traduzida["ar_central"].tolist()[:3] == ["Sim", "Não", "Sim"]
+    assert traduzida["ar_central"].isna().iloc[3]
+    assert traduzida["tipo_garagem"].tolist() == [
+        "Anexa à casa",
+        "Sem garagem",
+        "Separada da casa",
+        "Anexa à casa",
+    ]
+    assert traduzida["area_habitavel"].equals(curada["area_habitavel"])
+
+
+def test_traducao_recusa_codigo_desconhecido():
+    with pytest.raises(ValueError, match="sem tradução"):
+        preparacao.traduzir_categorias(pd.DataFrame({"zoneamento": ["RL", "XYZ"]}))

@@ -1,5 +1,5 @@
 ﻿afirmacao_desatualizada;ocorrencias;arquivos;onde
-carteira de 2.925 imóveis;21;10;docs/analise-exploratoria.md, docs/entendimento-negocio.md, docs/fonte-dados.md, docs/implementacao.md …
-quatro segmentos, linhas ou personas;5;4;docs/index.md, docs/modelagem.md, mkdocs.yml, README.md
-k = 4;5;2;docs/modelagem.md, docs/pbl/quadro-pbl.md
-persona S4;23;8;docs/avaliacao.md, docs/criterios-sucesso.md, docs/entendimento-negocio.md, docs/implementacao.md …
+carteira de 2.925 imóveis;3;3;docs/implementacao.md, docs/preparacao.md, README.md
+quatro segmentos, linhas ou personas;1;1;docs/implementacao.md
+k = 4;1;1;docs/pbl/quadro-pbl.md
+persona S4;1;1;docs/implementacao.md
