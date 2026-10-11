@@ -1,21 +1,21 @@
 ﻿coluna;escala;niveis;registros_em_zero;mediana_codificada
-Pool QC;Po < Fa < TA < Gd < Ex;5;2916;0,0
-Fence;MnWw < GdWo < MnPrv < GdPrv;4;2358;0,0
-Fireplace Qu;Po < Fa < TA < Gd < Ex;5;1421;1,0
-Garage Cond;Po < Fa < TA < Gd < Ex;5;159;3,0
-Garage Finish;Unf < RFn < Fin;3;159;2,0
-Garage Qual;Po < Fa < TA < Gd < Ex;5;159;3,0
-Bsmt Exposure;No < Mn < Av < Gd;4;82;1,0
-BsmtFin Type 2;Unf < LwQ < Rec < BLQ < ALQ < GLQ;6;80;1,0
-BsmtFin Type 1;Unf < LwQ < Rec < BLQ < ALQ < GLQ;6;79;4,0
-Bsmt Cond;Po < Fa < TA < Gd < Ex;5;79;3,0
-Bsmt Qual;Po < Fa < TA < Gd < Ex;5;79;4,0
-Exter Cond;Po < Fa < TA < Gd < Ex;5;0;3,0
-Exter Qual;Po < Fa < TA < Gd < Ex;5;0;3,0
-Heating QC;Po < Fa < TA < Gd < Ex;5;0;5,0
-Kitchen Qual;Po < Fa < TA < Gd < Ex;5;0;3,0
-Functional;Sal < Sev < Maj2 < Maj1 < Mod < Min2 < Min1 < Typ;8;0;8,0
-Lot Shape;IR3 < IR2 < IR1 < Reg;4;0;4,0
-Land Slope;Sev < Mod < Gtl;3;0;3,0
-Paved Drive;N < P < Y;3;0;3,0
-Utilities;ELO < NoSeWa < NoSewr < AllPub;4;0;4,0
+qualidade_piscina;Ruim < Regular < Típico < Bom < Excelente;5;2916;0,0
+tipo_cerca;Madeira ou arame mínimo < Boa madeira < Privacidade mínima < Boa privacidade;4;2358;0,0
+qualidade_lareira;Ruim < Regular < Típico < Bom < Excelente;5;1421;1,0
+conservacao_garagem;Ruim < Regular < Típico < Bom < Excelente;5;159;3,0
+acabamento_garagem;Sem acabamento < Parcialmente acabada < Acabada;3;159;2,0
+qualidade_garagem;Ruim < Regular < Típico < Bom < Excelente;5;159;3,0
+exposicao_porao;Nenhuma < Mínima < Média < Boa;4;82;1,0
+acabamento_porao_2;Sem acabamento < Baixa qualidade < Recreação < Habitável, abaixo do padrão < Habitável, padrão médio < Habitável, bom padrão;6;80;1,0
+acabamento_porao_1;Sem acabamento < Baixa qualidade < Recreação < Habitável, abaixo do padrão < Habitável, padrão médio < Habitável, bom padrão;6;79;4,0
+conservacao_porao;Ruim < Regular < Típico < Bom < Excelente;5;79;3,0
+qualidade_porao;Ruim < Regular < Típico < Bom < Excelente;5;79;4,0
+conservacao_externa;Ruim < Regular < Típico < Bom < Excelente;5;0;3,0
+qualidade_externa;Ruim < Regular < Típico < Bom < Excelente;5;0;3,0
+qualidade_aquecimento;Ruim < Regular < Típico < Bom < Excelente;5;0;5,0
+qualidade_cozinha;Ruim < Regular < Típico < Bom < Excelente;5;0;3,0
+funcionalidade;Só para aproveitamento < Muito comprometida < Dedução grave 2 < Dedução grave 1 < Dedução moderada < Dedução mínima 2 < Dedução mínima 1 < Típica;8;0;8,0
+formato_lote;Irregular < Moderadamente irregular < Levemente irregular < Regular;4;0;4,0
+declividade;Acentuada < Moderada < Suave;3;0;3,0
+acesso_pavimentado;Terra ou cascalho < Parcialmente pavimentado < Pavimentado;3;0;3,0
+infraestrutura;Só eletricidade < Só eletricidade e gás < Sem esgoto < Todos os serviços;4;0;4,0

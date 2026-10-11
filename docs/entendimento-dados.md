@@ -81,12 +81,12 @@ ausência.
     pd.read_csv(caminho, sep="\t", keep_default_na=False, na_values=["NA", ""])
     ```
 
-    Está implementada em `src.data.ingestao._ler_origem`, e a evidência que a
+    Está implementada em `src.data.ingestao.ler_origem`, e a evidência que a
     justifica é a contagem literal de cada sentinela, coluna a coluna, em
     `reports/tables/eda/f5-inventario-sentinelas.csv`.
 
 Depois do tratamento, as colunas de ausência estrutural recebem **rótulo próprio**
-(`SemPorao`, `SemGaragem`, `SemLareira`) e as escalas ordinais recebem **0**, que na
+(`Sem porão`, `Sem garagem`, `Sem lareira`) e as escalas ordinais recebem **0**, que na
 escala significa "não tem". Imputar pela mediana criaria porões que nunca existiram.
 
 ### Mapa da ausência

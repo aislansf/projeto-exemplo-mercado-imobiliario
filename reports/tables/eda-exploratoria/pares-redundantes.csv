@@ -1,9 +1,9 @@
 ﻿variavel_a;variavel_b;correlacao
-Overall Qual;SalePrice;0,809
-Gr Liv Area;TotRms AbvGrd;0,808
-SalePrice;Neighborhood;0,757
-Overall Qual;Neighborhood;0,739
-Exter Qual;Neighborhood;0,734
-Exter Qual;Kitchen Qual;0,724
-Gr Liv Area;SalePrice;0,724
-Overall Qual;Exter Qual;0,72
+qualidade_geral;preco_venda;0,809
+area_habitavel;comodos;0,808
+preco_venda;bairro;0,757
+qualidade_geral;bairro;0,739
+qualidade_externa;bairro;0,734
+qualidade_externa;qualidade_cozinha;0,724
+area_habitavel;preco_venda;0,724
+qualidade_geral;qualidade_externa;0,72

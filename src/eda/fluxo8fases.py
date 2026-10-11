@@ -546,9 +546,21 @@ def fase_5_ausentes(bruto: pd.DataFrame) -> pd.DataFrame:
     salvar_figura(fig, SECAO, "f5-mapa-ausencia", com_nulo[["nulos", "pct_nulos", "natureza"]])
 
     # Coocorrência: colunas que faltam sempre juntas denunciam ausência estrutural.
-    grupo_garagem = ["Garage Type", "Garage Finish", "Garage Qual", "Garage Cond", "Garage Yr Blt"]
-    grupo_porao = ["Bsmt Qual", "Bsmt Cond", "Bsmt Exposure", "BsmtFin Type 1", "BsmtFin Type 2"]
-    coocorrencia = q.matriz_ausencia(bruto, grupo_garagem + grupo_porao + ["Lot Frontage"])
+    grupo_garagem = [
+        "tipo_garagem",
+        "acabamento_garagem",
+        "qualidade_garagem",
+        "conservacao_garagem",
+        "ano_garagem",
+    ]
+    grupo_porao = [
+        "qualidade_porao",
+        "conservacao_porao",
+        "exposicao_porao",
+        "acabamento_porao_1",
+        "acabamento_porao_2",
+    ]
+    coocorrencia = q.matriz_ausencia(bruto, grupo_garagem + grupo_porao + ["testada_lote"])
     fig, eixo = plt.subplots(figsize=(9, 7), constrained_layout=True)
     sns.heatmap(
         coocorrencia,

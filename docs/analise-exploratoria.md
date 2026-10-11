@@ -67,7 +67,7 @@ pergunta:
 
 ![Discrepantes por três métodos](imagens/eda/valores-discrepantes.png)
 
-O achado que mudou a curadoria veio daqui: `Overall Cond` concentra 56% dos imóveis na
+O achado que mudou a curadoria veio daqui: `conservacao_geral` concentra 56% dos imóveis na
 nota 5, e por isso 8,6% dos registros caem fora das cercas de Tukey. É **discrepância de
 escala**, não imóvel atípico — e foi o que levou a fase 3 a adotar 3×IQR em vez do 1,5
 de Tukey, que marcava cerca de um quinto da carteira.
@@ -78,10 +78,10 @@ Cada item declara **a decisão** e **o motivo**. O motivo é o que evita que a d
 seja revertida por engano depois.
 
 - **Sentinelas declaradas explicitamente na leitura, em vez do padrão do `pandas`** —
-  porque a palavra `None` em `Mas Vnr Type` é categoria legítima, e a conversão
+  porque a palavra `None` em `Mas Vnr Type` (`tipo_alvenaria_aparente`) é categoria legítima, e a conversão
   automática transformava 1.752 imóveis descritos em desconhecidos.
 
-- **Ausência estrutural vira rótulo, não imputação** — porque `NA` em `Garage Type`
+- **Ausência estrutural vira rótulo, não imputação** — porque `NA` em `tipo_garagem`
   significa "não tem garagem", e imputar pela moda criaria garagens inexistentes.
 
 - **Mediana do bairro, e não mediana global, para `testada_lote`** — porque a ausência
@@ -119,25 +119,25 @@ influenciaram o resto do projeto:
 
 | # | Etapa | Achado | Consequência |
 |:-:|:---|:---|:---|
-| 1 | 1ª | Duas linhas são idênticas nas 24 características e só diferem em `Order` e `PID` | O mesmo imóvel contado duas vezes em qualquer média — removido na curadoria |
-| 2 | 5ª | Das 27 colunas com célula vazia, 14 são **ausência estrutural** (`Pool QC` 99,6%, `Alley` 93,2%) | Rótulo próprio e área zero, não imputação. `Lot Frontage` (16,7%) é a única ausência de fato desconhecida com peso |
-| 3 | 2ª | `Lot Area` tem assimetria **12,8**, a maior da base — máximo de 215.245 pé² | Transformação obrigatória antes de qualquer distância… até a curadoria remover os lotes extremos e a assimetria cair para 0,42 |
-| 4 | 6ª | `Overall Cond` concentra 56% dos imóveis na nota 5, e 8,6% caem fora das cercas de Tukey | É discrepância **de escala**, não imóvel atípico — e é o que motivou adotar 3×IQR |
+| 1 | 1ª | Duas linhas são idênticas nas 24 características e só diferem em `ordem` e `pid` | O mesmo imóvel contado duas vezes em qualquer média — removido na curadoria |
+| 2 | 5ª | Das 27 colunas com célula vazia, 14 são **ausência estrutural** (`qualidade_piscina` 99,6%, `tipo_viela` 93,2%) | Rótulo próprio e área zero, não imputação. `testada_lote` (16,7%) é a única ausência de fato desconhecida com peso |
+| 3 | 2ª | `area_terreno` tem assimetria **12,8**, a maior da base — máximo de 215.245 pé² | Transformação obrigatória antes de qualquer distância… até a curadoria remover os lotes extremos e a assimetria cair para 0,42 |
+| 4 | 6ª | `conservacao_geral` concentra 56% dos imóveis na nota 5, e 8,6% caem fora das cercas de Tukey | É discrepância **de escala**, não imóvel atípico — e é o que motivou adotar 3×IQR |
 | 5 | 3ª | A qualidade explica o preço melhor que a área: ρ = 0,81 contra 0,72 | O padrão construtivo é eixo de produto, não só de preço |
-| 7 | 3ª | O bairro sozinho responde por η = 0,76 do preço; NoRidge vende a 183% da média | É o motivo de `Neighborhood` ficar **reservada** para validação externa |
+| 7 | 3ª | O bairro sozinho responde por η = 0,76 do preço; Northridge vende a 183% da média | É o motivo de `bairro` ficar **reservada** para validação externa |
 | 10 | 2ª | 2010 tem 341 registros e termina em julho: a série está **truncada** | Qualquer leitura de queda no último ano é artefato de coleta, não de mercado |
-| 11 | 2ª | 82% das vendas são `Normal`; `Partial` (8,4%) carrega preço acima da média **por construção** | Fundamentou a regra de curadoria que remove 492 vendas não normais |
+| 11 | 2ª | 82% das vendas são `Normal`; `Parcial` (8,4%) carrega preço acima da média **por construção** | Fundamentou a regra de curadoria que remove 492 vendas não normais |
 
 ### As 8 fases, em uma imagem cada
 
 === "2ª · Univariada"
-    ![](imagens/eda/univariada-discreta-Overall%20Qual.png)
+    ![](imagens/eda/univariada-discreta-qualidade_geral.png)
 
 === "3ª · Bivariada"
-    ![](imagens/eda/bivariada-Gr%20Liv%20Area%20X%20Neighborhood.png)
+    ![](imagens/eda/bivariada-area_habitavel%20X%20bairro.png)
 
 === "4ª · Multivariada"
-    ![](imagens/eda/multivariada-ca-Neighborhood%20X%20Bldg%20Type.png)
+    ![](imagens/eda/multivariada-ca-bairro%20X%20tipo_construcao.png)
 
 === "5ª · Ausentes"
     ![](imagens/eda/valores-ausentes.png)

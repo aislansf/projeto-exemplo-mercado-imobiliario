@@ -93,7 +93,7 @@ Três decisões de método sustentam o resto:
 
 ## 7 · Implantação
 
-* **Pacote 2.0.0**, carimbado por SHA-256 (`3234409bf8a041db…`): receita e
+* **Pacote 2.0.0**, carimbado por SHA-256 (`bca92cfd54faf635…`): receita e
   agrupador no mesmo objeto, com o mapa canônico dos segmentos;
 * **contrato de entrada** com 17 campos, faixa aceita, faixa observada e padrão;
 * **regra de atribuição com faixa de confiança**: corte de fronteira 0.915,

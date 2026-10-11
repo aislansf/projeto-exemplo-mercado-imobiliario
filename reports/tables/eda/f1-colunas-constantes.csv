@@ -1,4 +1,4 @@
 ﻿coluna;distintos;valor_mais_frequente;pct_valor_mais_frequente
-Street;2;Pave;99,59
-Utilities;3;AllPub;99,9
-Pool Area;14;0;99,56
+tipo_via;2;Pavimentada;99,59
+infraestrutura;3;Todos os serviços;99,9
+area_piscina;14;0;99,56

@@ -1,24 +1,24 @@
 ﻿variavel;tipo;decisao;motivo
-Exter Qual;Ordinal;descartada;associação 0.72 com Kitchen Qual · 4 valores distintos contra 5
-TotRms AbvGrd;Discreta;descartada;associação 0.81 com Gr Liv Area · 14 valores distintos contra 1292
-Bedroom AbvGr;Discreta;mantida;sem redundância acima do limiar
-Bldg Type;Nominal;mantida;sem redundância acima do limiar
-Bsmt Qual;Ordinal;mantida;sem redundância acima do limiar
-Central Air;Nominal;mantida;sem redundância acima do limiar
-Fireplaces;Discreta;mantida;sem redundância acima do limiar
-Garage Area;Contínua;mantida;sem redundância acima do limiar
-Garage Finish;Ordinal;mantida;sem redundância acima do limiar
-Garage Type;Nominal;mantida;sem redundância acima do limiar
-Gr Liv Area;Discreta;mantida;sem redundância acima do limiar
-House Style;Nominal;mantida;sem redundância acima do limiar
-Kitchen Qual;Ordinal;mantida;sem redundância acima do limiar
-Lot Area;Discreta;mantida;sem redundância acima do limiar
-Lot Frontage;Contínua;mantida;sem redundância acima do limiar
-MS Zoning;Nominal;mantida;sem redundância acima do limiar
-Overall Cond;Discreta;mantida;sem redundância acima do limiar
-Overall Qual;Discreta;mantida;sem redundância acima do limiar
-Sale Condition;Nominal;mantida;sem redundância acima do limiar
-Sale Type;Nominal;mantida;sem redundância acima do limiar
-Total Bsmt SF;Contínua;mantida;sem redundância acima do limiar
-Neighborhood;Nominal;reservada;proxy de preço, reservada para validação externa
-SalePrice;Discreta;reservada;rótulo reservado para a avaliação a posteriori
+comodos;Discreta;descartada;associação 0.81 com area_habitavel · 14 valores distintos contra 1292
+qualidade_externa;Ordinal;descartada;associação 0.72 com qualidade_cozinha · 4 valores distintos contra 5
+acabamento_garagem;Ordinal;mantida;sem redundância acima do limiar
+ar_central;Nominal;mantida;sem redundância acima do limiar
+area_garagem;Contínua;mantida;sem redundância acima do limiar
+area_habitavel;Discreta;mantida;sem redundância acima do limiar
+area_porao;Contínua;mantida;sem redundância acima do limiar
+area_terreno;Discreta;mantida;sem redundância acima do limiar
+condicao_venda;Nominal;mantida;sem redundância acima do limiar
+conservacao_geral;Discreta;mantida;sem redundância acima do limiar
+dormitorios;Discreta;mantida;sem redundância acima do limiar
+estilo;Nominal;mantida;sem redundância acima do limiar
+lareiras;Discreta;mantida;sem redundância acima do limiar
+qualidade_cozinha;Ordinal;mantida;sem redundância acima do limiar
+qualidade_geral;Discreta;mantida;sem redundância acima do limiar
+qualidade_porao;Ordinal;mantida;sem redundância acima do limiar
+testada_lote;Contínua;mantida;sem redundância acima do limiar
+tipo_construcao;Nominal;mantida;sem redundância acima do limiar
+tipo_garagem;Nominal;mantida;sem redundância acima do limiar
+tipo_venda;Nominal;mantida;sem redundância acima do limiar
+zoneamento;Nominal;mantida;sem redundância acima do limiar
+bairro;Nominal;reservada;proxy de preço, reservada para validação externa
+preco_venda;Discreta;reservada;rótulo reservado para a avaliação a posteriori

@@ -80,7 +80,7 @@ justifica.
 ```
 data/raw/
 ├── ames_housing.txt          # cópia imutável da origem (960 KB)
-├── ames_housing.parquet      # a mesma coisa, com tipos preservados
+├── ames_housing.parquet      # as mesmas células, com nomes e categorias em PT-BR
 └── manifesto_carga.json      # origem, data, sha256, dimensões conferidas
 ```
 
@@ -99,6 +99,12 @@ data/raw/
     de cada coluna deixa de ser reinferido a cada execução — o que, nesta base,
     importa: a inferência padrão do `pandas` converte a categoria `None` em nulo.
     Ver [Entendimento dos dados](entendimento-dados.md#valores-sentinela).
+
+    O `.parquet` também já nasce em português: a ingestão renomeia as colunas para
+    `snake_case` e troca os códigos das categorias pelos rótulos (`RL` →
+    `Residencial de baixa densidade`, `Ex` → `Excelente`), sem alterar nenhum valor.
+    O mapa está em `src/data/dicionario.py` e no
+    [dicionário de dados](https://github.com/aislansf/projeto-exemplo-mercado-imobiliario/blob/main/references/dicionario-de-dados.md).
 
 ## Grão e conteúdo
 

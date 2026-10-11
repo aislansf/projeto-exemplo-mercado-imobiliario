@@ -22,12 +22,12 @@
   ],
   "celulas_vazias_entrada": 13997,
   "celulas_vazias_saida": 0,
-  "ajustes": 21,
+  "ajustes": 20,
   "ajustes_por_acao": {
-    "corrigido": 11,
+    "corrigido": 9,
     "removido": 7,
-    "imputado": 2,
-    "verificado, sem ação": 1
+    "verificado, sem ação": 2,
+    "imputado": 2
   },
   "equivalente_ao_pipeline": true
 }

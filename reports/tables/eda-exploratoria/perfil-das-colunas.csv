@@ -1,25 +1,25 @@
 ﻿variavel;tipo;distintos;ausentes;%ausentes;minimo;mediana;maximo;assimetria;curtose
-MS Zoning;Nominal;7;0;0,0;—;—;—;—;—
-Lot Frontage;Contínua;128;490;16,73;21.0;68.0;313.0;1.5;11.22
-Lot Area;Discreta;1960;0;0,0;1300;9436.5;215245;12.82;264.87
-Neighborhood;Nominal;28;0;0,0;—;—;—;—;—
-Bldg Type;Nominal;5;0;0,0;—;—;—;—;—
-House Style;Nominal;8;0;0,0;—;—;—;—;—
-Overall Qual;Discreta;10;0;0,0;1;6.0;10;0.19;0.05
-Overall Cond;Discreta;9;0;0,0;1;5.0;9;0.57;1.49
-Exter Qual;Ordinal;4;0;0,0;—;—;—;—;—
-Bsmt Qual;Ordinal;5;79;2,7;—;—;—;—;—
-Total Bsmt SF;Contínua;1058;1;0,03;0.0;990.0;6110.0;1.16;9.16
-Central Air;Nominal;2;0;0,0;—;—;—;—;—
-Gr Liv Area;Discreta;1292;0;0,0;334;1442.0;5642;1.27;4.13
-Bedroom AbvGr;Discreta;8;0;0,0;0;3.0;8;0.31;1.89
-Kitchen Qual;Ordinal;5;0;0,0;—;—;—;—;—
-TotRms AbvGrd;Discreta;14;0;0,0;2;6.0;15;0.75;1.16
-Fireplaces;Discreta;5;0;0,0;0;1.0;4;0.74;0.1
-Garage Type;Nominal;6;156;5,33;—;—;—;—;—
-Garage Finish;Ordinal;3;158;5,4;—;—;—;—;—
-Garage Area;Contínua;603;1;0,03;0.0;480.0;1488.0;0.24;0.95
-Sale Type;Nominal;10;0;0,0;—;—;—;—;—
-Sale Condition;Nominal;6;0;0,0;—;—;—;—;—
-SalePrice;Discreta;1032;0;0,0;12789;160000.0;755000;1.74;5.11
-Data Venda;Data;55;0;0,0;—;—;—;—;—
+zoneamento;Nominal;7;0;0,0;—;—;—;—;—
+testada_lote;Contínua;128;490;16,73;21.0;68.0;313.0;1.5;11.22
+area_terreno;Discreta;1960;0;0,0;1300;9436.5;215245;12.82;264.87
+bairro;Nominal;28;0;0,0;—;—;—;—;—
+tipo_construcao;Nominal;5;0;0,0;—;—;—;—;—
+estilo;Nominal;8;0;0,0;—;—;—;—;—
+qualidade_geral;Discreta;10;0;0,0;1;6.0;10;0.19;0.05
+conservacao_geral;Discreta;9;0;0,0;1;5.0;9;0.57;1.49
+qualidade_externa;Ordinal;4;0;0,0;—;—;—;—;—
+qualidade_porao;Ordinal;5;79;2,7;—;—;—;—;—
+area_porao;Contínua;1058;1;0,03;0.0;990.0;6110.0;1.16;9.16
+ar_central;Nominal;2;0;0,0;—;—;—;—;—
+area_habitavel;Discreta;1292;0;0,0;334;1442.0;5642;1.27;4.13
+dormitorios;Discreta;8;0;0,0;0;3.0;8;0.31;1.89
+qualidade_cozinha;Ordinal;5;0;0,0;—;—;—;—;—
+comodos;Discreta;14;0;0,0;2;6.0;15;0.75;1.16
+lareiras;Discreta;5;0;0,0;0;1.0;4;0.74;0.1
+tipo_garagem;Nominal;6;156;5,33;—;—;—;—;—
+acabamento_garagem;Ordinal;3;158;5,4;—;—;—;—;—
+area_garagem;Contínua;603;1;0,03;0.0;480.0;1488.0;0.24;0.95
+tipo_venda;Nominal;10;0;0,0;—;—;—;—;—
+condicao_venda;Nominal;6;0;0,0;—;—;—;—;—
+preco_venda;Discreta;1032;0;0,0;12789;160000.0;755000;1.74;5.11
+data_venda;Data;55;0;0,0;—;—;—;—;—

@@ -3,9 +3,11 @@
 > Gerado a partir de `src/data/dicionario.py`, que é a fonte única da verdade sobre o
 > significado de cada coluna. Não edite este arquivo à mão: edite o módulo.
 
-A base de origem (Ames Housing, De Cock 2011) usa nomes em inglês com espaço no meio.
-A camada curada renomeia tudo para `snake_case` em português, porque o resultado é lido
-por gente de negócio.
+A base de origem (Ames Housing, De Cock 2011) usa nomes em inglês com espaço no meio e
+categorias em código (`RL`, `1Fam`, `Ex`). A ingestão renomeia as colunas para
+`snake_case` em português e troca os códigos pelos rótulos já na camada bruta
+(`data/raw/ames_housing.parquet`), porque o resultado é lido por gente de negócio. O
+arquivo da fonte continua intacto em `data/raw/ames_housing.txt`.
 
 ## Espaço de atributos da modelagem
 
@@ -76,65 +78,67 @@ temporal e o monitoramento de drift, fora da matriz de modelagem.
 
 ## Escalas ordinais completas
 
-As 20 colunas ordinais da origem e o mapa aplicado a cada uma.
+As 20 colunas ordinais e o mapa aplicado a cada uma: o rótulo em português, o código da
+fonte entre parênteses e a posição na escala. Ausência do item vale 0.
 
-| Coluna na origem | Escala |
-|:---|:---|
-| `Exter Qual` | Ex=5, Gd=4, TA=3, Fa=2, Po=1, ausente=0 |
-| `Exter Cond` | Ex=5, Gd=4, TA=3, Fa=2, Po=1, ausente=0 |
-| `Bsmt Qual` | Ex=5, Gd=4, TA=3, Fa=2, Po=1, ausente=0 |
-| `Bsmt Cond` | Ex=5, Gd=4, TA=3, Fa=2, Po=1, ausente=0 |
-| `Heating QC` | Ex=5, Gd=4, TA=3, Fa=2, Po=1, ausente=0 |
-| `Kitchen Qual` | Ex=5, Gd=4, TA=3, Fa=2, Po=1, ausente=0 |
-| `Fireplace Qu` | Ex=5, Gd=4, TA=3, Fa=2, Po=1, ausente=0 |
-| `Garage Qual` | Ex=5, Gd=4, TA=3, Fa=2, Po=1, ausente=0 |
-| `Garage Cond` | Ex=5, Gd=4, TA=3, Fa=2, Po=1, ausente=0 |
-| `Pool QC` | Ex=5, Gd=4, TA=3, Fa=2, Po=1, ausente=0 |
-| `Bsmt Exposure` | Gd=4, Av=3, Mn=2, No=1, ausente=0 |
-| `BsmtFin Type 1` | GLQ=6, ALQ=5, BLQ=4, Rec=3, LwQ=2, Unf=1, ausente=0 |
-| `BsmtFin Type 2` | GLQ=6, ALQ=5, BLQ=4, Rec=3, LwQ=2, Unf=1, ausente=0 |
-| `Garage Finish` | Fin=3, RFn=2, Unf=1, ausente=0 |
-| `Functional` | Typ=8, Min1=7, Min2=6, Mod=5, Maj1=4, Maj2=3, Sev=2, Sal=1, ausente=0 |
-| `Lot Shape` | Reg=4, IR1=3, IR2=2, IR3=1, ausente=0 |
-| `Land Slope` | Gtl=3, Mod=2, Sev=1, ausente=0 |
-| `Paved Drive` | Y=3, P=2, N=1, ausente=0 |
-| `Utilities` | AllPub=4, NoSewr=3, NoSeWa=2, ELO=1, ausente=0 |
-| `Fence` | GdPrv=4, MnPrv=3, GdWo=2, MnWw=1, ausente=0 |
+| Coluna | Coluna na origem | Escala |
+|:---|:---|:---|
+| `qualidade_externa` | `Exter Qual` | Excelente (Ex)=5, Bom (Gd)=4, Típico (TA)=3, Regular (Fa)=2, Ruim (Po)=1, ausente=0 |
+| `conservacao_externa` | `Exter Cond` | Excelente (Ex)=5, Bom (Gd)=4, Típico (TA)=3, Regular (Fa)=2, Ruim (Po)=1, ausente=0 |
+| `qualidade_porao` | `Bsmt Qual` | Excelente (Ex)=5, Bom (Gd)=4, Típico (TA)=3, Regular (Fa)=2, Ruim (Po)=1, ausente=0 |
+| `conservacao_porao` | `Bsmt Cond` | Excelente (Ex)=5, Bom (Gd)=4, Típico (TA)=3, Regular (Fa)=2, Ruim (Po)=1, ausente=0 |
+| `qualidade_aquecimento` | `Heating QC` | Excelente (Ex)=5, Bom (Gd)=4, Típico (TA)=3, Regular (Fa)=2, Ruim (Po)=1, ausente=0 |
+| `qualidade_cozinha` | `Kitchen Qual` | Excelente (Ex)=5, Bom (Gd)=4, Típico (TA)=3, Regular (Fa)=2, Ruim (Po)=1, ausente=0 |
+| `qualidade_lareira` | `Fireplace Qu` | Excelente (Ex)=5, Bom (Gd)=4, Típico (TA)=3, Regular (Fa)=2, Ruim (Po)=1, ausente=0 |
+| `qualidade_garagem` | `Garage Qual` | Excelente (Ex)=5, Bom (Gd)=4, Típico (TA)=3, Regular (Fa)=2, Ruim (Po)=1, ausente=0 |
+| `conservacao_garagem` | `Garage Cond` | Excelente (Ex)=5, Bom (Gd)=4, Típico (TA)=3, Regular (Fa)=2, Ruim (Po)=1, ausente=0 |
+| `qualidade_piscina` | `Pool QC` | Excelente (Ex)=5, Bom (Gd)=4, Típico (TA)=3, Regular (Fa)=2, Ruim (Po)=1, ausente=0 |
+| `exposicao_porao` | `Bsmt Exposure` | Boa (Gd)=4, Média (Av)=3, Mínima (Mn)=2, Nenhuma (No)=1, ausente=0 |
+| `acabamento_porao_1` | `BsmtFin Type 1` | Habitável, bom padrão (GLQ)=6, Habitável, padrão médio (ALQ)=5, Habitável, abaixo do padrão (BLQ)=4, Recreação (Rec)=3, Baixa qualidade (LwQ)=2, Sem acabamento (Unf)=1, ausente=0 |
+| `acabamento_porao_2` | `BsmtFin Type 2` | Habitável, bom padrão (GLQ)=6, Habitável, padrão médio (ALQ)=5, Habitável, abaixo do padrão (BLQ)=4, Recreação (Rec)=3, Baixa qualidade (LwQ)=2, Sem acabamento (Unf)=1, ausente=0 |
+| `acabamento_garagem` | `Garage Finish` | Acabada (Fin)=3, Parcialmente acabada (RFn)=2, Sem acabamento (Unf)=1, ausente=0 |
+| `funcionalidade` | `Functional` | Típica (Typ)=8, Dedução mínima 1 (Min1)=7, Dedução mínima 2 (Min2)=6, Dedução moderada (Mod)=5, Dedução grave 1 (Maj1)=4, Dedução grave 2 (Maj2)=3, Muito comprometida (Sev)=2, Só para aproveitamento (Sal)=1, ausente=0 |
+| `formato_lote` | `Lot Shape` | Regular (Reg)=4, Levemente irregular (IR1)=3, Moderadamente irregular (IR2)=2, Irregular (IR3)=1, ausente=0 |
+| `declividade` | `Land Slope` | Suave (Gtl)=3, Moderada (Mod)=2, Acentuada (Sev)=1, ausente=0 |
+| `acesso_pavimentado` | `Paved Drive` | Pavimentado (Y)=3, Parcialmente pavimentado (P)=2, Terra ou cascalho (N)=1, ausente=0 |
+| `infraestrutura` | `Utilities` | Todos os serviços (AllPub)=4, Sem esgoto (NoSewr)=3, Só eletricidade e gás (NoSeWa)=2, Só eletricidade (ELO)=1, ausente=0 |
+| `tipo_cerca` | `Fence` | Boa privacidade (GdPrv)=4, Privacidade mínima (MnPrv)=3, Boa madeira (GdWo)=2, Madeira ou arame mínimo (MnWw)=1, ausente=0 |
 
 ## Ausência estrutural
 
 Colunas em que `NA` significa **o item não existe**, e não informação faltante.
 Tratá-las como nulo e imputar pela mediana inventaria porões que nunca existiram.
 
-| Coluna na origem | Rótulo aplicado |
-|:---|:---|
-| `Alley` | `SemViela` |
-| `Bsmt Qual` | `SemPorao` |
-| `Bsmt Cond` | `SemPorao` |
-| `Bsmt Exposure` | `SemPorao` |
-| `BsmtFin Type 1` | `SemPorao` |
-| `BsmtFin Type 2` | `SemPorao` |
-| `Fireplace Qu` | `SemLareira` |
-| `Garage Type` | `SemGaragem` |
-| `Garage Finish` | `SemGaragem` |
-| `Garage Qual` | `SemGaragem` |
-| `Garage Cond` | `SemGaragem` |
-| `Pool QC` | `SemPiscina` |
-| `Fence` | `SemCerca` |
-| `Misc Feature` | `SemExtra` |
+| Coluna | Coluna na origem | Rótulo aplicado |
+|:---|:---|:---|
+| `tipo_viela` | `Alley` | `Sem viela` |
+| `qualidade_porao` | `Bsmt Qual` | `Sem porão` |
+| `conservacao_porao` | `Bsmt Cond` | `Sem porão` |
+| `exposicao_porao` | `Bsmt Exposure` | `Sem porão` |
+| `acabamento_porao_1` | `BsmtFin Type 1` | `Sem porão` |
+| `acabamento_porao_2` | `BsmtFin Type 2` | `Sem porão` |
+| `qualidade_lareira` | `Fireplace Qu` | `Sem lareira` |
+| `tipo_garagem` | `Garage Type` | `Sem garagem` |
+| `acabamento_garagem` | `Garage Finish` | `Sem garagem` |
+| `qualidade_garagem` | `Garage Qual` | `Sem garagem` |
+| `conservacao_garagem` | `Garage Cond` | `Sem garagem` |
+| `qualidade_piscina` | `Pool QC` | `Sem piscina` |
+| `tipo_cerca` | `Fence` | `Sem cerca` |
+| `item_extra` | `Misc Feature` | `Sem item extra` |
 
 ### Exceção declarada
 
 | Coluna | Rótulo | Por quê |
 |:---|:---|:---|
-| `Mas Vnr Type` | `NaoInformado` | 1.752 registros têm a categoria legítima `None` (sem revestimento); apenas 23 estão realmente em branco. A ausência **não** é estrutural. |
+| `tipo_alvenaria_aparente` | `Não informado` | 1.752 registros têm a categoria legítima `Sem alvenaria aparente` (a palavra `None` na fonte); apenas 23 estão realmente em branco. A ausência **não** é estrutural. |
 
 ## Tradução das categorias
 
-Na camada curada, os códigos da origem dão lugar a rótulos em português
-(`dic.TRADUCAO_CATEGORIAS`). A tradução troca só o texto: cada coluna mantém as mesmas
-categorias com os mesmos imóveis. Abaixo, as cinco nominais do espaço de atributos; o
-mapa das demais colunas, com a contagem de imóveis por categoria, está em
+Na ingestão, os códigos da origem dão lugar a rótulos em português
+(`dic.TRADUCAO_CATEGORIAS`), e a camada bruta em parquet já nasce traduzida. A tradução
+troca só o texto: cada coluna mantém as mesmas categorias com os mesmos imóveis. Abaixo,
+as cinco nominais do espaço de atributos; as ordinais estão nas escalas acima, e o mapa
+completo, com a contagem de imóveis por código, está em
 `reports/tables/ajustes-dados/traducao-das-categorias.csv`. Bairro é nome próprio: o
 código abreviado vira o nome por extenso (`NAmes` → `North Ames`), sem tradução.
 

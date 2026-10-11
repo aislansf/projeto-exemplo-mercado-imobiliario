@@ -1,28 +1,28 @@
 ﻿coluna;tipo;nulos;pct_nulos;distintos;valor_mais_frequente;pct_valor_mais_frequente;natureza
-Pool QC;str;2917;99,56;4;Ex;30,77;estrutural (o item não existe)
-Misc Feature;str;2824;96,38;5;Shed;89,62;estrutural (o item não existe)
-Alley;str;2732;93,24;2;Grvl;60,61;estrutural (o item não existe)
-Fence;str;2358;80,48;4;MnPrv;57,69;estrutural (o item não existe)
-Fireplace Qu;str;1422;48,53;5;Gd;49,34;estrutural (o item não existe)
-Lot Frontage;float64;490;16,72;128;60.0;11,31;faltante de fato
-Garage Qual;str;159;5,43;5;TA;94,37;estrutural (o item não existe)
-Garage Cond;str;159;5,43;5;TA;96,17;estrutural (o item não existe)
-Garage Yr Blt;float64;159;5,43;103;2005.0;5,12;faltante de fato
-Garage Finish;str;159;5,43;3;Unf;44,42;estrutural (o item não existe)
-Garage Type;str;157;5,36;6;Attchd;62,42;estrutural (o item não existe)
-Bsmt Exposure;str;83;2,83;4;No;66,95;estrutural (o item não existe)
-BsmtFin Type 2;str;81;2,76;6;Unf;87,71;estrutural (o item não existe)
-Bsmt Cond;str;80;2,73;5;TA;91,79;estrutural (o item não existe)
-Bsmt Qual;str;80;2,73;5;TA;45,02;estrutural (o item não existe)
-BsmtFin Type 1;str;80;2,73;6;GLQ;30,14;estrutural (o item não existe)
-Mas Vnr Type;str;23;0,78;5;None;60,27;faltante de fato
-Mas Vnr Area;float64;23;0,78;445;0.0;60,13;faltante de fato
-Bsmt Full Bath;float64;2;0,07;4;0.0;58,3;faltante de fato
-Bsmt Half Bath;float64;2;0,07;3;0.0;94,02;faltante de fato
-Total Bsmt SF;float64;1;0,03;1058;0.0;2,7;faltante de fato
-BsmtFin SF 1;float64;1;0,03;995;0.0;31,75;faltante de fato
-BsmtFin SF 2;float64;1;0,03;274;0.0;88,02;faltante de fato
-Garage Area;float64;1;0,03;603;0.0;5,36;faltante de fato
-Garage Cars;float64;1;0,03;6;2.0;54,73;faltante de fato
-Bsmt Unf SF;float64;1;0,03;1137;0.0;8,33;faltante de fato
-Electrical;str;1;0,03;5;SBrkr;91,57;faltante de fato
+qualidade_piscina;str;2917;99,56;4;Bom;30,77;estrutural (o item não existe)
+item_extra;str;2824;96,38;5;Depósito;89,62;estrutural (o item não existe)
+tipo_viela;str;2732;93,24;2;Cascalho;60,61;estrutural (o item não existe)
+tipo_cerca;str;2358;80,48;4;Privacidade mínima;57,69;estrutural (o item não existe)
+qualidade_lareira;str;1422;48,53;5;Bom;49,34;estrutural (o item não existe)
+testada_lote;float64;490;16,72;128;60.0;11,31;faltante de fato
+qualidade_garagem;str;159;5,43;5;Típico;94,37;estrutural (o item não existe)
+conservacao_garagem;str;159;5,43;5;Típico;96,17;estrutural (o item não existe)
+ano_garagem;float64;159;5,43;103;2005.0;5,12;faltante de fato
+acabamento_garagem;str;159;5,43;3;Sem acabamento;44,42;estrutural (o item não existe)
+tipo_garagem;str;157;5,36;6;Anexa à casa;62,42;estrutural (o item não existe)
+exposicao_porao;str;83;2,83;4;Nenhuma;66,95;estrutural (o item não existe)
+acabamento_porao_2;str;81;2,76;6;Sem acabamento;87,71;estrutural (o item não existe)
+conservacao_porao;str;80;2,73;5;Típico;91,79;estrutural (o item não existe)
+qualidade_porao;str;80;2,73;5;Típico;45,02;estrutural (o item não existe)
+acabamento_porao_1;str;80;2,73;6;Habitável, bom padrão;30,14;estrutural (o item não existe)
+tipo_alvenaria_aparente;str;23;0,78;5;Sem alvenaria aparente;60,27;faltante de fato
+area_alvenaria_aparente;float64;23;0,78;445;0.0;60,13;faltante de fato
+banheiros_completos_porao;float64;2;0,07;4;0.0;58,3;faltante de fato
+lavabos_porao;float64;2;0,07;3;0.0;94,02;faltante de fato
+area_porao;float64;1;0,03;1058;0.0;2,7;faltante de fato
+area_porao_acabada_1;float64;1;0,03;995;0.0;31,75;faltante de fato
+area_porao_acabada_2;float64;1;0,03;274;0.0;88,02;faltante de fato
+area_garagem;float64;1;0,03;603;0.0;5,36;faltante de fato
+vagas_garagem;float64;1;0,03;6;2.0;54,73;faltante de fato
+area_porao_bruta;float64;1;0,03;1137;0.0;8,33;faltante de fato
+sistema_eletrico;str;1;0,03;5;Disjuntores;91,57;faltante de fato

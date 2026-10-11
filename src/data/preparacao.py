@@ -64,7 +64,7 @@ COLUNAS_PROTEGIDAS = set(
 
 REGRAS_LIMPEZA: list[dict[str, str]] = [
     {
-        "regra": "Renomear as 82 colunas para snake_case em português",
+        "regra": "Renomear as 82 colunas para snake_case em português, na ingestão",
         "motivo": (
             "Os nomes originais têm espaço no meio (`Gr Liv Area`), o que obriga a "
             "usar colchetes em toda referência e impede o acesso por atributo. O "
@@ -72,11 +72,12 @@ REGRAS_LIMPEZA: list[dict[str, str]] = [
         ),
     },
     {
-        "regra": "Traduzir as categorias das colunas nominais para o português",
+        "regra": "Traduzir as categorias das colunas nominais e ordinais, na ingestão",
         "motivo": (
             "`RL`, `1Fam` e `Attchd` são códigos do cadastro de Ames e não dizem nada a "
             "quem opera a carteira. A tradução troca só o rótulo: cada coluna mantém as "
-            "mesmas categorias com os mesmos imóveis, e o modelo não muda."
+            "mesmas categorias com os mesmos imóveis, e o modelo não muda. Acontece na "
+            "ingestão, e a camada bruta em parquet já nasce em português."
         ),
     },
     {
@@ -99,7 +100,8 @@ REGRAS_LIMPEZA: list[dict[str, str]] = [
     {
         "regra": "Mapear 20 colunas ordinais para inteiros, com 0 para ausência",
         "motivo": (
-            "`Ex > Gd > TA > Fa > Po` tem ordem semântica. One-hot destruiria essa "
+            "`Excelente > Bom > Típico > Regular > Ruim` tem ordem semântica. One-hot "
+            "destruiria essa "
             "ordem e multiplicaria a dimensionalidade sem ganho."
         ),
     },
@@ -120,9 +122,9 @@ REGRAS_LIMPEZA: list[dict[str, str]] = [
         ),
     },
     {
-        "regra": "Converter `tipo_garagem` em `SemGaragem` no registro sem medida de garagem",
+        "regra": "Converter `tipo_garagem` em `Sem garagem` no registro sem medida de garagem",
         "motivo": (
-            "Um registro declara garagem separada (`Detchd`) e deixa área, vagas, ano "
+            "Um registro declara garagem `Separada da casa` e deixa área, vagas, ano "
             "e as duas notas em branco. Sem medida não há garagem para descrever, e "
             "manter o tipo produziria um imóvel com garagem de área zero."
         ),
@@ -226,26 +228,26 @@ def _corrigir_inconsistencias(dados: pd.DataFrame) -> pd.DataFrame:
     """Corrige os erros de digitação identificados no diagnóstico de qualidade."""
     dados = dados.copy()
     # Um registro traz ano de construção da garagem em 2207 (venda em 2007).
-    fora_de_faixa = dados["Garage Yr Blt"] > dados["Yr Sold"]
-    dados.loc[fora_de_faixa, "Garage Yr Blt"] = dados.loc[fora_de_faixa, "Year Built"]
+    fora_de_faixa = dados["ano_garagem"] > dados["ano_venda"]
+    dados.loc[fora_de_faixa, "ano_garagem"] = dados.loc[fora_de_faixa, "ano_construcao"]
 
     # Um registro traz reforma em 2001 e construção em 2002: a ordem dos dois
     # anos está invertida. Sem correção, `anos_desde_reforma` sai maior que a
     # idade do imóvel — reforma feita antes de existir casa para reformar.
-    reforma_invertida = dados["Year Remod/Add"] < dados["Year Built"]
-    dados.loc[reforma_invertida, "Year Remod/Add"] = dados.loc[reforma_invertida, "Year Built"]
+    reforma_invertida = dados["ano_reforma"] < dados["ano_construcao"]
+    dados.loc[reforma_invertida, "ano_reforma"] = dados.loc[reforma_invertida, "ano_construcao"]
 
-    # Um registro declara garagem separada (`Detchd`) sem nenhuma medida: área,
+    # Um registro declara garagem `Separada da casa` sem nenhuma medida: área,
     # vagas, ano e as duas notas vêm todos vazios. As demais colunas do bloco já
-    # foram rotuladas como `SemGaragem` pela ausência estrutural; deixar só o
+    # foram rotuladas como `Sem garagem` pela ausência estrutural; deixar só o
     # tipo preenchido criaria imóvel com garagem de área zero.
     garagem_sem_medida = (
-        dados["Garage Type"].ne(dic.AUSENCIA_ESTRUTURAL["Garage Type"])
-        & dados["Garage Area"].isna()
-        & dados["Garage Cars"].isna()
-        & dados["Garage Yr Blt"].isna()
+        dados["tipo_garagem"].ne(dic.AUSENCIA_ESTRUTURAL["tipo_garagem"])
+        & dados["area_garagem"].isna()
+        & dados["vagas_garagem"].isna()
+        & dados["ano_garagem"].isna()
     )
-    dados.loc[garagem_sem_medida, "Garage Type"] = dic.AUSENCIA_ESTRUTURAL["Garage Type"]
+    dados.loc[garagem_sem_medida, "tipo_garagem"] = dic.AUSENCIA_ESTRUTURAL["tipo_garagem"]
     return dados
 
 
@@ -260,22 +262,24 @@ def _imputar(dados: pd.DataFrame) -> pd.DataFrame:
 
     # Áreas e contagens de itens que não existem no imóvel.
     zeros = [
-        "Mas Vnr Area",
-        "BsmtFin SF 1",
-        "BsmtFin SF 2",
-        "Bsmt Unf SF",
-        "Total Bsmt SF",
-        "Bsmt Full Bath",
-        "Bsmt Half Bath",
-        "Garage Cars",
-        "Garage Area",
+        "area_alvenaria_aparente",
+        "area_porao_acabada_1",
+        "area_porao_acabada_2",
+        "area_porao_bruta",
+        "area_porao",
+        "banheiros_completos_porao",
+        "lavabos_porao",
+        "vagas_garagem",
+        "area_garagem",
     ]
     for coluna in zeros:
         if coluna in dados.columns:
             dados[coluna] = dados[coluna].fillna(0)
 
     # Sistema elétrico: um único registro ausente, imputado pela moda.
-    dados["Electrical"] = dados["Electrical"].fillna(dados["Electrical"].mode().iloc[0])
+    dados["sistema_eletrico"] = dados["sistema_eletrico"].fillna(
+        dados["sistema_eletrico"].mode().iloc[0]
+    )
     return dados
 
 
@@ -366,24 +370,6 @@ def _remover_colunas_sem_informacao(curada: pd.DataFrame) -> pd.DataFrame:
     return curada.drop(columns=descartar)
 
 
-def traduzir_categorias(curada: pd.DataFrame) -> pd.DataFrame:
-    """Troca os códigos das colunas nominais pelo rótulo em português.
-
-    Roda sobre os nomes curados, logo depois da renomeação. Código sem tradução
-    em :data:`dic.TRADUCAO_CATEGORIAS` interrompe a preparação: um valor novo na
-    origem precisa ganhar rótulo antes de chegar à base curada.
-    """
-    curada = curada.copy()
-    for coluna, mapa in dic.TRADUCAO_CATEGORIAS.items():
-        if coluna not in curada.columns:
-            continue
-        sem_traducao = sorted(set(curada[coluna].dropna()) - set(mapa))
-        if sem_traducao:
-            raise ValueError(f"`{coluna}` tem códigos sem tradução: {sem_traducao}")
-        curada[coluna] = curada[coluna].map(mapa)
-    return curada
-
-
 def _derivar(dados: pd.DataFrame) -> pd.DataFrame:
     """Constrói os atributos derivados (CRISP-DM 3.3)."""
     dados = dados.copy()
@@ -435,9 +421,7 @@ def construir_base_curada(salvar: bool = True) -> pd.DataFrame:
     bruto = _imputar(bruto)
     bruto = _mapear_ordinais(bruto)
 
-    curada = bruto.rename(columns=dic.RENOMEAR)
-    curada = traduzir_categorias(curada)
-    curada = _derivar(curada)
+    curada = _derivar(bruto)
 
     # Recomendação explícita do autor da base.
     antes = len(curada)

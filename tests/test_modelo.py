@@ -11,7 +11,7 @@ import pandas as pd
 import pytest
 
 from src import config
-from src.data import preparacao
+from src.data import ingestao
 from src.model import associacao as assoc
 from src.model import distancias as dist
 from src.model import particional as part
@@ -273,30 +273,39 @@ def test_catalogo_em_codigo_bate_com_o_catalogo_publicado():
 
 
 # --------------------------------------------------------------------------- #
-# Tradução das categorias
+# Tradução na ingestão
 # --------------------------------------------------------------------------- #
 
 
-def test_traducao_preserva_as_categorias():
-    curada = pd.DataFrame(
+def test_traducao_renomeia_e_preserva_as_categorias():
+    origem = pd.DataFrame(
         {
-            "ar_central": ["Y", "N", "Y", None],
-            "tipo_garagem": ["Attchd", "SemGaragem", "Detchd", "Attchd"],
-            "area_habitavel": [1000, 1200, 900, 1500],
+            "Central Air": ["Y", "N", "Y", None],
+            "Garage Type": ["Attchd", None, "Detchd", "Attchd"],
+            "Kitchen Qual": ["Gd", "TA", "Ex", "Fa"],
+            "Gr Liv Area": [1000, 1200, 900, 1500],
         }
     )
-    traduzida = preparacao.traduzir_categorias(curada)
+    traduzida = ingestao.traduzir(origem)
+    assert list(traduzida.columns) == [
+        "ar_central",
+        "tipo_garagem",
+        "qualidade_cozinha",
+        "area_habitavel",
+    ]
     assert traduzida["ar_central"].tolist()[:3] == ["Sim", "Não", "Sim"]
     assert traduzida["ar_central"].isna().iloc[3]
-    assert traduzida["tipo_garagem"].tolist() == [
-        "Anexa à casa",
-        "Sem garagem",
-        "Separada da casa",
-        "Anexa à casa",
-    ]
-    assert traduzida["area_habitavel"].equals(curada["area_habitavel"])
+    # O vazio não é código: vira rótulo de ausência só na curadoria.
+    assert traduzida["tipo_garagem"].isna().iloc[1]
+    assert traduzida["qualidade_cozinha"].tolist() == ["Bom", "Típico", "Excelente", "Regular"]
+    assert traduzida["area_habitavel"].equals(origem["Gr Liv Area"])
 
 
 def test_traducao_recusa_codigo_desconhecido():
     with pytest.raises(ValueError, match="sem tradução"):
-        preparacao.traduzir_categorias(pd.DataFrame({"zoneamento": ["RL", "XYZ"]}))
+        ingestao.traduzir(pd.DataFrame({"MS Zoning": ["RL", "XYZ"]}))
+
+
+def test_traducao_recusa_coluna_sem_nome_curado():
+    with pytest.raises(ValueError, match="sem nome curado"):
+        ingestao.traduzir(pd.DataFrame({"Coluna Nova": [1]}))

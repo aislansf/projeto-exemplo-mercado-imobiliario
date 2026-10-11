@@ -59,3 +59,12 @@ def test_traducao_cobre_as_nominais_e_nao_funde_categorias():
         codigos = [c for c in mapa if c not in sinonimos]
         rotulos = [mapa[c] for c in codigos]
         assert len(set(rotulos)) == len(rotulos), coluna
+
+
+def test_escalas_ordinais_usam_os_rotulos_da_traducao():
+    """A curadoria mapeia para inteiro exatamente os rótulos que a ingestão grava."""
+    for coluna, escala in dic.ESCALAS_ORDINAIS.items():
+        assert set(escala) == set(dic.TRADUCAO_CATEGORIAS[coluna].values()), coluna
+    rotulos = set(dic.RENOMEAR.values())
+    assert set(dic.AUSENCIA_ESTRUTURAL) <= rotulos
+    assert set(dic.AUSENCIA_DESCONHECIDA) <= rotulos

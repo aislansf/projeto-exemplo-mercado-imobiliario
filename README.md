@@ -190,7 +190,7 @@ uv run invoke --list
 ├── data/
 │   ├── external/           # Arquivos de fontes externas (vazio neste projeto)
 │   ├── processed/          # Base curada, de modelagem, segmentada e os manifestos
-│   └── raw/                # Cópia imutável da origem + manifesto assinado
+│   └── raw/                # Cópia imutável da origem, parquet em PT-BR e manifesto
 ├── docs/                   # O relatório completo, publicado com MkDocs
 │   ├── imagens/evidencias/ # Cópia das figuras que o MkDocs enxerga
 │   └── pbl/                # Canvas do Problema e Quadro PBL dos cinco encontros

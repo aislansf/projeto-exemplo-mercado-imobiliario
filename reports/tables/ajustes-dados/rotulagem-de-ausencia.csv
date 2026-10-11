@@ -1,16 +1,16 @@
 ﻿coluna;rotulo;celulas
-Pool QC;SemPiscina;2917
-Misc Feature;SemExtra;2824
-Alley;SemViela;2732
-Fence;SemCerca;2358
-Fireplace Qu;SemLareira;1422
-Garage Finish;SemGaragem;159
-Garage Qual;SemGaragem;159
-Garage Cond;SemGaragem;159
-Garage Type;SemGaragem;157
-Bsmt Exposure;SemPorao;83
-BsmtFin Type 2;SemPorao;81
-BsmtFin Type 1;SemPorao;80
-Bsmt Cond;SemPorao;80
-Bsmt Qual;SemPorao;80
-Mas Vnr Type;NaoInformado;23
+qualidade_piscina;Sem piscina;2917
+item_extra;Sem item extra;2824
+tipo_viela;Sem viela;2732
+tipo_cerca;Sem cerca;2358
+qualidade_lareira;Sem lareira;1422
+acabamento_garagem;Sem garagem;159
+qualidade_garagem;Sem garagem;159
+conservacao_garagem;Sem garagem;159
+tipo_garagem;Sem garagem;157
+exposicao_porao;Sem porão;83
+acabamento_porao_2;Sem porão;81
+acabamento_porao_1;Sem porão;80
+conservacao_porao;Sem porão;80
+qualidade_porao;Sem porão;80
+tipo_alvenaria_aparente;Não informado;23

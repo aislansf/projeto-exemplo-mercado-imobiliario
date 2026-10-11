@@ -20,7 +20,7 @@ flowchart TD
 
 | Camada | Diretório | Papel |
 |:---|:---|:---|
-| Bruta | `data/raw` | cópia imutável da origem, assinada por `sha256` |
+| Bruta | `data/raw` | cópia imutável da origem, assinada por `sha256`, e o parquet com nomes e categorias em português |
 | Curada | `data/processed/imoveis_curados.parquet` | colunas renomeadas, tipadas, limpas e derivadas, em unidades originais |
 | Modelagem | `data/processed/base_modelagem.parquet` | recorte com o espaço de atributos, **sem as reservadas no arquivo** |
 | Segmentada | `data/processed/base_segmentada.parquet` | chave, segmento canônico e faixa de confiança |
@@ -32,11 +32,13 @@ A camada bruta é tratada como **imutável**: nenhuma outra parte do projeto esc
 ## Materialização da camada bruta
 
 O arquivo tabulado é copiado como veio e, em seguida, convertido para `parquet`. Os
-dois convivem: o `.txt` é o que o manifesto assina, o `.parquet` é o que o pipeline lê.
+dois convivem: o `.txt` é o que o manifesto assina, o `.parquet` é o que o pipeline lê. Na
+conversão, as colunas ganham o nome em `snake_case` português e os códigos das categorias
+viram rótulos — nenhum valor é corrigido, imputado ou removido nesta etapa.
 
 ```
 data/raw/ames_housing.txt        # 960 KB, cópia da origem
-data/raw/ames_housing.parquet    # a mesma coisa, com tipos preservados
+data/raw/ames_housing.parquet    # as mesmas células, com nomes e categorias em PT-BR
 data/raw/manifesto_carga.json    # origem, data, sha256, dimensões conferidas
 ```
 
@@ -62,11 +64,11 @@ Implementadas em `src/data/preparacao.py`, em uma única passada, e publicadas e
 
 | # | Regra | Motivo |
 |:-:|:---|:---|
-| 1 | Renomear as 82 colunas para `snake_case` em português | Os nomes originais têm espaço no meio (`Gr Liv Area`), o que obriga a usar colchetes em toda referência. O resultado é lido por gente de negócio. |
-| 2 | Traduzir as categorias das colunas nominais para o português (`dic.TRADUCAO_CATEGORIAS`) | `RL`, `1Fam` e `Attchd` são códigos do cadastro de Ames e não dizem nada a quem opera a carteira. A tradução troca só o rótulo: cada coluna mantém as mesmas categorias com os mesmos imóveis, e o modelo não muda. O mapa completo, com a contagem por categoria, está em `reports/tables/ajustes-dados/traducao-das-categorias.csv`. |
+| 1 | Renomear as 82 colunas para `snake_case` em português, **na ingestão** | Os nomes originais têm espaço no meio (`Gr Liv Area`), o que obriga a usar colchetes em toda referência. O resultado é lido por gente de negócio. |
+| 2 | Traduzir as categorias das colunas nominais e ordinais para o português, **na ingestão** (`dic.TRADUCAO_CATEGORIAS`) | `RL`, `1Fam` e `Ex` são códigos do cadastro de Ames e não dizem nada a quem opera a carteira. A tradução troca só o rótulo: cada coluna mantém as mesmas categorias com os mesmos imóveis, e o modelo não muda. O notebook 02 confere cada código contra o arquivo da fonte e grava o mapa, com a contagem, em `reports/tables/ajustes-dados/traducao-das-categorias.csv`. |
 | 3 | Ler o arquivo com `na_values=['NA', '']`, em vez do padrão do `pandas` | A palavra `None` em `Mas Vnr Type` é categoria legítima. A leitura padrão a converte em nulo e transforma 1.752 imóveis descritos em desconhecidos, inflando a ausência de 0,8% para 60,6%. |
 | 4 | Converter `NA` em rótulo de ausência estrutural em 14 colunas | Nessas colunas `NA` significa "o item não existe" — sem porão, sem garagem, sem lareira. Imputar pela mediana inventaria porões que nunca existiram. |
-| 5 | Mapear 20 colunas ordinais para inteiro, com **0** para ausência | `Ex > Gd > TA > Fa > Po` tem ordem semântica. *One-hot* destruiria a ordem e multiplicaria a dimensionalidade sem ganho. |
+| 5 | Mapear 20 colunas ordinais para inteiro, com **0** para ausência | `Excelente > Bom > Típico > Regular > Ruim` tem ordem semântica. *One-hot* destruiria a ordem e multiplicaria a dimensionalidade sem ganho. |
 | 6 | Corrigir `ano_garagem = 2207` para o ano de construção do imóvel | Erro de digitação evidente: o imóvel foi vendido em 2007. Sem a correção, a idade da garagem fica negativa em 200 anos e domina qualquer padronização. |
 | 7 | Imputar `testada_lote` pela mediana do **bairro** | 16,7% de ausência concentrada em lotes de esquina e de fundo — ausência MAR, explicada pela geometria. A mediana global achataria a variação entre bairros. |
 | 8 | Preencher com 0 as áreas e contagens de itens inexistentes | Área de garagem ausente em imóvel sem garagem é zero, não desconhecida. |

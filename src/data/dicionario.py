@@ -2,9 +2,10 @@
 
 Este módulo é a **fonte única da verdade** sobre o significado de cada coluna.
 A base original (Ames Housing, De Cock 2011) usa nomes em inglês com espaço no
-meio (``Gr Liv Area``, ``Bsmt Qual``) e categorias em código (``RL``, ``1Fam``);
-a camada curada renomeia as colunas para `snake_case` em português e traduz as
-categorias, porque o resultado é lido por gente de negócio.
+meio (``Gr Liv Area``, ``Bsmt Qual``) e categorias em código (``RL``, ``1Fam``,
+``Ex``). A ingestão renomeia as colunas para `snake_case` em português e traduz
+as categorias já na camada bruta, porque o resultado é lido por gente de
+negócio. O arquivo de texto baixado continua intocado em ``data/raw/``.
 
 Três decisões registradas aqui, e não no código de análise:
 
@@ -26,69 +27,125 @@ from __future__ import annotations
 # Escalas ordinais declaradas na documentação original da base
 # --------------------------------------------------------------------------- #
 
+#: Cada nível ordinal: código da origem → (rótulo em português, posição na escala).
+#: O código só existe no arquivo baixado; da ingestão em diante vale o rótulo.
+_QUALIDADE = {
+    "Ex": ("Excelente", 5),
+    "Gd": ("Bom", 4),
+    "TA": ("Típico", 3),
+    "Fa": ("Regular", 2),
+    "Po": ("Ruim", 1),
+}
+_ACABAMENTO_PORAO = {
+    "GLQ": ("Habitável, bom padrão", 6),
+    "ALQ": ("Habitável, padrão médio", 5),
+    "BLQ": ("Habitável, abaixo do padrão", 4),
+    "Rec": ("Recreação", 3),
+    "LwQ": ("Baixa qualidade", 2),
+    "Unf": ("Sem acabamento", 1),
+}
+
+_NIVEIS_ORDINAIS: dict[str, dict[str, tuple[str, int]]] = {
+    "qualidade_externa": _QUALIDADE,
+    "conservacao_externa": _QUALIDADE,
+    "qualidade_porao": _QUALIDADE,
+    "conservacao_porao": _QUALIDADE,
+    "qualidade_aquecimento": _QUALIDADE,
+    "qualidade_cozinha": _QUALIDADE,
+    "qualidade_lareira": _QUALIDADE,
+    "qualidade_garagem": _QUALIDADE,
+    "conservacao_garagem": _QUALIDADE,
+    "qualidade_piscina": _QUALIDADE,
+    "exposicao_porao": {
+        "Gd": ("Boa", 4),
+        "Av": ("Média", 3),
+        "Mn": ("Mínima", 2),
+        "No": ("Nenhuma", 1),
+    },
+    "acabamento_porao_1": _ACABAMENTO_PORAO,
+    "acabamento_porao_2": _ACABAMENTO_PORAO,
+    "acabamento_garagem": {
+        "Fin": ("Acabada", 3),
+        "RFn": ("Parcialmente acabada", 2),
+        "Unf": ("Sem acabamento", 1),
+    },
+    "funcionalidade": {
+        "Typ": ("Típica", 8),
+        "Min1": ("Dedução mínima 1", 7),
+        "Min2": ("Dedução mínima 2", 6),
+        "Mod": ("Dedução moderada", 5),
+        "Maj1": ("Dedução grave 1", 4),
+        "Maj2": ("Dedução grave 2", 3),
+        "Sev": ("Muito comprometida", 2),
+        "Sal": ("Só para aproveitamento", 1),
+    },
+    "formato_lote": {
+        "Reg": ("Regular", 4),
+        "IR1": ("Levemente irregular", 3),
+        "IR2": ("Moderadamente irregular", 2),
+        "IR3": ("Irregular", 1),
+    },
+    "declividade": {
+        "Gtl": ("Suave", 3),
+        "Mod": ("Moderada", 2),
+        "Sev": ("Acentuada", 1),
+    },
+    "acesso_pavimentado": {
+        "Y": ("Pavimentado", 3),
+        "P": ("Parcialmente pavimentado", 2),
+        "N": ("Terra ou cascalho", 1),
+    },
+    "infraestrutura": {
+        "AllPub": ("Todos os serviços", 4),
+        "NoSewr": ("Sem esgoto", 3),
+        "NoSeWa": ("Só eletricidade e gás", 2),
+        "ELO": ("Só eletricidade", 1),
+    },
+    "tipo_cerca": {
+        "GdPrv": ("Boa privacidade", 4),
+        "MnPrv": ("Privacidade mínima", 3),
+        "GdWo": ("Boa madeira", 2),
+        "MnWw": ("Madeira ou arame mínimo", 1),
+    },
+}
+
 #: Escala de qualidade/condição usada em dez colunas da base.
 #: Ausente (`NA`) significa "o item não existe no imóvel" — vira 0, não nulo.
-ESCALA_QUALIDADE = {"Ex": 5, "Gd": 4, "TA": 3, "Fa": 2, "Po": 1}
+ESCALA_QUALIDADE = dict(_QUALIDADE.values())
 
+#: Rótulo em português → posição na escala, por coluna ordinal.
 ESCALAS_ORDINAIS: dict[str, dict[str, int]] = {
-    "Exter Qual": ESCALA_QUALIDADE,
-    "Exter Cond": ESCALA_QUALIDADE,
-    "Bsmt Qual": ESCALA_QUALIDADE,
-    "Bsmt Cond": ESCALA_QUALIDADE,
-    "Heating QC": ESCALA_QUALIDADE,
-    "Kitchen Qual": ESCALA_QUALIDADE,
-    "Fireplace Qu": ESCALA_QUALIDADE,
-    "Garage Qual": ESCALA_QUALIDADE,
-    "Garage Cond": ESCALA_QUALIDADE,
-    "Pool QC": ESCALA_QUALIDADE,
-    "Bsmt Exposure": {"Gd": 4, "Av": 3, "Mn": 2, "No": 1},
-    "BsmtFin Type 1": {"GLQ": 6, "ALQ": 5, "BLQ": 4, "Rec": 3, "LwQ": 2, "Unf": 1},
-    "BsmtFin Type 2": {"GLQ": 6, "ALQ": 5, "BLQ": 4, "Rec": 3, "LwQ": 2, "Unf": 1},
-    "Garage Finish": {"Fin": 3, "RFn": 2, "Unf": 1},
-    "Functional": {
-        "Typ": 8,
-        "Min1": 7,
-        "Min2": 6,
-        "Mod": 5,
-        "Maj1": 4,
-        "Maj2": 3,
-        "Sev": 2,
-        "Sal": 1,
-    },
-    "Lot Shape": {"Reg": 4, "IR1": 3, "IR2": 2, "IR3": 1},
-    "Land Slope": {"Gtl": 3, "Mod": 2, "Sev": 1},
-    "Paved Drive": {"Y": 3, "P": 2, "N": 1},
-    "Utilities": {"AllPub": 4, "NoSewr": 3, "NoSeWa": 2, "ELO": 1},
-    "Fence": {"GdPrv": 4, "MnPrv": 3, "GdWo": 2, "MnWw": 1},
+    coluna: dict(niveis.values()) for coluna, niveis in _NIVEIS_ORDINAIS.items()
 }
 
 #: Colunas em que `NA` significa ausência do item (porão, garagem, lareira,
 #: piscina, cerca, viela) e **não** informação faltante. Tratá-las como nulo e
 #: imputar pela mediana inventaria porões que não existem.
 AUSENCIA_ESTRUTURAL = {
-    "Alley": "SemViela",
-    "Bsmt Qual": "SemPorao",
-    "Bsmt Cond": "SemPorao",
-    "Bsmt Exposure": "SemPorao",
-    "BsmtFin Type 1": "SemPorao",
-    "BsmtFin Type 2": "SemPorao",
-    "Fireplace Qu": "SemLareira",
-    "Garage Type": "SemGaragem",
-    "Garage Finish": "SemGaragem",
-    "Garage Qual": "SemGaragem",
-    "Garage Cond": "SemGaragem",
-    "Pool QC": "SemPiscina",
-    "Fence": "SemCerca",
-    "Misc Feature": "SemExtra",
+    "tipo_viela": "Sem viela",
+    "qualidade_porao": "Sem porão",
+    "conservacao_porao": "Sem porão",
+    "exposicao_porao": "Sem porão",
+    "acabamento_porao_1": "Sem porão",
+    "acabamento_porao_2": "Sem porão",
+    "qualidade_lareira": "Sem lareira",
+    "tipo_garagem": "Sem garagem",
+    "acabamento_garagem": "Sem garagem",
+    "qualidade_garagem": "Sem garagem",
+    "conservacao_garagem": "Sem garagem",
+    "qualidade_piscina": "Sem piscina",
+    "tipo_cerca": "Sem cerca",
+    "item_extra": "Sem item extra",
 }
 
 #: Ausências que **não** são estruturais e não podem ser lidas como "não tem".
-#: `Mas Vnr Type` tem 1.752 registros com a categoria legítima `None` (sem
-#: revestimento em alvenaria aparente) e apenas 23 realmente em branco.
-AUSENCIA_DESCONHECIDA = {"Mas Vnr Type": "NaoInformado"}
+#: `tipo_alvenaria_aparente` tem 1.752 registros com a categoria legítima
+#: `Sem alvenaria aparente` (a palavra `None` na origem) e apenas 23 realmente
+#: em branco.
+AUSENCIA_DESCONHECIDA = {"tipo_alvenaria_aparente": "Não informado"}
 
 # --------------------------------------------------------------------------- #
-# Renomeação para a camada curada
+# Renomeação, aplicada na ingestão
 # --------------------------------------------------------------------------- #
 
 RENOMEAR: dict[str, str] = {
@@ -177,7 +234,7 @@ RENOMEAR: dict[str, str] = {
 }
 
 # --------------------------------------------------------------------------- #
-# Tradução das categorias para a camada curada
+# Tradução das categorias, aplicada na ingestão
 # --------------------------------------------------------------------------- #
 
 #: Rótulos compartilhados por mais de uma coluna.
@@ -221,16 +278,16 @@ _REVESTIMENTO = {
     "Wd Shng": "Escamas de madeira",
 }
 
-#: Códigos da origem (De Cock, 2011) → rótulo em português, por coluna curada.
+#: Códigos da origem (De Cock, 2011) → rótulo em português, por coluna.
 #:
-#: A tradução roda **depois** da renomeação e troca só o texto: cada coluna
-#: continua com o mesmo número de categorias e os mesmos imóveis em cada uma, o
-#: que deixa Gower, *one-hot* e qualquer contagem inalterados. Os rótulos de
-#: ausência (`SemGaragem`, `NaoInformado`…) entram aqui também, porque são
-#: aplicados antes, ainda sobre os nomes originais.
+#: A ingestão aplica o mapa logo depois da renomeação, e a camada bruta em
+#: parquet já nasce traduzida. A tradução troca só o texto: cada coluna continua
+#: com o mesmo número de categorias e os mesmos imóveis em cada uma, o que deixa
+#: Gower, *one-hot* e qualquer contagem inalterados. O vazio (`NA`) não é
+#: código e passa intacto: vira rótulo de ausência só na curadoria.
 #:
 #: Bairro é nome próprio: o código abreviado dá lugar ao nome por extenso, sem
-#: tradução. As colunas ordinais não aparecem porque já viraram inteiro.
+#: tradução. As colunas ordinais entram pelo fim do mapa, a partir das escalas.
 TRADUCAO_CATEGORIAS: dict[str, dict[str, str]] = {
     "zoneamento": {
         "RL": "Residencial de baixa densidade",
@@ -242,7 +299,7 @@ TRADUCAO_CATEGORIAS: dict[str, dict[str, str]] = {
         "A (agr)": "Agrícola",
     },
     "tipo_via": _PAVIMENTO,
-    "tipo_viela": {**_PAVIMENTO, "SemViela": "Sem viela"},
+    "tipo_viela": _PAVIMENTO,
     "relevo": {
         "Lvl": "Plano",
         "Bnk": "Talude",
@@ -331,7 +388,6 @@ TRADUCAO_CATEGORIAS: dict[str, dict[str, str]] = {
         "CBlock": "Bloco de concreto",
         "Stone": "Pedra",
         "None": "Sem alvenaria aparente",
-        "NaoInformado": "Não informado",
     },
     "fundacao": {
         "BrkTil": "Tijolo e telha",
@@ -364,7 +420,6 @@ TRADUCAO_CATEGORIAS: dict[str, dict[str, str]] = {
         "Basment": "No porão",
         "CarPort": "Telheiro",
         "2Types": "Mais de um tipo",
-        "SemGaragem": "Sem garagem",
     },
     "item_extra": {
         "Elev": "Elevador",
@@ -372,7 +427,6 @@ TRADUCAO_CATEGORIAS: dict[str, dict[str, str]] = {
         "Othr": "Outro",
         "Shed": "Depósito",
         "TenC": "Quadra de tênis",
-        "SemExtra": "Sem item extra",
     },
     "tipo_venda": {
         "WD ": "Escritura convencional",
@@ -395,6 +449,13 @@ TRADUCAO_CATEGORIAS: dict[str, dict[str, str]] = {
         "Partial": "Parcial",
     },
 }
+
+TRADUCAO_CATEGORIAS.update(
+    {
+        coluna: {codigo: rotulo for codigo, (rotulo, _) in niveis.items()}
+        for coluna, niveis in _NIVEIS_ORDINAIS.items()
+    }
+)
 
 #: Condição de venda que a depuração da carteira mantém.
 VENDA_NORMAL = TRADUCAO_CATEGORIAS["condicao_venda"]["Normal"]

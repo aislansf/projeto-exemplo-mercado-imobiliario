@@ -49,7 +49,7 @@
   "carimbo": {
     "modelo": {
       "arquivo": "models/modelo-segmentacao.joblib",
-      "sha256": "3234409bf8a041db91ae05d2f1ae56359d48da589239273a9f261485552e9312",
+      "sha256": "bca92cfd54faf6356dfefdd40900ba4739746affc075107525da4ecb7d081e89",
       "bytes": 14570
     },
     "base_segmentada": {
@@ -148,7 +148,7 @@
     "arquivo": "models/aplicacao-segmentacao.pkl",
     "formato": "meridiano.segmentacao/1",
     "bytes": 442863,
-    "sha256": "c506978d3eb12aab244c6c389832ac0b8d8992a09640cfdfbf6a479fcad55c64",
+    "sha256": "9ae7cf467b1a6b1a095c6af1f620a0bf329ba2b374ac7bfec0f0f596daf8b80b",
     "bibliotecas_exigidas": [
       "builtins",
       "numpy",
