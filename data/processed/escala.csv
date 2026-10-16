@@ -1,0 +1,117 @@
+coluna;nivel;ordem
+qualidade_geral;1;1
+qualidade_geral;2;2
+qualidade_geral;3;3
+qualidade_geral;4;4
+qualidade_geral;5;5
+qualidade_geral;6;6
+qualidade_geral;7;7
+qualidade_geral;8;8
+qualidade_geral;9;9
+qualidade_geral;10;10
+conservacao_geral;1;1
+conservacao_geral;2;2
+conservacao_geral;3;3
+conservacao_geral;4;4
+conservacao_geral;5;5
+conservacao_geral;6;6
+conservacao_geral;7;7
+conservacao_geral;8;8
+conservacao_geral;9;9
+conservacao_geral;10;10
+qualidade_externa;Ruim;1
+qualidade_externa;Regular;2
+qualidade_externa;Médio;3
+qualidade_externa;Bom;4
+qualidade_externa;Excelente;5
+conservacao_externa;Ruim;1
+conservacao_externa;Regular;2
+conservacao_externa;Médio;3
+conservacao_externa;Bom;4
+conservacao_externa;Excelente;5
+qualidade_porao;Ruim;1
+qualidade_porao;Regular;2
+qualidade_porao;Médio;3
+qualidade_porao;Bom;4
+qualidade_porao;Excelente;5
+conservacao_porao;Ruim;1
+conservacao_porao;Regular;2
+conservacao_porao;Médio;3
+conservacao_porao;Bom;4
+conservacao_porao;Excelente;5
+qualidade_aquecimento;Ruim;1
+qualidade_aquecimento;Regular;2
+qualidade_aquecimento;Médio;3
+qualidade_aquecimento;Bom;4
+qualidade_aquecimento;Excelente;5
+qualidade_cozinha;Ruim;1
+qualidade_cozinha;Regular;2
+qualidade_cozinha;Médio;3
+qualidade_cozinha;Bom;4
+qualidade_cozinha;Excelente;5
+qualidade_lareira;Ruim;1
+qualidade_lareira;Regular;2
+qualidade_lareira;Médio;3
+qualidade_lareira;Bom;4
+qualidade_lareira;Excelente;5
+qualidade_garagem;Ruim;1
+qualidade_garagem;Regular;2
+qualidade_garagem;Médio;3
+qualidade_garagem;Bom;4
+qualidade_garagem;Excelente;5
+conservacao_garagem;Ruim;1
+conservacao_garagem;Regular;2
+conservacao_garagem;Médio;3
+conservacao_garagem;Bom;4
+conservacao_garagem;Excelente;5
+qualidade_piscina;Ruim;1
+qualidade_piscina;Regular;2
+qualidade_piscina;Médio;3
+qualidade_piscina;Bom;4
+qualidade_piscina;Excelente;5
+exposicao_porao;Sem exposição;1
+exposicao_porao;Mínima;2
+exposicao_porao;Média;3
+exposicao_porao;Boa;4
+acabamento_porao_1;Sem acabamento;1
+acabamento_porao_1;Baixa qualidade;2
+acabamento_porao_1;Sala de recreação;3
+acabamento_porao_1;Habitável abaixo da média;4
+acabamento_porao_1;Habitável média;5
+acabamento_porao_1;Habitável boa;6
+acabamento_porao_2;Sem acabamento;1
+acabamento_porao_2;Baixa qualidade;2
+acabamento_porao_2;Sala de recreação;3
+acabamento_porao_2;Habitável abaixo da média;4
+acabamento_porao_2;Habitável média;5
+acabamento_porao_2;Habitável boa;6
+acabamento_garagem;Sem acabamento;1
+acabamento_garagem;Acabamento parcial;2
+acabamento_garagem;Acabada;3
+acesso_pavimentado;Terra/cascalho;1
+acesso_pavimentado;Parcialmente pavimentado;2
+acesso_pavimentado;Pavimentado;3
+formato_lote;Irregular;1
+formato_lote;Moderadamente irregular;2
+formato_lote;Levemente irregular;3
+formato_lote;Regular;4
+declividade;Acentuada;1
+declividade;Moderada;2
+declividade;Suave;3
+infraestrutura;Só eletricidade;1
+infraestrutura;Eletricidade e gás;2
+infraestrutura;Sem rede de esgoto;3
+infraestrutura;Todos os serviços;4
+sistema_eletrico;Misto;1
+sistema_eletrico;Fusíveis (ruim);2
+sistema_eletrico;Fusíveis (regular);3
+sistema_eletrico;Fusíveis (médio);4
+sistema_eletrico;Disjuntores;5
+funcionalidade;Apenas aproveitamento;1
+funcionalidade;Danos graves;2
+funcionalidade;Grandes deduções 2;3
+funcionalidade;Grandes deduções 1;4
+funcionalidade;Deduções moderadas;5
+funcionalidade;Pequenas deduções 2;6
+funcionalidade;Pequenas deduções 1;7
+funcionalidade;Típica;8

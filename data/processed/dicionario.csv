@@ -1,83 +1,83 @@
-variavel;coluna_original;descricao;valores;Tipo
-ordem;Order;Número de ordem do registro no arquivo original;[1, 2930];Discreta
-pid;PID;Identificador cadastral do lote na prefeitura (Parcel ID);[526301100, 1007100110];Discreta
-subclasse;MS SubClass;Código do tipo de imóvel envolvido na venda (idade, pavimentos e estilo);[20, 190];Discreta
-zoneamento;MS Zoning;Classificação geral de zoneamento urbano do lote;['Residencial de baixa densidade', 'Agrícola'];Nominal
-testada_lote;Lot Frontage;Testada: pés lineares de rua conectados ao lote;[21.0, 313.0];Contínua
-area_terreno;Lot Area;Área do terreno, em pés quadrados;[1300, 215245];Discreta
-tipo_via;Street;Tipo de pavimentação da via de acesso;['Pavimentada', 'Cascalho'];Nominal
-tipo_viela;Alley;Tipo de pavimentação da viela de acesso (NA = sem viela);['Pavimentada', 'Cascalho'];Nominal
-formato_lote;Lot Shape;Regularidade do formato do lote;['Irregular', 'Regular'];Ordinal
-relevo;Land Contour;Relevo do terreno (plano, encosta, depressão);['Plano', 'Baixada'];Nominal
-infraestrutura;Utilities;Infraestrutura urbana disponível no lote;['Só eletricidade', 'Todos os serviços'];Ordinal
-config_lote;Lot Config;Configuração do lote (interno, esquina, fundo de rua);['Esquina', 'Três frentes'];Nominal
-declividade;Land Slope;Declividade do terreno;['Acentuada', 'Suave'];Ordinal
-bairro;Neighborhood;Bairro de Ames em que o imóvel se localiza;['North Ames', 'Landmark'];Nominal
-condicao_entorno_1;Condition 1;Proximidade de via principal, ferrovia ou área de interesse;['Normal', 'Até 200 pés da ferrovia norte-sul'];Nominal
-condicao_entorno_2;Condition 2;Segunda proximidade relevante, quando há mais de uma;['Normal', 'Vizinho à ferrovia norte-sul'];Nominal
-tipo_construcao;Bldg Type;Tipo de construção (isolada, geminada, sobreposta);['Unifamiliar isolada', 'Bifamiliar convertida'];Nominal
-estilo;House Style;Estilo da residência e número de pavimentos;['Térrea', '2,5 pavimentos, superior acabado'];Nominal
-qualidade_geral;Overall Qual;Qualidade geral do material e do acabamento (1 a 10);[1, 10];Discreta
-conservacao_geral;Overall Cond;Estado geral de conservação (1 a 10);[1, 9];Discreta
-ano_construcao;Year Built;Ano da construção original;[1872, 2010];Discreta
-ano_reforma;Year Remod/Add;Ano da última reforma ou ampliação (igual à construção se nunca houve);[1950, 2010];Discreta
-estilo_telhado;Roof Style;Estilo do telhado;['Quatro águas', 'Plano'];Nominal
-material_telhado;Roof Matl;Material do telhado;['Telha asfáltica', 'Metal'];Nominal
-revestimento_1;Exterior 1st;Revestimento externo predominante;['Tijolo aparente', 'Estuque imitação'];Nominal
-revestimento_2;Exterior 2nd;Segundo revestimento externo, quando há mais de um material;['Compensado', 'Outro'];Nominal
-tipo_alvenaria_aparente;Mas Vnr Type;Tipo de alvenaria aparente (None na fonte = Sem alvenaria aparente);['Pedra', 'Bloco de concreto'];Nominal
-area_alvenaria_aparente;Mas Vnr Area;Área de alvenaria aparente, em pés quadrados;[0.0, 1600.0];Contínua
-qualidade_externa;Exter Qual;Qualidade do material de revestimento externo;['Ruim', 'Excelente'];Ordinal
-conservacao_externa;Exter Cond;Estado de conservação do revestimento externo;['Ruim', 'Excelente'];Ordinal
-fundacao;Foundation;Tipo de fundação;['Bloco de concreto', 'Pedra'];Nominal
-qualidade_porao;Bsmt Qual;Altura e qualidade do porão (NA = sem porão);['Ruim', 'Excelente'];Ordinal
-conservacao_porao;Bsmt Cond;Estado de conservação do porão (NA = sem porão);['Ruim', 'Excelente'];Ordinal
-exposicao_porao;Bsmt Exposure;Exposição do porão à luz externa ou saída para o jardim;['Nenhuma', 'Boa'];Ordinal
-acabamento_porao_1;BsmtFin Type 1;Qualidade do acabamento da primeira área acabada do porão;['Sem acabamento', 'Habitável, bom padrão'];Ordinal
-area_porao_acabada_1;BsmtFin SF 1;Área acabada tipo 1 do porão, em pés quadrados;[0.0, 5644.0];Contínua
-acabamento_porao_2;BsmtFin Type 2;Qualidade do acabamento da segunda área acabada do porão;['Sem acabamento', 'Habitável, bom padrão'];Ordinal
-area_porao_acabada_2;BsmtFin SF 2;Área acabada tipo 2 do porão, em pés quadrados;[0.0, 1526.0];Contínua
-area_porao_bruta;Bsmt Unf SF;Área do porão sem acabamento, em pés quadrados;[0.0, 2336.0];Contínua
-area_porao;Total Bsmt SF;Área total do porão, em pés quadrados (0 = sem porão);[0.0, 6110.0];Contínua
-aquecimento;Heating;Tipo de sistema de aquecimento;['Ar forçado a gás', 'Água quente, outro combustível'];Nominal
-qualidade_aquecimento;Heating QC;Qualidade e condição do sistema de aquecimento;['Ruim', 'Excelente'];Ordinal
-ar_central;Central Air;Possui ar-condicionado central (Sim/Não);['Sim', 'Não'];Nominal
-sistema_eletrico;Electrical;Tipo de sistema elétrico;['Disjuntores', 'Misto'];Nominal
-area_terreo;1st Flr SF;Área do pavimento térreo, em pés quadrados;[334, 5095];Discreta
-area_pavimento_superior;2nd Flr SF;Área do pavimento superior, em pés quadrados (0 = pavimento único);[0, 2065];Discreta
-area_acabamento_inferior;Low Qual Fin SF;Área acabada de baixa qualidade, somando todos os pavimentos;[0, 1064];Discreta
-area_habitavel;Gr Liv Area;Área habitável acima do solo, em pés quadrados;[334, 5642];Discreta
-banheiros_completos_porao;Bsmt Full Bath;Banheiros completos no porão;[0.0, 3.0];Contínua
-lavabos_porao;Bsmt Half Bath;Lavabos no porão;[0.0, 2.0];Contínua
-banheiros_completos;Full Bath;Banheiros completos acima do solo;[0, 4];Discreta
-lavabos;Half Bath;Lavabos acima do solo;[0, 2];Discreta
-dormitorios;Bedroom AbvGr;Dormitórios acima do solo (não inclui os do porão);[0, 8];Discreta
-cozinhas;Kitchen AbvGr;Cozinhas acima do solo;[0, 3];Discreta
-qualidade_cozinha;Kitchen Qual;Qualidade da cozinha;['Ruim', 'Excelente'];Ordinal
-comodos;TotRms AbvGrd;Total de cômodos acima do solo, exceto banheiros;[2, 15];Discreta
-funcionalidade;Functional;Funcionalidade da residência, com dedução por limitações de uso;['Só para aproveitamento', 'Típica'];Ordinal
-lareiras;Fireplaces;Número de lareiras;[0, 4];Discreta
-qualidade_lareira;Fireplace Qu;Qualidade da lareira (NA = sem lareira);['Ruim', 'Excelente'];Ordinal
-tipo_garagem;Garage Type;Posição da garagem em relação à casa;['Anexa à casa', 'Mais de um tipo'];Nominal
-ano_garagem;Garage Yr Blt;Ano de construção da garagem;[1895.0, 2207.0];Contínua
-acabamento_garagem;Garage Finish;Acabamento interno da garagem;['Sem acabamento', 'Acabada'];Ordinal
-vagas_garagem;Garage Cars;Capacidade da garagem, em número de vagas;[0.0, 5.0];Contínua
-area_garagem;Garage Area;Área da garagem, em pés quadrados;[0.0, 1488.0];Contínua
-qualidade_garagem;Garage Qual;Qualidade da garagem (NA = sem garagem);['Ruim', 'Excelente'];Ordinal
-conservacao_garagem;Garage Cond;Estado de conservação da garagem (NA = sem garagem);['Ruim', 'Excelente'];Ordinal
-acesso_pavimentado;Paved Drive;Pavimentação do acesso de veículos;['Terra ou cascalho', 'Pavimentado'];Ordinal
-area_deck;Wood Deck SF;Área de deck de madeira, em pés quadrados;[0, 1424];Discreta
-area_varanda_aberta;Open Porch SF;Área de varanda aberta, em pés quadrados;[0, 742];Discreta
-area_varanda_fechada;Enclosed Porch;Área de varanda fechada, em pés quadrados;[0, 1012];Discreta
-area_varanda_3estacoes;3Ssn Porch;Área de varanda de três estações, em pés quadrados;[0, 508];Discreta
-area_varanda_tela;Screen Porch;Área de varanda com tela, em pés quadrados;[0, 576];Discreta
-area_piscina;Pool Area;Área da piscina, em pés quadrados (0 = sem piscina);[0, 800];Discreta
-qualidade_piscina;Pool QC;Qualidade da piscina (NA = sem piscina);['Ruim', 'Excelente'];Ordinal
-tipo_cerca;Fence;Tipo e qualidade da cerca (NA = sem cerca);['Madeira ou arame mínimo', 'Boa privacidade'];Ordinal
-item_extra;Misc Feature;Item extra não coberto pelas demais colunas (galpão, quadra, elevador);['Segunda garagem', 'Quadra de tênis'];Nominal
-valor_item_extra;Misc Val;Valor do item extra, em dólares;[0, 17000];Discreta
-mes_venda;Mo Sold;Mês da venda (1 a 12);[1, 12];Discreta
-ano_venda;Yr Sold;Ano da venda (2006 a 2010);[2006, 2010];Discreta
-tipo_venda;Sale Type;Modalidade da venda;['Escritura convencional', 'Escritura com financiamento de veterano'];Nominal
-condicao_venda;Sale Condition;Condição da venda (normal, parcial, familiar, execução);['Normal', 'Terreno adjacente'];Nominal
-preco_venda;SalePrice;Preço de venda em dólares — rótulo reservado, fora da modelagem;[12789, 755000];Discreta
+variavel;descricao;valores;Tipo
+ordem;Número de ordem do registro no arquivo original;[1, 2930];Discreta
+pid;Identificador cadastral do lote na prefeitura (Parcel ID);[526301100, 1007100110];Discreta
+subclasse;Código do tipo de imóvel envolvido na venda (idade, pavimentos e estilo);[20, 190];Discreta
+zoneamento;Classificação geral de zoneamento urbano do lote;['Residencial de baixa densidade', 'Agrícola'];Nominal
+testada_lote;Testada: pés lineares de rua conectados ao lote;[21.0, 313.0];Contínua
+area_terreno;Área do terreno, em pés quadrados;[1300, 215245];Discreta
+tipo_via;Tipo de pavimentação da via de acesso;['Pavimentada', 'Cascalho'];Nominal
+tipo_viela;Tipo de pavimentação da viela de acesso (NA = sem viela);['Pavimentada', 'Cascalho'];Nominal
+formato_lote;Regularidade do formato do lote;['Irregular', 'Regular'];Ordinal
+relevo;Relevo do terreno (plano, encosta, depressão);['Plano', 'Baixada'];Nominal
+infraestrutura;Infraestrutura urbana disponível no lote;['Todos os serviços', 'Todos os serviços'];Ordinal
+config_lote;Configuração do lote (interno, esquina, fundo de rua);['Esquina', 'Três frentes'];Nominal
+declividade;Declividade do terreno;['Acentuada', 'Suave'];Ordinal
+bairro;Bairro de Ames em que o imóvel se localiza;['North Ames', 'Landmark'];Nominal
+condicao_entorno_1;Proximidade de via principal, ferrovia ou área de interesse;['Normal', 'Até 200 pés da ferrovia norte-sul'];Nominal
+condicao_entorno_2;Segunda proximidade relevante, quando há mais de uma;['Normal', 'Vizinho à ferrovia norte-sul'];Nominal
+tipo_construcao;Tipo de construção (isolada, geminada, sobreposta);['Unifamiliar isolada', 'Bifamiliar convertida'];Nominal
+estilo;Estilo da residência e número de pavimentos;['Térrea', '2,5 pavimentos, superior acabado'];Nominal
+qualidade_geral;Qualidade geral do material e do acabamento (1 a 10);[1, 10];Ordinal
+conservacao_geral;Estado geral de conservação (1 a 10);[1, 9];Ordinal
+ano_construcao;Ano da construção original;[1872, 2010];Temporal
+ano_reforma;Ano da última reforma ou ampliação (igual à construção se nunca houve);[1950, 2010];Temporal
+estilo_telhado;Estilo do telhado;['Quatro águas', 'Plano'];Nominal
+material_telhado;Material do telhado;['Telha asfáltica', 'Metal'];Nominal
+revestimento_1;Revestimento externo predominante;['Tijolo aparente', 'Estuque imitação'];Nominal
+revestimento_2;Segundo revestimento externo, quando há mais de um material;['Compensado', 'Outro'];Nominal
+tipo_alvenaria_aparente;Tipo de alvenaria aparente (None na fonte = Sem alvenaria aparente);['Pedra', 'Bloco de concreto'];Nominal
+area_alvenaria_aparente;Área de alvenaria aparente, em pés quadrados;[0.0, 1600.0];Contínua
+qualidade_externa;Qualidade do material de revestimento externo;['Regular', 'Excelente'];Ordinal
+conservacao_externa;Estado de conservação do revestimento externo;['Ruim', 'Excelente'];Ordinal
+fundacao;Tipo de fundação;['Bloco de concreto', 'Pedra'];Nominal
+qualidade_porao;Altura e qualidade do porão (NA = sem porão);['Ruim', 'Excelente'];Ordinal
+conservacao_porao;Estado de conservação do porão (NA = sem porão);['Ruim', 'Excelente'];Ordinal
+exposicao_porao;Exposição do porão à luz externa ou saída para o jardim;['Mínima', 'Boa'];Ordinal
+acabamento_porao_1;Qualidade do acabamento da primeira área acabada do porão;['Sem acabamento', 'Baixa qualidade'];Ordinal
+area_porao_acabada_1;Área acabada tipo 1 do porão, em pés quadrados;[0.0, 5644.0];Contínua
+acabamento_porao_2;Qualidade do acabamento da segunda área acabada do porão;['Sem acabamento', 'Baixa qualidade'];Ordinal
+area_porao_acabada_2;Área acabada tipo 2 do porão, em pés quadrados;[0.0, 1526.0];Contínua
+area_porao_bruta;Área do porão sem acabamento, em pés quadrados;[0.0, 2336.0];Contínua
+area_porao;Área total do porão, em pés quadrados (0 = sem porão);[0.0, 6110.0];Contínua
+aquecimento;Tipo de sistema de aquecimento;['Ar forçado a gás', 'Água quente, outro combustível'];Nominal
+qualidade_aquecimento;Qualidade e condição do sistema de aquecimento;['Ruim', 'Excelente'];Ordinal
+ar_central;Possui ar-condicionado central (Sim/Não);['Sim', 'Não'];Nominal
+sistema_eletrico;Tipo de sistema elétrico;['Misto', 'Disjuntores'];Ordinal
+area_terreo;Área do pavimento térreo, em pés quadrados;[334, 5095];Discreta
+area_pavimento_superior;Área do pavimento superior, em pés quadrados (0 = pavimento único);[0, 2065];Discreta
+area_acabamento_inferior;Área acabada de baixa qualidade, somando todos os pavimentos;[0, 1064];Discreta
+area_habitavel;Área habitável acima do solo, em pés quadrados;[334, 5642];Discreta
+banheiros_completos_porao;Banheiros completos no porão;[0.0, 3.0];Contínua
+lavabos_porao;Lavabos no porão;[0.0, 2.0];Contínua
+banheiros_completos;Banheiros completos acima do solo;[0, 4];Discreta
+lavabos;Lavabos acima do solo;[0, 2];Discreta
+dormitorios;Dormitórios acima do solo (não inclui os do porão);[0, 8];Discreta
+cozinhas;Cozinhas acima do solo;[0, 3];Discreta
+qualidade_cozinha;Qualidade da cozinha;['Ruim', 'Excelente'];Ordinal
+comodos;Total de cômodos acima do solo, exceto banheiros;[2, 15];Discreta
+funcionalidade;Funcionalidade da residência, com dedução por limitações de uso;['Típica', 'Típica'];Ordinal
+lareiras;Número de lareiras;[0, 4];Discreta
+qualidade_lareira;Qualidade da lareira (NA = sem lareira);['Ruim', 'Excelente'];Ordinal
+tipo_garagem;Posição da garagem em relação à casa;['Anexa à casa', 'Mais de um tipo'];Nominal
+ano_garagem;Ano de construção da garagem;[1895.0, 2207.0];Temporal
+acabamento_garagem;Acabamento interno da garagem;['Sem acabamento', 'Acabada'];Ordinal
+vagas_garagem;Capacidade da garagem, em número de vagas;[0.0, 5.0];Contínua
+area_garagem;Área da garagem, em pés quadrados;[0.0, 1488.0];Contínua
+qualidade_garagem;Qualidade da garagem (NA = sem garagem);['Ruim', 'Excelente'];Ordinal
+conservacao_garagem;Estado de conservação da garagem (NA = sem garagem);['Ruim', 'Excelente'];Ordinal
+acesso_pavimentado;Pavimentação do acesso de veículos;['Parcialmente pavimentado', 'Pavimentado'];Ordinal
+area_deck;Área de deck de madeira, em pés quadrados;[0, 1424];Discreta
+area_varanda_aberta;Área de varanda aberta, em pés quadrados;[0, 742];Discreta
+area_varanda_fechada;Área de varanda fechada, em pés quadrados;[0, 1012];Discreta
+area_varanda_3estacoes;Área de varanda de três estações, em pés quadrados;[0, 508];Discreta
+area_varanda_tela;Área de varanda com tela, em pés quadrados;[0, 576];Discreta
+area_piscina;Área da piscina, em pés quadrados (0 = sem piscina);[0, 800];Discreta
+qualidade_piscina;Qualidade da piscina (NA = sem piscina);['Regular', 'Excelente'];Ordinal
+tipo_cerca;Tipo e qualidade da cerca (NA = sem cerca);['Privacidade mínima', 'Madeira ou arame mínimo'];Nominal
+item_extra;Item extra não coberto pelas demais colunas (galpão, quadra, elevador);['Segunda garagem', 'Quadra de tênis'];Nominal
+valor_item_extra;Valor do item extra, em dólares;[0, 17000];Discreta
+mes_venda;Mês da venda (1 a 12);[1, 12];Temporal
+ano_venda;Ano da venda (2006 a 2010);[2006, 2010];Temporal
+tipo_venda;Modalidade da venda;['Escritura convencional', 'Escritura com financiamento de veterano'];Nominal
+condicao_venda;Condição da venda (normal, parcial, familiar, execução);['Normal', 'Terreno adjacente'];Nominal
+preco_venda;Preço de venda em dólares — rótulo reservado, fora da modelagem;[12789, 755000];Discreta

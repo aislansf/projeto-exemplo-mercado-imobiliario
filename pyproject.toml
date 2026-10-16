@@ -22,6 +22,8 @@ dependencies = [
     "prince>=0.20.1",
     "circlify>=0.15.1",
     "xlrd>=2.0.2",
+    "category-encoders>=2.11.1",
+    "umap-learn>=0.5.12",
 ]
 
 [dependency-groups]
