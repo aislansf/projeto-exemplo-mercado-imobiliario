@@ -1,310 +1,207 @@
 # Avaliação dos resultados
 
-**CRISP-DM fase 5.** A fase 4 entregou um modelo. Esta fase pergunta se ele serve — e
-faz isso com o **rótulo reservado aberto**, o que não era permitido até aqui.
+**CRISP-DM fase 5.** Enquanto a modelagem compara algoritmos entre si, a avaliação
+pergunta outra coisa: **o modelo escolhido atende ao negócio?** A resposta vem do
+notebook `05-avaliacao` e fica registrada em `reports/05-avaliacao.json`.
 
-São quatro perguntas:
+| Etapa | Entrega |
+|:---|:---|
+| **5.1 Avaliar os resultados** | o modelo confrontado com os critérios de sucesso · impacto financeiro e operacional · decisão formal sobre a implantação |
+| **5.2 Revisar o processo** | as fases concluídas · lacunas e erros · descobertas e limitações |
+| **5.3 Determinar as próximas etapas** | próxima ação, com justificativa |
 
-1. o modelo cumpre o que o Canvas exigiu?
-2. a segmentação é uma tabela de preço disfarçada?
-3. os grupos existem fora do espaço em que foram criados?
-4. a fase 4 deixou um modelo melhor na mesa?
+!!! success "Decisão formal: aprovado para implantação, com ressalva"
+    5 de 6 critérios atendidos, **todos os críticos**. A ressalva é a separação dos
+    grupos: silhueta de 0,102, contra a meta não crítica de 0,25. No cenário financeiro
+    base, o resultado do primeiro ano é de **US$ 513** — o investimento se paga, mas
+    por margem mínima.
 
-## Confronto com os critérios de aceite
+## 5.1 · Avaliar os resultados
 
-![Critérios do Canvas](imagens/avaliacao/criterios-do-canvas.png)
+### O modelo avaliado
 
-| Origem | Critério | Medida | Situação |
-|:---|:---|:---|:-:|
-| Canvas §6 · técnico | Silhueta ≥ 0,15 | **0,1726** | ✅ |
-| Canvas §6 · técnico | Número de grupos entre 2 e 5 | **3 grupos** | ✅ |
-| Canvas §6 · técnico | Menor segmento ≥ 2% da carteira | **28,4%** | ✅ |
-| Canvas §6 · técnico | Estabilidade sob reamostragem: ARI ≥ 0,75 | médio **0,9575** · mínimo **0,9354** | ✅ |
-| Canvas §6 · técnico | ARI contra quartis de preço < 0,40 | **0,3345** | ✅ |
-| Canvas §6 · técnico | Ruído ≤ 10% da carteira | 0% — o modelo escolhido atribui grupo a todo imóvel | ✅ |
-| Canvas §11 · ação | Cada linha admite política de preço, teto de reforma, canal e métrica | 3 linhas com perfil, valor e geografia distintos | ✅ |
-| Canvas §4 · negócio | 100% do estoque com linha atribuída em 30 dias | 2.350 de 2.350 classificados; o prazo depende da fase 6 | ⏳ |
-| Canvas §4 · negócio | Ganho de preço sobre custo de reforma ≥ 1,8× | exige reformas executadas e revendas concluídas | ⏳ |
-| Canvas §4 · negócio | Giro do segmento de entrada: de 90 para 60 dias | exige a política em operação | ⏳ |
+**Mini batch k-means**, `batch_size` 64, **3 segmentos**, silhueta **0,102** — o
+vencedor da [varredura do 04-0](modelagem.md#a-escolha-do-modelo). A avaliação lê os
+segmentos de `data/processed/segmentos.csv` e o resumo de `models/selecionado.json`, sem
+reajustar nada.
 
-**7 de 7 critérios técnicos atendidos.** Os critérios de negócio não são falhas: são
-medições que só existem depois de a política entrar em operação, e estão instrumentadas
-no [plano de monitoramento](implementacao.md).
+### Os critérios de sucesso
 
-> Evidência: `reports/tables/avaliacao/criterios-do-canvas.csv`
+Os critérios foram declarados no código do notebook **antes** de o resultado ser lido.
+Os **críticos** traduzem o uso do modelo pela Meridiano: se algum falhar, o modelo não
+vai para implantação. Os **não críticos** são qualidade técnica: se falharem, o modelo
+pode seguir, com ressalva.
 
-### A cadeia inteira, conferida
+| Critério | Meta | Obtido | Atende | Crítico |
+|:---|:---|:---|:-:|:-:|
+| Segmentos operáveis | 2 a 5 | 3 | ✅ | sim |
+| Menor segmento | ≥ 10% da carteira | 23,8% | ✅ | sim |
+| O preço distingue os segmentos | razão ≥ 1,3 e p < 0,05 | 1,84 (p ≈ 0) | ✅ | sim |
+| Imóvel novo classificável | acurácia ≥ 85% | 96,9% | ✅ | sim |
+| Separação dos grupos | silhueta ≥ 0,25 | 0,102 | ❌ | não |
+| Cobertura da carteira | 100% com segmento | 100,0% | ✅ | não |
 
-Antes de julgar o resultado, a fase 5 reconstruiu a contagem de cada artefato:
+- **Preço.** O teste de Kruskal-Wallis verifica se os segmentos têm distribuições de
+  preço diferentes, e a razão entre medianas mede se a diferença é grande o bastante
+  para importar.
+- **Imóvel novo classificável.** Uma random forest aprende a atribuir o segmento a
+  partir das mesmas variáveis, em validação cruzada estratificada de 5 partes. A
+  acurácia estima quantos imóveis novos seriam classificados corretamente — e viabiliza
+  usar o modelo no dia a dia mesmo quando o algoritmo vencedor não classifica imóveis
+  novos sozinho.
 
-| Fase | Artefato | Imóveis | Colunas | Variação |
-|:---|:---|---:|---:|---:|
-| 2 · Carga | `data/raw/ames_housing.parquet` | 2.930 | 82 | — |
-| 2 · Curadoria | `data/processed/imoveis_curados.parquet` | 2.350 | 83 | **−580** |
-| 3 · Preparação | `data/processed/base_modelagem.parquet` | 2.350 | 24 | 0 |
-| 4 · Modelagem | `data/processed/base_segmentada.parquet` | 2.350 | 5 | 0 |
+### Quanto vale cada segmento
 
-![Auditoria da cadeia](imagens/avaliacao/auditoria-da-cadeia.png)
+| Segmento | Imóveis | % da carteira | Valor de venda (VGV) | % do VGV | Preço mediano | Área habitável | Qualidade | Idade |
+|:---|--:|--:|--:|--:|--:|--:|--:|--:|
+| **A** | 1.105 | 37,8% | US$ 268,8 mi | 50,8% | US$ 221.000 | 1.668 | 7 | 5 |
+| **B** | 1.124 | 38,4% | US$ 173,4 mi | 32,8% | US$ 145.000 | 1.227 | 5 | 43 |
+| **C** | 698 | 23,8% | US$ 87,0 mi | 16,4% | US$ 120.000 | 1.304 | 5 | 80 |
 
-E a auditoria de vazamento conferiu, artefato por artefato, que nenhuma das três
-variáveis reservadas — `preco_venda`, `preco_por_pe2` e `bairro` — chegou perto de um
-algoritmo:
+O **Segmento A** tem pouco mais de um terço dos imóveis e metade do valor de venda.
+Nenhum segmento é pequeno demais para uma ação dedicada: o menor, C, tem 698 imóveis.
 
-| Artefato | Papel | Reservadas encontradas |
-|:---|:---|:-:|
-| `data/processed/base_modelagem.parquet` | entrada de todo algoritmo | nenhuma ✅ |
-| `data/processed/base_segmentada.parquet` | saída da fase 4 | nenhuma ✅ |
-| `manifesto_modelagem.json · variaveis` | declaração do espaço do modelo | nenhuma ✅ |
-| `models/modelo-segmentacao.joblib` | o objeto que a fase 6 vai executar | nenhuma ✅ |
-| `models/preprocessador-euclidiano.joblib` | receita de pré-processamento | nenhuma ✅ |
+### A segmentação é uma tabela de preço disfarçada?
 
-A reserva foi **física**, não disciplinar: as colunas não estavam no arquivo.
+**Não foi medido na cadeia atual.** O critério de preço do 05 mede o oposto — que o
+preço **difere** entre os segmentos —, e o preço mediano cai na mesma ordem de A a C,
+porque é assim que os segmentos são nomeados.
 
-## Quanto vale cada segmento
+Há um indício em sentido contrário na própria tabela acima: **B e C têm preços
+medianos próximos** (US$ 145.000 e US$ 120.000) e área parecida, e são produtos muito
+diferentes — uma térrea de 43 anos no subúrbio e uma casa de 80 anos no centro, com
+garagem separada. A forma de responder com número é medir o índice de Rand ajustado
+entre os segmentos e as faixas de preço, o que fica como próxima etapa.
 
-![Valor por segmento](imagens/avaliacao/valor-por-segmento.png)
+### Impacto financeiro e operacional
 
-| Código | Linha | Imóveis | Preço mediano | US$/pé² | p10 – p90 | % da receita |
-|:--|:--|--:|--:|--:|:--|--:|
-| **S1** | Compacto herdado | 914 | US$ 125.000 | US$ 116,31 | 86 k – 150 k | 27,3% |
-| **S2** | Amplo para requalificar | 667 | US$ 165.000 | **US$ 105,42** | 135 k – 215 k | 27,9% |
-| **S3** | Recente de alto padrão | 769 | US$ 221.500 | **US$ 133,90** | 171 k – 325 k | **44,8%** |
+A base de cálculo é o valor de venda anual da carteira segmentada (VGV ÷ 5 anos
+cobertos pela base): **US$ 105,8 milhões por ano**. Sobre ele incide uma comissão de 6%,
+o que dá uma receita de **US$ 6,35 milhões por ano**. Cada cenário aplica um ganho de
+receita atribuído à segmentação, e o resultado do primeiro ano desconta a implantação
+(US$ 150 mil, uma vez) e a manutenção (US$ 40 mil por ano).
 
-Três leituras que a diretoria consegue usar:
+| Cenário | Ganho | Receita extra/ano | Resultado do ano 1 | ROI do ano 1 | Payback |
+|:---|--:|--:|--:|--:|--:|
+| Pessimista | 1% | US$ 63.504 | −US$ 126.496 | −67% | 76,6 meses |
+| Base | 3% | US$ 190.513 | US$ 513 | 0% | 12,0 meses |
+| Otimista | 5% | US$ 317.522 | US$ 127.522 | 67% | 6,5 meses |
 
-1. **Um terço das unidades responde por 44,8% da receita.** O S3 tem 32,7% da carteira e
-   quase metade do valor transacionado — é onde o desconto custa caro;
-2. **A alavanca de reforma está no S2, não no segmento mais caro.** O S2 tem o **menor
-   preço por pé² da carteira** (US$ 105,42 contra US$ 133,90 do S3), com 55% mais área
-   que o S1. É espaço barato que a reforma reprecifica;
-3. **O S1 é decisão de destino, não de preço.** 38,9% das unidades e 27,3% da receita,
-   com 39 anos desde a última reforma. A pergunta ali não é "por quanto vendo", é "vendo,
-   alugo ou desinvisto".
+!!! warning "Premissas hipotéticas, e um cenário base que empata"
+    Comissão, ganho de receita e custos são **hipóteses** do notebook, não números da
+    Meridiano. O cenário base fecha o primeiro ano com US$ 513 de resultado — positivo
+    pela regra de aprovação, mas, na prática, um empate. Um ganho real um pouco abaixo
+    de 3% já não paga a implantação no ano 1. As premissas precisam ser validadas com a
+    área comercial antes de qualquer investimento.
 
-## A segmentação é uma tabela de preço disfarçada?
+| Indicador operacional | Valor |
+|:---|:---|
+| Playbooks comerciais a manter | 3 (um por segmento) |
+| Imóveis da carteira com segmento | 100,0% |
+| Imóveis novos classificados corretamente | 96,9% |
+| Maior segmento (concentração da carga) | 38,4% da carteira |
+| Reciclagem recomendada | semestral ou a cada 10% de imóveis novos |
 
-Esta é a pergunta que decide se o projeto valeu a pena — e o critério foi declarado no
-Canvas **antes** de qualquer modelagem: ARI contra os quartis de `preco_venda` < 0,40.
+### Decisão formal
 
-![Independência do preço](imagens/avaliacao/independencia-do-preco.png)
+| | |
+|:---|:---|
+| Critérios críticos que falharam | **nenhum** |
+| Ressalvas (não críticos) | **Separação dos grupos** |
+| Resultado do ano 1 no cenário base | **US$ 513** |
+| Decisão | **Aprovado para implantação** |
 
-| *k* | Silhueta | ARI contra quartis | ARI contra a mediana | Passa |
-|:-:|---:|---:|---:|:-:|
-| 2 | 0,2468 | 0,2944 | 0,5343 | ✅ |
-| **3** | **0,1726** | **0,3345** | 0,4314 | ✅ |
-| 4 | 0,1388 | 0,3373 | 0,3198 | ✅ |
-| 5 | 0,1337 | 0,2991 | 0,2377 | ✅ |
-| 6 | 0,1320 | 0,2880 | 0,2151 | ✅ |
+A regra de aprovação é dupla: nenhum critério crítico pode falhar **e** o cenário base
+precisa se pagar no primeiro ano. As duas condições foram atendidas.
 
-**ARI 0,3345** — a segmentação e a faixa de preço concordam parcialmente, como não
-poderia deixar de ser (imóvel melhor custa mais), mas **não são a mesma partição**. Um
-terço de concordância é o que se espera de duas leituras correlacionadas e distintas.
+## 5.2 · Revisar o processo
 
-!!! note "O que a coluna da mediana mostra"
-    Contra um corte binário pela mediana de preço, o ARI sobe para **0,4314** em *k* = 3
-    — acima do teto. Isso é coerente e não contradiz o resultado: com três grupos
-    ordenados por padrão, separar "acima" e "abaixo" da mediana acerta mais do que
-    separar quatro quartis. O critério declarado é o dos **quartis**, e é ele que vale;
-    o número da mediana fica registrado para não parecer omissão.
+### Análise das fases
 
-## Validação externa: o bairro
+| Fase | Notebook | O que entregou | Situação |
+|:---|:---|:---|:---|
+| 1 · Entendimento do negócio | — | Canvas e critérios de sucesso | ✅ |
+| 2 · Entendimento dos dados | 00 · 01 | dicionário, escalas ordinais, exploração | ✅ lacuna 8 corrigida |
+| 3 · Preparação | 02 · 03 | base tratada (2.927 × 90) · MinMax + *one-hot* (236 variáveis no modelo) | ⚠️ ver lacunas 1 e 2 |
+| 4 · Modelagem | 04-0 · 04-1 · 04-2 · 04-3 | 11 algoritmos comparados · cotovelos · PCA/UMAP · regras de associação | ⚠️ ver lacunas 3 a 6 |
+| 5 · Avaliação | 05 | esta página | — |
 
-`bairro` **nunca entrou em algoritmo nenhum** — foi reservado fisicamente junto com o
-preço. Se os segmentos se distribuírem por bairro de forma não aleatória, eles existem
-fora do espaço em que foram criados.
+### Lacunas e erros identificados
 
-![Validação por bairro](imagens/avaliacao/validacao-por-bairro.png)
+As sete primeiras estão registradas no notebook 05; a oitava foi encontrada na revisão
+da documentação e já foi corrigida.
 
-Distribuição percentual dos segmentos nos dez maiores bairros:
+| # | Lacuna | Onde | Efeito | Correção |
+|:-:|:---|:---|:---|:---|
+| 1 | `preco_venda` e `subclasse` continuam na base pré-processada (o dicionário declara as duas como "Discreta") | 03 · 07 | Agrupar pelo preço e depois descrever pelo preço seria circular; `subclasse` é código, não medida | Já retiradas no 04; **mover a remoção para o 03** |
+| 2 | O *one-hot* com MinMax dá variância alta a categorias equilibradas | 03 | As categorias dominam a distância e o PCA (visto no 04-2) | Testar FAMD ou ponderar os blocos de variáveis |
+| 3 | O modelo foi escolhido na base inteira, sem validação cruzada (Ward e DBSCAN não classificam imóveis novos) | 04-0 | Risco de escolher pelo acaso — os três primeiros estão separados por 0,002 de silhueta | Mitigado pela acurácia em validação cruzada; medir a estabilidade por reamostragem |
+| 4 | Silhueta baixa em todos os algoritmos | 04-0 · 04-1 | Estrutura geométrica fraca em ~200 dimensões | Agrupar sobre as bases reduzidas do 04-2 |
+| 5 | Constantes do projeto (silhueta mínima, teto de ruído) definidas à mão nos notebooks | 04-1 · 05 | Risco de divergir de `src/config.py` | Centralizar no config |
+| 6 | K-Medianas e K-Medoids são classes definidas no notebook | 04-0 | O `.joblib` só carrega onde a classe existe | O 04-0 já salva `segmentos.csv`; mover as classes para `src` |
+| 7 | Premissas financeiras sem validação | 05 | O impacto pode estar super ou subestimado | Validar comissão, ganho e custos com a área comercial |
+| 8 | ~~Os rótulos das escalas ordinais do 00 não batiam com os da ingestão~~ | 00 · 01 · 02 | O nível "Típico" virava ausente e depois "item inexistente": 2.100 imóveis "sem garagem" contra 158 reais, seis colunas removidas no 02 | **Corrigida:** escala alinhada à ingestão, com conferência no próprio notebook 00 |
 
-| Bairro | S1 | S2 | S3 |
-|:---|---:|---:|---:|
-| Somerset | 2,6 | 2,6 | **94,7** |
-| College Creek | 21,7 | 4,4 | **73,9** |
-| Sawyer West | 18,8 | 11,9 | **69,3** |
-| Gilbert | 0,8 | 45,2 | **54,0** |
-| Northwest Ames | 5,1 | **76,9** | 17,9 |
-| Brookside | **81,6** | 17,3 | 1,0 |
-| Sawyer | **64,7** | 35,3 | 0,0 |
-| Old Town | **64,6** | 34,3 | 1,0 |
-| Edwards | **62,5** | 28,9 | 8,6 |
-| North Ames | **59,2** | 37,8 | 3,1 |
+!!! info "O que a correção da lacuna 8 mudou"
+    Na execução com o defeito, o vencedor era um mini batch k-means com **4 segmentos**,
+    e o menor deles tinha **6,4%** da carteira — o critério crítico de tamanho
+    reprovava o modelo e a decisão era **iterar mais**. Com as escalas corrigidas, a
+    base ganhou seis colunas de qualidade e a qualidade típica deixou de virar "item
+    inexistente". O vencedor passou a ter **3 segmentos**, o menor com 23,8%, e o modelo
+    foi aprovado. É a iteração do CRISP-DM acontecendo de fato: a revisão do processo
+    voltou à fase 2 e mudou a decisão da fase 5.
 
-**V de Cramér = 0,630.** A associação é forte e a leitura é geográfica: Somerset,
-College Creek e Sawyer West são loteamentos novos e concentram o S3; Brookside, Old Town
-e Sawyer são áreas consolidadas e concentram o S1. Northwest Ames é quase inteiramente
-S2 — bairro de casas amplas e antigas, exatamente a linha de requalificação.
+### Sumário das descobertas
 
-Nenhum piso foi declarado para este número: ele não é critério de aceite, é
-**confirmação independente**. Os grupos que o algoritmo achou no espaço construtivo têm
-correspondência num eixo que ele não viu.
+- A carteira foi dividida em **3 segmentos** pelo mini batch k-means; o menor tem 23,8%
+  dos imóveis.
+- O preço mediano vai de **US$ 120.000** a **US$ 221.000** (1,84×) entre os segmentos.
+- As variáveis que mais separam os segmentos, pela importância no classificador, são
+  **fundação, idade do imóvel e zoneamento**.
+- Um imóvel novo é atribuído ao segmento certo em **96,9%** dos casos.
+- A separação geométrica é **fraca** (silhueta 0,102): os segmentos são faixas de uma
+  carteira contínua, não grupos isolados.
 
-## A fase 4 deixou um modelo melhor na mesa?
+### Limitações do modelo
 
-A fase 5 não confia na fase 4: refez uma varredura ampla e independente, com **90
-configurações** — 10 algoritmos × *k* de 2 a 10 — e ordenou tudo por silhueta.
-
-![Melhor silhueta versus regra](imagens/avaliacao/melhor-silhueta-versus-regra.png)
-
-As dez maiores silhuetas da varredura:
-
-| Algoritmo | *k* | Silhueta | Menor grupo | Maior grupo | Admissível |
-|:---|:-:|---:|---:|---:|:-:|
-| Hierárquica (single) | 2 | **0,3213** | 1 (0,04%) | 100,0% | ❌ |
-| Hierárquica (single) | 3 | 0,3125 | 1 | 99,9% | ❌ |
-| Hierárquica (single) | 4 | 0,2950 | 1 | 99,9% | ❌ |
-| Hierárquica (average) | 2 | 0,2858 | 1 | 100,0% | ❌ |
-| K-Medoids (Gower) | 2 | 0,2543 | 46,6% | 53,4% | ❌ |
-| GMM (spherical) | 2 | 0,2471 | 39,9% | 60,1% | ✅ |
-| K-Means | 2 | 0,2468 | 41,3% | 58,7% | ✅ |
-
-![Armadilhas da silhueta](imagens/avaliacao/armadilhas-da-silhueta.png)
-
-!!! danger "As maiores silhuetas da varredura são degeneradas"
-    As quatro primeiras colocadas separam **um imóvel** do resto da carteira. A silhueta
-    é excelente porque a pergunta que ela responde — *os pontos estão perto dos seus e
-    longe dos outros?* — é trivialmente satisfeita por um grupo de tamanho 1.
-
-    É a demonstração mais limpa do projeto de que **métrica interna não é critério de
-    aceite**. Sem a regra do menor grupo ≥ 2%, escolhida antes de olhar o resultado, o
-    ranking por silhueta entregaria uma partição inútil.
-
-Entre as **28 configurações admissíveis**, as melhores são todas de *k* = 2 — e *k* = 2
-já havia sido descartado pela regra declarada na fase 4 (o maior *k* que passa em tudo).
-O K-Means com *k* = 3 é a melhor configuração admissível dentro da regra.
-
-### Confronto de *k* na ótica do negócio
-
-| *k* | Silhueta | Menor grupo | Menor receita | Desequilíbrio da receita | ARI vs. quartis | Passa nos critérios |
-|:-:|---:|---:|---:|---:|---:|:-:|
-| 2 | 0,2468 | 41,3% | 45,3% | 4,7 p.p. | 0,2944 | ✅ |
-| **3** | 0,1726 | 28,4% | 27,3% | 11,5 p.p. | 0,3345 | ✅ |
-| 4 | 0,1388 | 16,7% | 23,6% | **2,1 p.p.** | 0,3373 | ❌ |
-| 5 | 0,1337 | 14,6% | 11,8% | 8,2 p.p. | 0,2991 | ❌ |
-
-!!! warning "O candidato *k* = 4 e a fragilidade do piso único"
-    *k* = 4 tem a **receita mais equilibrada** de toda a faixa — 2,1 p.p. de
-    desequilíbrio contra 11,5 do *k* = 3 — e reprova por **0,0112** de silhueta.
-
-    Um piso único de 0,15 favorece *k* pequeno por construção: a silhueta decresce com
-    *k*, então um piso fixo é, na prática, um teto de granularidade. A recomendação que
-    saiu daqui é **declarar o piso por faixa de *k*, antes da próxima execução** — e ela
-    é uma revisão de critério, não de resultado. Enquanto o critério vigente for este,
-    *k* = 3 é a resposta.
-
-## As duas sensibilidades
-
-### Escala
-
-O agrupamento é sensível ao escalonador — e a evidência mostra por quê a padronização
-não é uma escolha estética:
-
-| Escalador | *k* = 3 · silhueta | Menor grupo | ARI contra a escala padrão |
-|:---|---:|---:|---:|
-| `padrao` | 0,1745 | 27,7% | — |
-| `minmax` | 0,2309 | 21,1% | **0,420** |
-| `robusto` | 0,1739 | 20,7% | **0,395** |
-| `sem_escala` | **0,5015** | 18,7% | **0,026** |
-
-**Sem escalonar, a silhueta triplica e a partição some.** ARI de 0,026 contra a escala
-padrão significa que é outro agrupamento — dominado por `area_terreno`, cuja amplitude é
-milhares de vezes maior que a de `banheiros_total`. A silhueta alta mede a separação de
-uma única variável, não da estrutura da carteira.
-
-### Dimensão
-
-| Dimensões | Variância retida | Silhueta **no espaço reduzido** | Silhueta **medida em 17** | ARI contra o espaço de 17 |
-|:-:|---:|---:|---:|---:|
-| 17 | 100,0% | 0,1726 | 0,1726 | 1,000 |
-| 8 | 82,8% | 0,2081 | 0,1695 | 0,942 |
-| 4 | 65,8% | 0,2749 | 0,1738 | 0,882 |
-| 2 | 51,7% | **0,3735** | 0,1719 | 0,850 |
-
-A armadilha está nas duas colunas do meio. Reduzir para 2 dimensões faz a silhueta
-saltar de 0,17 para **0,37** — se medida no espaço reduzido. Medida no espaço original,
-continua **0,17**. A redução não melhorou o agrupamento: melhorou a régua.
-
-## As perguntas SMART, respondidas
-
-| # | Pergunta | Resposta nesta cadeia | Situação |
-|:-:|:---|:---|:---|
-| 1 | Quantos grupos emergem, com silhueta ≥ 0,15 e no máximo 5? | **3** (silhueta 0,1726; base de 2.350) | resposta mudou |
-| 2 | Qual grupo concentra mais de 40% da receita? | **S3**, com 44,8% | mudou de rótulo, conclusão preservada |
-| 3 | Que combinações de até 3 atributos ocorrem com suporte ≥ 10% e lift ≥ 1,30? | **não refeita** — a cadeia não contém a etapa de regras | sem resposta |
-| 4 | Que percentual é ruído num DBSCAN com minPts = 2*d*? | a varredura **não encontrou** configuração com ruído no teto e grupos na faixa | resposta mudou |
-| 5 | A segmentação é distinguível de uma faixa de preço (ARI < 0,40)? | **sim** — ARI 0,3345 | conclusão confirmada, número atualizado |
-
-Três das cinco respostas mudaram em relação à cadeia anterior, e uma ficou sem resposta.
-Registrar isso é parte do resultado: a comparação entre o que se prometeu e o que se
-mediu é o que dá crédito ao que sobrou.
-
-> Evidência: `reports/tables/avaliacao/perguntas-smart.csv`
-
-## Limitações e hipóteses derrubadas
+- A base é histórica (vendas de 2006 a 2010 em Ames, EUA): a representatividade para a
+  carteira atual da Meridiano precisa ser confirmada.
+- O modelo descreve imóveis, não compradores: o perfil de quem compra cada segmento
+  ainda não foi medido.
+- O impacto financeiro depende de premissas não validadas.
+- Os segmentos refletem as escolhas de pré-processamento do 03; com outro peso para o
+  *one-hot*, eles podem mudar.
 
 ### Hipóteses derrubadas
 
-!!! failure "«O DBSCAN encontraria grupos de densidade que o K-Means não vê.»"
-    **Derrubada, e prevista.** O diagnóstico do espaço mediu razão joelho/mediana de
-    1,29 — sem degrau — antes de o algoritmo rodar. A varredura de 13 valores de `eps`
-    confirmou: ou 70% da carteira vira ruído, ou tudo colapsa num grupo com 98,7%.
-    Não há vale de densidade entre as linhas de produto.
+| Hipótese | O que a cadeia mostrou |
+|:---|:---|
+| A maior silhueta indica o melhor modelo | As maiores silhuetas do 04-1 (DBSCAN 0,232, Mean Shift 0,224) são de partições degeneradas: 83,1% de ruído, ou um grupo com 99,9% da carteira |
+| O DBSCAN encontrará grupos que os métodos de centroide não veem | Nenhuma configuração de densidade passou na regra de admissão |
+| O cotovelo e a silhueta apontam o mesmo *k* | No k-means, o cotovelo está em *k* = 4 e a maior silhueta em *k* = 3 |
+| A variável mais relevante para a redução é a mais relevante para o negócio | O topo do PCA é quase todo nominal por efeito da escala; o do UMAP é a idade (66,9%) |
+| A escala ordinal declarada no 00 cobre todos os níveis da base | Não cobria 18 das 22 colunas; corrigida (lacuna 8) |
 
-!!! failure "«A dissimilaridade de Gower, por tratar dados mistos, daria a melhor segmentação.»"
-    **Derrubada pela leitura do resultado.** Com peso igual por variável, `estilo`
-    domina: o segmento 0 fica com 78,3% de casas de um pavimento e o segmento 1 com
-    43,3% de 1.5Fin. É uma partição por fato construtivo, não por linha de produto. A
-    silhueta era maior — e medida em outro espaço métrico, portanto não comparável.
+## 5.3 · Determinar as próximas etapas
 
-!!! failure "«A maior silhueta indica o melhor modelo.»"
-    **Derrubada duas vezes.** As quatro maiores silhuetas da varredura ampla isolam
-    **um imóvel**; e sem escalonamento a silhueta triplica enquanto o ARI contra a
-    partição de referência cai para 0,026.
+A próxima ação sai de uma regra declarada antes de olhar o resultado:
 
-### Limitações declaradas
+| Situação | Próxima ação |
+|:---|:---|
+| Nenhum critério crítico falha e o cenário base se paga | **Implantação**, com as ressalvas registradas |
+| Algum critério crítico falha ou o cenário base não se paga, mas a maioria dos critérios é atendida | **Iterar mais**: voltar às fases 3 e 4 com as correções das lacunas |
+| A maioria dos critérios falha | **Novo projeto**: revisar a pergunta de negócio ou os dados |
 
-| Limitação | Natureza | Impacto |
-|:---|:---|:---|
-| **Não há tempo de permanência em estoque** | dado indisponível | A meta de giro do S1 é proposta de meta, não medição. Precisa de instrumentação |
-| **Não há custo de reforma executada** | dado indisponível | O retorno da reforma no S2 é estimado pelo diferencial de preço, não medido |
-| **A base descreve o produto, não o comprador** | limitação estrutural | Nenhuma ação de segmentação de **demanda** pode ser derivada daqui. É a limitação mais importante do projeto |
-| **Período 2006–2010** | restrição do dado | Inclui a crise imobiliária americana. A estrutura é estável no período, mas os patamares de preço não são preço corrente |
-| **O S2 é a linha assistida** | qualidade do agrupamento | 25,6% dos seus imóveis têm silhueta negativa. Não invalida a linha, mas exige revisão humana — ver a regra de fronteira |
-| **Mercado único** | escopo | Ames, Iowa, ~60 mil habitantes. A estrutura não se transfere sem reciclagem |
+!!! abstract "Próxima ação: implantação"
+    **Justificativa:** 5 de 6 critérios atendidos; críticos com falha: nenhum; resultado
+    do ano 1 no cenário base: US$ 513.
 
-## Próximas etapas
+    **Ação para o critério não atendido:**
 
-!!! info "Decisão formal"
-    - [x] **Implantar** — seguir para [Implementação](implementacao.md)
-    - [ ] Iterar
-    - [ ] Encerrar
+    - *Separação dos grupos:* reduzir a dimensionalidade (04-2) e revisar o peso do
+      *one-hot* no 03.
 
-    **Justificativa.** Os 7 critérios técnicos foram atendidos, a segmentação é estável
-    sob reamostragem (ARI 0,9575), generaliza ao conjunto retido (silhueta 0,1782, ARI
-    0,9403) e é reprodutível pelo artefato serializado. As limitações declaradas afetam
-    a **medição do efeito** das ações, não a validade da segmentação.
-
-O backlog que a fase 5 abriu para a fase 6, com critério de conclusão por item:
-
-| # | Etapa | Onde | Bloqueia a publicação |
-|:-:|:---|:---|:-:|
-| 1 | Reescrever o catálogo de personas para 3 segmentos | `src/model/personas.py` | sim |
-| 2 | Atualizar a documentação publicada para a cadeia 00–06 | `docs/`, `README.md`, `mkdocs.yml` | sim |
-| 3 | Atualizar as respostas SMART e registrar a revisão do Canvas | `docs/pbl/canvas-do-problema.md` | sim |
-| 4 | Tratar a fronteira entre segmentos na regra de atribuição | regra de atribuição | sim |
-| 5 | Instrumentar as métricas de negócio do Canvas §4 | plano de monitoramento | não |
-| 6 | Levar ao Canvas a revisão do piso de silhueta e o candidato *k* = 4 | Canvas §6 | não |
-| 7 | Decidir o destino da meta de mineração não entregue | Canvas §5 | não |
-| 8 | Definir o gatilho de reciclagem do modelo | plano de monitoramento | não |
-
-![Próximas etapas](imagens/avaliacao/proximas-etapas.png)
-
-O que a fase 6 fez com cada um está em [Implementação](implementacao.md).
-
-## Reprodução
-
-```bash
-uv run invoke notebooks     # a fase 5 é o notebook 05
-```
-
-As tabelas desta página estão em `reports/tables/avaliacao/`.
+    **Para a implantação:** expor o classificador para atribuir imóveis novos, publicar
+    os playbooks por segmento e agendar a reciclagem. Antes da entrada em produção, falta
+    dar persona e ação a cada segmento, medir a linha de base do monitoramento e validar
+    as premissas financeiras — ver [Implementação](implementacao.md#plano-de-implantacao).

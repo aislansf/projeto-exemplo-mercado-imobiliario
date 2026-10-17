@@ -1,7 +1,0 @@
-﻿etapa;registros;removidos;pct_do_total
-Base bruta;2930;0;100,0
-Descartar os registros com mais de 5% dos campos vazios;2929;1;100,0
-Remover os imóveis com área habitável acima de 4.000 pés²;2924;5;99,8
-Remover os valores extremos, além de 3×IQR em qualquer atributo;2848;76;97,2
-Remover as vendas não normais;2356;492;80,4
-Remover os cadastros sem dormitório acima do solo e sem banheiro completo;2350;6;80,2

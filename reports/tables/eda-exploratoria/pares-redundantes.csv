@@ -1,9 +1,0 @@
-﻿variavel_a;variavel_b;correlacao
-qualidade_geral;preco_venda;0,809
-area_habitavel;comodos;0,808
-preco_venda;bairro;0,757
-qualidade_geral;bairro;0,739
-qualidade_externa;bairro;0,734
-qualidade_externa;qualidade_cozinha;0,724
-area_habitavel;preco_venda;0,724
-qualidade_geral;qualidade_externa;0,72

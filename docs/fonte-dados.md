@@ -110,8 +110,7 @@ data/raw/
 
 Cada linha é **uma transação de um imóvel residencial** (`PID`).
 
-A conferência está no notebook `01`: as 2.930 linhas têm 2.930 valores distintos de
-`PID`, sem duplicidade completa. Nenhum imóvel aparece duas vezes — não há, portanto,
+As 2.930 linhas têm 2.930 valores distintos de `PID`, sem duplicidade completa. Nenhum imóvel aparece duas vezes — não há, portanto,
 o problema clássico de somar o mesmo ativo mais de uma vez.
 
 A tabela é **achatada**: traz embutidas as dimensões de terreno, construção, garagem,
@@ -131,11 +130,11 @@ As métricas aditivas são poucas, porque a base é predominantemente descritiva
 ```mermaid
 flowchart LR
     A["jse.amstat.org<br/>2.930 × 82 · 0,96 MB"] --> B["data/raw<br/>cópia imutável + manifesto"]
-    B --> C["data/processed/imoveis_curados<br/>2.350 × 83 · limpa e derivada"]
-    C --> D["data/processed/base_modelagem<br/>2.350 × 24 · sem as reservadas"]
-    D --> E["data/processed/base_segmentada<br/>2.350 × 5 · com o segmento"]
-    E --> F["models/<br/>pacote .pkl + linha de base"]
-    E --> G["reports/<br/>figuras e tabelas"]
+    B --> C["data/processed/ames_housing_tratado<br/>2.927 × 90 · notebooks 01 e 02"]
+    C --> P["data/processed/ames_housing_preprocessed<br/>2.927 × 238 · notebook 03"]
+    P --> D["data/processed/segmentos<br/>segmento de cada imóvel · 04-0"]
+    D --> F["models/<br/>modelo do 04-0 + selecionado.json"]
+    D --> G["reports/05-avaliacao.json<br/>critérios e cenários · 05"]
 ```
 
 A carga é implementada em `src/data/ingestao.py` e é **idempotente**: se o arquivo já

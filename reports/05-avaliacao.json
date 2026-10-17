@@ -1,0 +1,82 @@
+{
+  "modelo": {
+    "modelo": "mini batch k-means",
+    "params": "{'batch_size': 64, 'n_clusters': 3}",
+    "grupos": 3,
+    "silhueta": 0.1015665888733022,
+    "arquivo": "model_imoveis_mini_batch_k_means.joblib"
+  },
+  "criterios": [
+    {
+      "critério": "Segmentos operáveis",
+      "meta": "2 a 5",
+      "obtido": "3",
+      "atende": true,
+      "crítico": true
+    },
+    {
+      "critério": "Menor segmento",
+      "meta": "≥ 10% da carteira",
+      "obtido": "23.8%",
+      "atende": true,
+      "crítico": true
+    },
+    {
+      "critério": "Preço distingue os segmentos",
+      "meta": "razão ≥ 1.3 e p < 0,05",
+      "obtido": "1.84 (p = 0.0e+00)",
+      "atende": true,
+      "crítico": true
+    },
+    {
+      "critério": "Imóvel novo classificável",
+      "meta": "acurácia ≥ 85%",
+      "obtido": "96.9%",
+      "atende": true,
+      "crítico": true
+    },
+    {
+      "critério": "Separação dos grupos",
+      "meta": "silhueta ≥ 0.25",
+      "obtido": "0.102",
+      "atende": false,
+      "crítico": false
+    },
+    {
+      "critério": "Cobertura da carteira",
+      "meta": "100% com segmento",
+      "obtido": "100.0%",
+      "atende": true,
+      "crítico": false
+    }
+  ],
+  "cenarios_financeiros": [
+    {
+      "cenario": "pessimista",
+      "ganho": 0.01,
+      "receita_extra": 63504.46,
+      "resultado_ano1": -126495.54,
+      "roi_ano1": -0.67,
+      "payback_meses": 76.58
+    },
+    {
+      "cenario": "base",
+      "ganho": 0.03,
+      "receita_extra": 190513.39,
+      "resultado_ano1": 513.39,
+      "roi_ano1": 0.0,
+      "payback_meses": 11.96
+    },
+    {
+      "cenario": "otimista",
+      "ganho": 0.05,
+      "receita_extra": 317522.31,
+      "resultado_ano1": 127522.31,
+      "roi_ano1": 0.67,
+      "payback_meses": 6.49
+    }
+  ],
+  "aprovado": true,
+  "proxima_acao": "Implantação",
+  "justificativa": "5 de 6 critérios atendidos; críticos com falha: nenhum; resultado do ano 1 no cenário base: $513."
+}

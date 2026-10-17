@@ -1,6 +1,0 @@
-﻿onde;o_que_afirma;o_que_a_medida_diz;acao;gravidade
-docs/ · README.md · mkdocs.yml;Carteira de 2.925 imóveis, quatro linhas de produto, persona S4;2.350 imóveis curados, 3 linhas de produto;Reescrever as páginas de modelagem, avaliação e implantação sobre a cadeia 00–04;alta
-src/model/personas.py;Catálogo com 3 personas;O modelo em produção tem 3 segmentos;Reescrever o catálogo para 3 personas a partir do perfil medido na fase 4, e travar com teste que compare len(PERSONAS) ao k do manifesto;alta
-docs/pbl/canvas-do-problema.md §9;Cinco perguntas SMART com respostas da base anterior;"Três das cinco mudaram de resposta; uma ficou sem resposta";Atualizar as respostas e registrar a revisão na tabela de revisões do Canvas;alta
-docs/pbl/canvas-do-problema.md §5;Regras de associação como validação independente e anomalia como subproduto;A cadeia 00–04 não contém nenhuma das duas etapas;"Reconstruir a etapa de regras sobre a base curada, ou revisar a meta de mineração no Canvas — as duas saídas são aceitáveis; o silêncio não é";média
-src/pipeline/avaliacao.py;Consome `codigo_segmento`, `fora_de_padrao_dbscan` e tabelas de associação;Nenhum desses artefatos é produzido pela cadeia atual;Reescrever o módulo sobre os artefatos da cadeia 00–05 ou removê-lo do pacote;média

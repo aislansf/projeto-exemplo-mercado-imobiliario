@@ -1,9 +1,0 @@
-﻿slide;titulo;publico;mensagem;evidencia;minutos
-1;O que a Meridiano pediu, e o que recebeu;Patrocinador;3 linhas de produto com ação, teto e métrica, sobre 2.350 imóveis classificados;docs/imagens/implantacao/resultados-do-projeto.png;3
-2;As três linhas de produto;Diretoria Comercial;Perfil, peso em unidades e peso em receita de cada linha;docs/imagens/implantacao/linhas-de-produto.png;6
-3;O que muda na operação de cada linha;Diretoria Comercial e Gerência de Ativos;Política de preço, teto de reforma, canal e métrica por linha;reports/tables/implantacao/catalogo-de-personas.csv;5
-4;A segmentação não é uma tabela de preço;Patrocinador e Diretoria Comercial;ARI 0.3345 contra os quartis de preço e V de Cramér 0.630 contra bairro;docs/imagens/avaliacao/independencia-do-preco.png;4
-5;Onde o modelo diz que não sabe;Gerência de Ativos;339 imóveis (14.4%) na faixa de fronteira, com lista nominal para revisão;docs/imagens/implantacao/calibracao-da-fronteira.png;4
-6;Como entra em produção;Todos;"Três janelas com go/no-go; a primeira é em sombra, sem mudar ação comercial nenhuma";docs/imagens/implantacao/janelas-de-implantacao.png;4
-7;Como se saberá que o modelo envelheceu;Área de Dados e patrocinador;"6 indicadores com limiar e dono; primeira leitura já publicada, sem nenhum gatilho disparado";docs/imagens/implantacao/painel-de-saude.png;4
-8;O que fica pendente e o que precisamos decidir hoje;Todos;As deliberações, com responsável e prazo — inclusive os três campos que o sistema comercial precisa passar a coletar;reports/tables/implantacao/deliberacoes.csv;4

@@ -1,6 +1,0 @@
-﻿modelo;silhueta;menor_grupo_pct;ari_medio;ari_minimo;silhueta_no_retido;ari_no_retido;aprovado;criterios_reprovados;silhueta ≥ 0.15;menor grupo ≥ 2%;ARI médio ≥ 0.75;ARI mínimo ≥ 0.75;hold-out: silhueta ≥ 0.15;hold-out: ARI ≥ 0.75;leitura de negócio;dentro do protocolo
-K-Means;0,1726;28,4;0,9575;0,9354;0,1782;0,9403;True;0;True;True;True;True;True;True;True;True
-Hierárquica (ward);0,1277;20,4;0,4345;0,3407;0,1807;0,3988;False;4;False;True;False;False;True;False;True;True
-GMM (full);0,1169;7,2;0,9109;0,4465;0,1204;0,9875;False;3;False;True;True;False;False;True;True;True
-GMM (diag) · fora do protocolo;0,2015;8,5;0,9907;0,9821;0,2014;0,9709;False;1;True;True;True;True;True;True;True;False
-K-Medoids (Gower);0,2232;19,8;0,8505;0,3031;0,2202;1,0;False;2;True;True;True;False;True;True;False;True

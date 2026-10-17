@@ -45,11 +45,6 @@ ARQUIVO_BRUTO_PARQUET = DATA_RAW / "ames_housing.parquet"
 BASE_CURADA = DATA_PROCESSED / "imoveis_curados.parquet"
 MATRIZ_MODELAGEM = DATA_PROCESSED / "matriz_modelagem.parquet"
 
-#: Pacote autocontido que a aplicação consome. Gravado pelo notebook 06.
-PACOTE_APLICACAO = MODELS / "aplicacao-segmentacao.pkl"
-#: Catálogo das linhas de produto publicado pela mesma fase.
-CATALOGO_DE_PERSONAS = MODELS / "catalogo_de_personas.json"
-
 # --------------------------------------------------------------------------- #
 # Reprodutibilidade
 # --------------------------------------------------------------------------- #

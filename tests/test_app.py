@@ -1,134 +1,110 @@
-"""Testes da aplicação servida pelo pacote ``.pkl``.
+"""Testes da aplicação servida pelos artefatos dos notebooks.
 
-O que precisa de teste aqui não é o K-Means — é o **contrato entre o pacote e a
-tela**: o formato recusado quando não bate, o campo ausente completado pelo
-contrato e, sobretudo, a promessa de que a releitura do artefato reproduz a
-partição publicada. Um modelo que classifica diferente depois de serializado é o
-modo de falha clássico da fase de implantação.
+O que precisa de teste aqui não é o agrupamento — é o **contrato entre os
+notebooks e a tela**: o pré-processador reconstruído tem de ser o mesmo do 03, a
+releitura do modelo tem de reproduzir a partição gravada pelo 04-0 e o imóvel
+incompleto tem de ser completado sem virar zero silencioso. Um modelo que
+classifica diferente fora do notebook é o modo de falha clássico da implantação.
 """
 
-import pickle
-
+import numpy as np
 import pandas as pd
 import pytest
 
-from src.app import pacote as pac
+from src.app import artefatos as art
 
 pytestmark = pytest.mark.skipif(
-    not pac.CAMINHO_PACOTE.exists(),
-    reason="o pacote ainda não foi gravado — execute `invoke notebooks`",
+    bool(art.arquivos_ausentes()),
+    reason="os artefatos ainda não foram gravados — execute `invoke notebooks`",
 )
-
-BASE_DE_TREINO = pac.RAIZ / "data" / "processed" / "base_modelagem.parquet"
 
 
 @pytest.fixture(scope="module")
-def pacote() -> dict:
-    """O pacote publicado, lido uma vez para todos os testes do módulo."""
-    return pac.carregar()
+def artefatos() -> art.Artefatos:
+    """Os artefatos lidos uma vez para todos os testes do módulo."""
+    return art.carregar()
 
 
 # --------------------------------------------------------------------------- #
-# Carga e validação do artefato
+# Carga e coerência entre notebooks
 # --------------------------------------------------------------------------- #
 
 
-def test_pacote_traz_tudo_que_a_tela_precisa(pacote):
-    assert pacote["formato"] == pac.FORMATO_SUPORTADO
-    for chave in pac.CHAVES_EXIGIDAS:
-        assert chave in pacote
-    assert len(pac.espaco(pacote)) == len(pacote["contrato"]["padroes"])
-    assert set(pac.rotulos(pacote)) == set(pac.espaco(pacote))
+def test_preprocessamento_reconstruido_confere_com_o_03(artefatos):
+    assert artefatos.confere_com_03
+    assert len(artefatos.X) == len(artefatos.base) == len(artefatos.rotulos)
 
 
-def test_formato_desconhecido_e_recusado(tmp_path):
-    """A tela não pode exibir número de um pacote que não sabe interpretar."""
-    caminho = tmp_path / "outro-formato.pkl"
-    caminho.write_bytes(pickle.dumps({"formato": "outra.coisa/9"}))
-    with pytest.raises(pac.PacoteInvalido):
-        pac.carregar(caminho)
+def test_modelo_relido_reproduz_os_segmentos_do_04_0(artefatos):
+    if not artefatos.classifica_novos:
+        pytest.skip("o modelo vencedor não tem predict")
+    assert artefatos.concordancia == 1.0
 
 
-def test_pacote_ausente_avisa_em_vez_de_estourar_generico(tmp_path):
-    with pytest.raises(FileNotFoundError):
-        pac.carregar(tmp_path / "nao-existe.pkl")
+def test_segmento_a_e_o_de_maior_preco_mediano(artefatos):
+    perfil = art.perfil(artefatos)
+    assert perfil.index[0] == "Segmento A"
+    assert perfil["preco_mediano"].is_monotonic_decreasing
+    assert perfil["pct_carteira"].sum() == pytest.approx(100)
 
 
-# --------------------------------------------------------------------------- #
-# Preparo da entrada
-# --------------------------------------------------------------------------- #
-
-
-def test_registro_sai_na_ordem_do_treino_e_completa_o_que_falta(pacote):
-    registro = pac.montar_registro({"area_habitavel": 1500}, pacote)
-    assert list(registro.columns) == pac.espaco(pacote)
-    assert registro.loc[0, "area_habitavel"] == 1500
-    assert registro.loc[0, "idade_imovel"] == pac.padroes(pacote)["idade_imovel"]
-    assert not registro.isna().to_numpy().any()
-
-
-def test_campos_completados_denunciam_a_suposicao(pacote):
-    completados = pac.campos_completados({"area_habitavel": 1500}, pacote)
-    assert "area_habitavel" not in completados
-    assert len(completados) == len(pac.espaco(pacote)) - 1
-
-
-def test_valor_fora_da_faixa_aceita_vira_aviso(pacote):
-    avisos = pac.conferir_contrato({"area_habitavel": 99_000}, pacote)
-    assert avisos and "fora da faixa aceita" in avisos[0]
-    assert pac.conferir_contrato({"area_habitavel": 1500}, pacote) == []
+def test_artefato_ausente_avisa_o_notebook_que_grava(monkeypatch):
+    ausente = (art.config.MODELS / "nao-gravado.json", "04-0", True)
+    monkeypatch.setitem(art.ARQUIVOS, "selecionado", ausente)
+    assert art.arquivos_ausentes()[0][1] == "04-0"
+    with pytest.raises(art.ArtefatosAusentes):
+        art.carregar()
 
 
 # --------------------------------------------------------------------------- #
-# Classificação
+# Imóveis novos
 # --------------------------------------------------------------------------- #
 
 
-def test_perfil_mediano_de_cada_linha_volta_para_a_propria_linha(pacote):
-    """O imóvel mediano de um segmento não pode cair em outro."""
-    perfil = pacote["catalogo"]["perfil_por_linha"]
-    for segmento in perfil.index:
-        atributos = {campo: float(perfil.loc[segmento, campo]) for campo in pac.espaco(pacote)}
-        resultado = pac.classificar(atributos, pacote)
-        assert resultado["segmento"] == segmento
-        assert resultado["confianca"] == "núcleo"
+def test_imovel_da_carteira_volta_para_o_proprio_segmento(artefatos):
+    carteira = art.carteira(artefatos)
+    for posicao in np.random.default_rng(42).choice(len(carteira), size=20, replace=False):
+        imovel = artefatos.base.iloc[posicao][artefatos.colunas_de_entrada].to_dict()
+        resultado = art.classificar(artefatos, imovel)
+        assert resultado["segmento"] == carteira.iloc[posicao]["segmento"]
+        assert resultado["completados"] == []
 
 
-def test_faixa_de_confianca_respeita_os_cortes_calibrados(pacote):
-    nucleo = pacote["atribuicao"]["corte_de_nucleo"]
-    fronteira = pacote["atribuicao"]["corte_de_fronteira"]
-    assert pac.faixa_de_confianca(nucleo - 0.01, pacote) == "núcleo"
-    assert pac.faixa_de_confianca(nucleo, pacote) == "típico"
-    assert pac.faixa_de_confianca(fronteira, pacote) == "fronteira"
-    assert pac.faixa_de_confianca(1.0, pacote) == "fronteira"
+def test_campo_em_branco_e_completado_pelo_vizinho(artefatos):
+    resultado = art.classificar(artefatos, {"area_habitavel": 1500, "bairro": None})
+    assert resultado["informados"] == ["area_habitavel"]
+    assert "bairro" in resultado["completados"]
+    assert resultado["registro"]["area_habitavel"] == 1500
+    assert resultado["vizinho"] in set(artefatos.base["pid"])
+    assert resultado["segmento"] in artefatos.segmentos
+    assert 0 < resultado["razao_de_fronteira"] <= 1
+    assert resultado["segundo_mais_proximo"] != resultado["segmento"]
 
 
-def test_fronteira_bloqueia_a_acao_automatica(pacote):
-    """A regra operacional que a tela promete: na fronteira, ninguém age sozinho."""
-    perfil = pacote["catalogo"]["perfil_por_linha"]
-    atributos = {campo: float(perfil.loc[0, campo]) for campo in pac.espaco(pacote)}
-    resultado = pac.classificar(atributos, pacote)
-    assert resultado["acao_automatica_liberada"] is (resultado["confianca"] != "fronteira")
-    assert resultado["segundo_mais_proximo"] != resultado["codigo"]
-    assert len(resultado["distancias"]) == pacote["modelo"]["k"]
+def test_categoria_desconhecida_e_recusada(artefatos):
+    with pytest.raises(ValueError, match="não existe na base"):
+        art.classificar(artefatos, {"bairro": "Bairro que não existe"})
+    with pytest.raises(ValueError, match="fora da escala"):
+        art.classificar(artefatos, {"qualidade_geral": 11})
+    with pytest.raises(ValueError, match="não existem na base curada"):
+        art.classificar(artefatos, {"coluna_inventada": 1})
 
 
-def test_lote_completa_colunas_ausentes_e_preserva_as_extras(pacote):
-    entrada = pd.DataFrame({"matricula": [1, 2], "area_habitavel": [900.0, 2600.0]})
-    saida = pac.classificar_lote(entrada, pacote)
-    assert list(saida["matricula"]) == [1, 2]
-    assert set(saida["codigo_segmento"]) <= set(pac.linhas_de_produto(pacote)["codigo"])
-    assert saida["razao_de_fronteira"].between(0, 1).all()
+def test_lote_reproduz_a_carteira(artefatos):
+    obtido = art.classificar_lote(artefatos, artefatos.base)
+    assert (obtido["segmento"] == art.carteira(artefatos)["segmento"]).all()
+    assert (obtido["erro"] == "").all()
 
 
-@pytest.mark.skipif(not BASE_DE_TREINO.exists(), reason="base de modelagem não materializada")
-def test_releitura_do_pacote_reproduz_a_particao_publicada(pacote):
-    """O critério de aceite da fase 6, verificado por teste em vez de por promessa."""
-    base = pd.read_parquet(BASE_DE_TREINO)
-    obtido = pac.classificar_lote(base, pacote).set_index(base["pid"])
-    publicado = pac.carteira(pacote).set_index("pid")
-
-    comum = obtido.index.intersection(publicado.index)
-    assert len(comum) == len(publicado)
-    assert (obtido.loc[comum, "segmento"] == publicado.loc[comum, "segmento"]).all()
-    assert (obtido.loc[comum, "confianca"] == publicado.loc[comum, "confianca"]).all()
+def test_lote_preserva_extras_e_isola_a_linha_com_erro(artefatos):
+    entrada = pd.DataFrame(
+        {
+            "matricula": [1, 2, 3],
+            "area_habitavel": [900.0, 2600.0, None],
+            "bairro": ["Old Town", "Bairro que não existe", None],
+        }
+    )
+    saida = art.classificar_lote(artefatos, entrada)
+    assert list(saida["matricula"]) == [1, 2, 3]
+    assert pd.isna(saida.loc[1, "segmento"]) and saida.loc[1, "erro"]
+    assert set(saida.loc[[0, 2], "segmento"]) <= set(artefatos.segmentos)

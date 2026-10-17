@@ -1,8 +1,0 @@
-﻿familia;configuracao;espaco;parametro_varrido;execucoes
-Particional;K-Means;euclidiano;k = 2…10;9
-Particional;K-Medoids;Gower;no k decidido em 3.3;1
-Hierárquica;Aglomerativa;euclidiano;4 ligações;4
-Densidade;DBSCAN;euclidiano;13 valores de eps, minPts = 2d;13
-Densidade;Mean Shift;euclidiano;4 quantis de largura de banda;4
-Probabilística;GMM;euclidiano;4 covariâncias × k = 2…5;16
-—;TOTAL;—;—;47

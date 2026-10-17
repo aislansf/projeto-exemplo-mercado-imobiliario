@@ -1,7 +1,7 @@
 {
   "modelo": "mini batch k-means",
-  "params": "{'batch_size': 256, 'n_clusters': 4}",
-  "grupos": 4,
-  "silhueta": 0.10470296330265197,
+  "params": "{'batch_size': 64, 'n_clusters': 3}",
+  "grupos": 3,
+  "silhueta": 0.1015665888733022,
   "arquivo": "model_imoveis_mini_batch_k_means.joblib"
 }

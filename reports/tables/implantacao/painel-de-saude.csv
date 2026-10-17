@@ -1,7 +1,0 @@
-﻿indicador;valor;limiar;sentido;margem;situacao
-Data drift (PSI máximo);0,0369;0,25;teto;0,852;folga
-Atributos em atenção;0,0;3,0;teto;1,0;folga
-Coesão no período novo;0,1751;0,15;piso;0,143;folga
-Variação de composição (p.p.);3,79;10,0;teto;0,621;folga
-Imóveis em fronteira (%);14,425531914893616;15,0;teto;0,038;margem estreita
-ARI da reciclagem;0,9366;0,75;piso;0,199;folga

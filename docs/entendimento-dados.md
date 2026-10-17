@@ -6,10 +6,10 @@ qualidade** e **o que isso impede ou permite** dentro dos objetivos do projeto.
 ## Dados iniciais
 
 Os dados vêm da carga única descrita em [Fonte de dados](fonte-dados.md). A apuração
-desta página está no notebook
-[`01-entendimento-e-descricao-dos-dados`](https://github.com/aislansf/projeto-exemplo-mercado-imobiliario/blob/main/notebooks/01-entendimento-e-descricao-dos-dados.ipynb)
-e no módulo `src/data/qualidade.py`. As tabelas citadas estão em
-`reports/tables/eda/`.
+desta página está nos notebooks `00-dicionario-dados` (tipos e escalas) e
+`01-analise-exploratoria` (exploração), e no módulo `src/data/qualidade.py`, que a
+tarefa `uv run invoke eda` executa. As tabelas citadas estão em `docs/tabelas/` (notebook
+01) e em `reports/tables/eda/` (`invoke eda`).
 
 ## Descrição dos dados
 
@@ -129,75 +129,91 @@ variação entre bairros, que é exatamente a informação útil da coluna.
    explicitamente, e a coluna deixou de ser candidata a descarte.
 
 2. **Um imóvel tem garagem construída no ano 2207.** Erro de digitação evidente: o
-   imóvel foi vendido em 2007 e construído em 2006.
+   imóvel foi vendido em 2007.
    → *Consequência:* sem a correção, a idade da garagem fica negativa em 200 anos e
-   domina qualquer padronização. Corrigido em `_corrigir_inconsistencias`.
+   domina qualquer normalização. O notebook 02 troca o valor por 2007.
 
 3. **Três colunas são praticamente constantes.** `Street` (99,6% `Pave`), `Utilities`
    (99,9% `AllPub`) e `Pool Area` (99,6% zeros).
-   → *Consequência:* variância desprezível não separa grupo nenhum e ainda gera
-   divisão por zero na padronização. Nenhuma entra no espaço de atributos.
+   → *Consequência:* variância desprezível não separa grupo nenhum. Na cadeia atual
+   elas ainda entram no *one-hot* do notebook 03; só o 04-3 descarta, nas regras, os
+   itens presentes em mais de 90% dos imóveis.
 
-4. **Cinco imóveis acima de 4.000 pés² são vendas parciais atípicas.** O próprio autor
-   da base recomenda removê-los (De Cock, 2011, §4).
-   → *Consequência:* removidos na preparação. É a diferença entre uma decisão
-   citável e um corte de conveniência.
+4. **Cinco imóveis acima de 4.000 pés² são vendas atípicas.** O próprio autor da base
+   recomenda removê-los (De Cock, 2011, §4).
+   → *Consequência:* o notebook 02 remove os **três** que são vendas parciais com preço
+   incompatível; os outros dois ficam.
 
-5. **A área do terreno tem assimetria de 13,20.** Cauda longa legítima — são lotes
+5. **A área do terreno tem assimetria de 12,8.** Cauda longa legítima — são lotes
    grandes de verdade, não erro de digitação.
-   → *Consequência:* discrepante legítimo não se remove. Remover o lote grande
-   apagaria justamente o segmento de alto padrão que a diretoria quer enxergar. A
-   resposta é `log1p`, não exclusão.
+   → *Consequência:* discrepante legítimo não se remove. A cadeia atual também não
+   transforma a coluna: o MinMax do 03 só a leva para 0–1, e quase todos os lotes ficam
+   perto de zero nessa escala.
 
-6. **17,7% das vendas não são "normais"** — são parciais, familiares, execuções ou
+6. **17,6% das vendas não são "normais"** — são parciais, familiares, execuções ou
    realocações.
    → *Consequência:* mantidas. A condição da venda descreve a **transação**, não o
-   **produto**: para segmentar o imóvel, uma venda entre familiares continua sendo um
-   imóvel válido. A coluna fica reservada para análise de sensibilidade.
+   **produto**, mas na cadeia atual ela entra no espaço do modelo pelo *one-hot*, e
+   pesa: aparece entre as variáveis relevantes no PCA e no UMAP do 04-2.
 
 7. **`bairro` explica 56% da variância da qualidade geral e 78% da idade do imóvel**
    (razão de correlação η²) — de longe a nominal com maior poder explicativo.
-   → *Consequência:* confirma que o bairro carrega informação de produto e, por
-   tabela, de preço. Reforça a decisão de mantê-lo **fora** da modelagem e usá-lo como
-   régua de validação externa. Incluí-lo faria o algoritmo redescobrir a localização
-   por caminho indireto.
+   → *Consequência:* o bairro carrega informação de produto e, por tabela, de preço.
+   Na cadeia atual ele **entra** no espaço do modelo pelo *one-hot* e é a variável de
+   maior peso no PCA (8,2%). Com isso, ele deixa de servir como régua de validação
+   externa, como era o plano.
 
-A coleção completa, com as 21 entradas e a consequência de cada uma, está em
+A coleção registrada pelo notebook 01, com 12 entradas, está em
 [Análise exploratória](analise-exploratoria.md#colecao-de-insights).
 
 ## Dimensões-chave
 
 ### As escalas ordinais
 
-Vinte colunas da base são **ordinais disfarçadas de texto**. `Ex > Gd > TA > Fa > Po`
-tem ordem semântica: excelente, bom, típico, regular, ruim. Tratá-las como nominais e
-aplicar *one-hot* destruiria a ordem e multiplicaria a dimensionalidade sem ganho.
+Vinte e duas colunas da base são **ordinais**, a maioria disfarçada de texto.
+`Ex > Gd > TA > Fa > Po` tem ordem semântica: excelente, bom, típico, regular, ruim.
+Tratá-las como nominais e aplicar *one-hot* destruiria a ordem e multiplicaria a
+dimensionalidade sem ganho.
 
-| Valor | Descrição | Regra de derivação |
+O notebook 00 declara a escala de cada ordinal e a grava em
+`data/processed/escala.csv`. O 03 troca cada nível pela sua posição na escala, e o
+rótulo de ausência do 02 (`Sem porão`, `Sem garagem`…) entra como o menor nível:
+
+| Valor na base | Origem | Código |
 |:---|:---|:---|
-| `Ex` | Excelente | → 5 |
-| `Gd` | Bom | → 4 |
-| `TA` | Típico / médio | → 3 |
-| `Fa` | Regular | → 2 |
-| `Po` | Ruim | → 1 |
-| `NA` | O item não existe | → **0** |
+| Excelente | `Ex` | 5 |
+| Bom | `Gd` | 4 |
+| Típico | `TA` | 3 |
+| Regular | `Fa` | 2 |
+| Ruim | `Po` | 1 |
+| Sem porão, Sem garagem… | `NA` — o item não existe | **0** |
 
-O zero não é "pior que ruim": é uma categoria à parte, "não tem". Em `qualidade_porao`,
-por exemplo, o 0 identifica exatamente os 80 imóveis que vão formar o segmento S1.
+O zero não é "pior que ruim": é uma categoria à parte, "não tem".
 
-Escalas com outras ordens — `Bsmt Exposure`, `BsmtFin Type`, `Garage Finish`,
-`Functional`, `Lot Shape`, `Land Slope`, `Paved Drive`, `Utilities`, `Fence` — estão
-declaradas em `src/data/dicionario.py`, cada uma com a sua própria tabela.
+!!! success "Os rótulos da escala são os mesmos da ingestão — e o notebook confere"
+    Numa versão anterior, a escala do notebook 00 chamava de "Médio" o nível que a
+    ingestão (`src/data/dicionario.py`) chama de "Típico", e o mesmo desencontro de
+    nomes atingia 18 das 22 colunas ordinais. O notebook 01 transformava todo valor fora
+    da escala em ausente, e o 02 o lia como item inexistente: a base tratada chegou a ter
+    **2.100 imóveis "Sem garagem"**, contra 158 reais, e seis colunas de qualidade
+    removidas por excesso de "ausentes".
+
+    A escala foi alinhada aos rótulos da ingestão, e o notebook 00 passou a **conferir**,
+    antes de gravar `escala.csv`, que todo valor das ordinais na base está na escala. Na
+    base tratada atual, `qualidade_garagem` tem 2.613 imóveis "Típico" e 158 "Sem
+    garagem", e nenhuma coluna é removida no 02.
 
 ### O rótulo reservado
 
-`preco_venda` está na base e **não entra em nenhuma etapa de modelagem**. Ele reaparece
-uma única vez, em `perfilagem.leitura_a_posteriori`, para responder a duas perguntas de
-negócio depois que os segmentos já estão definidos:
+`preco_venda` está na base e **não entra em nenhuma etapa de modelagem**: o notebook
+04-0 o retira da matriz antes de qualquer algoritmo rodar. Ele reaparece só depois que os
+segmentos já estão definidos, para responder a duas perguntas de negócio:
 
-- quanto vale cada segmento (participação em receita);
-- se a segmentação é apenas uma faixa de preço disfarçada — medido por índice de Rand
-  ajustado contra os quartis de preço.
+- quanto vale cada segmento (participação no valor de venda);
+- se o preço difere entre os segmentos — razão entre medianas e teste de
+  Kruskal-Wallis, no notebook 05.
+
+Na base bruta:
 
 | | Valor |
 |:---|---:|
@@ -214,7 +230,7 @@ negócio depois que os segmentos já estão definidos:
 | **Não há tempo de permanência em estoque** | 1, 2 | As metas de giro das personas são propostas de meta, não medições. Precisam de instrumentação antes de virar indicador. |
 | **Não há custo de reforma** | 2 | O retorno da reforma por segmento é estimado a partir do diferencial de preço, não medido. |
 | **Não há atributo do comprador** | 2 | A segmentação descreve o **produto**. Nenhuma ação de segmentação de demanda pode ser derivada daqui. |
-| **Período 2006–2010** | 5 | Inclui a crise imobiliária americana. A estrutura de segmentos é estável no período, mas os patamares de preço não devem ser lidos como preço corrente. |
+| **Período 2006–2010** | 5 | Inclui a crise imobiliária americana. Os patamares de preço não devem ser lidos como preço corrente, e a estabilidade dos segmentos entre períodos ainda não foi medida. |
 | **Mercado único** | todos | Ames, Iowa, ~60 mil habitantes. A estrutura encontrada não se transfere automaticamente para outro mercado sem reciclagem. |
 
 As três primeiras estão registradas também como

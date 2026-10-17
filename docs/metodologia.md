@@ -107,41 +107,41 @@ Realizar análise sobre a distribuição de cada uma das características mapean
 
 ## Como este projeto instancia o CRISP-DM
 
-O ciclo não é decorativo: cada fase tem um módulo executável, um notebook e artefatos
-persistidos em disco.
+O ciclo não é decorativo: cada fase tem um notebook e artefatos persistidos em disco.
 
-| Fase | Módulo | Notebook | Artefatos |
-|:---|:---|:---:|:---|
-| 1 · Entendimento de negócio | — | `01` | [Canvas](pbl/canvas-do-problema.md), [critérios de sucesso](criterios-sucesso.md) |
-| 2 · Entendimento dos dados | `src.data.ingestao`, `src.data.qualidade`, `src.eda` | `01`, `02` | Manifesto assinado, 17 figuras, 27 tabelas, 21 insights |
-| 3 · Preparação | `src.data.preparacao` | `02b` | Base curada, matriz de modelagem, experimento de escala |
-| 4 · Modelagem | `src.pipeline.modelagem`, `src.pipeline.regras` | `03`, `04`, `05` | Matriz comparativa, personas, 256 regras podadas |
-| 5 · Avaliação | `src.pipeline.avaliacao` | `06` | Confronto com 13 critérios, limitações declaradas |
-| 6 · Implantação | `src.pipeline.implantacao`, `src.deployment` | `06` | Pipeline serializado, linha de base, aplicação |
+| Fase | Notebook | Módulo | Artefatos |
+|:---|:---:|:---|:---|
+| 1 · Entendimento de negócio | — | — | [Canvas](pbl/canvas-do-problema.md), [critérios de sucesso](criterios-sucesso.md) |
+| 2 · Entendimento dos dados | `00`, `01` | `src.data.ingestao`, `src.data.dicionario` | Camada bruta com manifesto, dicionário, escalas, figuras da EDA, 12 insights |
+| 3 · Preparação | `02`, `03` | — | Base tratada (2.927 × 90) e base pré-processada (236 variáveis no modelo) |
+| 4 · Modelagem | `04-0` a `04-3`, `07` | — | Varredura de onze algoritmos, modelo vencedor, PCA/UMAP, 23.403 regras |
+| 5 · Avaliação | `05` | — | Critérios de sucesso, cenários financeiros, lacunas e próxima ação |
+| 6 · Implantação | `06` | `src.app` | Classificação de imóveis novos e aplicação de consulta |
 
-A natureza **iterativa** do processo aparece em dois pontos concretos do percurso, e os
-dois estão registrados nas [hipóteses derrubadas](avaliacao.md#hipoteses-derrubadas):
-
-1. um achado da **fase 2** (a categoria `None` virando nulo) obrigou a voltar à leitura
-   da origem e refazer a **fase 3**;
-2. um resultado da **fase 4** (6.274 regras) obrigou a voltar e recalibrar o limiar
-   antes de seguir para a **fase 5**.
+A natureza **iterativa** do processo aparece no próprio resultado. Na primeira
+execução, a fase 5 reprovou o modelo: o menor de quatro segmentos tinha 6,4% da
+carteira, abaixo do mínimo crítico de 10%. A revisão do processo encontrou um defeito
+nas escalas ordinais da fase 2, que apagava o nível "Típico" da base. Corrigida a
+escala e reexecutada a cadeia, o vencedor passou a ter três segmentos, o menor com
+23,8%, e a fase 5 aprovou a implantação — ver
+[lacunas e erros](avaliacao.md#lacunas-e-erros-identificados).
 
 ## O que muda quando não há gabarito
 
 | | Supervisionado | **Não supervisionado (este projeto)** |
 |:---|:---|:---|
-| Validação | Acurácia, F1, AUC contra o rótulo | Silhueta, Davies-Bouldin, Calinski-Harabasz + **estabilidade** |
-| Escolha do modelo | O de melhor métrica no teste | O que combina métrica, estabilidade e viabilidade de negócio |
+| Validação | Acurácia, F1, AUC contra o rótulo | Silhueta e cotovelo, mais critérios de negócio (tamanho dos segmentos, separação de preço) |
+| Escolha do modelo | O de melhor métrica no teste | A maior silhueta entre as partições que o negócio consegue operar |
 | Divisão dos dados | Treino / validação / teste | Não se aplica — **reamostragem** é o teste |
 | Sinal de sobreajuste | Erro de teste sobe | Partição não se reproduz sob reamostragem |
 | Monitoramento | Queda da métrica de erro | *Data drift* (PSI) e *cluster drift* (coesão) |
 | Risco central | Vazamento de dado do teste | **Vazamento do rótulo reservado para dentro da modelagem** |
 
-O último item é o critério eliminatório da disciplina, e neste projeto ele é tratado
-como requisito de arquitetura: `preco_venda` e `bairro` estão declarados fora da matriz
-de modelagem em `src/data/dicionario.py`, e a única função que toca no rótulo é
-`perfilagem.leitura_a_posteriori`.
+O último item é o critério eliminatório da disciplina. Na cadeia atual, `preco_venda`
+e `subclasse` são retirados da matriz antes de qualquer algoritmo rodar (notebooks 04-0
+a 04-2), e o preço só é lido depois que os segmentos estão definidos, para descrevê-los.
+O notebook 05 registra uma lacuna: os dois ainda saem da base pré-processada do 03, e o
+certo é removê-los já ali.
 
 ## Tecnologia e Ferramentas
 
@@ -150,20 +150,22 @@ de modelagem em `src/data/dicionario.py`, e a única função que toca no rótul
 |:simple-github: GitHub|Controle de versões e histórico do processo.|
 |:simple-uv: uv|Gerenciamento de dependências e do ambiente, com `uv.lock` versionado.|
 |:simple-python: Python 3.12|Linguagem de todo o pipeline.|
-|:simple-jupyter: Jupyter|Os sete notebooks do percurso, executados por `uv run invoke notebooks`.|
-|:fontawesome-solid-list-check: invoke|Orquestra as tarefas: `ingestao`, `preparacao`, `eda`, `modelagem`, `regras`, `avaliacao`, `implantacao`.|
-|:material-bookshelf: Bibliotecas|`pandas`, `numpy`, `scipy`, `scikit-learn`, `mlxtend`, `matplotlib`, `seaborn`, `plotly`.|
+|:simple-jupyter: Jupyter|Os onze notebooks do percurso, executados por `uv run invoke notebooks`.|
+|:fontawesome-solid-list-check: invoke|Orquestra as tarefas: `ingestao`, `preparacao`, `eda`, `notebooks`, `app`, `docs`, `test`, `lint`.|
+|:material-bookshelf: Bibliotecas|`pandas`, `numpy`, `scipy`, `scikit-learn`, `umap-learn`, `mlxtend`, `matplotlib`, `seaborn`, `plotly`.|
 |:material-web: Streamlit|Aplicação de implantação — a entrega da fase 6.|
 |:material-file-document: MkDocs Material|Este site, gerado por `uv run invoke docs`.|
 |:material-check-all: ruff + pytest + pre-commit|Qualidade de código, testes e `nbstripout` antes de cada commit.|
 
-### Três algoritmos implementados no projeto
+### Algoritmos implementados no projeto
 
 A ementa cobre técnicas que as bibliotecas não trazem prontas. Implementá-las é parte
 do material didático — a fórmula, em cada caso, cabe em poucas dezenas de linhas.
 
-| Implementação | Arquivo | Por quê |
+| Implementação | Onde | Por quê |
 |:---|:---|:---|
-| **Dissimilaridade de Gower** | `src/model/distancias.py` | Não existe no `scikit-learn`, e é a medida natural para dados mistos |
-| **K-Medoids** (iteração de Voronoi) | `src/model/particional.py` | Não é distribuído pelo `scikit-learn`; opera sobre qualquer matriz de dissimilaridade, inclusive Gower |
-| **Eclat** (representação vertical) | `src/model/associacao.py` | O `mlxtend` traz Apriori e FP-Growth, mas não o Eclat |
+| **K-Means Manhattan** (centro = mediana) | notebooks `04-0` e `04-1` | O `scikit-learn` só traz o K-Means euclidiano |
+| **K-Medoids** | notebooks `04-0` e `04-1`; `src/model/particional.py` | Não é distribuído pelo `scikit-learn`; o centro é um imóvel real |
+| **K-Means Mahalanobis** (por branqueamento) | notebooks `04-0` e `04-1` | Euclidiana no espaço branqueado pelo PCA é Mahalanobis no original |
+| **Eclat** (representação vertical) | notebook `04-3`; `src/model/associacao.py` | O `mlxtend` traz Apriori e FP-Growth, mas não o Eclat |
+| **Dissimilaridade de Gower** | `src/model/distancias.py` | Medida natural para dados mistos; disponível, mas fora da cadeia atual |

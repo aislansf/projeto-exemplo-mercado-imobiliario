@@ -1,147 +1,151 @@
 # Implementação
 
 **CRISP-DM fase 6.** É o ponto em que o resultado da modelagem deixa de ser um notebook
-e vira algo que o corretor abre no navegador para decidir o que fazer com um imóvel.
+e vira algo que o corretor abre no navegador para consultar um imóvel.
 
-A fase entrega cinco coisas: um **pacote publicável**, um **contrato de entrada**, uma
-**regra de atribuição com faixa de confiança**, um **plano de monitoramento** e a
-**aplicação** que serve tudo isso.
+A fase entrega três coisas: a **classificação de imóveis novos** (notebook 06), a
+**aplicação de consulta** que serve o modelo e um **plano de implantação e
+monitoramento**.
 
-## Plano de implantação
+!!! success "Aprovado pela fase 5, com pré-requisitos para a produção"
+    A [avaliação](avaliacao.md) **aprovou** o modelo para implantação, com a ressalva da
+    silhueta baixa. A aplicação já serve o modelo vencedor. A entrada em produção segue
+    o plano abaixo e depende de três pré-requisitos: persona e ação por segmento, linha
+    de base do monitoramento e premissas financeiras validadas.
 
-A entrada em produção é em **três janelas**, e nenhuma delas começa com a operação
-mudando de comportamento.
+## Classificação de imóveis novos
 
-![Janelas de implantação](imagens/implantacao/janelas-de-implantacao.png)
+O notebook 06 atribui um segmento a um imóvel novo em três passos:
 
-| Janela | Período | Escopo | Critério de aceite | Plano de retorno |
-|:---|:---|:---|:---|:---|
-| **1 · Sombra** | D+0 a D+30 | As três linhas classificadas; **nenhuma ação comercial muda** | 100% da carteira classificada · fronteira ≤ 15% · zero rejeições sem motivo registrado | Nada a desfazer — nenhuma ação foi tomada |
-| **2 · Piloto dirigido** | D+31 a D+90 | Ação diferenciada **apenas no S3**, e apenas fora da fronteira | realizado ÷ anunciado capturado em ≥ 90% das vendas · nenhuma unidade de fronteira com ação automática | Suspender a ação do S3 e retomar a precificação anterior; a classificação continua em sombra |
-| **3 · Operação plena** | D+91 em diante | As três linhas com orçamento próprio, teto de reforma e canal | Gatilhos ativos · primeira leitura mensal de PSI publicada · métricas de negócio instrumentadas | Voltar à janela 2 |
+1. **modelo:** lê o vencedor do 04-0 a partir de `models/selecionado.json`;
+2. **entrada:** o imóvel novo, em unidades de negócio (pés², nota, bairro…), passa pelo
+   mesmo pré-processamento do 03;
+3. **saída:** o segmento do imóvel, com o perfil desse segmento na carteira.
 
-A janela 1 está liberada. Vale registrar **como**: o critério literal da fase 5 exigia
-que nenhum item do backlog de natureza `modelo` continuasse aberto, e a regra declarada
-para a janela 1 é mais estreita — *abre quando o caminho de produção reproduz a partição
-aprovada e nenhum item aberto é de natureza `modelo`*. As duas leituras divergem, e a
-divergência está no manifesto em vez de escondida.
+O 03 grava a base transformada, mas não o pré-processador. O 06 o refaz com as mesmas
+regras, ajustado na mesma base tratada, e **confere que o resultado bate com a saída do
+03** antes de seguir — 236 variáveis, idênticas. Também confere que o modelo relido do
+disco reproduz `segmentos.csv`: **100% de concordância**.
 
-### A arquitetura de integração
+O imóvel novo pode vir incompleto. O que não foi informado é emprestado do **imóvel
+mais parecido da carteira**: o que tem as mesmas categorias informadas e os números mais
+próximos. Os dois exemplos do notebook:
 
-![Arquitetura de integração](imagens/implantacao/arquitetura-de-integracao.png)
+| Imóvel | Área habitável | Qualidade | Idade | Anos desde a reforma | Banheiros | Lareira | 2º pavimento | Segmento |
+|:---|--:|--:|--:|--:|--:|:-:|:-:|:---|
+| Casa nova, grande, alto padrão | 2.400 | 8 | 3 | 3 | 3,5 | sim | sim | **A** |
+| Casa antiga e pequena | 950 | 4 | 80 | 50 | 1,0 | não | não | **C** |
 
-| Etapa | O que acontece | Onde | O que acontece na falha |
-|:---|:---|:---|:---|
-| **1 · Carga** | O cadastro publica a base do mês | `data/raw/` — job mensal | A carga é bloqueada e a classificação vigente permanece |
-| **2 · Contrato** | Cada registro é validado antes de entrar | `models/contrato_de_entrada.json` | O registro é rejeitado **com o motivo**, e não classificado por padrão |
-| **3 · Preparo** | `log1p`, padronização e ordem de colunas | passo `preparo` do pacote | Proibido por desenho: só existe uma receita, dentro do pacote |
-| **4 · Atribuição** | Segmento canônico e faixa de confiança | passo `segmentacao` do pacote | Imóvel na fronteira sai marcado e vai para revisão humana |
-| **5 · Entrega em lote** | Carteira classificada e relatórios | `data/processed/carteira_classificada.parquet` | — |
-| **6 · Consulta** | Classificação de um imóvel novo, sob demanda | a aplicação | — |
-
-A etapa 3 é a que costuma quebrar em produção, e por isso é a que tem regra explícita:
-**a camada de aplicação não reimplementa a preparação**. O pré-processador viaja
-serializado dentro do pacote, com as médias e os desvios do treino.
-
-### O artefato
-
-O pacote é **autocontido**: não importa nada de `src/`, e não lê nenhum outro arquivo do
-repositório.
-
-| | |
-|:---|:---|
-| **Arquivo** | `models/aplicacao-segmentacao.pkl` |
-| **Formato** | `meridiano.segmentacao/1` |
-| **Versão do modelo** | 2.0.0 |
-| **Tamanho** | 433.124 bytes |
-| **SHA-256 do modelo** | `1a5108376174e9ef5b94d5ab88331e8b0fa4abca072d86bcc30100e699c5e802` |
-| **Bibliotecas exigidas** | `numpy`, `pandas`, `pyarrow`, `sklearn` |
-
-Dentro dele viajam o pipeline treinado, o contrato de entrada, o catálogo das três
-linhas, a carteira já classificada, o plano de monitoramento, as evidências e um
-`leia_me` com o roteiro de uso.
-
-!!! success "Conferido na releitura"
-    A fase 6 gravou o pacote, **releu do disco** e conferiu duas coisas: que a partição
-    reproduzida é idêntica à aprovada na fase 5, e que as faixas de confiança batem.
-    As duas conferências passaram — é o que a tabela `conferencia-do-pacote.csv`
-    registra.
-
-### O contrato de entrada
-
-**17 campos**, dos quais três são obrigatórios: `area_habitavel`, `idade_imovel` e
-`qualidade_geral`. Cada campo declara tipo, faixa **observada** no treino, faixa
-**aceita** (a observada mais 25% de folga) e um valor **padrão** — a mediana da carteira.
-
-| Situação do valor | O que acontece |
-|:---|:---|
-| Dentro da faixa observada | Classifica normalmente |
-| Fora da observada, dentro da aceita | Classifica, e a tela avisa que **extrapola** |
-| Fora da faixa aceita | **Registro rejeitado** na carga, com o motivo |
-| Campo ausente e não obrigatório | Completado com o padrão, e a tela diz **quais** foram completados |
-
-A última linha é a que evita o erro silencioso: campo ausente que vira zero desloca o
-imóvel para outro segmento sem que ninguém perceba.
-
-### O grau de confiança
-
-Esta é a resposta da fase 6 ao achado da fase 4 — o **S2 tem 25,6% de silhueta
-negativa**. Um modelo que não diz onde não sabe automatiza justamente o caso em que erra.
-
-A **razão de fronteira** é a distância ao centroide mais próximo dividida pela distância
-ao segundo mais próximo. Perto de 1, o imóvel está entre dois grupos.
-
-![Calibração da fronteira](imagens/implantacao/calibracao-da-fronteira.png)
-
-Os cortes **não foram escolhidos por intuição**: saíram de uma varredura de 60 valores,
-maximizando o F1 na identificação da silhueta negativa sob um teto operacional de 15% da
-carteira — o volume que a Gerência de Ativos consegue revisar à mão.
-
-| Faixa | Razão | Ação automática |
-|:---|:---|:---|
-| **Núcleo** | < 0,609 | Dispara |
-| **Típico** | 0,609 a 0,915 | Dispara |
-| **Fronteira** | ≥ 0,915 | **Não dispara** — vai para avaliação humana |
-
-Resultado sobre a carteira: **339 imóveis (14,43%)** na fronteira, com revocação de
-**0,826** da silhueta negativa. E a distribuição confirma que o problema tem endereço:
-
-| Linha | Núcleo | Típico | Fronteira | Imóveis na fronteira |
-|:---|---:|---:|---:|---:|
-| **S1** | 18,7% | 68,5% | 12,8% | 117 |
-| **S2** | 5,1% | 69,1% | **25,8%** | **172** |
-| **S3** | **49,3%** | 44,2% | 6,5% | 50 |
-
-Metade do S3 é núcleo; um quarto do S2 é fronteira. A linha que a fase 4 apontou como
-menos coesa é exatamente a que concentra a revisão humana — o modelo e a operação
-concordam sobre onde está a dúvida.
-
-### A aplicação
+## A aplicação
 
 ```bash
 uv run invoke app
 ```
 
 Sobe em `http://localhost:8501` e roda **inteiramente local**: nenhuma chamada de rede,
-nenhum serviço externo. Lê um único arquivo — o `.pkl` — e nada mais.
+nenhum serviço externo. Lê os arquivos que os notebooks gravam em `data/processed/` e
+`models/`; as projeções do 04-2, as regras do 04-3 e a avaliação do 05 entram quando
+existem.
 
 | Módulo | Responsabilidade |
 |:---|:---|
-| `src/app/pacote.py` | Abre o pacote, valida o formato e classifica. Sem Streamlit — serve também a script e a rotina de carga |
-| `src/app/app.py` | A interface. Só apresenta o que `pacote.py` devolve |
+| `src/app/artefatos.py` | Lê os arquivos, reconstrói o espaço do modelo e classifica. Sem Streamlit — serve também a script e a rotina de carga |
+| `src/app/app.py` | A interface. Só apresenta o que `artefatos.py` devolve |
 
 As sete abas seguem o caminho de quem usa:
 
-1. **Resultado do modelo** — *k*, coesão, composição por unidades e por receita, critérios de aceite;
-2. **Classificar um imóvel** — formulário gerado a partir do contrato; devolve linha, faixa de confiança, distância a cada centroide e a ação de negócio;
-3. **Linhas de produto** — a ficha de cada linha e a assinatura que as separa;
-4. **Carteira classificada** — os 2.350 imóveis com filtros, gráficos e download;
+1. **Resultado do modelo** — segmentos, participação em imóveis e em valor de venda,
+   preço por segmento e os critérios de sucesso do 05;
+2. **Classificar um imóvel** — o usuário informa o que souber e o restante vem do
+   imóvel mais parecido da carteira; devolve segmento, distância a cada segmento e
+   razão de fronteira;
+3. **Perfil dos segmentos** — o retrato de cada segmento, a assinatura que os separa e
+   a carteira projetada por UMAP ou PCA;
+4. **Carteira classificada** — os imóveis da base tratada com filtros, gráficos e
+   download;
 5. **Classificação em lote** — CSV entra, lista classificada sai;
-6. **Monitoramento** — painel de indicadores, plano, gatilhos e a calibração da fronteira;
-7. **O pacote** — o `leia_me` gravado no artefato, o carimbo SHA-256 e o espaço publicado.
+6. **Regras de associação** — as regras do 04-3, filtráveis por lift, confiança e item;
+7. **Procedência** — os arquivos lidos, quando foram gravados e as duas conferências.
 
-Copiar `src/app/` mais o `.pkl` para outra máquina é suficiente para a aplicação subir.
-O detalhe está em [`src/app/README.md`](https://github.com/aislansf/projeto-exemplo-mercado-imobiliario/blob/main/src/app/README.md).
+O detalhe está em
+[`src/app/README.md`](https://github.com/aislansf/projeto-exemplo-mercado-imobiliario/blob/main/src/app/README.md).
+
+### O artefato
+
+A aplicação não tem um artefato próprio: ela lê o que os notebooks gravam.
+
+| Arquivo | Notebook | Papel |
+|:---|:-:|:---|
+| `models/selecionado.json` | 04-0 | nome, parâmetros, número de segmentos, silhueta e arquivo do vencedor |
+| `models/model_imoveis_<modelo>.joblib` | 04-0 | o modelo vencedor, ajustado |
+| `data/processed/segmentos.csv` | 04-0 | o segmento de cada imóvel da carteira |
+| `data/processed/ames_housing_tratado.csv` | 02 | a base tratada, em unidades de negócio |
+| `data/processed/dicionario.csv`, `escala.csv` | 00 | o tipo de cada variável e os níveis ordinais |
+| `data/processed/ames_housing_preprocessed.csv` | 03 | só para conferir o pré-processamento reconstruído |
+
+!!! success "Conferido a cada carga"
+    Ao subir, a aplicação confere duas coisas: que o pré-processamento reconstruído é
+    idêntico à saída do notebook 03 e que o modelo relido do disco reproduz 100% de
+    `segmentos.csv`. As duas aparecem na aba *Procedência*. Se um notebook regravar
+    algum arquivo, a aplicação relê tudo sozinha.
+
+### A arquitetura de integração
+
+| Etapa | O que acontece | Onde | O que acontece na falha |
+|:---|:---|:---|:---|
+| **1 · Carga** | O cadastro publica a base do mês | `data/raw/` — job mensal | A carga é bloqueada e a classificação vigente permanece |
+| **2 · Validação** | Cada registro é validado antes de entrar | `src/app/artefatos.py` (`validar`) | O registro é rejeitado **com o motivo**: coluna desconhecida, categoria que o modelo nunca viu ou nível fora da escala |
+| **3 · Preparo** | Codificação ordinal, normalização e *one-hot*, com as regras do notebook 03 | `src/app/artefatos.py` (`transformar`) | A aplicação confere, ao subir, que o resultado é idêntico à saída do 03 |
+| **4 · Atribuição** | Segmento e razão de fronteira | `predict` do modelo do 04-0 | Razão perto de 1 indica imóvel entre dois segmentos: revisão humana |
+| **5 · Entrega em lote** | Carteira classificada em CSV | aba *Classificação em lote* | A linha com erro sai sem segmento e com o motivo, sem derrubar o lote |
+| **6 · Consulta** | Classificação de um imóvel novo, sob demanda | aba *Classificar um imóvel* | — |
+
+A etapa 3 é a que costuma quebrar em produção, e por isso é a que tem regra explícita:
+**a preparação tem uma única receita**, a do notebook 03. A aplicação a reconstrói a
+partir da base tratada, do dicionário e das escalas e confere o resultado contra
+`ames_housing_preprocessed.csv`; se não bater, a aba *Procedência* acusa.
+
+### O grau de confiança
+
+A **razão de fronteira** é a distância ao centro do segmento atribuído dividida pela
+distância ao segundo mais próximo. Perto de 1, o imóvel está entre dois segmentos. A
+aplicação a calcula para cada imóvel da carteira:
+
+| Segmento | Razão mediana | Imóveis com razão acima de 0,9 |
+|:---|--:|--:|
+| **A** | 0,770 | 17,1% |
+| **B** | 0,844 | 28,0% |
+| **C** | 0,862 | 36,4% |
+| **Carteira** | **0,824** | **25,9%** (758 imóveis) |
+
+O Segmento A é o mais coeso; no C, mais de um terço dos imóveis está quase à mesma
+distância de dois segmentos. É coerente com a silhueta baixa: os segmentos são faixas
+de uma carteira contínua.
+
+!!! note "Sem corte calibrado"
+    A razão é exibida, mas nenhum corte decide quando a ação automática dispara. Um corte
+    precisa ser calibrado contra o volume que a Gerência de Ativos consegue revisar à
+    mão — o 0,9 da tabela é só uma referência de leitura. Calibrar o corte é parte do
+    plano abaixo.
+
+## Plano de implantação
+
+A entrada em produção é em **três janelas**, e nenhuma delas começa com a operação
+mudando de comportamento. O plano vale para o modelo aprovado na fase 5.
+
+| Janela | Período | Escopo | Critério de aceite | Plano de retorno |
+|:---|:---|:---|:---|:---|
+| **1 · Sombra** | D+0 a D+30 | Todos os segmentos classificados; **nenhuma ação comercial muda** | 100% da carteira classificada · corte de fronteira calibrado · zero rejeições sem motivo registrado | Nada a desfazer — nenhuma ação foi tomada |
+| **2 · Piloto dirigido** | D+31 a D+90 | Ação diferenciada **apenas no segmento mais coeso**, e apenas fora da fronteira | Preço realizado ÷ anunciado capturado em ≥ 90% das vendas · nenhuma unidade de fronteira com ação automática | Suspender a ação e retomar a precificação anterior; a classificação continua em sombra |
+| **3 · Operação plena** | D+91 em diante | Todos os segmentos com orçamento próprio, teto de reforma e canal | Gatilhos ativos · primeira leitura mensal de desvio publicada · métricas de negócio instrumentadas | Voltar à janela 2 |
+
+Pré-requisitos para abrir a janela 1:
+
+- [x] a fase 5 aprovar o modelo — aprovado, com a ressalva da silhueta;
+- [ ] cada segmento ter persona, ação, teto de reforma, canal e métrica — hoje nenhum
+  tem;
+- [ ] a linha de base do monitoramento estar medida;
+- [ ] as premissas financeiras da fase 5 estarem validadas com a área comercial.
 
 ## Monitoramento e manutenção
 
@@ -149,156 +153,48 @@ O detalhe está em [`src/app/README.md`](https://github.com/aislansf/projeto-exe
 
 Num modelo supervisionado, o acompanhamento é direto: chega o resultado real e se mede o
 erro. Aqui **não existe resposta certa** — ninguém vai dizer que o imóvel "era mesmo do
-S2". O que se acompanha, então, é a **entrada**, a **coesão** e a **composição**.
-
-### A evidência, medida em dado real
-
-A carteira foi partida em dois períodos — referência **2006–2008** (1.508 imóveis) e
-acompanhamento **2009–2010** (842) — e a primeira leitura foi feita de verdade, não
-simulada.
-
-#### Data drift por atributo
-
-![Desvio medido](imagens/implantacao/desvio-medido.png)
-
-| Atributo | PSI | Mediana ref. | Mediana acomp. | Situação |
-|:---|---:|---:|---:|:---|
-| Idade do imóvel | **0,0369** | 37,0 | 35,5 | estável |
-| Área habitável | 0,0284 | 1.407 | 1.444 | estável |
-| Área do porão | 0,0269 | 960 | 977 | estável |
-| Anos desde a reforma | 0,0241 | 17,0 | 16,0 | estável |
-| Qualidade externa | 0,0199 | 3,0 | 3,0 | estável |
-| … os 12 restantes | ≤ 0,0154 | | | estável |
-
-**PSI máximo de 0,0369**, contra um limiar de ação de 0,25. Nenhum atributo em atenção.
-
-!!! note "O período inclui uma crise"
-    2006–2010 contém a crise imobiliária americana. Que os 17 atributos permaneçam
-    estáveis atravessando esse choque é o resultado mais forte desta seção: o que mudou
-    foi o **preço**, não o **produto**. E o modelo foi construído sobre o produto.
-
-#### Cluster drift — composição
-
-| Linha | Referência 2006–2008 | Acompanhamento 2009–2010 | Variação |
-|:---|---:|---:|---:|
-| **S1** | 39,92% | 37,05% | −2,87 p.p. |
-| **S2** | 28,71% | 27,79% | −0,92 p.p. |
-| **S3** | 31,37% | 35,15% | **+3,79 p.p.** |
-
-Maior variação de **3,79 p.p.**, contra um gatilho de 10 p.p. A carteira está entrando
-um pouco mais nova, o que é coerente com o mercado do período.
-
-#### Cluster drift — coesão
-
-| Período | Imóveis | Silhueta | Davies-Bouldin |
-|:---|---:|---:|---:|
-| Carteira inteira (2006–2010) | 2.350 | 0,1726 | 2,089 |
-| Referência (2006–2008) | 1.508 | 0,1712 | 2,062 |
-| Acompanhamento (2009–2010) | 842 | **0,1751** | 2,128 |
-
-A coesão **sobe** levemente no período novo, com os centroides congelados. A estrutura
-não envelheceu.
-
-![Coesão e reciclagem](imagens/implantacao/coesao-e-reciclagem.png)
-
-### O painel
-
-![Painel de saúde](imagens/implantacao/painel-de-saude.png)
-
-| Indicador | Valor | Limiar | Situação |
-|:---|---:|---:|:---|
-| Data drift (PSI máximo) | 0,0369 | ≤ 0,25 | 🟢 folga |
-| Atributos em atenção | 0 | ≤ 3 | 🟢 folga |
-| Coesão no período novo | 0,1751 | ≥ 0,15 | 🟢 folga |
-| Variação de composição | 3,79 p.p. | ≤ 10 p.p. | 🟢 folga |
-| **Imóveis em fronteira** | **14,43%** | ≤ 15% | 🟡 **margem estreita** |
-| ARI da reciclagem | 0,9366 | ≥ 0,75 | 🟢 folga |
-
-O único indicador em margem estreita é o de fronteira, a 0,57 p.p. do teto. Não é
-surpresa — o corte foi calibrado *contra* esse teto —, mas significa que qualquer
-aumento na proporção de imóveis ambíguos estoura o volume de revisão manual antes de
-qualquer outro alarme disparar.
+Segmento B". O que se acompanha, então, é a **entrada**, a **coesão** e a
+**composição**.
 
 ### O plano
 
+Os indicadores e gatilhos abaixo são a **proposta**. A linha de base de cada um ainda
+precisa ser medida sobre o modelo aprovado, antes da janela 1.
+
 | # | Indicador | Periodicidade | Gatilho | Responsável |
 |:-:|:---|:---|:---|:---|
-| 1 | Data drift dos atributos | mensal | PSI ≥ 0,25 em qualquer atributo, ou ≥ 0,1 em três | Área de Dados |
-| 2 | Cluster drift — coesão | trimestral | silhueta < 0,15 por dois trimestres seguidos | Área de Dados |
-| 3 | Composição da carteira | mensal | variação ≥ 10 p.p. em qualquer linha | Diretoria Comercial |
-| 4 | Imóveis de fronteira | mensal | acima de 15% das entradas do mês | Gerência de Ativos |
-| 5 | Volume e integridade da carga | a cada carga | queda > 30%, rejeição > 5%, ou carimbo divergente | Engenharia de Dados |
+| 1 | Desvio de distribuição dos atributos (PSI) | mensal | PSI ≥ 0,25 em qualquer atributo, ou ≥ 0,1 em três | Área de Dados |
+| 2 | Coesão dos segmentos (silhueta) | trimestral | queda de mais de 20% contra a linha de base, por dois trimestres seguidos | Área de Dados |
+| 3 | Composição da carteira | mensal | variação ≥ 10 p.p. em qualquer segmento | Diretoria Comercial |
+| 4 | Imóveis de fronteira | mensal | acima do volume que a Gerência de Ativos consegue revisar | Gerência de Ativos |
+| 5 | Volume e integridade da carga | a cada carga | queda > 30% ou rejeição > 5% dos registros | Engenharia de Dados |
 | 6 | Efeito da ação diferenciada | trimestral | meta não atingida em dois trimestres seguidos | Diretoria Comercial |
 
 O indicador 6 é o que fecha o ciclo — e o que **revisa a ação, não o modelo**: o
 agrupamento pode estar certo e a política, errada.
 
-## Reciclagem
+### Reciclagem
 
-A carteira recebe imóveis novos, e a segmentação envelhece sem avisar. A simulação de
-reciclagem — reajustar o agrupamento com os dados acumulados e comparar por ARI com a
-partição vigente — devolveu **ARI 0,9366**, acima do piso de 0,75.
+A carteira recebe imóveis novos, e a segmentação envelhece sem avisar. O 05 recomenda
+reciclar **semestralmente ou a cada 10% de imóveis novos**: reajustar o agrupamento com
+os dados acumulados e comparar a nova partição com a vigente.
 
-| Resultado da reciclagem | Interpretação | Decisão |
+| Resultado da comparação (índice de Rand ajustado) | Interpretação | Decisão |
 |:---|:---|:---|
-| ARI ≥ 0,90 | A estrutura é a mesma | Reajustar centroides, manter o catálogo · versão MENOR |
-| 0,75 ≤ ARI < 0,90 | A estrutura mudou de forma | Revisar as personas antes de publicar |
-| ARI < 0,75 | É outra segmentação | Nova varredura de *k* · versão MAIOR |
+| ARI ≥ 0,90 | A estrutura é a mesma | Reajustar os centros e manter o catálogo |
+| 0,75 ≤ ARI < 0,90 | A estrutura mudou de forma | Revisar os perfis antes de publicar |
+| ARI < 0,75 | É outra segmentação | Nova varredura do 04-0 |
 
-A regra de versionamento acompanha: **MAIOR** quando muda *k*, o espaço de atributos ou
-o algoritmo; **MENOR** quando é reajuste de centroides com o mesmo *k* e o mesmo espaço;
-**CORREÇÃO** quando muda limiar operacional, texto de persona ou documentação.
+## As entregas
 
-## As sete entregas
-
-| Entrega | Consumidor | Periodicidade |
-|:---|:---|:---|
-| Carteira classificada | Sistema comercial e Gerência de Ativos | a cada carga (mensal) |
-| Lista de imóveis para revisão humana | Gerência de Ativos | a cada carga (mensal) |
-| Classificação de um imóvel novo, antes da aquisição | Comitê de Aquisição | sob demanda |
-| Catálogo de linhas, com ação, teto e métrica | Diretoria Comercial | a cada versão MAIOR |
-| Painel de monitoramento de desvio | Área de Dados | mensal |
-| Relatório final | Diretoria Comercial | por versão |
-| Runbook de incidentes | Engenharia de Dados | por versão |
-
-## O que a fase 6 fez com o backlog da fase 5
-
-A fase 5 abriu oito itens. A fase 6 não os declarou resolvidos: mediu o que fez e o que
-faltou, item a item.
-
-![Backlog reconciliado](imagens/implantacao/backlog-reconciliado.png)
-
-| # | Etapa | O que esta fase fez | Estado |
-|:-:|:---|:---|:---|
-| 1 | Reescrever o catálogo para 3 segmentos | Catálogo de 3 linhas publicado em `models/catalogo_de_personas.json` e no pacote | parcial → **concluído** ¹ |
-| 2 | Atualizar a documentação publicada | Relatório final gerado com os números desta cadeia | parcial → **concluído** ¹ |
-| 3 | Atualizar as respostas SMART e o Canvas | As cinco respostas medidas entram no relatório | parcial |
-| 4 | Tratar a fronteira na regra de atribuição | Regra calibrada (corte 0,915), com razão, faixa e segundo mais próximo | **concluído** |
-| 5 | Instrumentar as métricas de negócio | Cada critério ganhou métrica, origem, responsável e prazo | parcial — faltam 3 campos no sistema comercial |
-| 6 | Revisar o piso de silhueta e o candidato *k* = 4 | Levado à sessão de encerramento | transferido |
-| 7 | Decidir o destino da meta de mineração | Levado à sessão de encerramento | transferido |
-| 8 | Definir o gatilho de reciclagem | Cinco gatilhos e três faixas de aceite por ARI, piso 0,75 | **concluído** |
-
-¹ Os itens 1 e 2 estavam marcados como *parciais* no fechamento da fase 6, porque
-`src/model/personas.py` ainda declarava quatro personas e a documentação ainda descrevia
-a cadeia anterior. **As duas pendências foram fechadas depois**, com o catálogo reescrito
-para três linhas — travado por teste automatizado contra o *k* do manifesto — e este site
-reescrito sobre a cadeia 00–06.
-
-### A auditoria do publicado
-
-O que tornou possível fechar esses itens foi a fase 6 ter **medido a própria
-divergência** em vez de omiti-la:
-
-| Artefato | O que publicava | O que a fase 5 aprovou | Diferença medida | Gravidade |
-|:---|:---|:---|:---|:-:|
-| `pipeline_segmentacao.joblib` | *k* = 4, 2.925 imóveis, 21 variáveis | *k* = 3, 2.350 imóveis, 17 variáveis | **ARI 0,7172** entre as partições | alta |
-| `metadados_segmentacao.json` | versão 1.0.0, 4 personas | 3 segmentos | 1 persona a mais que segmentos | alta |
-| `src/model/personas.py` | códigos S1–S4 da cadeia anterior | 3 linhas de produto | os códigos S1, S2 e S3 existiriam nas duas cadeias **com significados diferentes** | alta |
-
-A terceira linha é a mais perigosa das três: não é o número de personas, é o **código**.
-Quem lesse "S2" numa tela não teria como saber de qual cadeia veio. Os artefatos da
-cadeia 1.0.0 foram removidos do repositório.
+| Entrega | Consumidor | Periodicidade | Situação |
+|:---|:---|:---|:---|
+| Carteira classificada | Sistema comercial e Gerência de Ativos | a cada carga | disponível na aplicação |
+| Classificação de um imóvel novo, antes da aquisição | Comitê de Aquisição | sob demanda | disponível na aplicação |
+| Lista de imóveis para revisão humana | Gerência de Ativos | a cada carga | aguarda a calibração do corte de fronteira |
+| Catálogo de segmentos, com ação, teto e métrica | Diretoria Comercial | por versão | aguarda a definição das ações |
+| Painel de monitoramento de desvio | Área de Dados | mensal | aguarda a linha de base |
+| Relatório final | Diretoria Comercial | por versão | [`reports/relatorio-final.md`](https://github.com/aislansf/projeto-exemplo-mercado-imobiliario/blob/main/reports/relatorio-final.md) |
 
 ## Reprodução
 
@@ -309,11 +205,8 @@ uv run invoke app           # a aplicação, em http://localhost:8501
 
 | Artefato | Onde |
 |:---|:---|
-| Pacote da aplicação | `models/aplicacao-segmentacao.pkl` |
-| Modelo e pré-processador | `models/modelo-segmentacao.joblib`, `models/preprocessador-euclidiano.joblib` |
-| Contrato de entrada | `models/contrato_de_entrada.json` |
-| Catálogo de linhas | `models/catalogo_de_personas.json` |
-| Linha de base do monitoramento | `models/linha_de_base.json` |
-| Manifesto da fase | `data/processed/manifesto_implantacao.json` |
+| Modelo vencedor | `models/selecionado.json` e o `.joblib` que ele aponta |
+| Segmentos da carteira | `data/processed/segmentos.csv` |
+| Avaliação | `reports/05-avaliacao.json` |
 | Aplicação | `src/app/` |
 | Relatório final | `reports/relatorio-final.md` |

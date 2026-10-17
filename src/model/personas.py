@@ -4,13 +4,8 @@ Um agrupamento vira produto quando cada grupo tem **um nome**, **uma ação** e
 **uma forma de saber se a ação funcionou**. Sem os três, o resultado é um gráfico
 bonito que ninguém usa.
 
-O catálogo aqui é o mesmo que a fase 6 publica em
-``models/catalogo_de_personas.json`` e embute no pacote da aplicação. Ele está
-declarado no código — e não lido do JSON — porque o notebook 04 importa este
-módulo antes de o notebook 06 gravar o arquivo; uma leitura em tempo de importação
-quebraria a cadeia numa reconstrução limpa. O que impede as duas cópias de
-divergirem é um teste: :func:`tests.test_modelo.test_catalogo_bate_com_o_manifesto`
-compara ``len(PERSONAS)`` com o *k* do manifesto publicado.
+O catálogo está declarado no código, e não lido de um arquivo, para que qualquer
+notebook possa importá-lo numa reconstrução limpa sem depender da ordem de execução.
 
 Os rótulos do K-Means não têm ordem: rodar de novo com outra semente troca o
 número dos grupos. :func:`ordenar_canonicamente` resolve isso reordenando os

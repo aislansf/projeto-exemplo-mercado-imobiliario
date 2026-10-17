@@ -9,7 +9,7 @@ tipo_via;Tipo de pavimentação da via de acesso;['Pavimentada', 'Cascalho'];Nom
 tipo_viela;Tipo de pavimentação da viela de acesso (NA = sem viela);['Pavimentada', 'Cascalho'];Nominal
 formato_lote;Regularidade do formato do lote;['Irregular', 'Regular'];Ordinal
 relevo;Relevo do terreno (plano, encosta, depressão);['Plano', 'Baixada'];Nominal
-infraestrutura;Infraestrutura urbana disponível no lote;['Todos os serviços', 'Todos os serviços'];Ordinal
+infraestrutura;Infraestrutura urbana disponível no lote;['Só eletricidade e gás', 'Todos os serviços'];Ordinal
 config_lote;Configuração do lote (interno, esquina, fundo de rua);['Esquina', 'Três frentes'];Nominal
 declividade;Declividade do terreno;['Acentuada', 'Suave'];Ordinal
 bairro;Bairro de Ames em que o imóvel se localiza;['North Ames', 'Landmark'];Nominal
@@ -32,10 +32,10 @@ conservacao_externa;Estado de conservação do revestimento externo;['Ruim', 'Ex
 fundacao;Tipo de fundação;['Bloco de concreto', 'Pedra'];Nominal
 qualidade_porao;Altura e qualidade do porão (NA = sem porão);['Ruim', 'Excelente'];Ordinal
 conservacao_porao;Estado de conservação do porão (NA = sem porão);['Ruim', 'Excelente'];Ordinal
-exposicao_porao;Exposição do porão à luz externa ou saída para o jardim;['Mínima', 'Boa'];Ordinal
-acabamento_porao_1;Qualidade do acabamento da primeira área acabada do porão;['Sem acabamento', 'Baixa qualidade'];Ordinal
+exposicao_porao;Exposição do porão à luz externa ou saída para o jardim;['Nenhuma', 'Boa'];Ordinal
+acabamento_porao_1;Qualidade do acabamento da primeira área acabada do porão;['Sem acabamento', 'Habitável, bom padrão'];Ordinal
 area_porao_acabada_1;Área acabada tipo 1 do porão, em pés quadrados;[0.0, 5644.0];Contínua
-acabamento_porao_2;Qualidade do acabamento da segunda área acabada do porão;['Sem acabamento', 'Baixa qualidade'];Ordinal
+acabamento_porao_2;Qualidade do acabamento da segunda área acabada do porão;['Sem acabamento', 'Habitável, bom padrão'];Ordinal
 area_porao_acabada_2;Área acabada tipo 2 do porão, em pés quadrados;[0.0, 1526.0];Contínua
 area_porao_bruta;Área do porão sem acabamento, em pés quadrados;[0.0, 2336.0];Contínua
 area_porao;Área total do porão, em pés quadrados (0 = sem porão);[0.0, 6110.0];Contínua
@@ -55,7 +55,7 @@ dormitorios;Dormitórios acima do solo (não inclui os do porão);[0, 8];Discret
 cozinhas;Cozinhas acima do solo;[0, 3];Discreta
 qualidade_cozinha;Qualidade da cozinha;['Ruim', 'Excelente'];Ordinal
 comodos;Total de cômodos acima do solo, exceto banheiros;[2, 15];Discreta
-funcionalidade;Funcionalidade da residência, com dedução por limitações de uso;['Típica', 'Típica'];Ordinal
+funcionalidade;Funcionalidade da residência, com dedução por limitações de uso;['Só para aproveitamento', 'Típica'];Ordinal
 lareiras;Número de lareiras;[0, 4];Discreta
 qualidade_lareira;Qualidade da lareira (NA = sem lareira);['Ruim', 'Excelente'];Ordinal
 tipo_garagem;Posição da garagem em relação à casa;['Anexa à casa', 'Mais de um tipo'];Nominal
@@ -65,7 +65,7 @@ vagas_garagem;Capacidade da garagem, em número de vagas;[0.0, 5.0];Contínua
 area_garagem;Área da garagem, em pés quadrados;[0.0, 1488.0];Contínua
 qualidade_garagem;Qualidade da garagem (NA = sem garagem);['Ruim', 'Excelente'];Ordinal
 conservacao_garagem;Estado de conservação da garagem (NA = sem garagem);['Ruim', 'Excelente'];Ordinal
-acesso_pavimentado;Pavimentação do acesso de veículos;['Parcialmente pavimentado', 'Pavimentado'];Ordinal
+acesso_pavimentado;Pavimentação do acesso de veículos;['Terra ou cascalho', 'Pavimentado'];Ordinal
 area_deck;Área de deck de madeira, em pés quadrados;[0, 1424];Discreta
 area_varanda_aberta;Área de varanda aberta, em pés quadrados;[0, 742];Discreta
 area_varanda_fechada;Área de varanda fechada, em pés quadrados;[0, 1012];Discreta

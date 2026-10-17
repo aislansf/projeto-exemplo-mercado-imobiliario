@@ -1,6 +1,0 @@
-﻿modelo;espaco;grupos;silhueta;davies_bouldin;menor_grupo;menor_grupo_pct;maior_grupo_pct
-K-Means;euclidiano;3;0,1726;2,089;667;28,4;38,9
-Hierárquica (ward);euclidiano;3;0,1277;2,195;480;20,4;51,5
-GMM (full);euclidiano;3;0,1169;3,519;169;7,2;46,6
-GMM (diag) · fora do protocolo;euclidiano;3;0,2015;3,133;200;8,5;58,6
-K-Medoids (Gower);Gower;3;0,2232;;466;19,8;40,5

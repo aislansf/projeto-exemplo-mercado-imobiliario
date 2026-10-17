@@ -1,5 +1,0 @@
-﻿fase;artefato;imoveis;colunas;notebook;variacao
-2 · Carga;data/raw/ames_housing.parquet;2930;82;00 · dicionário de dados;0
-2 · Curadoria;data/processed/imoveis_curados.parquet;2350;83;02 · ajustes nos dados;-580
-3 · Preparação;data/processed/base_modelagem.parquet;2350;24;03 · preparação;0
-4 · Modelagem;data/processed/base_segmentada.parquet;2350;5;04 · modelagem;0

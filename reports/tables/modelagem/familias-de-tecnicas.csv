@@ -1,6 +1,0 @@
-﻿familia;algoritmo;espaco;premissa;medida_que_sustenta;k_controlavel;classifica_novo;veredicto
-Particional (centroide);K-Means;euclidiano (17);Grupos convexos de dispersão parecida em torno de uma média;contraste p99/p01 = 4.28;True;sim — centroide mais próximo;entra
-Particional (medoide);K-Medoids;misto — Gower (22);Idem, com centro em registro real e dissimilaridade arbitrária;Gower mediana = 0.237;True;sim — medoide mais próximo;entra
-Hierárquica;Aglomerativa (4 ligações);euclidiano (17);"Há hierarquia de fusões; a altura do salto indica onde cortar";não exige k a priori — segunda opinião sobre o número de grupos;True;não nativamente — exige regra externa;entra
-Densidade;DBSCAN e Mean Shift;euclidiano (17);Grupos são regiões densas separadas por regiões esparsas;joelho/mediana = 1.29 — sem degrau;False;não nativamente (DBSCAN);entra, com previsão de falha
-Probabilística;GMM;euclidiano (17);"Mistura de gaussianas; cada imóvel tem grau de pertencimento";gaussianidade é aproximação — conferida no bloco 3;True;sim — probabilidade a posteriori;entra, com ressalva

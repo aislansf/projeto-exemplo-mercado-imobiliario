@@ -4,22 +4,15 @@ Três algoritmos deste repositório não vêm prontos nas bibliotecas — Gower,
 Eclat. São eles que precisam de teste: o resto é `scikit-learn`, que já tem os seus.
 """
 
-import json
-
 import numpy as np
 import pandas as pd
 import pytest
 
-from src import config
 from src.data import ingestao
 from src.model import associacao as assoc
 from src.model import distancias as dist
 from src.model import particional as part
 from src.model import personas as pers
-
-#: Manifesto que a fase 6 grava com o modelo publicado — a régua do catálogo.
-MANIFESTO_DE_IMPLANTACAO = config.DATA_PROCESSED / "manifesto_implantacao.json"
-CATALOGO_PUBLICADO = config.CATALOGO_DE_PERSONAS
 
 
 @pytest.fixture
@@ -236,40 +229,6 @@ def test_toda_persona_tem_acao_e_metrica():
         assert persona["acao"]
         assert persona["metrica"]
         assert persona["codigo"] == f"S{indice + 1}"
-
-
-@pytest.mark.skipif(
-    not MANIFESTO_DE_IMPLANTACAO.exists(),
-    reason="o manifesto ainda não foi gravado — execute `invoke notebooks`",
-)
-def test_catalogo_bate_com_o_manifesto():
-    """Trava o catálogo contra o modelo publicado.
-
-    A cadeia anterior deixou ``PERSONAS`` com quatro entradas depois de o modelo
-    passar a ter três segmentos — e nada acusou. Este teste é o que impede a
-    divergência de voltar: o catálogo em código e o *k* do manifesto publicado têm
-    de contar a mesma história.
-    """
-    manifesto = json.loads(MANIFESTO_DE_IMPLANTACAO.read_text(encoding="utf-8"))
-
-    assert len(pers.PERSONAS) == manifesto["modelo"]["k"]
-    assert pers.VERSAO_DO_CATALOGO == manifesto["versao_modelo"]
-    assert sorted(pers.PERSONAS) == list(range(manifesto["modelo"]["k"]))
-
-
-@pytest.mark.skipif(
-    not CATALOGO_PUBLICADO.exists(),
-    reason="o catálogo ainda não foi publicado — execute `invoke notebooks`",
-)
-def test_catalogo_em_codigo_bate_com_o_catalogo_publicado():
-    """O texto que a tela mostra e o que o módulo declara são o mesmo texto."""
-    publicado = json.loads(CATALOGO_PUBLICADO.read_text(encoding="utf-8"))["personas"]
-
-    assert len(publicado) == len(pers.PERSONAS)
-    for chave, persona in publicado.items():
-        em_codigo = pers.PERSONAS[int(chave)]
-        for campo in ("codigo", "nome", "acao", "metrica", "canal", "teto_de_reforma"):
-            assert em_codigo[campo] == persona[campo], f"divergência em {chave}.{campo}"
 
 
 # --------------------------------------------------------------------------- #

@@ -1,7 +1,0 @@
-﻿etapa;o_que_acontece;onde;responsavel;falha_possivel;o_que_acontece_na_falha
-1 · Carga;O cadastro de imóveis publica a base do mês;data/raw/ — job mensal;Engenharia de Dados;arquivo ausente, volume anômalo ou coluna faltando;a carga é bloqueada e a classificação vigente permanece
-2 · Contrato;Cada registro é validado antes de entrar;models/contrato_de_entrada.json;Engenharia de Dados;valor fora da faixa aceita ou tipo incompatível;o registro é rejeitado com o motivo, e não classificado por padrão
-3 · Preparo;log1p, padronização e ordem de colunas;models/modelo-segmentacao.joblib — passo `preparo`;Área de Dados;reimplementação da receita na camada de aplicação;proibido por desenho: só existe uma receita, dentro do pacote
-4 · Atribuição;Segmento canônico e faixa de confiança;models/modelo-segmentacao.joblib — passo `segmentacao`;Área de Dados;imóvel na fronteira entre dois segmentos;sai marcado como fronteira e vai para revisão humana
-5 · Entrega em lote;Carteira classificada e relatórios;data/processed/carteira_classificada.parquet;Área de Dados;consumidor lê arquivo antigo sem perceber;"o carimbo do pacote vai no arquivo; versão diferente é recusada pelo consumidor"
-6 · Entrega sob demanda;Resposta com segmento, ação, métrica e confiança;aplicação Streamlit e, quando houver, integração com o CRM;Diretoria Comercial;ação automática disparada sobre imóvel de fronteira;a resposta traz `confianca = fronteira` e a ação fica suspensa até revisão

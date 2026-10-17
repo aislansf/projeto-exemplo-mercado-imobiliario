@@ -1,4 +1,0 @@
-﻿resultado_da_reciclagem;interpretacao;decisao;quem_aprova
-ARI ≥ 0,80 com a partição vigente;mesma estrutura, centroides deslocados;versão MENOR: atualizar centroides, manter personas e ações;Área de Dados
-ARI entre 0.75 e 0,80;estrutura deslocada;versão MENOR com revisão das linhas afetadas antes da publicação;Diretoria Comercial
-ARI < 0.75;estrutura diferente — o piso de estabilidade do Canvas foi rompido;versão MAIOR: novo ciclo de CRISP-DM a partir do entendimento de negócio, com o catálogo de personas reescrito;Diretoria e patrocinador

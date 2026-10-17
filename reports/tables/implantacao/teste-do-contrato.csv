@@ -1,3 +1,0 @@
-﻿registro;violacoes;detalhe;extrapolacoes
-imóvel plausível;0;aceito;nenhuma
-imóvel com erro de cadastro;4;"campos fora do contrato: ['piscina']; `idade_imovel` é obrigatório e não pode vir da mediana; `area_terreno` = 999999.0 está fora da faixa aceita [0, 29662.5]; `qualidade_geral` = 15.0 está fora da faixa aceita [1, 10]";area_habitavel, area_terreno, qualidade_geral

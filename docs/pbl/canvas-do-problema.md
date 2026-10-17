@@ -4,7 +4,7 @@
 > entre o pedido da diretoria e o que a equipe efetivamente fez.
 
 **Equipe:** Meridiano · **Trilha:** Mercado imobiliário residencial ·
-**Versão:** 1.0 · **Data:** 04/08/2026
+**Versão:** 1.1 · **Data:** 16/10/2026
 
 ---
 
@@ -12,8 +12,8 @@
 
 A **Meridiano Imobiliária** compra, requalifica e revende imóveis residenciais, além de
 intermediar vendas de terceiros. Opera em Ames, Iowa, com uma carteira histórica de
-**2.350 imóveis comercializáveis**, depurados de 2.930 registros transacionados entre
-2006 e 2010.
+**2.927 imóveis**, ajustados a partir de 2.930 registros transacionados entre 2006 e
+2010.
 
 Quem decide o quê:
 
@@ -23,7 +23,7 @@ Quem decide o quê:
 
 ## 2 · A dor
 
-Política **única** para 2.350 imóveis muito diferentes entre si: mesma régua de preço,
+Política **única** para quase três mil imóveis muito diferentes entre si: mesma régua de preço,
 mesmo teto de reforma, mesmo canal de anúncio.
 
 Quem sofre com isso:
@@ -54,22 +54,25 @@ margem.
 
 ## 5 · Meta de mineração
 
-**Agrupamento** (segmentação), com **regras de associação** como validação
-independente e **detecção de anomalia** como subproduto.
+**Agrupamento** (segmentação), com **regras de associação** como leitura
+independente da carteira e **detecção de anomalia** como subproduto.
 
 Não é previsão. O preço existe na base e **não** entra na modelagem — usá-lo devolveria
 uma faixa de preço, que a diretoria já tem.
 
 ## 6 · Critério de sucesso técnico
 
-| Critério | Valor |
-|:---|:---|
-| Silhueta mínima aceitável | **≥ 0,15** |
-| Número de grupos | **entre 2 e 5** |
-| Percentual máximo de ruído | **≤ 10%** |
-| Estabilidade sob reamostragem de 80% | **ARI ≥ 0,75** |
-| Menor segmento | **≥ 2% da carteira** |
-| Independência do rótulo reservado | **ARI contra quartis de preço < 0,40** |
+| Critério | Valor | Peso |
+|:---|:---|:---|
+| Número de segmentos | **entre 2 e 5** | crítico |
+| Menor segmento | **≥ 10% da carteira** | crítico |
+| O preço distingue os segmentos | **mais caro ≥ 1,3× o mais barato, e Kruskal-Wallis p < 0,05** | crítico |
+| Imóvel novo classificável | **acurácia ≥ 85%** em validação cruzada | crítico |
+| Separação dos grupos | **silhueta ≥ 0,25** | não crítico |
+| Cobertura da carteira | **100% com segmento** | não crítico |
+
+Um critério crítico reprovado barra a implantação. São os valores que o notebook
+`05-avaliacao` aplica (meta 1.1).
 
 ## 7 · Entidade de análise
 
@@ -91,32 +94,32 @@ bairro desapareceria) nem o comprador (não há dado sobre ele).
 
 ## 9 · Perguntas orientadas a dados (SMART)
 
-1. **Quantos grupos distintos emergem** entre os 2.350 imóveis quando se consideram
-   porte, configuração, padrão construtivo e idade, com silhueta ≥ 0,15 e no máximo 5
-   grupos?
-   → *Resposta: **3**, com silhueta 0,1726.* [Escolha de k](../modelagem.md#a-escolha-de-k)
+1. **Quantos grupos distintos emergem** entre os imóveis da carteira quando se
+   consideram porte, configuração, padrão construtivo e idade, com no máximo 5 grupos?
+   → *Resposta: **3**, pelo mini batch k-means — com silhueta de 0,102, abaixo da
+   meta de 0,25: a carteira se divide em faixas contínuas, não em grupos isolados.*
+   [A escolha do modelo](../modelagem.md#a-escolha-do-modelo)
 
 2. **Qual grupo concentra mais de 40% da receita** transacionada no período de 2006 a
    2010?
-   → *Resposta: **S3 · Recente de alto padrão, com 44,8%**.*
+   → *Resposta: **Segmento A, com 50,8% do valor de venda** e 37,8% dos imóveis.*
    [Leitura de negócio](../avaliacao.md#quanto-vale-cada-segmento)
 
-3. **Quais combinações de até três atributos construtivos** ocorrem juntas com suporte
-   ≥ 10% e lift ≥ 1,30, e quais delas valem apenas dentro de um grupo específico?
-   → ***Sem resposta nesta cadeia.*** A etapa de regras não foi executada sobre a
-   carteira depurada; a decisão entre refazê-la ou revisar esta meta está entre as
-   deliberações da sessão de encerramento.
-   [O que esta fase não entregou](../modelagem.md#o-que-esta-fase-nao-entregou)
+3. **Quais combinações de até três atributos construtivos** ocorrem juntas com
+   frequência, e quais delas valem apenas dentro de um grupo específico?
+   → *Resposta parcial: o notebook 04-3 encontrou **23.403 regras** com suporte ≥ 15%,
+   confiança ≥ 60% e lift ≥ 1,20 na carteira inteira. O cruzamento com os segmentos
+   não foi feito.* [Regras de associação](../modelagem.md#regras-de-associacao)
 
-4. **Que percentual dos imóveis é classificado como ruído** por um DBSCAN calibrado com
-   `minPts = 2 × d`, e qual é o perfil desses imóveis?
-   → *Resposta: **a varredura não encontrou configuração admissível** — nenhum `eps`
-   entrega simultaneamente ruído ≤ 10% e de 2 a 5 grupos.*
-   [DBSCAN](../modelagem.md#por-que-dbscan-e-mean-shift-falharam)
+4. **Que percentual dos imóveis é classificado como ruído** por um DBSCAN calibrado
+   pela curva k-distância, e qual é o perfil desses imóveis?
+   → *Resposta: **nenhuma configuração foi admitida**. A de maior silhueta deixa 83,1%
+   da carteira como ruído.* [DBSCAN](../modelagem.md#por-que-dbscan-e-mean-shift-falharam)
 
-5. **A segmentação é distinguível de uma faixa de preço**, medida por índice de Rand
-   ajustado abaixo de 0,40 contra os quartis de `preco_venda`?
-   → *Resposta: **sim — ARI de 0,3345**.*
+5. **A segmentação é distinguível de uma faixa de preço?**
+   → *Resposta: **não foi medido na cadeia atual.** A avaliação mede o oposto — que o
+   preço difere entre os segmentos (1,84×) —, e o preço mediano cai na mesma ordem de
+   A a C. Se os segmentos são mais que uma faixa de preço continua em aberto.*
    [Confronto](../avaliacao.md#a-segmentacao-e-uma-tabela-de-preco-disfarcada)
 
 ## 10 · Restrições e riscos
@@ -144,7 +147,8 @@ Para cada linha de produto encontrada, a diretoria decidirá:
 > Se a resposta a "que decisão será tomada com o resultado" fosse "nenhuma", o projeto
 > não deveria existir.
 
-As três ações definidas estão em [As três linhas de produto](../modelagem.md#as-tres-linhas-de-produto).
+As ações por segmento ainda não foram definidas: os três segmentos têm perfil, mas não
+política — ver [Os três segmentos](../modelagem.md#os-tres-segmentos).
 
 ---
 
@@ -157,5 +161,6 @@ As três ações definidas estão em [As três linhas de produto](../modelagem.m
 | 3 | Acrescentado o critério **ARI contra preço < 0,40** | Surgiu a dúvida sobre a segmentação ser uma faixa de preço disfarçada |
 | 4 | Meta de regras revista de "suporte ≥ 5%" para **"≥ 10%"** | A 5% o resultado foi de 6.274 regras, volume que nenhuma área comercial lê |
 | 5 | Nenhuma | — |
+| 6 | Critérios técnicos substituídos pelos da meta 1.1 do notebook 05: menor segmento ≥ **10%**, razão de preço ≥ **1,3**, acurácia ≥ **85%**, silhueta ≥ **0,25** (não crítico) | A cadeia atual mede operabilidade e uso no dia a dia; estabilidade por reamostragem e ARI contra o preço deixaram de ser medidos |
 
 Um Canvas que não muda entre encontros é sinal de que ninguém o consultou.

@@ -1,6 +1,0 @@
-﻿modelo;K-Means;Hierárquica (ward);GMM (full);GMM (diag) · fora do protocolo;K-Medoids (Gower)
-K-Means;1,0;0,406;0,283;0,478;0,368
-Hierárquica (ward);0,406;1,0;0,225;0,491;0,339
-GMM (full);0,283;0,225;1,0;0,531;0,237
-GMM (diag) · fora do protocolo;0,478;0,491;0,531;1,0;0,396
-K-Medoids (Gower);0,368;0,339;0,237;0,396;1,0

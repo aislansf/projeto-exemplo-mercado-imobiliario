@@ -1,7 +1,0 @@
-﻿incidente;primeiro_passo;aciona;prazo;enquanto_isso
-A carga não chegou ou veio com volume anômalo;comparar a contagem com a carga anterior e acionar a origem;Engenharia de Dados;mesmo dia;"a classificação vigente permanece; nada é reclassificado"
-Mais de 5% dos registros rejeitados pelo contrato;abrir a lista de violações por campo — é erro de cadastro, não de modelo;Engenharia de Dados;48 horas;"os registros aceitos são classificados; os rejeitados ficam pendentes com o motivo"
-PSI em nível de ação em algum atributo;verificar se é mudança real ou erro de origem (unidade, escala, domínio novo);Área de Dados;5 dias úteis;classificação continua, com o alerta visível no painel
-Silhueta abaixo do piso por dois trimestres;reciclagem com nova varredura de k e teste de estabilidade;Área de Dados;30 dias;"as ações comerciais seguem; a revisão do catálogo aguarda o ARI"
-O carimbo do pacote não confere;interromper a carga e restaurar o artefato da versão registrada;Área de Dados;imediato;nenhuma classificação nova é publicada — é o único incidente que para a operação
-A aplicação está fora do ar;"reiniciar o serviço; a carteira classificada em arquivo continua disponível";Engenharia de Dados;4 horas;consumo pelo arquivo `carteira_classificada.parquet`

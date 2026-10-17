@@ -1,10 +1,11 @@
-"""Aplicação Streamlit que consome o modelo publicado em ``.pkl``.
+"""Aplicação Streamlit que consome os artefatos gravados pelos notebooks.
 
-A tela lê **um único artefato**: ``models/aplicacao-segmentacao.pkl``. Tudo o que
-aparece aqui — a partição, as personas, as faixas de confiança, a carteira
-classificada e o plano de monitoramento — sai de dentro desse pacote. Não há
-consulta a ``data/``, a ``reports/`` nem aos demais arquivos de ``models/``: se o
-pacote for copiado para outra máquina junto com este diretório, a aplicação sobe.
+A tela lê o que os notebooks 00 a 05 deixam em disco — o modelo vencedor do 04-0
+(``models/selecionado.json`` e o ``.joblib`` que ele aponta), os segmentos da
+carteira, a base curada, o dicionário e as escalas ordinais. Os resultados do
+04-2 (PCA e UMAP), do 04-3 (regras de associação) e do 05 (avaliação) entram
+quando existem. A lista completa e o notebook que grava cada arquivo estão em
+:data:`src.app.artefatos.ARQUIVOS`.
 
 Execute com::
 
@@ -13,13 +14,14 @@ Execute com::
     uv run streamlit run src/app/app.py
 
 As sete abas seguem o caminho de quem usa: primeiro o resultado do modelo, depois
-a classificação de um imóvel, o catálogo de ações, a carteira, o lote mensal, o
-monitoramento e, por último, a procedência do próprio pacote.
+a classificação de um imóvel, o perfil dos segmentos, a carteira, o lote, as
+regras de associação e, por último, a procedência dos arquivos.
 """
 
 from __future__ import annotations
 
 import sys
+from datetime import datetime
 from io import BytesIO
 from pathlib import Path
 
@@ -33,7 +35,8 @@ import streamlit as st
 if __package__ in (None, ""):  # pragma: no cover - caminho de execução direta
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from src.app import pacote as pac  # noqa: E402
+from src import config  # noqa: E402
+from src.app import artefatos as art  # noqa: E402
 
 st.set_page_config(
     page_title="Meridiano · Segmentação da carteira",
@@ -42,35 +45,51 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Cores de apoio da tela. As cores dos segmentos vêm do próprio pacote
-# (``catalogo['cores']``); estas espelham a identidade de ``src/config.py`` e
-# ficam aqui para que a aplicação não dependa de nenhum outro módulo do projeto.
-AZUL_PROFUNDO = "#1B4965"
-AZUL_COBALTO = "#2A6F97"
-CORAL = "#EE6C4D"
-CINZA = "#8A9BA8"
-
-#: Como o formulário agrupa os 17 campos do contrato. Campo do contrato que não
-#: estiver aqui ainda assim aparece na tela, no bloco final.
+#: Campos do formulário, agrupados como o corretor pensa o imóvel. Campo que não
+#: existir na base curada some do formulário sem quebrar a tela.
 GRUPOS = {
-    "Áreas (pé²)": [
-        "area_habitavel",
-        "area_porao",
-        "area_terreno",
-        "area_garagem",
-        "area_varandas",
-    ],
-    "Distribuição interna": ["comodos", "dormitorios", "banheiros_total", "lareiras"],
-    "Idade": ["idade_imovel", "anos_desde_reforma"],
-    "Qualidade e conservação": [
-        "qualidade_geral",
-        "conservacao_geral",
-        "qualidade_externa",
-        "qualidade_cozinha",
-        "qualidade_porao",
-        "acabamento_garagem",
-    ],
+    "Áreas (pé²)": {
+        "area_habitavel": "Área habitável",
+        "area_porao": "Área do porão",
+        "area_terreno": "Área do terreno",
+        "area_garagem": "Área da garagem",
+        "area_varandas": "Área de varandas",
+    },
+    "Distribuição interna": {
+        "comodos": "Cômodos",
+        "dormitorios": "Dormitórios",
+        "banheiros_total": "Banheiros (total)",
+        "lareiras": "Lareiras",
+        "vagas_garagem": "Vagas de garagem",
+    },
+    "Idade": {
+        "idade_imovel": "Idade do imóvel (anos)",
+        "anos_desde_reforma": "Anos desde a reforma",
+    },
+    "Qualidade e conservação": {
+        "qualidade_geral": "Qualidade geral",
+        "conservacao_geral": "Conservação geral",
+        "qualidade_cozinha": "Qualidade da cozinha",
+        "qualidade_porao": "Qualidade do porão",
+        "acabamento_garagem": "Acabamento da garagem",
+    },
+    "Localização e tipo": {
+        "bairro": "Bairro",
+        "zoneamento": "Zoneamento",
+        "tipo_construcao": "Tipo de construção",
+        "estilo": "Estilo",
+        "ar_central": "Ar-condicionado central",
+    },
+    "O imóvel tem": {
+        "tem_porao": "Porão",
+        "tem_garagem": "Garagem",
+        "tem_lareira": "Lareira",
+        "tem_segundo_pavimento": "Segundo pavimento",
+        "foi_reformada": "Reforma",
+    },
 }
+BINARIAS = set(GRUPOS["O imóvel tem"])
+ROTULOS = {campo: rotulo for grupo in GRUPOS.values() for campo, rotulo in grupo.items()}
 
 CSS = f"""
 <style>
@@ -79,7 +98,7 @@ CSS = f"""
         padding: 1rem 1.2rem; margin: .2rem 0 1rem 0;
         background: rgba(27, 73, 101, 0.06);
     }}
-    .cartao-segmento h2 {{ margin: 0; color: {AZUL_PROFUNDO}; font-size: 1.6rem; }}
+    .cartao-segmento h2 {{ margin: 0; color: {config.AZUL_PROFUNDO}; font-size: 1.6rem; }}
     .cartao-segmento p {{ margin: .35rem 0 0 0; color: #33454F; }}
     .rodape-evidencia {{
         font-size: .78rem; color: #6B7C88; border-top: 1px solid #E6EBEF;
@@ -92,37 +111,48 @@ st.markdown(CSS, unsafe_allow_html=True)
 
 
 # --------------------------------------------------------------------------- #
-# Carga do pacote
+# Carga dos artefatos
 # --------------------------------------------------------------------------- #
 
 
-@st.cache_resource(show_spinner="Abrindo o pacote publicado…")
-def abrir_pacote(caminho: str) -> dict:
-    """Lê o ``.pkl`` uma única vez por processo."""
-    return pac.carregar(caminho)
+def versao_dos_arquivos() -> tuple:
+    """Data de modificação de cada artefato — muda quando um notebook regrava."""
+    return tuple(
+        caminho.stat().st_mtime if caminho.exists() else None
+        for caminho, _, _ in art.ARQUIVOS.values()
+    )
+
+
+@st.cache_resource(show_spinner="Lendo os artefatos dos notebooks…")
+def abrir(_versao: tuple) -> tuple[art.Artefatos, pd.DataFrame, pd.DataFrame]:
+    """Lê tudo uma vez e só relê quando algum notebook regravar um arquivo."""
+    artefatos = art.carregar()
+    return artefatos, art.carteira(artefatos), art.perfil(artefatos)
 
 
 try:
-    PACOTE = abrir_pacote(str(pac.CAMINHO_PACOTE))
-except FileNotFoundError:
+    ART, CARTEIRA, PERFIL = abrir(versao_dos_arquivos())
+except art.ArtefatosAusentes:
+    linhas = "\n".join(
+        f"- `{caminho}` — notebook **{nb}**" for caminho, nb in art.arquivos_ausentes()
+    )
     st.error(
-        f"O pacote `{pac.CAMINHO_PACOTE.name}` não existe em `models/`. "
-        "Ele é gravado na fase de implantação:\n\n```bash\nuv run invoke notebooks\n```"
+        "A aplicação depende de arquivos que os notebooks ainda não gravaram:\n\n"
+        f"{linhas}\n\nExecute os notebooks na ordem:\n\n```bash\nuv run invoke notebooks\n```"
     )
     st.stop()
-except pac.PacoteInvalido as erro:
-    st.error(f"O pacote existe, mas não pôde ser lido: {erro}")
+except ValueError as erro:
+    st.error(f"Os artefatos existem, mas não conversam entre si: {erro}")
     st.stop()
 
-MODELO = PACOTE["modelo"]
-ESPACO = pac.espaco(PACOTE)
-ROTULOS = pac.rotulos(PACOTE)
-CAMPOS = pac.campos(PACOTE)
-LINHAS = pac.linhas_de_produto(PACOTE)
-CORES = pac.cores(PACOTE)
-CORES_POR_CODIGO = {LINHAS.loc[seg, "codigo"]: cor for seg, cor in CORES.items()}
-CARTEIRA = pac.carteira(PACOTE)
-ORDEM_FAIXAS = list(PACOTE["atribuicao"]["faixas"])
+SELECIONADO = ART.selecionado
+SEGMENTOS = ART.segmentos
+CORES = {
+    nome: config.PALETA_SEGMENTOS[i % len(config.PALETA_SEGMENTOS)]
+    for i, nome in enumerate(SEGMENTOS)
+} | {"Sem segmento": config.CINZA}
+DESCRICOES = ART.dicionario.set_index("variavel")["descricao"].to_dict()
+AVALIACAO = ART.opcionais.get("avaliacao")
 
 
 def milhar(valor: float, casas: int = 0) -> str:
@@ -137,50 +167,71 @@ def csv_para_download(dados: pd.DataFrame, indice: bool = False) -> bytes:
 
 
 def evidencia(*origens: str) -> None:
-    """Rodapé que aponta a chave do pacote de onde os números daquele bloco vieram."""
+    """Rodapé que aponta os arquivos de onde os números daquele bloco vieram."""
     st.markdown(
-        '<div class="rodape-evidencia">Do pacote: '
+        '<div class="rodape-evidencia">Fonte: '
         + " · ".join(f"<code>{origem}</code>" for origem in origens)
         + "</div>",
         unsafe_allow_html=True,
     )
 
 
+def rotulo(campo: str) -> str:
+    """Nome de tela do campo; na falta, o próprio nome da coluna."""
+    return ROTULOS.get(campo, campo.replace("_", " ").capitalize())
+
+
+def cartao(segmento: str, texto: str) -> None:
+    st.markdown(
+        f'<div class="cartao-segmento" style="--cor:{CORES[segmento]}">'
+        f"<h2>{segmento}</h2><p>{texto}</p></div>",
+        unsafe_allow_html=True,
+    )
+
+
+def retrato(segmento: str) -> str:
+    """Uma frase com as medianas de negócio do segmento."""
+    linha = PERFIL.loc[segmento]
+    return (
+        f"{milhar(linha['imoveis'])} imóveis ({linha['pct_carteira']:.1f}% da carteira) · "
+        f"preço mediano US$ {milhar(linha['preco_mediano'])} · "
+        f"{milhar(linha['area_habitavel'])} pé² · qualidade {linha['qualidade_geral']:.0f} · "
+        f"{linha['idade_imovel']:.0f} anos"
+    )
+
+
 # --------------------------------------------------------------------------- #
-# Barra lateral — identidade do modelo em operação
+# Barra lateral — o modelo em operação
 # --------------------------------------------------------------------------- #
 
 with st.sidebar:
     st.title("🏘️ Meridiano")
-    st.caption("Segmentação da carteira residencial · modelo servido a partir do `.pkl`")
+    st.caption("Segmentação da carteira residencial · modelo do notebook 04-0")
     st.divider()
-    st.metric("Linhas de produto", MODELO["k"])
-    st.metric("Imóveis classificados", milhar(len(CARTEIRA)))
-    st.metric("Coesão (silhueta)", f"{MODELO['silhueta']:.4f}")
-    st.metric(
-        "Ação automática liberada", f"{100 * CARTEIRA['acao_automatica_liberada'].mean():.1f}%"
-    )
+    st.metric("Segmentos", len(SEGMENTOS))
+    st.metric("Imóveis na carteira", milhar(len(CARTEIRA)))
+    st.metric("Silhueta", f"{SELECIONADO['silhueta']:.3f}")
     st.divider()
     st.caption(
-        f"Pacote `{PACOTE['formato']}` · modelo **{PACOTE['versao_modelo']}**\n\n"
-        f"{MODELO['algoritmo']} com k={MODELO['k']}, semente {MODELO['semente']}\n\n"
-        f"Treino: {milhar(MODELO['imoveis_de_treino'])} imóveis · {MODELO['periodo_de_treino']}"
+        f"Modelo **{SELECIONADO['modelo']}**\n\n`{SELECIONADO['params']}`\n\n"
+        f"Arquivo: `models/{SELECIONADO['arquivo']}`\n\n"
+        f"Atribuição de imóveis novos: "
+        f"**{'predict do modelo' if ART.classifica_novos else 'centroide mais próximo'}**"
     )
-    st.caption(f"Arquivo: `models/{pac.CAMINHO_PACOTE.name}`")
     st.caption(
-        "O preço de venda **não** entrou na modelagem: é rótulo reservado, aberto só "
-        "na leitura de resultado."
+        "O preço de venda **não** entrou na modelagem: é rótulo reservado, usado só "
+        "para ler o resultado."
     )
 
 abas = st.tabs(
     [
         "Resultado do modelo",
         "Classificar um imóvel",
-        "Linhas de produto",
+        "Perfil dos segmentos",
         "Carteira classificada",
         "Classificação em lote",
-        "Monitoramento",
-        "O pacote",
+        "Regras de associação",
+        "Procedência",
     ]
 )
 
@@ -192,272 +243,280 @@ abas = st.tabs(
 with abas[0]:
     st.header("O que o modelo entrega")
 
+    lider = PERFIL["pct_vgv"].idxmax()
+    maior = PERFIL["pct_carteira"].idxmax()
     colunas = st.columns(4)
-    lider = LINHAS["pct_receita"].idxmax()
-    colunas[0].metric("Linhas de produto", MODELO["k"], "de 2 a 5 pelo orçamento", border=True)
+    colunas[0].metric(
+        "Segmentos", len(SEGMENTOS), f"{SELECIONADO['modelo']}", delta_color="off", border=True
+    )
     colunas[1].metric(
-        "Linha líder em receita",
-        LINHAS.loc[lider, "codigo"],
-        f"{LINHAS.loc[lider, 'pct_receita']:.1f}% da receita",
+        "Líder em valor de venda",
+        lider,
+        f"{PERFIL.loc[lider, 'pct_vgv']:.1f}% do VGV",
+        delta_color="off",
         border=True,
     )
     colunas[2].metric(
-        "Coesão (silhueta)",
-        f"{MODELO['silhueta']:.4f}",
-        f"piso de {PACOTE['monitoramento']['limiares']['piso_de_silhueta']:.2f}",
+        "Maior segmento",
+        maior,
+        f"{PERFIL.loc[maior, 'pct_carteira']:.1f}% dos imóveis",
+        delta_color="off",
         border=True,
     )
     colunas[3].metric(
-        "Imóveis em fronteira",
-        f"{100 * (CARTEIRA['confianca'] == 'fronteira').mean():.1f}%",
-        f"teto operacional de {100 * PACOTE['atribuicao']['teto_operacional']:.0f}%",
-        delta_color="inverse",
+        "Preço mediano: maior ÷ menor",
+        f"{PERFIL['preco_mediano'].max() / PERFIL['preco_mediano'].min():.2f}×",
         border=True,
     )
 
     esquerda, direita = st.columns([3, 2])
-
     with esquerda:
-        st.subheader("Unidades e receita por linha")
-        composicao = LINHAS.melt(
-            id_vars="codigo",
-            value_vars=["pct_carteira", "pct_receita"],
-            var_name="medida",
-            value_name="percentual",
-        ).replace({"pct_carteira": "% das unidades", "pct_receita": "% da receita"})
+        st.subheader("Imóveis e valor de venda por segmento")
+        composicao = (
+            PERFIL.reset_index()
+            .melt(
+                id_vars="segmento",
+                value_vars=["pct_carteira", "pct_vgv"],
+                var_name="medida",
+                value_name="percentual",
+            )
+            .replace({"pct_carteira": "% dos imóveis", "pct_vgv": "% do VGV"})
+        )
         figura = px.bar(
             composicao,
-            x="codigo",
+            x="segmento",
             y="percentual",
             color="medida",
             barmode="group",
             text_auto=".1f",
-            color_discrete_sequence=[AZUL_COBALTO, CORAL],
-            labels={"codigo": "", "percentual": "% da carteira", "medida": ""},
+            color_discrete_sequence=[config.AZUL_COBALTO, config.CORAL],
+            labels={"segmento": "", "percentual": "% da carteira", "medida": ""},
         )
         figura.update_layout(height=340, legend_title_text="", margin=dict(t=10, b=10))
         st.plotly_chart(figura)
         st.caption(
-            "A leitura que interessa à diretoria: a linha com menos unidades pode ser a "
-            "que sustenta a receita — orçamento por unidade e orçamento por receita não "
-            "são a mesma conta."
+            "O segmento com menos imóveis pode ser o que concentra o valor de venda — "
+            "orçamento por unidade e orçamento por receita não são a mesma conta."
         )
 
     with direita:
-        st.subheader("Coesão de cada linha")
-        figura = px.bar(
-            LINHAS.reset_index(),
-            x="silhueta_media",
-            y="codigo",
-            orientation="h",
-            text_auto=".4f",
-            color="codigo",
-            color_discrete_map=CORES_POR_CODIGO,
-            labels={"silhueta_media": "silhueta média", "codigo": ""},
-        )
-        figura.add_vline(
-            x=PACOTE["monitoramento"]["limiares"]["piso_de_silhueta"],
-            line_dash="dash",
-            line_color=CINZA,
-            annotation_text="piso",
+        st.subheader("Preço de venda por segmento")
+        figura = px.box(
+            CARTEIRA,
+            x="segmento",
+            y="preco_venda",
+            color="segmento",
+            category_orders={"segmento": SEGMENTOS},
+            color_discrete_map=CORES,
+            points=False,
+            labels={"segmento": "", "preco_venda": "US$"},
         )
         figura.update_layout(height=340, showlegend=False, margin=dict(t=10, b=10))
         st.plotly_chart(figura)
         st.caption(
-            "A silhueta média da carteira esconde diferença entre linhas: a mais coesa "
-            "sustenta ação automática, a menos coesa exige revisão caso a caso."
+            "O preço não entrou no agrupamento. Segmentos que se separam no preço são a "
+            "validação externa da segmentação."
         )
 
-    st.subheader("Confronto com os critérios de aceite")
-    resultados = PACOTE["evidencias"]["resultados"].copy()
-    resultados["atende"] = resultados["atende"].map({True: "✅ atende", False: "❌ não atende"})
-    st.dataframe(
-        resultados.rename(
-            columns={
-                "resultado": "Resultado",
-                "valor": "Valor",
-                "regua": "Régua",
-                "criterio": "Critério",
-                "atende": "Situação",
-            }
-        ),
-        hide_index=True,
-    )
-    evidencia("evidencias['resultados']", "catalogo['linhas']", "modelo")
+    if AVALIACAO:
+        st.subheader("Critérios de sucesso — notebook 05")
+        criterios = pd.DataFrame(AVALIACAO["criterios"])
+        criterios["atende"] = criterios["atende"].map({True: "✅ atende", False: "❌ não atende"})
+        criterios["crítico"] = criterios["crítico"].map({True: "sim", False: "não"})
+        st.dataframe(criterios, hide_index=True)
+
+        esquerda, direita = st.columns([3, 2])
+        with esquerda:
+            st.markdown("**Cenários financeiros do primeiro ano**")
+            cenarios = pd.DataFrame(AVALIACAO["cenarios_financeiros"])
+            st.dataframe(
+                cenarios,
+                hide_index=True,
+                column_config={
+                    "ganho": st.column_config.NumberColumn("ganho", format="percent"),
+                    "receita_extra": st.column_config.NumberColumn(format="$ %.0f"),
+                    "resultado_ano1": st.column_config.NumberColumn(format="$ %.0f"),
+                    "roi_ano1": st.column_config.NumberColumn(format="percent"),
+                    "payback_meses": st.column_config.NumberColumn(format="%.1f"),
+                },
+            )
+        with direita:
+            aprovado = AVALIACAO.get("aprovado")
+            (st.success if aprovado else st.warning)(
+                f"**Próxima ação: {AVALIACAO.get('proxima_acao', '—')}**\n\n"
+                f"{AVALIACAO.get('justificativa', '')}"
+            )
+        evidencia("reports/05-avaliacao.json", "data/processed/segmentos.csv")
+    else:
+        st.info(
+            "A avaliação do notebook 05 (`reports/05-avaliacao.json`) ainda não foi gravada — "
+            "os critérios de sucesso aparecem aqui depois que ele rodar."
+        )
+        evidencia("data/processed/segmentos.csv", "data/processed/ames_housing_tratado.csv")
 
 
 # --------------------------------------------------------------------------- #
 # 2 · Classificar um imóvel
 # --------------------------------------------------------------------------- #
 
+
+def campo_do_formulario(campo: str) -> object:
+    """Desenha o controle certo para o tipo da coluna; vazio significa não informado."""
+    serie = ART.base[campo]
+    ajuda = DESCRICOES.get(campo, "")
+    if campo in BINARIAS:
+        return st.selectbox(
+            rotulo(campo),
+            options=[1, 0],
+            index=None,
+            format_func=lambda v: "Sim" if v else "Não",
+            placeholder="não informado",
+            help=ajuda,
+        )
+    if campo in ART.ordinais:
+        return st.selectbox(
+            rotulo(campo),
+            options=ART.niveis[campo],
+            index=None,
+            placeholder="não informado",
+            help=ajuda,
+        )
+    if campo in ART.categorias:
+        return st.selectbox(
+            rotulo(campo),
+            options=sorted(ART.categorias[campo], key=str),
+            index=None,
+            placeholder="não informado",
+            help=ajuda,
+        )
+    minimo, maximo = float(serie.min()), float(serie.max())
+    return st.number_input(
+        rotulo(campo),
+        min_value=0.0,
+        value=None,
+        step=1.0 if maximo - minimo <= 50 else 10.0,
+        placeholder=f"mediana {milhar(serie.median(), 1 if serie.median() % 1 else 0)}",
+        help=f"{ajuda} Na carteira: {minimo:g} a {maximo:g}.",
+    )
+
+
 with abas[1]:
     st.header("Classificar um imóvel")
     st.markdown(
-        "O formulário é o **contrato de entrada** do modelo, lido do pacote. Três campos "
-        "são obrigatórios; os demais, quando não informados, entram com a mediana da "
-        "carteira de treino — e a tela diz quais foram completados."
+        "Preencha o que souber. O que ficar em branco é emprestado do **imóvel mais "
+        "parecido da carteira** — o mesmo roteiro do notebook 06 — e a tela mostra qual "
+        "foi o vizinho e quais campos ele completou."
     )
 
-    obrigatorios = set(PACOTE["contrato"]["obrigatorios"])
-    contrato = CAMPOS.set_index("campo")
-    agrupados = {
-        titulo: [c for c in lista if c in contrato.index] for titulo, lista in GRUPOS.items()
+    grupos = {
+        titulo: [c for c in campos if c in ART.colunas_de_entrada]
+        for titulo, campos in GRUPOS.items()
     }
-    restantes = [
-        c for c in ESPACO if c not in {campo for lista in agrupados.values() for campo in lista}
-    ]
-    if restantes:
-        agrupados["Outros campos do contrato"] = restantes
-
     with st.form("classificar"):
-        informados: dict[str, float] = {}
-        for titulo, lista in agrupados.items():
+        preenchidos: dict[str, object] = {}
+        for titulo, campos in grupos.items():
+            if not campos:
+                continue
             st.markdown(f"**{titulo}**")
-            colunas = st.columns(min(len(lista), 5))
-            for posicao, campo in enumerate(lista):
-                linha = contrato.loc[campo]
-                rotulo = linha["rotulo"] + (" *" if campo in obrigatorios else "")
-                ajuda = (
-                    f"Observado no treino: {linha['observado_minimo']:g} a "
-                    f"{linha['observado_maximo']:g}. Padrão do contrato: {linha['padrao']:g}."
-                )
-                with colunas[posicao % len(colunas)]:
-                    if linha["tipo"] == "ordinal":
-                        informados[campo] = float(
-                            st.slider(
-                                rotulo,
-                                min_value=int(linha["aceito_minimo"]),
-                                max_value=int(linha["aceito_maximo"]),
-                                value=int(linha["padrao"]),
-                                help=ajuda,
-                            )
-                        )
-                    else:
-                        largura = float(linha["observado_maximo"] - linha["observado_minimo"])
-                        informados[campo] = float(
-                            st.number_input(
-                                rotulo,
-                                min_value=float(linha["aceito_minimo"]),
-                                max_value=float(linha["aceito_maximo"]),
-                                value=float(linha["padrao"]),
-                                step=1.0 if largura <= 20 else 10.0,
-                                help=ajuda,
-                            )
-                        )
+            colunas = st.columns(5)
+            for posicao, campo in enumerate(campos):
+                with colunas[posicao % 5]:
+                    preenchidos[campo] = campo_do_formulario(campo)
             st.divider()
         enviado = st.form_submit_button("Classificar", type="primary")
 
-    if enviado or "resultado" in st.session_state:
-        if enviado:
-            st.session_state["resultado"] = pac.classificar(informados, PACOTE)
+    if enviado:
+        imovel = art.informados(preenchidos)
+        if not imovel:
+            st.session_state.pop("resultado", None)
+            st.warning("Informe ao menos um campo para classificar.")
+        else:
+            try:
+                st.session_state["resultado"] = art.classificar(ART, imovel)
+            except ValueError as erro:
+                st.session_state.pop("resultado", None)
+                st.error(str(erro))
+
+    if "resultado" in st.session_state:
         resultado = st.session_state["resultado"]
+        segmento = resultado["segmento"]
+        cartao(segmento, retrato(segmento))
 
-        st.markdown(
-            f'<div class="cartao-segmento" style="--cor:{resultado["cor"]}">'
-            f"<h2>{resultado['codigo']} · {resultado['persona']}</h2>"
-            f"<p>{resultado['ficha']['retrato']}</p></div>",
-            unsafe_allow_html=True,
-        )
-
+        razao = resultado["razao_de_fronteira"]
+        acima = (CARTEIRA["razao_de_fronteira"] < razao).mean()
         colunas = st.columns(4)
-        colunas[0].metric("Faixa de confiança", resultado["confianca"], border=True)
-        colunas[1].metric(
+        colunas[0].metric("Segmento", segmento, border=True)
+        colunas[1].metric("Segundo mais próximo", resultado["segundo_mais_proximo"], border=True)
+        colunas[2].metric(
             "Razão de fronteira",
-            f"{resultado['razao_de_fronteira']:.4f}",
-            f"fronteira a partir de {PACOTE['atribuicao']['corte_de_fronteira']}",
+            f"{razao:.3f}",
+            f"maior que {100 * acima:.0f}% da carteira",
             delta_color="off",
             border=True,
         )
-        colunas[2].metric("Segundo mais próximo", resultado["segundo_mais_proximo"], border=True)
         colunas[3].metric(
-            "Ação automática",
-            "liberada" if resultado["acao_automatica_liberada"] else "bloqueada",
+            "Campos informados",
+            len(resultado["informados"]),
+            f"{len(resultado['completados'])} completados pelo vizinho",
+            delta_color="off",
             border=True,
         )
-
-        if not resultado["acao_automatica_liberada"]:
-            st.warning(
-                f"**Imóvel de fronteira.** A distância até o {resultado['codigo']} e até o "
-                f"{resultado['segundo_mais_proximo']} são próximas demais para automatizar a "
-                "decisão. Pela regra calibrada no pacote, este imóvel vai para avaliação "
-                "humana antes de receber a ação da linha."
-            )
-        elif resultado["confianca"] == "núcleo":
-            st.success(
-                "**Imóvel de núcleo.** Está no coração da linha — é o caso em que a ação "
-                "padrão pode ser disparada sem revisão."
-            )
-
-        if resultado["avisos"]:
-            for aviso in resultado["avisos"]:
-                st.error(aviso, icon="⚠️")
+        st.caption(
+            "Razão de fronteira = distância ao centro do segmento ÷ distância ao segundo "
+            "mais próximo. Perto de 1, o imóvel está entre dois segmentos e a leitura "
+            "pede revisão humana."
+        )
 
         esquerda, direita = st.columns([2, 3])
-
         with esquerda:
-            st.subheader("Distância até cada centroide")
+            st.subheader("Distância até cada segmento")
             distancias = pd.DataFrame(
                 {
-                    "codigo": [LINHAS.loc[seg, "codigo"] for seg in resultado["distancias"]],
+                    "segmento": list(resultado["distancias"]),
                     "distancia": list(resultado["distancias"].values()),
                 }
-            ).sort_values("distancia")
+            )
             figura = px.bar(
                 distancias,
                 x="distancia",
-                y="codigo",
+                y="segmento",
                 orientation="h",
                 text_auto=".3f",
-                color="codigo",
-                color_discrete_map=CORES_POR_CODIGO,
-                labels={"distancia": "distância euclidiana no espaço padronizado", "codigo": ""},
+                color="segmento",
+                color_discrete_map=CORES,
+                labels={"distancia": "distância euclidiana no espaço do modelo", "segmento": ""},
             )
             figura.update_layout(height=280, showlegend=False, margin=dict(t=10, b=10))
+            figura.update_yaxes(autorange="reversed")
             st.plotly_chart(figura)
 
         with direita:
-            st.subheader(f"O imóvel contra a mediana do {resultado['codigo']}")
-            perfil = PACOTE["catalogo"]["perfil_por_linha"].loc[resultado["segmento"]]
-            comparacao = pd.DataFrame(
-                {
-                    "Atributo": [ROTULOS[campo] for campo in ESPACO],
-                    "Este imóvel": [resultado["registro"][campo] for campo in ESPACO],
-                    f"Mediana do {resultado['codigo']}": [float(perfil[campo]) for campo in ESPACO],
-                }
-            )
-            comparacao["Diferença"] = (
-                comparacao["Este imóvel"] - comparacao[f"Mediana do {resultado['codigo']}"]
-            )
-            st.dataframe(comparacao, hide_index=True, height=280)
-
-        st.subheader("O que fazer com ele")
-        ficha = resultado["ficha"]
-        colunas = st.columns(2)
-        colunas[0].markdown(
-            f"**Política de preço**  \n{ficha['politica_de_preco']}\n\n"
-            f"**Teto de reforma**  \n{ficha['teto_de_reforma']}\n\n"
-            f"**Canal de venda**  \n{ficha['canal']}"
-        )
-        colunas[1].markdown(
-            f"**Ação**  \n{ficha['acao']}\n\n"
-            f"**Métrica de acompanhamento**  \n{ficha['metrica']}\n\n"
-            f"**Meta**  \n{ficha['meta']}"
-        )
-
-        completados = resultado["campos_completados"]
-        with st.expander(
-            f"Registro efetivamente classificado · {len(completados)} campo(s) completado(s) "
-            "pelo contrato"
-        ):
-            if completados:
-                st.caption(
-                    "Preenchidos com a mediana do treino: "
-                    + ", ".join(ROTULOS[campo] for campo in completados)
+            st.subheader(f"O imóvel contra o típico do {segmento}")
+            do_segmento = CARTEIRA[CARTEIRA["segmento"] == segmento]
+            linhas = []
+            for campo in resultado["informados"]:
+                valor = resultado["registro"][campo]
+                if pd.api.types.is_numeric_dtype(ART.base[campo]):
+                    tipico = do_segmento[campo].median()
+                else:
+                    tipico = do_segmento[campo].mode().iat[0]
+                linhas.append(
+                    {"Atributo": rotulo(campo), "Este imóvel": valor, "Típico do segmento": tipico}
                 )
+            st.dataframe(pd.DataFrame(linhas).astype(str), hide_index=True, height=280)
+
+        with st.expander(
+            f"Registro efetivamente classificado · vizinho de referência: pid "
+            f"{resultado['vizinho']}"
+        ):
             registro = pd.DataFrame(
                 {
-                    "Atributo": [ROTULOS[campo] for campo in ESPACO],
-                    "Valor usado": [resultado["registro"][campo] for campo in ESPACO],
+                    "Atributo": ART.colunas_de_entrada,
+                    "Valor usado": [str(resultado["registro"][c]) for c in ART.colunas_de_entrada],
+                    "Origem": [
+                        "informado" if c in resultado["informados"] else "vizinho"
+                        for c in ART.colunas_de_entrada
+                    ],
                 }
             )
             st.dataframe(registro, hide_index=True)
@@ -466,15 +525,9 @@ with abas[1]:
             [
                 {
                     **resultado["registro"],
-                    **{
-                        "segmento": resultado["segmento"],
-                        "codigo_segmento": resultado["codigo"],
-                        "persona": resultado["persona"],
-                        "confianca": resultado["confianca"],
-                        "razao_de_fronteira": resultado["razao_de_fronteira"],
-                        "acao_automatica_liberada": resultado["acao_automatica_liberada"],
-                        "versao_modelo": resultado["versao_modelo"],
-                    },
+                    "segmento": segmento,
+                    "razao_de_fronteira": razao,
+                    "pid_de_referencia": resultado["vizinho"],
                 }
             ]
         )
@@ -484,73 +537,103 @@ with abas[1]:
             file_name="classificacao-do-imovel.csv",
             mime="text/csv",
         )
-    evidencia("contrato", "modelo['pipeline']", "atribuicao", "catalogo['personas']")
+    evidencia(
+        f"models/{SELECIONADO['arquivo']}",
+        "data/processed/ames_housing_tratado.csv",
+        "data/processed/escala.csv",
+    )
 
 
 # --------------------------------------------------------------------------- #
-# 3 · Linhas de produto
+# 3 · Perfil dos segmentos
 # --------------------------------------------------------------------------- #
 
 with abas[2]:
-    st.header("As linhas de produto e a ação de cada uma")
-    st.markdown(
-        "Cada linha nasceu do agrupamento e recebeu leitura de negócio na fase de "
-        "avaliação. É esse catálogo que a tela de classificação consulta."
-    )
+    st.header("O que diferencia cada segmento")
 
-    for segmento, linha in LINHAS.iterrows():
-        with st.container(border=True):
-            st.markdown(
-                f'<div class="cartao-segmento" style="--cor:{linha["cor"]}">'
-                f"<h2>{linha['codigo']} · {linha['nome']}</h2>"
-                f"<p>{linha['retrato']}</p></div>",
-                unsafe_allow_html=True,
-            )
-            colunas = st.columns(5)
-            colunas[0].metric("Imóveis", milhar(linha["imoveis"]))
-            colunas[1].metric("Da carteira", f"{linha['pct_carteira']:.1f}%")
-            colunas[2].metric("Da receita", f"{linha['pct_receita']:.1f}%")
-            colunas[3].metric("Preço mediano", f"US$ {milhar(linha['preco_mediano'])}")
-            colunas[4].metric("Na fronteira", f"{linha['pct_na_fronteira']:.1f}%")
-
-            esquerda, direita = st.columns(2)
-            esquerda.markdown(
-                f"**Política de preço**  \n{linha['politica_de_preco']}\n\n"
-                f"**Teto de reforma**  \n{linha['teto_de_reforma']}\n\n"
-                f"**Canal**  \n{linha['canal']}"
-            )
-            direita.markdown(
-                f"**Ação**  \n{linha['acao']}\n\n"
-                f"**Métrica**  \n{linha['metrica']}\n\n"
-                f"**Meta**  \n{linha['meta']}"
-            )
+    for segmento in SEGMENTOS:
+        cartao(segmento, retrato(segmento))
 
     st.subheader("Assinatura dos segmentos")
     st.caption(
-        "Quantos desvios-padrão cada linha fica acima ou abaixo da mediana da carteira. "
-        "É a leitura de por que os grupos são diferentes — e não apenas caros e baratos."
+        "Quantos desvios-padrão a mediana de cada segmento fica acima ou abaixo da "
+        "mediana da carteira. É a leitura de por que os grupos são diferentes — e não "
+        "apenas caros e baratos."
     )
-    assinatura = PACOTE["catalogo"]["assinatura"]
+    colunas_assinatura = [
+        c
+        for grupo in ("Áreas (pé²)", "Distribuição interna", "Idade", "Qualidade e conservação")
+        for c in GRUPOS[grupo]
+        if c in ART.base and pd.api.types.is_numeric_dtype(ART.base[c])
+    ] + ["preco_venda"]
+    assinatura = art.assinatura(ART, colunas_assinatura)
     mapa = go.Figure(
         go.Heatmap(
-            z=assinatura[ESPACO].to_numpy(),
-            x=[ROTULOS[campo] for campo in ESPACO],
-            y=[LINHAS.loc[seg, "codigo"] for seg in assinatura.index],
-            colorscale=[[0, CORAL], [0.5, "#FFFFFF"], [1, AZUL_COBALTO]],
+            z=assinatura.to_numpy(),
+            x=[rotulo(c) if c != "preco_venda" else "Preço de venda" for c in assinatura],
+            y=list(assinatura.index),
+            colorscale=[[0, config.CORAL], [0.5, "#FFFFFF"], [1, config.AZUL_COBALTO]],
             zmid=0,
-            text=assinatura[ESPACO].to_numpy(),
+            text=assinatura.to_numpy(),
             texttemplate="%{text:.2f}",
             colorbar=dict(title="desvios"),
         )
     )
-    mapa.update_layout(height=300, margin=dict(t=10, b=10))
+    mapa.update_layout(height=320, margin=dict(t=10, b=10))
     st.plotly_chart(mapa)
 
-    st.subheader("Perfil mediano de cada linha")
-    perfil = PACOTE["catalogo"]["perfil_por_linha"].copy()
-    perfil.index = [LINHAS.loc[seg, "codigo"] for seg in perfil.index]
-    st.dataframe(perfil.rename(columns=ROTULOS))
-    evidencia("catalogo['linhas']", "catalogo['assinatura']", "catalogo['perfil_por_linha']")
+    reducoes = {
+        nome: ART.opcionais[chave]
+        for nome, chave in (("UMAP", "umap"), ("PCA", "pca"))
+        if chave in ART.opcionais and len(ART.opcionais[chave]) == len(CARTEIRA)
+    }
+    if reducoes:
+        st.subheader("A carteira em duas dimensões")
+        tecnica = st.radio("Redução", options=list(reducoes), horizontal=True)
+        eixos = reducoes[tecnica].iloc[:, :2]
+        pontos = CARTEIRA[["pid", "bairro", "segmento", "preco_venda"]].assign(
+            x=eixos.iloc[:, 0].to_numpy(), y=eixos.iloc[:, 1].to_numpy()
+        )
+        figura = px.scatter(
+            pontos,
+            x="x",
+            y="y",
+            color="segmento",
+            category_orders={"segmento": SEGMENTOS},
+            color_discrete_map=CORES,
+            opacity=0.6,
+            hover_data=["pid", "bairro", "preco_venda"],
+            labels={"x": eixos.columns[0], "y": eixos.columns[1], "segmento": ""},
+        )
+        figura.update_layout(height=460, margin=dict(t=10, b=10))
+        st.plotly_chart(figura)
+        st.caption(
+            f"Projeção gravada pelo notebook 04-2 ({tecnica}). Cores do modelo do 04-0: "
+            "a redução só desenha a carteira, não decide o segmento."
+        )
+
+    st.subheader("Perfil mediano de cada segmento")
+    st.dataframe(
+        PERFIL.rename(
+            columns={
+                "imoveis": "Imóveis",
+                "vgv": "VGV (US$)",
+                "preco_mediano": "Preço mediano",
+                "area_habitavel": "Área habitável",
+                "qualidade_geral": "Qualidade geral",
+                "idade_imovel": "Idade",
+                "razao_mediana": "Razão de fronteira mediana",
+                "pct_carteira": "% dos imóveis",
+                "pct_vgv": "% do VGV",
+            }
+        ).round(2)
+    )
+    evidencia(
+        "data/processed/segmentos.csv",
+        "data/processed/ames_housing_tratado.csv",
+        "data/processed/ames_housing_umap.csv",
+        "data/processed/ames_housing_pca.csv",
+    )
 
 
 # --------------------------------------------------------------------------- #
@@ -558,28 +641,23 @@ with abas[2]:
 # --------------------------------------------------------------------------- #
 
 with abas[3]:
-    st.header("A carteira que o pacote publica")
+    st.header("A carteira classificada")
     st.markdown(
-        "Os imóveis de treino já classificados, com a faixa de confiança de cada um. "
-        "É a lista que a operação usa para separar o que segue automático do que vai "
-        "para avaliação humana."
+        "Os imóveis da base curada com o segmento gravado pelo notebook 04-0 e a razão "
+        "de fronteira de cada um."
     )
 
-    filtros = st.columns([2, 2, 3])
-    escolhidos = filtros[0].multiselect(
-        "Linha de produto",
-        options=sorted(CARTEIRA["codigo_segmento"].unique()),
-        default=sorted(CARTEIRA["codigo_segmento"].unique()),
+    filtros = st.columns([2, 3, 2])
+    escolhidos = filtros[0].multiselect("Segmento", options=SEGMENTOS, default=SEGMENTOS)
+    bairros = filtros[1].multiselect(
+        "Bairro", options=sorted(CARTEIRA["bairro"].dropna().unique()), default=[]
     )
-    faixas = filtros[1].multiselect(
-        "Faixa de confiança", options=ORDEM_FAIXAS, default=ORDEM_FAIXAS
-    )
-    bairros = filtros[2].multiselect(
-        "Bairro", options=sorted(CARTEIRA["bairro"].unique()), default=[]
+    teto = filtros[2].slider(
+        "Razão de fronteira até", min_value=0.0, max_value=1.0, value=1.0, step=0.05
     )
 
     recorte = CARTEIRA[
-        CARTEIRA["codigo_segmento"].isin(escolhidos) & CARTEIRA["confianca"].isin(faixas)
+        CARTEIRA["segmento"].isin(escolhidos) & (CARTEIRA["razao_de_fronteira"] <= teto)
     ]
     if bairros:
         recorte = recorte[recorte["bairro"].isin(bairros)]
@@ -590,17 +668,15 @@ with abas[3]:
         colunas = st.columns(4)
         colunas[0].metric("Imóveis no recorte", milhar(len(recorte)), border=True)
         colunas[1].metric(
-            "Ação automática liberada",
-            f"{100 * recorte['acao_automatica_liberada'].mean():.1f}%",
-            border=True,
+            "VGV do recorte", f"US$ {milhar(recorte['preco_venda'].sum() / 1e6, 1)} mi", border=True
         )
         colunas[2].metric(
-            "Receita do recorte",
-            f"US$ {milhar(recorte['preco_venda'].sum() / 1e6, 1)} mi",
-            border=True,
+            "Preço mediano", f"US$ {milhar(recorte['preco_venda'].median())}", border=True
         )
         colunas[3].metric(
-            "Preço mediano", f"US$ {milhar(recorte['preco_venda'].median())}", border=True
+            "Razão de fronteira mediana",
+            f"{recorte['razao_de_fronteira'].median():.3f}",
+            border=True,
         )
 
         esquerda, direita = st.columns([3, 2])
@@ -610,50 +686,52 @@ with abas[3]:
                 recorte,
                 x="area_habitavel",
                 y="preco_venda",
-                color="codigo_segmento",
-                color_discrete_map=CORES_POR_CODIGO,
+                color="segmento",
+                category_orders={"segmento": SEGMENTOS},
+                color_discrete_map=CORES,
                 opacity=0.65,
-                hover_data=["pid", "bairro", "confianca", "razao_de_fronteira"],
+                hover_data=["pid", "bairro", "razao_de_fronteira"],
                 labels={
                     "area_habitavel": "área habitável (pé²)",
                     "preco_venda": "preço de venda (US$)",
-                    "codigo_segmento": "",
+                    "segmento": "",
                 },
             )
             figura.update_layout(height=420, margin=dict(t=10, b=10))
             st.plotly_chart(figura)
-            st.caption(
-                "O preço aparece no eixo porque é **resultado**, não entrada: nenhum "
-                "algoritmo do projeto o enxergou. A separação vertical entre as cores é a "
-                "validação externa da segmentação."
-            )
 
         with direita:
-            st.subheader("Confiança por linha")
-            cruzamento = (
-                recorte.groupby(["codigo_segmento", "confianca"]).size().reset_index(name="imoveis")
+            st.subheader("Razão de fronteira")
+            figura = px.histogram(
+                recorte,
+                x="razao_de_fronteira",
+                color="segmento",
+                category_orders={"segmento": SEGMENTOS},
+                color_discrete_map=CORES,
+                nbins=40,
+                labels={"razao_de_fronteira": "razão de fronteira", "segmento": ""},
             )
-            figura = px.bar(
-                cruzamento,
-                x="codigo_segmento",
-                y="imoveis",
-                color="confianca",
-                category_orders={"confianca": ORDEM_FAIXAS},
-                color_discrete_sequence=[AZUL_PROFUNDO, AZUL_COBALTO, CORAL],
-                text_auto=True,
-                labels={"codigo_segmento": "", "imoveis": "imóveis", "confianca": ""},
-            )
-            figura.update_layout(height=420, margin=dict(t=10, b=10), legend_title_text="")
+            figura.update_layout(height=420, margin=dict(t=10, b=10), bargap=0.05)
             st.plotly_chart(figura)
 
-        st.dataframe(recorte, hide_index=True, height=320)
+        principais = [
+            "pid",
+            "segmento",
+            "razao_de_fronteira",
+            "bairro",
+            "preco_venda",
+            "area_habitavel",
+            "qualidade_geral",
+            "idade_imovel",
+        ]
+        st.dataframe(recorte[[c for c in principais if c in recorte]], hide_index=True, height=320)
         st.download_button(
-            "Baixar o recorte (CSV)",
+            "Baixar o recorte com todas as colunas (CSV)",
             data=csv_para_download(recorte),
             file_name="carteira-classificada.csv",
             mime="text/csv",
         )
-    evidencia("carteira", "atribuicao['faixas']")
+    evidencia("data/processed/segmentos.csv", "data/processed/ames_housing_tratado.csv")
 
 
 # --------------------------------------------------------------------------- #
@@ -663,19 +741,32 @@ with abas[3]:
 with abas[4]:
     st.header("Classificar um lote de imóveis")
     st.markdown(
-        "O caminho da carga mensal: um CSV com os atributos do contrato entra, a lista "
-        "classificada sai. Coluna ausente é completada com o padrão do contrato; coluna "
-        "extra (como matrícula ou bairro) é preservada no resultado."
+        "Um CSV com colunas da base curada entra, a lista classificada sai. Cada linha é "
+        "completada pelo imóvel mais parecido da carteira; colunas que o modelo não "
+        "conhece (matrícula, observação…) seguem intactas no resultado. Linha com "
+        "categoria desconhecida não derruba o lote: sai sem segmento e com o motivo."
     )
 
-    modelo_csv = pd.DataFrame([pac.padroes(PACOTE)])[ESPACO]
+    campos_do_modelo = [c for c in ROTULOS if c in ART.colunas_de_entrada]
+    exemplo = pd.DataFrame(
+        [
+            {
+                c: (
+                    ART.base[c].median()
+                    if pd.api.types.is_numeric_dtype(ART.base[c])
+                    else ART.base[c].mode().iat[0]
+                )
+                for c in campos_do_modelo
+            }
+        ]
+    )
     esquerda, direita = st.columns([2, 3])
     esquerda.download_button(
         "Baixar modelo de CSV",
-        data=csv_para_download(modelo_csv),
+        data=csv_para_download(exemplo),
         file_name="modelo-de-carga.csv",
         mime="text/csv",
-        help="Uma linha com os 17 campos do contrato, preenchida com os valores padrão.",
+        help="Uma linha com os campos do formulário, no valor típico da carteira.",
     )
     separador = direita.radio(
         "Separador do arquivo", options=[";", ","], horizontal=True, help="Padrão do projeto: ;"
@@ -685,206 +776,206 @@ with abas[4]:
     if arquivo is not None:
         try:
             entrada = pd.read_csv(
-                BytesIO(arquivo.getvalue()), sep=separador, decimal="," if separador == ";" else "."
+                BytesIO(arquivo.getvalue()),
+                sep=separador,
+                decimal="," if separador == ";" else ".",
+                encoding="utf-8-sig",
             )
         except Exception as erro:  # noqa: BLE001 - a mensagem vai para a tela
             st.error(f"Não foi possível ler o arquivo: {erro}")
         else:
-            ausentes = [campo for campo in ESPACO if campo not in entrada.columns]
-            if ausentes:
-                st.warning(
-                    f"{len(ausentes)} campo(s) do contrato não vieram no arquivo e entraram "
-                    "com a mediana do treino: " + ", ".join(ROTULOS[campo] for campo in ausentes)
-                )
-            faltando = [campo for campo in PACOTE["contrato"]["obrigatorios"] if campo in ausentes]
-            if faltando:
+            conhecidas = [c for c in entrada.columns if c in ART.colunas_de_entrada]
+            if not conhecidas:
                 st.error(
-                    "Campos **obrigatórios** ausentes: "
-                    + ", ".join(ROTULOS[campo] for campo in faltando)
-                    + ". O resultado abaixo é apenas indicativo — a carga real seria recusada."
+                    "Nenhuma coluna do arquivo existe na base curada — confira o modelo de CSV."
                 )
+            else:
+                with st.spinner("Classificando…"):
+                    classificado = art.classificar_lote(ART, entrada)
+                com_erro = classificado["erro"] != ""
+                colunas = st.columns(3)
+                colunas[0].metric("Linhas no arquivo", milhar(len(classificado)), border=True)
+                colunas[1].metric("Classificadas", milhar((~com_erro).sum()), border=True)
+                colunas[2].metric("Com erro", milhar(com_erro.sum()), border=True)
 
-            classificado = pac.classificar_lote(entrada, PACOTE)
-            colunas = st.columns(3)
-            colunas[0].metric("Imóveis classificados", milhar(len(classificado)), border=True)
-            colunas[1].metric(
-                "Ação automática liberada",
-                f"{100 * classificado['acao_automatica_liberada'].mean():.1f}%",
-                border=True,
-            )
-            colunas[2].metric(
-                "Em fronteira",
-                milhar((classificado["confianca"] == "fronteira").sum()),
-                border=True,
-            )
+                if com_erro.any():
+                    st.warning(
+                        f"{com_erro.sum()} linha(s) não foram classificadas — o motivo está na "
+                        "coluna `erro`."
+                    )
 
-            distribuicao = (
-                classificado.groupby("codigo_segmento").size().reset_index(name="imoveis")
-            )
-            figura = px.bar(
-                distribuicao,
-                x="codigo_segmento",
-                y="imoveis",
-                color="codigo_segmento",
-                color_discrete_map=CORES_POR_CODIGO,
-                text_auto=True,
-                labels={"codigo_segmento": "", "imoveis": "imóveis"},
-            )
-            figura.update_layout(height=300, showlegend=False, margin=dict(t=10, b=10))
-            st.plotly_chart(figura)
+                distribuicao = (
+                    classificado.loc[~com_erro]
+                    .groupby("segmento")
+                    .size()
+                    .reset_index(name="imoveis")
+                )
+                figura = px.bar(
+                    distribuicao,
+                    x="segmento",
+                    y="imoveis",
+                    color="segmento",
+                    category_orders={"segmento": SEGMENTOS},
+                    color_discrete_map=CORES,
+                    text_auto=True,
+                    labels={"segmento": "", "imoveis": "imóveis"},
+                )
+                figura.update_layout(height=300, showlegend=False, margin=dict(t=10, b=10))
+                st.plotly_chart(figura)
 
-            st.dataframe(classificado, hide_index=True, height=320)
-            st.download_button(
-                "Baixar o lote classificado (CSV)",
-                data=csv_para_download(classificado),
-                file_name="lote-classificado.csv",
-                mime="text/csv",
-            )
-    evidencia("contrato['padroes']", "modelo['pipeline']", "atribuicao")
+                st.dataframe(classificado, hide_index=True, height=320)
+                st.download_button(
+                    "Baixar o lote classificado (CSV)",
+                    data=csv_para_download(classificado),
+                    file_name="lote-classificado.csv",
+                    mime="text/csv",
+                )
+    evidencia(f"models/{SELECIONADO['arquivo']}", "data/processed/ames_housing_tratado.csv")
 
 
 # --------------------------------------------------------------------------- #
-# 6 · Monitoramento
+# 6 · Regras de associação
 # --------------------------------------------------------------------------- #
 
 with abas[5]:
-    st.header("O modelo em operação")
-    monitor = PACOTE["monitoramento"]
-    painel = monitor["painel"]
+    st.header("Regras de associação da carteira")
+    regras = ART.opcionais.get("regras")
+    if regras is None or regras.empty:
+        st.info(
+            "As regras do notebook 04-3 (`data/processed/regras_associacao.csv`) ainda não "
+            "foram gravadas."
+        )
+    else:
+        st.markdown(
+            "Combinações de atributos que aparecem juntas na carteira, encontradas pelo "
+            "notebook 04-3. Atributos numéricos entram em faixas (`=baixo`, `=medio`, "
+            "`=alto`); **lift** acima de 1 indica que os itens aparecem juntos mais do que o "
+            "acaso explicaria."
+        )
+        filtros = st.columns([2, 2, 3, 3])
+        lift_minimo = filtros[0].slider(
+            "Lift mínimo",
+            min_value=float(regras["lift"].min()),
+            max_value=float(regras["lift"].max()),
+            value=float(regras["lift"].quantile(0.5)),
+        )
+        confianca_minima = filtros[1].slider(
+            "Confiança mínima", min_value=0.0, max_value=1.0, value=0.7, step=0.05
+        )
+        antecedente = filtros[2].text_input(
+            "Antecedente contém", placeholder="ex.: qualidade_geral"
+        )
+        consequente = filtros[3].text_input("Consequente contém", placeholder="ex.: estilo")
 
-    st.subheader("Painel de indicadores")
-    colunas = st.columns(3)
-    for posicao, (_, linha) in enumerate(painel.iterrows()):
-        icone = {"folga": "🟢", "margem estreita": "🟡"}.get(linha["situacao"], "🔴")
-        colunas[posicao % 3].metric(
-            f"{icone} {linha['indicador']}",
-            f"{linha['valor']:.4g}",
-            f"{linha['sentido']} de {linha['limiar']:.4g}",
-            delta_color="off",
+        filtradas = regras[
+            (regras["lift"] >= lift_minimo) & (regras["confianca"] >= confianca_minima)
+        ]
+        if antecedente:
+            filtradas = filtradas[
+                filtradas["antecedente"].str.contains(antecedente, case=False, regex=False)
+            ]
+        if consequente:
+            filtradas = filtradas[
+                filtradas["consequente"].str.contains(consequente, case=False, regex=False)
+            ]
+        filtradas = filtradas.sort_values("lift", ascending=False)
+
+        colunas = st.columns(3)
+        colunas[0].metric("Regras no filtro", milhar(len(filtradas)), border=True)
+        colunas[1].metric("Regras gravadas", milhar(len(regras)), border=True)
+        colunas[2].metric(
+            "Maior lift no filtro",
+            f"{filtradas['lift'].max():.2f}" if len(filtradas) else "—",
             border=True,
         )
-
-    limiares = monitor["limiares"]
-    st.caption(
-        f"Limiares vigentes — PSI de atenção {limiares['psi_atencao']}, PSI de ação "
-        f"{limiares['psi_acao']}, piso de silhueta {limiares['piso_de_silhueta']}, "
-        f"piso de ARI {limiares['piso_de_ari']}."
-    )
-
-    st.subheader("Plano de monitoramento")
-    st.dataframe(monitor["plano"], hide_index=True)
-
-    esquerda, direita = st.columns(2)
-    with esquerda:
-        st.subheader("Gatilhos de reciclagem")
-        st.dataframe(monitor["gatilhos_de_reciclagem"], hide_index=True)
-    with direita:
-        st.subheader("Critério de aceite da reciclagem")
-        st.dataframe(monitor["criterio_de_aceite"], hide_index=True)
-
-    st.subheader("Calibração do corte de fronteira")
-    st.caption(
-        "A regra que decide quando a ação automática dispara não foi escolhida por "
-        "intuição: os cortes saíram desta varredura, maximizando o F1 na identificação "
-        "da silhueta negativa sob o teto operacional."
-    )
-    calibracao = PACOTE["atribuicao"]["calibracao"]
-    figura = px.line(
-        calibracao,
-        x="corte",
-        y=["precisao", "revocacao", "f1"],
-        color_discrete_sequence=[AZUL_COBALTO, CORAL, AZUL_PROFUNDO],
-        labels={"corte": "corte da razão de fronteira", "value": "", "variable": ""},
-    )
-    figura.add_vline(
-        x=PACOTE["atribuicao"]["corte_de_fronteira"],
-        line_dash="dash",
-        line_color=CINZA,
-        annotation_text="corte publicado",
-    )
-    figura.update_layout(height=340, margin=dict(t=10, b=10))
-    st.plotly_chart(figura)
-
-    st.subheader("Faixas de confiança por linha (%)")
-    st.dataframe(
-        PACOTE["atribuicao"]["faixas_por_segmento"].rename(
-            index={seg: LINHAS.loc[seg, "codigo"] for seg in LINHAS.index}
+        st.dataframe(
+            filtradas.head(500),
+            hide_index=True,
+            height=420,
+            column_config={
+                "suporte": st.column_config.NumberColumn(format="%.3f"),
+                "confianca": st.column_config.NumberColumn(format="%.3f"),
+                "lift": st.column_config.NumberColumn(format="%.2f"),
+            },
         )
-    )
-    evidencia("monitoramento", "atribuicao['calibracao']", "atribuicao['faixas_por_segmento']")
+        if len(filtradas) > 500:
+            st.caption("Mostrando as 500 de maior lift; o download traz todas.")
+        st.download_button(
+            "Baixar as regras filtradas (CSV)",
+            data=csv_para_download(filtradas),
+            file_name="regras-de-associacao.csv",
+            mime="text/csv",
+        )
+    evidencia("data/processed/regras_associacao.csv")
 
 
 # --------------------------------------------------------------------------- #
-# 7 · O pacote
+# 7 · Procedência
 # --------------------------------------------------------------------------- #
 
 with abas[6]:
     st.header("De onde vem o que esta tela mostra")
     st.markdown(
-        f"Toda a aplicação é servida por **um arquivo**: `models/{pac.CAMINHO_PACOTE.name}` "
-        f"({milhar(pac.CAMINHO_PACOTE.stat().st_size / 1024)} KB, formato "
-        f"`{PACOTE['formato']}`). Ele não importa nada de `src/`: o pipeline, o contrato, "
-        "o catálogo e a carteira viajam juntos."
+        "A aplicação não treina nada: lê o que os notebooks gravaram. O pré-processador é "
+        "reconstruído a partir da base curada, do dicionário e das escalas — exatamente "
+        "como no notebook 06 — e conferido contra a saída do 03."
     )
 
-    st.subheader("Instruções de uso gravadas no pacote")
-    st.info(PACOTE["leia_me"])
+    colunas = st.columns(3)
+    colunas[0].metric(
+        "Pré-processamento confere com o 03",
+        "sim" if ART.confere_com_03 else "não",
+        f"{ART.X.shape[1]} features",
+        delta_color="off",
+        border=True,
+    )
+    colunas[1].metric(
+        "Modelo reproduz segmentos.csv",
+        f"{100 * ART.concordancia:.1f}%" if ART.concordancia is not None else "sem predict",
+        border=True,
+    )
+    colunas[2].metric("Atribuição", "predict" if ART.classifica_novos else "centroide", border=True)
 
-    esquerda, direita = st.columns(2)
-    with esquerda:
-        st.subheader("Espaço de atributos publicado")
-        st.dataframe(
-            CAMPOS.rename(
-                columns={
-                    "campo": "Campo",
-                    "rotulo": "Rótulo",
-                    "tipo": "Tipo",
-                    "obrigatorio": "Obrigatório",
-                    "observado_minimo": "Mín. observado",
-                    "observado_maximo": "Máx. observado",
-                    "aceito_minimo": "Mín. aceito",
-                    "aceito_maximo": "Máx. aceito",
-                    "padrao": "Padrão",
-                }
+    if not ART.confere_com_03:
+        st.error(
+            "O pré-processamento reconstruído não bate com `ames_housing_preprocessed.csv`. "
+            "Algum notebook foi rodado fora de ordem — execute de novo do 02 ao 04-0."
+        )
+    if ART.concordancia is not None and ART.concordancia < 1:
+        st.warning(
+            "O modelo não reproduz todos os rótulos de `segmentos.csv`: o `.joblib` e os "
+            "rótulos vieram de execuções diferentes do 04-0."
+        )
+
+    st.subheader("Arquivos consumidos")
+
+    def linha_de_arquivo(caminho: Path, notebook: str, obrigatorio: bool, lido: bool) -> dict:
+        existe = caminho.exists()
+        return {
+            "Arquivo": caminho.relative_to(config.RAIZ).as_posix(),
+            "Notebook": notebook,
+            "Obrigatório": "sim" if obrigatorio else "não",
+            "Situação": ("✅ lido" if lido else "⚠️ não carregou") if existe else "— ausente",
+            "Tamanho (KB)": round(caminho.stat().st_size / 1024, 1) if existe else None,
+            "Gravado em": (
+                datetime.fromtimestamp(caminho.stat().st_mtime).strftime("%d/%m/%Y %H:%M")
+                if existe
+                else None
             ),
-            hide_index=True,
-            height=380,
-        )
-    with direita:
-        st.subheader("Carimbo de origem")
-        st.caption(
-            "SHA-256 de cada artefato que originou o pacote. É o que permite provar, meses "
-            "depois, que a tela está servindo o modelo aprovado na fase de avaliação."
-        )
-        carimbos = pd.DataFrame(
-            {
-                "Artefato": list(PACOTE["carimbo_de_origem"]),
-                "SHA-256": [f"{valor[:16]}…" for valor in PACOTE["carimbo_de_origem"].values()],
-            }
-        )
-        st.dataframe(carimbos, hide_index=True)
-        st.markdown(
-            f"**Versão do modelo:** {PACOTE['versao_modelo']}  \n"
-            f"**Algoritmo:** {MODELO['algoritmo']} · k={MODELO['k']} · "
-            f"semente {MODELO['semente']}  \n"
-            f"**Treino:** {milhar(MODELO['imoveis_de_treino'])} imóveis · "
-            f"{MODELO['periodo_de_treino']}  \n"
-            f"**Pré-processador:** `{type(MODELO['pipeline'].named_steps['preparo']).__name__}` "
-            "serializado junto — a tela não recalcula padronização."
-        )
+        }
 
-    st.subheader("Evidências que viajaram com o pacote")
-    nomes = {
-        "resultados": "Resultados contra os critérios",
-        "insights": "Insights registrados",
-        "entregas": "Entregas e consumidores",
-        "janelas": "Janelas de implantação",
-        "deliberacoes": "Deliberações pendentes",
-        "backlog_da_fase_5": "Backlog da fase 5",
-        "auditoria_do_publicado": "Auditoria do publicado",
-    }
-    escolhida = st.selectbox(
-        "Evidência", options=list(nomes), format_func=lambda chave: nomes[chave]
+    arquivos = [
+        linha_de_arquivo(caminho, notebook, obrigatorio, lido=obrigatorio or nome in ART.opcionais)
+        for nome, (caminho, notebook, obrigatorio) in art.ARQUIVOS.items()
+    ]
+    arquivos.insert(
+        1,
+        linha_de_arquivo(
+            config.MODELS / SELECIONADO["arquivo"], "04-0", True, lido=ART.modelo is not None
+        ),
     )
-    st.dataframe(PACOTE["evidencias"][escolhida], hide_index=True)
-    evidencia("leia_me", "carimbo_de_origem", "contrato['campos']", "evidencias")
+    st.dataframe(pd.DataFrame(arquivos), hide_index=True)
+
+    st.subheader("Modelo selecionado")
+    st.json(SELECIONADO)
+    evidencia("models/selecionado.json")

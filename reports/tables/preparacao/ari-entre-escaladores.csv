@@ -1,5 +1,0 @@
-﻿escalador;sem_escala;minmax;padrao;robusto
-sem_escala;1,0;0,018;0,069;0,066
-minmax;0,018;1,0;0,373;0,365
-padrao;0,069;0,373;1,0;0,442
-robusto;0,066;0,365;0,442;1,0

@@ -1,6 +1,0 @@
-﻿verificacao;resultado;situacao
-A classificação em lote reproduz a partição aprovada;100% dos imóveis;aprovado
-Custo de processamento da carteira inteira;11 ms para 2.350 imóveis (4.6 µs por imóvel);aprovado
-Imóveis liberados para ação automática;2.011 de 2.350 (85.6%);aprovado
-Imóveis encaminhados para revisão humana;339 (14.4% — teto de 15%);aprovado
-Proveniência gravada em toda linha da saída;versão 2.0.0 e carimbo bca92cfd54faf635;aprovado

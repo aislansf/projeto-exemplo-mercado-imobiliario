@@ -5,7 +5,7 @@ Liste as tarefas disponíveis com `uv run invoke --list`.
 O caminho completo, do zero ao painel publicado:
 
     uv run invoke notebooks    # as seis fases do CRISP-DM, nos notebooks 00 a 06
-    uv run invoke app          # a aplicação, servida pelo pacote .pkl
+    uv run invoke app          # a aplicação, servida pelos artefatos dos notebooks
 """
 
 import glob
@@ -42,7 +42,7 @@ def notebooks(c):
     """CRISP-DM 4 a 6 — Executa os notebooks 00 a 06 na ordem e grava as saídas.
 
     É o pipeline do projeto: são estes notebooks que ajustam o modelo, avaliam a
-    partição e gravam o pacote ``models/aplicacao-segmentacao.pkl``.
+    partição e gravam os artefatos que a aplicação consome.
     """
     c.run("python -m src.utils.executar_notebooks")
 
@@ -60,7 +60,7 @@ def lab(c):
 
 @task
 def app(c):
-    """Executa a aplicação Streamlit servida por models/aplicacao-segmentacao.pkl.
+    """Executa a aplicação Streamlit servida pelos artefatos dos notebooks.
 
     Roda inteiramente local, em http://localhost:8501.
     """

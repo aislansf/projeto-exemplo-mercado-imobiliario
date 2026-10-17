@@ -27,7 +27,8 @@ Não existe variável-alvo. A classificação que se busca é exatamente o que *
 existe na base. Isso muda três coisas de forma prática:
 
 1. **Não há acurácia atrás da qual se esconder.** A defesa do resultado é a
-   combinação de métricas internas, teste de estabilidade e leitura de negócio.
+   combinação de métricas internas, critérios de negócio declarados antes do resultado
+   e leitura de negócio.
 2. **O rótulo que existe precisa ser reservado.** `preco_venda` está na base, e usá-lo
    na modelagem descaracterizaria o problema — devolveria uma faixa de preço, não uma
    linha de produto.
@@ -49,36 +50,35 @@ existe na base. Isso muda três coisas de forma prática:
 
 ???+ abstract "Fase 3: Entendimento dos dados"
     - [x] Materializar a camada bruta com manifesto de carga
-    - [x] Produzir o perfil de qualidade dos dados
-    - [x] Descrever grão, tipos e cobertura frente aos critérios
-    - [x] Executar as oito fases da análise exploratória
-    - [x] Consolidar a coleção de insights (21 registros)
+    - [x] Gerar o dicionário de dados e as escalas ordinais (notebook 00)
+    - [x] Executar as oito etapas da análise exploratória (notebook 01)
+    - [x] Registrar os insights da exploração (12 registros)
 
 ???+ abstract "Fase 4: Preparação dos dados"
-    - [x] Implementar as 10 regras de limpeza, com motivo registrado
+    - [x] Aplicar os ajustes de dados, com motivo registrado (notebook 02)
     - [x] Derivar os atributos consolidados
-    - [x] Executar o experimento de sensibilidade à escala
-    - [x] Gerar a base curada e a matriz de modelagem
+    - [x] Normalizar e codificar a base para os algoritmos (notebook 03)
+    - [x] Alinhar as escalas ordinais do 00 aos rótulos da ingestão — ver [lacunas](avaliacao.md#lacunas-e-erros-identificados)
 
 ???+ abstract "Fase 5: Modelagem"
-    - [x] Comparar três leituras do espaço de atributos
-    - [x] Determinar *k* por quatro métricas, estabilidade e restrição operacional
-    - [x] Aplicar seis famílias de algoritmo e consolidar a matriz comparativa
-    - [x] Reduzir dimensionalidade com PCA e Kernel PCA
-    - [x] Minerar regras com Apriori, Eclat e FP-Growth
-    - [x] Perfilar os segmentos e nomear as personas
+    - [x] Varrer onze algoritmos de agrupamento na mesma régua (notebook 04-0)
+    - [x] Traçar o cotovelo e a silhueta de cada algoritmo (notebook 04-1)
+    - [x] Reduzir dimensionalidade com PCA e UMAP (notebook 04-2)
+    - [x] Minerar regras com Apriori, Eclat e FP-Growth (notebook 04-3)
+    - [x] Perfilar os segmentos em unidades de negócio
+    - [ ] Nomear personas e ações para os três segmentos
 
 ???+ abstract "Fase 6: Avaliação"
-    - [x] Confrontar cada critério de aceite (13 de 13 atendidos)
-    - [x] Produzir a leitura de negócio com o rótulo reservado
-    - [x] Registrar limitações e hipóteses derrubadas
-    - [x] Decidir formalmente: implantar
+    - [x] Confrontar os critérios de sucesso (5 de 6 atendidos; todos os críticos)
+    - [x] Estimar o impacto financeiro em três cenários
+    - [x] Registrar lacunas, descobertas e limitações
+    - [x] Decidir formalmente: **implantar**, com a ressalva da silhueta
 
 ???+ abstract "Fase 7: Implementação"
-    - [x] Serializar o pipeline e gravar a linha de base de monitoramento
-    - [x] Publicar a aplicação de consulta
-    - [x] Definir o plano de monitoramento com gatilhos e responsáveis
-    - [x] Definir o plano de reciclagem e o critério de aceite da nova partição
+    - [x] Classificar imóveis novos com o modelo vencedor (notebook 06)
+    - [x] Publicar a aplicação de consulta sobre os artefatos dos notebooks
+    - [ ] Medir a linha de base do monitoramento
+    - [ ] Entrar em produção — aguarda persona e ação por segmento e a linha de base
 
 ## 1.1 · Determinar os objetivos de negócio
 
@@ -123,10 +123,10 @@ cientista de dados. Aqui o projeto é de demonstração, e a concentração em u
 #### Infraestrutura
 
 Nenhuma além de um notebook. É uma característica do problema, não um atalho: 2.930
-registros e 82 colunas cabem em memória com folga, e a matriz de dissimilaridade de
-Gower — o artefato mais pesado do projeto — é a única estrutura de custo quadrático. Um
-projeto que precisasse de cluster para 2.350 linhas teria um problema de engenharia, não
-de dados.
+registros e 82 colunas cabem em memória com folga, e a matriz de distâncias entre todos
+os pares de imóveis — o artefato mais pesado do projeto, usado pela silhueta e pelo
+k-medoids — é a única estrutura de custo quadrático. Um projeto que precisasse de
+cluster para 2.927 linhas teria um problema de engenharia, não de dados.
 
 #### Recursos financeiros
 
@@ -163,25 +163,27 @@ de *k*.
 | :simple-github: GitHub | Controle de versões e histórico do processo |
 | :simple-uv: uv | Gerenciamento de dependências e do ambiente |
 | :simple-python: Python 3.12 | Linguagem de todo o pipeline |
-| :simple-jupyter: Jupyter | Os sete notebooks do percurso |
-| :material-bookshelf: Bibliotecas | `pandas`, `numpy`, `scipy`, `scikit-learn`, `mlxtend`, `matplotlib`, `seaborn`, `plotly` |
+| :simple-jupyter: Jupyter | Os onze notebooks do percurso, de `00` a `07` |
+| :material-bookshelf: Bibliotecas | `pandas`, `numpy`, `scipy`, `scikit-learn`, `umap-learn`, `mlxtend`, `matplotlib`, `seaborn`, `plotly` |
 | :material-web: Streamlit | Aplicação de implantação |
 | :material-file-document: MkDocs Material | Este site |
 
-Três algoritmos da ementa **não** existem prontos nas bibliotecas e foram
+Alguns algoritmos da ementa **não** existem prontos nas bibliotecas e foram
 implementados no projeto — o que é parte do material didático:
 
 | Implementação própria | Onde | Por quê |
 |:---|:---|:---|
-| Dissimilaridade de Gower | `src/model/distancias.py` | Não existe no `scikit-learn`, e a fórmula cabe em quinze linhas |
-| K-Medoids (iteração de Voronoi) | `src/model/particional.py` | Não é distribuído pelo `scikit-learn`; opera sobre qualquer matriz de dissimilaridade |
-| Eclat (representação vertical) | `src/model/associacao.py` | O `mlxtend` traz Apriori e FP-Growth, mas não o Eclat |
+| K-Means com distância Manhattan (centro = mediana) | notebooks `04-0` e `04-1` | O `scikit-learn` só oferece o K-Means euclidiano |
+| K-Medoids | notebooks `04-0` e `04-1`; `src/model/particional.py` | Não é distribuído pelo `scikit-learn` |
+| K-Means com Mahalanobis (por branqueamento) | notebooks `04-0` e `04-1` | Equivale a rodar o K-Means no espaço branqueado pelo PCA |
+| Eclat (representação vertical) | notebook `04-3`; `src/model/associacao.py` | O `mlxtend` traz Apriori e FP-Growth, mas não o Eclat |
+| Dissimilaridade de Gower | `src/model/distancias.py` | Não existe no `scikit-learn`; fica disponível, mas a cadeia atual não a usa |
 
 #### Requisitos de dados
 
 | Requisito | Situação |
 |:---|:---|
-| Ao menos 800 registros e 8 atributos, sendo 4 numéricos | **atendido** — 2.930 × 82 na origem, 2.350 × 83 após a curadoria |
+| Ao menos 800 registros e 8 atributos, sendo 4 numéricos | **atendido** — 2.930 × 82 na origem, 2.927 × 90 após os ajustes |
 | Atributos que descrevam o **produto**, não só a transação | **atendido** — porte, configuração, padrão e idade |
 | Ausência de dado pessoal identificável | **atendido** — `PID` é matrícula do imóvel |
 | Licença compatível com uso educacional | **atendido** — citação do artigo original é suficiente |
@@ -192,11 +194,11 @@ implementados no projeto — o que é parte do material didático:
 | Risco | Probabilidade | Impacto | Contingência adotada |
 |:---|:-:|:-:|:---|
 | A base sair do ar durante o projeto | baixa | alto | A camada bruta é versionada com `sha256` no manifesto; o projeto reexecuta sem rede |
-| Usar o rótulo reservado por descuido | média | **eliminatório** | `preco_venda` e `bairro` declarados fora da matriz de modelagem em `src/data/dicionario.py`; a única função que os toca está isolada em `perfilagem.leitura_a_posteriori` |
-| A escala do pré-processamento definir os grupos | alta | alto | Experimento de sensibilidade com quatro escalonadores, comparados por ARI |
-| O agrupamento não se reproduzir | média | alto | Teste de estabilidade por reamostragem, em 40 repetições, para cada *k* candidato |
-| Entregar mais grupos do que o orçamento comporta | média | alto | Teto de 5 embutido em `config.K_MAXIMO_NEGOCIO` e verificado na avaliação |
-| Regras de associação triviais apresentadas como descoberta | alta | médio | Funil de poda em quatro etapas, incluindo tautologia semântica |
+| Usar o rótulo reservado por descuido | média | **eliminatório** | `preco_venda` e `bairro` declarados fora da matriz de modelagem em `src/data/dicionario.py`; o rótulo só é lido depois que os segmentos estão definidos |
+| A escala do pré-processamento definir os grupos | alta | alto | Registrado como lacuna na avaliação: o *one-hot* com MinMax pesa mais que as contínuas; testar FAMD ou ponderar os blocos |
+| O agrupamento não se reproduzir | média | alto | Classificador supervisionado em validação cruzada (96,9% de acerto); a estabilidade por reamostragem ainda não foi medida |
+| Entregar mais grupos do que o orçamento comporta | média | alto | Faixa de 2 a 5 segmentos verificada na avaliação como critério crítico |
+| Regras de associação triviais apresentadas como descoberta | alta | médio | Itens presentes em mais de 90% dos imóveis descartados; limiares de confiança e lift; leitura declarada de que regras derivadas umas das outras são óbvias |
 
 ### Análise de custo-benefício
 
@@ -204,19 +206,20 @@ implementados no projeto — o que é parte do material didático:
 |:---|:---|
 | **Custo** — esforço técnico | ~40 h de análise, sem infraestrutura adicional |
 | **Custo** — manutenção | 2 h/mês de monitoramento, 8 h/ano de reciclagem |
-| **Benefício** — alocação de reforma | Redirecionar o capital de reforma do S3 (que não precisa) e do S1 (onde não se paga) para o S2, onde o retorno é maior |
-| **Benefício** — giro | Precificação por giro no S1, o maior segmento em unidades |
-| **Benefício** — estoque inerte | 914 imóveis do S1 saem do limbo com decisão de destino em 12 meses |
+| **Benefício** — receita | Estimado na fase 5 sobre a comissão de 6%: de US$ 63,5 mil a US$ 317,5 mil por ano, conforme o ganho atribuído à segmentação (1% a 5%) — premissas hipotéticas, a validar |
+| **Benefício** — alocação de reforma | Deixar de reformar o Segmento A (casa recente, padrão alto) e concentrar a decisão de reforma nos segmentos B e C, mais antigos |
+| **Benefício** — estoque antigo | Os 698 imóveis do Segmento C (80 anos de idade mediana) ganham uma política própria em vez da régua única |
 | **Risco de não fazer** | Continuar reformando imóvel que já está no padrão e anunciando imóvel de entrada por corretagem cara |
 
 ## 1.3 · Determinar as metas de mineração de dados
 
 | Meta técnica | Critério |
 |:---|:---|
-| **Agrupamento** da carteira | silhueta ≥ 0,15; entre 2 e 5 grupos; estabilidade ARI ≥ 0,75 |
-| **Detecção de anomalia** | ruído ≤ 10% da carteira, com perfil descrito |
-| **Regras de associação** | suporte ≥ 10%, confiança ≥ 70%, lift ≥ 1,30, com poda de trivialidade |
-| **Redução de dimensionalidade** | projeção 2D interpretável, com cargas nomeadas |
+| **Agrupamento** da carteira | entre 2 e 5 segmentos; menor segmento ≥ 10% da carteira; preço mediano do mais caro ≥ 1,3× o do mais barato; silhueta ≥ 0,25 (não crítico) |
+| **Classificação de imóveis novos** | acurácia ≥ 85% em validação cruzada |
+| **Detecção de anomalia** | ruído ≤ 20% da carteira, nenhum grupo com mais de 90% dos imóveis |
+| **Regras de associação** | suporte ≥ 15%, confiança ≥ 60%, lift ≥ 1,20 |
+| **Redução de dimensionalidade** | 90% da variância no PCA; relevância de cada variável nomeada no PCA e no UMAP |
 
 !!! warning "O que **não** é meta de mineração"
     Prever o preço. A base permite, e é para isso que ela costuma ser usada — mas
@@ -238,11 +241,11 @@ flowchart LR
 | Fase | Entregável | Notebook | Módulo |
 |:---|:---|:---|:---|
 | 1 · Entendimento de negócio | Canvas, critérios de sucesso | — | — |
-| 2 · Entendimento dos dados | Dicionário, manifesto de carga, 12 insights | `00`, `01` | `src.data.ingestao`, `src.data.dicionario`, `src.eda` |
-| 3 · Preparação | Curadoria, base de modelagem, experimento de escala | `02`, `03` | `src.data.preparacao`, `src.data.qualidade` |
-| 4 · Modelagem | 47 execuções, escolha de *k*, linhas de produto | `04` | `src.model.*` |
-| 5 · Avaliação | Confronto com critérios, varredura ampla, limitações | `05` | `src.model.*` |
-| 6 · Implantação | Pacote `.pkl`, contrato, monitoramento, aplicação | `06` | `src.app` |
+| 2 · Entendimento dos dados | Dicionário, escalas ordinais, 12 insights | `00`, `01` | `src.data.ingestao`, `src.data.dicionario` |
+| 3 · Preparação | Base tratada e base pré-processada | `02`, `03` | — |
+| 4 · Modelagem | Onze algoritmos comparados, cotovelos, PCA/UMAP, regras de associação | `04-0` a `04-3`, `07` | — |
+| 5 · Avaliação | Critérios de sucesso, impacto financeiro, lacunas e próxima ação | `05` | — |
+| 6 · Implantação | Classificação de imóveis novos e aplicação de consulta | `06` | `src.app` |
 
 Cada fase corresponde a um notebook da cadeia; `uv run invoke notebooks` roda a
 sequência inteira e **falha** se algum deles quebrar.

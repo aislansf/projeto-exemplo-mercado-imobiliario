@@ -1,6 +1,0 @@
-﻿modelo;segmento 0;segmento 1;segmento 2;menor_pct
-K-Means;914;667;769;28,4
-Hierárquica (ward);1211;659;480;20,4
-GMM (full);1087;169;1094;7,2
-GMM (diag) · fora do protocolo;1377;200;773;8,5
-K-Medoids (Gower);933;466;951;19,8

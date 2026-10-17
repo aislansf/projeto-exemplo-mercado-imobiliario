@@ -1,16 +1,18 @@
 # Status do projeto
 
-**Ciclo CRISP-DM concluído.** Decisão formal: **implantar**.
+**Ciclo CRISP-DM percorrido; modelo aprovado.** Decisão formal da fase 5:
+**implantar**, com a ressalva da silhueta.
 
 | Indicador | Valor |
 |:---|---:|
-| Fases do CRISP-DM concluídas | 6 de 6 |
-| Critérios de aceite atendidos | **13 de 13** |
-| Notebooks que executam de ponta a ponta | 7 de 7 |
-| Figuras persistidas | 46 |
-| Tabelas-fonte persistidas | 98 |
-| Insights registrados na EDA | 21 |
-| Hipóteses derrubadas e documentadas | 3 |
+| Fases do CRISP-DM percorridas | 6 de 6 |
+| Critérios de sucesso do 05 atendidos | **5 de 6** (todos os críticos) |
+| Critérios de aceite dos objetivos atendidos | 8 de 13 |
+| Notebooks da cadeia que executam | 11 de 11 |
+| Algoritmos de agrupamento comparados | 11 |
+| Segmentos do modelo vencedor | 3 |
+| Insights registrados na EDA | 12 |
+| Lacunas registradas na avaliação | 8 (1 corrigida) |
 
 ---
 
@@ -28,72 +30,72 @@
 
 ???+ success "Fase 3: Entendimento dos dados"
     - [x] Gerar o conjunto de dados com manifesto de carga assinado
-    - [x] Produzir o relatório de qualidade dos dados
-    - [x] Realizar a descrição dos dados (grão, tipos, cobertura)
-    - [x] Realizar a análise exploratória nas **oito fases**
-    - [x] Produzir a [coleção de insights](analise-exploratoria.md#colecao-de-insights) — 21 registros
+    - [x] Gerar o dicionário de dados e as escalas ordinais (notebook 00)
+    - [x] Realizar a análise exploratória nas **oito etapas** (notebook 01)
+    - [x] Registrar a [coleção de insights](analise-exploratoria.md#colecao-de-insights) — 12 registros
+    - [x] Alinhar os rótulos das escalas ordinais aos da ingestão — [lacuna 8](avaliacao.md#lacunas-e-erros-identificados)
 
-???+ success "Fase 4: Preparação dos dados"
-    - [x] Gerar o script de limpeza (10 regras, cada uma com motivo registrado)
-    - [x] Gerar o conjunto de dados processado
-    - [x] Executar o [experimento de sensibilidade à escala](preparacao.md#o-experimento-de-sensibilidade-a-escala)
+???+ warning "Fase 4: Preparação dos dados"
+    - [x] Aplicar os ajustes de dados, cada um com motivo registrado (notebook 02)
+    - [x] Gerar a base tratada (2.927 × 90) e a base pré-processada (notebook 03)
     - [x] Produzir o relatório de [preparação dos dados](preparacao.md)
+    - [ ] Retirar `preco_venda` e `subclasse` já no notebook 03
 
-???+ success "Fase 5: Modelagem"
-    - [x] Comparar três leituras do espaço de atributos
-    - [x] Gerar o desenho do experimento de modelagem
-    - [x] Determinar *k* por 4 métricas, estabilidade e restrição operacional
-    - [x] Aplicar 6 famílias de algoritmo (K-Means, K-Medoids, hierárquica, DBSCAN, Mean Shift, GMM)
-    - [x] Reduzir dimensionalidade com PCA e Kernel PCA
-    - [x] Minerar regras com Apriori, Eclat e FP-Growth
-    - [x] Produzir o [placar dos candidatos](modelagem.md#os-algoritmos-comparados) e as [linhas de produto](modelagem.md#as-tres-linhas-de-produto)
+???+ warning "Fase 5: Modelagem"
+    - [x] Varrer onze algoritmos de quatro famílias na mesma régua (04-0)
+    - [x] Traçar o cotovelo e a silhueta de cada algoritmo (04-1)
+    - [x] Reduzir dimensionalidade com PCA e UMAP (04-2)
+    - [x] Minerar regras com Apriori, Eclat e FP-Growth (04-3)
+    - [x] Produzir o [comparativo dos algoritmos](modelagem.md#os-algoritmos-comparados) e o [perfil dos segmentos](modelagem.md#os-tres-segmentos)
+    - [ ] Medir a estabilidade da partição por reamostragem
+    - [ ] Definir persona e ação para cada segmento
+    - [x] Fazer o notebook bônus (07) executar com o dicionário atual
 
 ???+ success "Fase 6: Avaliação"
     - [x] Produzir o [relatório da avaliação dos resultados](avaliacao.md)
-    - [x] Confrontar cada critério de aceite (13 de 13)
-    - [x] Registrar limitações e hipóteses derrubadas
-    - [x] Produzir o relatório das próximas etapas
+    - [x] Confrontar os critérios de sucesso (5 de 6, todos os críticos)
+    - [x] Estimar o impacto financeiro em três cenários
+    - [x] Registrar lacunas, descobertas e limitações
+    - [x] Decidir a próxima ação: **implantar**
 
-???+ success "Fase 7: Implementação"
-    - [x] Gerar o desenho da implementação
-    - [x] Desenvolver a aplicação de implantação (`src/app/`)
-    - [x] Produzir o [relatório de monitoramento e manutenção](implementacao.md#monitoramento-e-manutencao)
-    - [x] Produzir o relatório final contendo todas as fases anteriores (este site)
+???+ warning "Fase 7: Implementação"
+    - [x] Classificar imóveis novos com o modelo vencedor (notebook 06)
+    - [x] Desenvolver a aplicação de consulta (`src/app/`)
+    - [x] Produzir o [plano de monitoramento e manutenção](implementacao.md#monitoramento-e-manutencao)
+    - [x] Produzir o relatório final (este site e `reports/relatorio-final.md`)
+    - [ ] Medir a linha de base do monitoramento
+    - [ ] Abrir a janela 1 (sombra) — aguarda persona e ação por segmento
 
 ---
 
 ## Rastreabilidade
 
-Cada decisão do projeto tem uma evidência em disco. A tabela abaixo é o índice.
+Cada decisão do projeto está documentada na página da sua fase. A tabela abaixo é o
+índice.
 
 | Fase | Decisão | Evidência |
 |:---|:---|:---|
-| 2 | Ausência de garagem e porão é estrutural, não faltante | `reports/tables/eda-exploratoria/valores-ausentes.csv` |
-| 2 | 8,6% fora das cercas de Tukey é discrepância de escala | `reports/tables/eda-exploratoria/valores-discrepantes.csv` |
-| 3 | Remover 492 vendas não normais — 85% do que a curadoria corta | `reports/tables/ajustes-dados/funil-da-curadoria.csv` |
-| 3 | 3×IQR em vez do 1,5 de Tukey | `reports/tables/ajustes-dados/discrepantes-dois-criterios.csv` |
-| 3 | Raiz quadrada em `area_varandas`, e só nela | `reports/tables/preparacao/transformacoes-da-assimetrica.csv` |
-| 3 | `StandardScaler`, apesar de não ter a melhor silhueta | `reports/tables/preparacao/sensibilidade-a-escala.csv` |
-| 3 | `preco_venda`, `preco_por_pe2` e `bairro` reservados **fisicamente** | `reports/tables/preparacao/evidencia-das-reservadas.csv` |
-| 4 | *k* = 3 — o maior *k* que passa em todos os critérios | `reports/tables/modelagem/decisao-de-k.csv` |
-| 4 | K-Means sobre espaço euclidiano de 17 variáveis | `reports/tables/modelagem/placar-dos-candidatos.csv` |
-| 4 | Ward, apesar do pior coeficiente cofenético | `reports/tables/modelagem/ligacoes-e-dendrograma.csv` |
-| 4 | GMM (diag) recusado por estar fora do protocolo declarado | `reports/tables/modelagem/gmm-selecao.csv` |
-| 5 | Não é tabela de preço (ARI 0,3345) | `reports/tables/avaliacao/independencia-do-preco.csv` |
-| 5 | As maiores silhuetas da varredura ampla são degeneradas | `reports/tables/avaliacao/as-dez-maiores-silhuetas.csv` |
-| 6 | Corte de fronteira 0,915, calibrado por F1 sob teto de 15% | `reports/tables/implantacao/calibracao-da-fronteira.csv` |
-| 6 | O pacote relido reproduz 100% da partição aprovada | `reports/tables/implantacao/conferencia-do-pacote.csv` |
-| 6 | Nenhum atributo em drift de ação (PSI máximo 0,0369) | `reports/tables/implantacao/desvio-medido.csv` |
+| 2 | Escalas ordinais com os mesmos rótulos da ingestão, conferidas no notebook 00 | [Entendimento dos dados](entendimento-dados.md#as-escalas-ordinais) |
+| 2 | Ausência de garagem, porão e lareira na origem é estrutural, não faltante | [Análise exploratória](analise-exploratoria.md) |
+| 2 | Lotes e porões grandes são discrepantes legítimos, e ficam | [Análise exploratória](analise-exploratoria.md) |
+| 3 | Remover só as 3 vendas parciais acima de 4.000 pés² | [Preparação](preparacao.md#a-curadoria-regra-a-regra) |
+| 3 | `testada_lote` imputada pela mediana do bairro | [Preparação](preparacao.md#a-curadoria-regra-a-regra) |
+| 3 | `MinMaxScaler` para contínuas e ordinais, *one-hot* para nominais | [Preparação](preparacao.md#o-pre-processamento) |
+| 4 | Silhueta euclidiana como régua comum dos onze algoritmos | [Modelagem](modelagem.md#o-desenho-do-experimento) |
+| 4 | Regra de admissão antes da silhueta: 2 a 8 segmentos, nenhum acima de 90%, ruído até 20% | [Modelagem](modelagem.md#a-regra-de-admissao) |
+| 4 | Mini batch k-means com 3 segmentos; os três primeiros colocados escolhem *k* = 3 | [Modelagem](modelagem.md#a-escolha-do-modelo) |
+| 4 | DBSCAN e Mean Shift sem configuração admitida | [Modelagem](modelagem.md#por-que-dbscan-e-mean-shift-falharam) |
+| 5 | Aprovado: todos os critérios críticos atendidos | [Avaliação](avaliacao.md#os-criterios-de-sucesso) |
+| 5 | Próxima ação: implantação | [Avaliação](avaliacao.md#53-determinar-as-proximas-etapas) |
+| 6 | A aplicação reconstrói o pré-processamento e confere contra o 03 | [Implementação](implementacao.md#o-artefato) |
 
 ## O que ficou em aberto
 
-Nada dos critérios de aceite. Três **pendências de dados**, que não dependem de
-análise:
-
-1. Tempo de permanência em estoque — destravaria as metas de giro como indicadores
-   medidos.
-2. Custo efetivo de reforma — destravaria o retorno real por segmento.
-3. Atributo do comprador — destravaria a segmentação de demanda, que a base atual não
-   permite.
-
-Ver [pendências de dados](criterios-sucesso.md#pendencias-de-dados).
+1. **Dar persona e ação** a cada um dos três segmentos — pré-requisito da janela 1.
+2. **Medir a linha de base** do monitoramento e **calibrar o corte de fronteira**.
+3. **Validar as premissas financeiras**: o cenário base fecha o ano 1 com US$ 513.
+4. **Medir a estabilidade** da partição por reamostragem e o índice de Rand contra as
+   faixas de preço.
+5. **Pendências de dados**, que não dependem de análise: tempo de permanência em
+   estoque, custo efetivo de reforma e atributo do comprador. Ver
+   [pendências de dados](criterios-sucesso.md#pendencias-de-dados).

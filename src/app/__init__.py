@@ -1,11 +1,8 @@
-"""Aplicação de tela servida pelo pacote publicado em ``.pkl``.
+"""Aplicação de tela servida pelos artefatos que os notebooks gravam.
 
 Dois módulos, com responsabilidades separadas:
 
-* :mod:`src.app.pacote` — abre ``models/aplicacao-segmentacao.pkl``, valida o
-  formato e classifica imóveis com o pipeline serializado;
+* :mod:`src.app.artefatos` — lê o modelo do 04-0, a base curada, o dicionário e
+  as escalas, reconstrói o pré-processamento e classifica imóveis;
 * :mod:`src.app.app` — a interface Streamlit que apresenta o resultado.
-
-O pacote é autocontido: nenhum outro artefato do repositório é lido em tempo de
-execução.
 """

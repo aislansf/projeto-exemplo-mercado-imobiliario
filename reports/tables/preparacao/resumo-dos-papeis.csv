@@ -1,9 +1,0 @@
-﻿papel;colunas;exemplos
-descritiva, fora do espaço;48;subclasse, tipo_viela, formato_lote
-espaço euclidiano (candidata);17;area_terreno, qualidade_geral, conservacao_geral
-espaço misto (candidata);5;zoneamento, tipo_construcao, estilo
-atributo da transação;4;mes_venda, ano_venda, tipo_venda
-indicador binário (bloco 4);4;tem_porao, tem_garagem, tem_lareira
-identificador;2;ordem, pid
-rótulo reservado;2;preco_venda, preco_por_pe2
-reservada para validação;1;bairro

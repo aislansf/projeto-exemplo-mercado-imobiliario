@@ -138,8 +138,7 @@ Na ingestão, os códigos da origem dão lugar a rótulos em português
 (`dic.TRADUCAO_CATEGORIAS`), e a camada bruta em parquet já nasce traduzida. A tradução
 troca só o texto: cada coluna mantém as mesmas categorias com os mesmos imóveis. Abaixo,
 as cinco nominais do espaço de atributos; as ordinais estão nas escalas acima, e o mapa
-completo, com a contagem de imóveis por código, está em
-`reports/tables/ajustes-dados/traducao-das-categorias.csv`. Bairro é nome próprio: o
+completo está em `dic.TRADUCAO_CATEGORIAS`, em `src/data/dicionario.py`. Bairro é nome próprio: o
 código abreviado vira o nome por extenso (`NAmes` → `North Ames`), sem tradução.
 
 ### `zoneamento`
