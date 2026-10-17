@@ -1,0 +1,22 @@
+variavel;descricao;valores;Tipo
+customerID;Descrição da coluna;['7590-VHVEG', '3186-AJIEK'];Nominal
+gender;Descrição da coluna;['Female', 'Male'];Nominal
+SeniorCitizen;Descrição da coluna;[0, 1];Discreta
+Partner;Descrição da coluna;['Yes', 'No'];Nominal
+Dependents;Descrição da coluna;['No', 'Yes'];Nominal
+tenure;Descrição da coluna;[0, 72];Discreta
+PhoneService;Descrição da coluna;['No', 'Yes'];Nominal
+MultipleLines;Descrição da coluna;['No phone service', 'Yes'];Nominal
+InternetService;Descrição da coluna;['DSL', 'No'];Nominal
+OnlineSecurity;Descrição da coluna;['No', 'No internet service'];Nominal
+OnlineBackup;Descrição da coluna;['Yes', 'No internet service'];Nominal
+DeviceProtection;Descrição da coluna;['No', 'No internet service'];Nominal
+TechSupport;Descrição da coluna;['No', 'No internet service'];Nominal
+StreamingTV;Descrição da coluna;['No', 'No internet service'];Nominal
+StreamingMovies;Descrição da coluna;['No', 'No internet service'];Nominal
+Contract;Descrição da coluna;['Month-to-month', 'Two year'];Nominal
+PaperlessBilling;Descrição da coluna;['Yes', 'No'];Nominal
+PaymentMethod;Descrição da coluna;['Electronic check', 'Credit card (automatic)'];Nominal
+MonthlyCharges;Descrição da coluna;[18.25, 118.75];Contínua
+TotalCharges;Descrição da coluna;['29.85', '6844.5'];Nominal
+Churn;Descrição da coluna;['No', 'Yes'];Nominal
