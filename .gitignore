@@ -192,8 +192,9 @@ cython_debug/
 # que faz deles um artefato.
 reports/notebooks/
 
-# Imagens geradas pela análise exploratória
-docs/imagens/eda/
+# Imagens geradas pela análise exploratória (a pasta fica versionada via .gitkeep)
+docs/imagens/eda/*
+!docs/imagens/eda/.gitkeep
 
 # Tabelas geradas
 docs/tabelas/
