@@ -196,5 +196,6 @@ reports/notebooks/
 docs/imagens/eda/*
 !docs/imagens/eda/.gitkeep
 
-# Tabelas geradas
-docs/tabelas/
+# Tabelas geradas (a pasta fica versionada via .gitkeep)
+docs/tabelas/*
+!docs/tabelas/.gitkeep
